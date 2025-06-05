@@ -1,0 +1,25 @@
+# 环境变量文件
+.env
+
+# Python 缓存文件
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 虚拟环境
+venv/
+env/
+ENV/
+
+# 输出文件夹
+output_*/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# IDE 文件
+.idea/
+.vscode/
+*.swp
+*.swo
