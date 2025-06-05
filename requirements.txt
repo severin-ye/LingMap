@@ -1,0 +1,19 @@
+# API依赖
+openai>=1.0.0
+tenacity>=8.2.0
+python-dotenv>=1.0.0
+
+# 工具库
+numpy>=1.24.0
+tqdm>=4.66.0
+pandas>=2.0.0
+
+# Web框架（可选，用于REST API）
+# fastapi>=0.104.0
+# uvicorn>=0.24.0
+
+# 测试和开发工具
+pytest>=7.4.0
+pytest-cov>=4.1.0
+black>=23.10.0
+isort>=5.12.0

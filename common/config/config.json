@@ -1,0 +1,36 @@
+{
+  "api": {
+    "openai": {
+      "api_key": "your_openai_api_key",
+      "base_url": "https://api.openai.com/v1",
+      "model": "gpt-4o",
+      "temperature": 0.0,
+      "max_tokens": 4000
+    }
+  },
+  "text_processing": {
+    "segment_size": 800,
+    "overlap_size": 100
+  },
+  "extraction": {
+    "batch_size": 5,
+    "max_workers": 3
+  },
+  "causal_linking": {
+    "min_strength": "中",
+    "strength_mapping": {
+      "高": 3,
+      "中": 2,
+      "低": 1
+    }
+  },
+  "graph_output": {
+    "format": "mermaid",
+    "color_mapping": {
+      "default": "#CCCCCC",
+      "character": "#BDE5F8",
+      "treasure": "#FDF6B2",
+      "conflict": "#FCDCDC"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "system": "你是一个专门分析《凡人修仙传》中事件因果关系的AI助手。你的任务是判断两个事件之间是否存在因果联系，并确定因果方向和强度。",
+  "instruction": "请分析以下两个从《凡人修仙传》中提取的事件，判断它们之间是否存在因果关系。如果存在，请说明因果方向（哪个事件导致了另一个事件）以及关系强度（高、中、低）。\n\n事件1：\n{event1}\n\n事件2：\n{event2}",
+  "output_format": {
+    "has_causal_relation": "布尔值，表示是否存在因果关系",
+    "direction": "因果方向，值为 'event1->event2' 或 'event2->event1'",
+    "strength": "因果强度，值为 '高'、'中' 或 '低'",
+    "reason": "简要解释因果关系的理由"
+  },
+  "example": {
+    "has_causal_relation": true,
+    "direction": "event1->event2",
+    "strength": "高",
+    "reason": "韩立服用灵乳突破至筑基直接导致了墨大夫感到威胁，下令追杀韩立"
+  }
+}

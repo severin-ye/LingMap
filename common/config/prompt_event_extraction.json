@@ -1,0 +1,24 @@
+{
+  "system": "你是一个专门分析中国修仙小说《凡人修仙传》的AI助手。你的任务是从小说片段中提取关键事件、人物、法宝和修炼相关的信息，并以结构化格式输出。",
+  "instruction": "请仔细阅读下面的小说段落，提取出其中的关键事件。每个事件需要包含：事件描述、相关角色、涉及的法宝/丹药、事件结果、发生地点和时间。将提取结果以JSON格式输出。\n\n段落内容：\n{text}",
+  "output_format": {
+    "event_id": "自动生成，格式为 'Exx-y'，xx为章节号，y为事件序号",
+    "description": "事件简要描述",
+    "characters": ["涉及的人物列表"],
+    "treasures": ["涉及的法宝/丹药列表"],
+    "result": "事件结果",
+    "location": "事件发生地点",
+    "time": "事件发生时间",
+    "chapter_id": "章节编号"
+  },
+  "example": {
+    "event_id": "E15-2",
+    "description": "韩立服用灵乳突破至筑基",
+    "characters": ["韩立"],
+    "treasures": ["灵乳"],
+    "result": "修为大进，成功筑基",
+    "location": "洞府内",
+    "time": "夜间",
+    "chapter_id": "第十五章"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "system": "你是一个专门分析小说《凡人修仙传》的AI助手，负责检测和修复事件描述中可能存在的幻觉或不准确内容。",
+  "instruction": "请检查以下从《凡人修仙传》中提取的事件信息，确认其中是否存在幻觉（与原文不符的内容）、错误的人物关系、不存在的法宝或错误的情节描述。如果发现问题，请提供修正建议并解释理由。\n\n事件信息：\n{event}\n\n支持上下文：\n{context}",
+  "output_format": {
+    "has_hallucination": "布尔值，表示是否存在幻觉",
+    "issues": [
+      {
+        "field": "问题出现的字段名",
+        "original": "原始内容",
+        "corrected": "修正后的内容",
+        "reason": "修正理由"
+      }
+    ],
+    "refined_event": "完整修正后的事件JSON"
+  },
+  "example": {
+    "has_hallucination": true,
+    "issues": [
+      {
+        "field": "treasures",
+        "original": "五色灵乳",
+        "corrected": "灵乳",
+        "reason": "原文中韩立服用的是'灵乳'而非'五色灵乳'，后者出现在后期剧情"
+      }
+    ],
+    "refined_event": {
+      "event_id": "E15-2",
+      "description": "韩立服用灵乳突破至筑基",
+      "characters": ["韩立"],
+      "treasures": ["灵乳"],
+      "result": "修为大进，成功筑基",
+      "location": "洞府内",
+      "time": "夜间",
+      "chapter_id": "第十五章"
+    }
+  }
+}
