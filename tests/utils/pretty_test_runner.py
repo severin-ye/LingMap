@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+python -m tests.run_all_tests -v#!/usr/bin/env python3
 """
 美化测试结果输出的TestRunner
 
