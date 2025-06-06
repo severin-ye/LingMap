@@ -12,10 +12,10 @@ def provide_linker() -> AbstractLinker:
     
     # 根据提供商获取相应的API密钥
     if provider == "openai":
-        api_key = os.environ.get("OPENAI_API_KEY")
+        api_key = os.environ.get("OPENAI_API_KEY", "")
         model = "gpt-4o"
     else:  # deepseek
-        api_key = os.environ.get("DEEPSEEK_API_KEY")
+        api_key = os.environ.get("DEEPSEEK_API_KEY", "")
         model = "deepseek-chat"
     
     # 默认提示词模板路径
