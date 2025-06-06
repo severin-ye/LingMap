@@ -152,7 +152,10 @@ python scripts/check_env.py
 运行单元测试：
 
 ```bash
-python -m unittest discover tests
+python -m tests.run_all_tests
+
+# 显示详细测试输出
+python -m tests.run_all_tests -v
 ```
 
 ## 项目结构

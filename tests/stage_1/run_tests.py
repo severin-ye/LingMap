@@ -139,4 +139,3 @@ if __name__ == "__main__":
     else:
         print("\n测试失败！❌")
         sys.exit(1)
-print("测试开始")

@@ -18,13 +18,13 @@
 ### 运行所有测试
 
 ```bash
-python tests/run_all_tests.py
+python -m tests.run_all_tests
 ```
 
 ### 运行特定阶段的测试
 
 ```bash
-python tests/run_all_tests.py -s 1  # 运行阶段一测试
+python -m tests.run_all_tests -s 1  # 运行阶段一测试
 ```
 
 ### 显示详细测试输出
@@ -32,8 +32,8 @@ python tests/run_all_tests.py -s 1  # 运行阶段一测试
 添加 `-v` 参数可以显示详细的测试输出，包括每个测试类中的测试方法输出：
 
 ```bash
-python tests/run_all_tests.py -v
-python tests/run_all_tests.py -s 1 -v
+python -m tests.run_all_tests -v
+python -m tests.run_all_tests -s 1 -v
 ```
 
 使用详细模式时，测试运行器会：
@@ -47,5 +47,5 @@ python tests/run_all_tests.py -s 1 -v
 也可以直接运行各阶段的测试脚本：
 
 ```bash
-python tests/stage_1/run_tests.py
+python -m tests.stage_1.run_tests
 ```

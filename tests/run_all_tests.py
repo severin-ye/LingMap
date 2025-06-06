@@ -164,6 +164,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     print(f"\n{Colors.BOLD}《凡人修仙传》因果事件图谱生成系统 - 测试运行{Colors.END}")
+    print(f"{Colors.CYAN}提示：可直接运行 'python -m tests.run_all_tests' 执行所有测试{Colors.END}")
     
     if args.stage:
         success = run_stage_tests(args.stage, args.verbose)
