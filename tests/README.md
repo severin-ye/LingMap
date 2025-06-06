@@ -10,6 +10,10 @@
   - `test_models.py`: 测试数据模型 (EventItem, Chapter, CausalEdge, Treasure) 和工具类
   - `test_interfaces.py`: 测试抽象接口 (AbstractExtractor, AbstractRefiner, AbstractLinker, AbstractGraphRenderer)
 
+- **阶段二**：文本摄入和事件抽取测试 (`stage_2/`)
+  - `test_text_ingestion.py`: 测试文本加载和章节分割功能
+  - `test_event_extraction.py`: 测试事件抽取模块和LLM调用
+
 - **测试工具**：
   - `utils/pretty_test_runner.py`: 美化测试输出格式的自定义测试运行器，捕获并展示测试对象的输出
 

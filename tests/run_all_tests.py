@@ -135,8 +135,8 @@ def run_all_tests(verbose=False):
     """
     all_success = True
     
-    # 当前只有阶段1的测试
-    stages = [1]
+    # 当前有阶段1和阶段2的测试
+    stages = [1, 2]
     
     # 记录总体测试开始时间
     overall_start_time = time.time()

@@ -51,7 +51,9 @@ class ChapterLoader:
             章节对象，如果加载失败则返回None
         """
         if not os.path.exists(file_path):
-            raise FileNotFoundError(f"文件不存在: {file_path}")
+            import logging
+            logging.error(f"文件不存在: {file_path}")
+            return None
         
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
