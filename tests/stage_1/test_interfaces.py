@@ -1,7 +1,34 @@
 #!/usr/bin/env python3
 """
-阶段一测试：测试抽象接口定义
-测试common/interfaces中定义的接口是否符合预期
+阶段一测试：抽象接口定义测试
+
+本文件包含针对《凡人修仙传》因果事件图谱系统基础接口的单元测试。
+测试采用模拟类（Mock）实现各个接口，验证接口定义的正确性和功能的完整性。
+
+测试内容：
+1. AbstractExtractor 抽象提取器接口：
+   - test_extractor_interface: 测试事件提取接口的功能实现
+   - 验证接口能够从章节内容中提取事件信息
+   - 确认返回的事件数据结构符合 EventItem 模型
+
+2. AbstractRefiner 抽象优化器接口：
+   - test_refiner_interface: 测试事件优化接口的功能实现
+   - 验证接口能够优化和过滤事件列表
+   - 确认返回的优化后事件仍符合 EventItem 模型要求
+
+3. AbstractLinker 抽象链接器接口：
+   - test_linker_interface: 测试事件链接功能实现
+   - 验证接口能够在事件之间建立因果关系
+   - 确认返回的边数据结构符合 CausalEdge 模型
+   
+   - test_build_dag_interface: 测试构建有向无环图(DAG)功能
+   - 验证接口能够处理事件和边，构建有效的图结构
+   - 确认返回的数据结构符合预期格式
+
+4. AbstractGraphRenderer 抽象图渲染器接口：
+   - test_graph_renderer_interface: 测试图形渲染接口的功能实现
+   - 验证接口能够将事件和边渲染为有效的图表表示（如Mermaid格式）
+   - 确认返回的字符串格式符合渲染要求
 """
 
 import unittest

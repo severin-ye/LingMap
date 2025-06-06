@@ -1,7 +1,34 @@
 #!/usr/bin/env python3
 """
-阶段一测试：测试抽象接口与通用模型
-测试common目录中定义的数据模型和接口是否正常工作
+阶段一测试：数据模型与工具类测试
+
+本文件包含针对《凡人修仙传》因果事件图谱系统数据模型和工具类的单元测试。
+
+测试内容：
+1. EventItem 模型：测试事件项的创建、属性设置和字典转换功能
+   - test_event_creation: 测试创建事件对象及其属性
+   - test_event_to_dict: 测试事件对象转换为字典格式
+   - test_event_from_dict: 测试从字典创建事件对象
+
+2. Chapter 模型：测试章节数据模型的功能
+   - test_chapter_creation: 测试创建章节对象
+   - test_chapter_with_segments: 测试带有段落的章节对象
+   - test_chapter_to_dict: 测试章节对象转换为字典格式
+
+3. CausalEdge 模型：测试因果边的功能
+   - test_causal_edge_creation: 测试创建因果关系边对象
+   - test_causal_edge_to_dict: 测试因果边转换为字典格式
+
+4. Treasure 模型：测试法宝/物品模型的功能
+   - test_treasure_creation: 测试创建法宝对象
+   - test_treasure_to_dict: 测试法宝对象转换为字典格式
+
+5. JsonLoader 工具类：测试JSON数据加载和保存功能
+   - test_load_json: 测试加载JSON文件功能
+   - test_save_json: 测试保存JSON文件功能
+
+6. TextSplitter 工具类：测试文本分段功能
+   - test_split_chapter: 测试章节文本分段功能
 """
 
 import unittest
