@@ -53,112 +53,147 @@ from common.utils.text_splitter import TextSplitter
 class TestEventModel(unittest.TestCase):
     """测试EventItem数据模型"""
     
+    def setUp(self):
+        """测试前准备，加载真实小说数据以提取事件相关信息"""
+        novel_path = os.path.join(project_root, "novel", "test.txt")
+        with open(novel_path, 'r', encoding='utf-8') as f:
+            novel_text = f.read()
+            
+        # 从小说中提取可能的人物、地点等信息
+        self.characters = ["韩立", "韩铸", "韩父", "韩母", "老张叔", "墨大夫", "三叔"]
+        self.locations = ["莫家村", "青牛镇", "神手谷", "彩霞山", "赤水峰"]
+        self.times = ["幼年", "少年", "成年"]
+        
+        # 提取第一章标识
+        chapter_start = novel_text.find("第一章")
+        if chapter_start != -1:
+            self.chapter_id = novel_text[chapter_start:novel_text.find("\n", chapter_start)].strip()
+        else:
+            self.chapter_id = "第一章"
+    
     def test_event_creation(self):
-        """测试创建EventItem对象"""
+        """测试创建EventItem对象：使用小说中的真实场景"""
         event = EventItem(
             event_id="event-001",
-            description="韩立在莫家村练习铁皮指功",
+            description="韩立和同伴一起进山拣干柴",
             characters=["韩立"],
-            location="莫家村",
+            location="莫家村附近的山上",
             time="幼年",
-            chapter_id="chapter-001"
+            chapter_id=self.chapter_id
         )
         
         self.assertEqual(event.event_id, "event-001")
-        self.assertEqual(event.description, "韩立在莫家村练习铁皮指功")
+        self.assertEqual(event.description, "韩立和同伴一起进山拣干柴")
         self.assertEqual(event.characters, ["韩立"])
         
     def test_event_to_dict(self):
-        """测试EventItem转换为字典"""
+        """测试EventItem转换为字典：使用小说中的真实场景"""
         event = EventItem(
             event_id="event-001",
-            description="韩立在莫家村练习铁皮指功",
-            characters=["韩立"],
+            description="韩立得知三叔来访会改变他的一生",
+            characters=["韩立", "三叔"],
             location="莫家村",
             time="幼年",
-            chapter_id="chapter-001"
+            chapter_id=self.chapter_id
         )
         
         event_dict = event.to_dict()
         self.assertIsInstance(event_dict, dict)
         self.assertEqual(event_dict["event_id"], "event-001")
-        self.assertEqual(event_dict["description"], "韩立在莫家村练习铁皮指功")
+        self.assertEqual(event_dict["description"], "韩立得知三叔来访会改变他的一生")
         
     def test_event_from_dict(self):
-        """测试从字典创建EventItem"""
+        """测试从字典创建EventItem：使用小说中的真实场景"""
         event_dict = {
             "event_id": "event-002",
-            "description": "韩立获得了《七修符箓》",
-            "characters": ["韩立", "墨老"],
-            "location": "莫家村",
+            "description": "韩立被三叔带去参加七玄门的考验",
+            "characters": ["韩立", "三叔"],
+            "location": "青牛镇",
             "time": "少年",
-            "chapter_id": "chapter-001"
+            "chapter_id": self.chapter_id
         }
         
         event = EventItem.from_dict(event_dict)
         self.assertEqual(event.event_id, "event-002")
-        self.assertEqual(event.description, "韩立获得了《七修符箓》")
+        self.assertEqual(event.description, "韩立被三叔带去参加七玄门的考验")
         self.assertEqual(len(event.characters), 2)
 
 
 class TestChapterModel(unittest.TestCase):
     """测试Chapter数据模型"""
     
+    def setUp(self):
+        """测试前准备，加载真实小说数据"""
+        novel_path = os.path.join(project_root, "novel", "test.txt")
+        with open(novel_path, 'r', encoding='utf-8') as f:
+            self.novel_text = f.read()
+        
+        # 提取第一章内容
+        chapter_start = self.novel_text.find("第一章")
+        chapter_end = self.novel_text.find("第二章")
+        if chapter_end == -1:  # 如果找不到第二章，则使用全文
+            self.chapter_text = self.novel_text[chapter_start:]
+        else:
+            self.chapter_text = self.novel_text[chapter_start:chapter_end]
+        
+        # 提取章节标题
+        title_start = self.chapter_text.find("第一章")
+        title_end = self.chapter_text.find("\n", title_start)
+        self.chapter_title = self.chapter_text[title_start:title_end].strip()
+    
     def test_chapter_creation(self):
-        """测试创建Chapter对象"""
-        # 根据实际Chapter类的定义
-        content = "韩立出生在莫家村的一户普通农家，父亲韩明典，母亲王氏..."
+        """测试创建Chapter对象：使用真实小说文本"""
         chapter = Chapter(
             chapter_id="第一章",
-            title="莫家村韩立",
-            content=content
+            title=self.chapter_title,
+            content=self.chapter_text
         )
         
         self.assertEqual(chapter.chapter_id, "第一章")
-        self.assertEqual(chapter.content, content)
+        self.assertEqual(chapter.title, self.chapter_title)
+        self.assertEqual(chapter.content, self.chapter_text)
         
     def test_chapter_with_segments(self):
-        """测试带有段落的Chapter对象"""
-        segments = [
-            {"seg_id": "第一章-1", "text": "韩立出生在莫家村的一户普通农家..."},
-            {"seg_id": "第一章-2", "text": "韩立从小聪明伶俐，但体弱多病..."}
-        ]
+        """测试带有段落的Chapter对象：使用真实文本生成的段落"""
+        # 使用TextSplitter生成真实段落
+        segments = TextSplitter.split_chapter(self.chapter_text, seg_size=200)
         
         chapter = Chapter(
             chapter_id="第一章",
-            title="莫家村韩立",
-            content="韩立出生在莫家村的一户普通农家，父亲韩明典，母亲王氏...",
+            title=self.chapter_title,
+            content=self.chapter_text,
             segments=segments
         )
         
-        self.assertEqual(len(chapter.segments), 2)
-        self.assertEqual(chapter.segments[0]["seg_id"], "第一章-1")
+        # 验证分段数量（不固定为2，因为真实小说文本的分段结果可能随内容变化）
+        self.assertGreater(len(chapter.segments), 0)
+        self.assertEqual(chapter.segments[0]["seg_id"], "1")  # TextSplitter生成的段落ID格式为数字
         
     def test_chapter_to_dict(self):
-        """测试Chapter转换为字典"""
-        content = "韩立出生在莫家村的一户普通农家，父亲韩明典，母亲王氏..."
+        """测试Chapter转换为字典：使用真实小说文本"""
         chapter = Chapter(
             chapter_id="第一章",
-            title="莫家村韩立",
-            content=content
+            title=self.chapter_title,
+            content=self.chapter_text
         )
         
         chapter_dict = chapter.to_dict()
         self.assertIsInstance(chapter_dict, dict)
         self.assertEqual(chapter_dict["chapter_id"], "第一章")
-        self.assertEqual(chapter_dict["content"], content)
+        self.assertEqual(chapter_dict["title"], self.chapter_title)
+        self.assertEqual(chapter_dict["content"], self.chapter_text)
 
 
 class TestCausalEdgeModel(unittest.TestCase):
     """测试CausalEdge数据模型"""
     
     def test_causal_edge_creation(self):
-        """测试创建CausalEdge对象"""
+        """测试创建CausalEdge对象：使用小说中的真实因果关系"""
         edge = CausalEdge(
             from_id="event-001",
             to_id="event-002",
             strength="高",
-            reason="韩立练习铁皮指功，为后来修炼七修符箓打下基础"
+            reason="三叔介绍韩立参加七玄门考核，导致韩立离开家乡踏上修仙之路"
         )
         
         self.assertEqual(edge.from_id, "event-001")
@@ -166,12 +201,12 @@ class TestCausalEdgeModel(unittest.TestCase):
         self.assertEqual(edge.strength, "高")
         
     def test_causal_edge_to_dict(self):
-        """测试CausalEdge转换为字典"""
+        """测试CausalEdge转换为字典：使用小说中的真实因果关系"""
         edge = CausalEdge(
             from_id="event-001",
             to_id="event-002",
-            strength="高",
-            reason="韩立练习铁皮指功，为后来修炼七修符箓打下基础"
+            strength="中",
+            reason="墨大夫选中韩立作为炼药童子，使韩立学习了无名口诀"
         )
         
         edge_dict = edge.to_dict()
@@ -183,33 +218,63 @@ class TestCausalEdgeModel(unittest.TestCase):
 class TestTreasureModel(unittest.TestCase):
     """测试Treasure数据模型"""
     
+    def setUp(self):
+        """测试前准备，加载小说数据以确定真实的宝物/法宝信息"""
+        novel_path = os.path.join(project_root, "novel", "test.txt")
+        with open(novel_path, 'r', encoding='utf-8') as f:
+            self.novel_text = f.read()
+            
+        # 从小说中提取可能的宝物信息
+        self.treasures = [
+            {
+                "name": "铁皮指功",
+                "description": "莫家村墨大夫传授给韩立的入门功法，修炼后指尖如铁",
+                "effects": ["强化手指力量", "初级攻击功法"],
+                "origin": "墨大夫传授",
+                "first_appearance": "第一章"
+            },
+            {
+                "name": "三阶丹药",
+                "description": "墨大夫珍藏的珍贵丹药，可用于七玄门测试",
+                "effects": ["增强灵力", "提高修行资质"],
+                "origin": "墨大夫珍藏",
+                "first_appearance": "第一章"
+            }
+        ]
+    
     def test_treasure_creation(self):
-        """测试创建Treasure对象"""
+        """测试创建Treasure对象：使用小说中的真实法宝信息"""
+        treasure_data = self.treasures[0]  # 使用铁皮指功作为测试
+        
         treasure = Treasure(
-            name="七修符箓",
-            description="记载符箓修炼方法的入门典籍",
-            effects=["符箓修炼"],
-            origin="墨老赠送",
-            first_appearance="第一章"
+            name=treasure_data["name"],
+            description=treasure_data["description"],
+            effects=treasure_data["effects"],
+            origin=treasure_data["origin"],
+            first_appearance=treasure_data["first_appearance"]
         )
         
-        self.assertEqual(treasure.name, "七修符箓")
-        self.assertEqual(treasure.description, "记载符箓修炼方法的入门典籍")
+        self.assertEqual(treasure.name, "铁皮指功")
+        self.assertEqual(treasure.description, "莫家村墨大夫传授给韩立的入门功法，修炼后指尖如铁")
+        self.assertEqual(len(treasure.effects), 2)
         
     def test_treasure_to_dict(self):
-        """测试Treasure转换为字典"""
+        """测试Treasure转换为字典：使用小说中的真实法宝信息"""
+        treasure_data = self.treasures[1]  # 使用三阶丹药作为测试
+        
         treasure = Treasure(
-            name="七修符箓",
-            description="记载符箓修炼方法的入门典籍",
-            effects=["符箓修炼"],
-            origin="墨老赠送",
-            first_appearance="第一章"
+            name=treasure_data["name"],
+            description=treasure_data["description"],
+            effects=treasure_data["effects"],
+            origin=treasure_data["origin"],
+            first_appearance=treasure_data["first_appearance"]
         )
         
         treasure_dict = treasure.to_dict()
         self.assertIsInstance(treasure_dict, dict)
-        self.assertEqual(treasure_dict["name"], "七修符箓")
-        self.assertEqual(treasure_dict["description"], "记载符箓修炼方法的入门典籍")
+        self.assertEqual(treasure_dict["name"], "三阶丹药")
+        self.assertEqual(treasure_dict["description"], "墨大夫珍藏的珍贵丹药，可用于七玄门测试")
+        self.assertEqual(len(treasure_dict["effects"]), 2)
 
 
 class TestJsonLoader(unittest.TestCase):
@@ -255,19 +320,32 @@ class TestTextSplitter(unittest.TestCase):
     """测试TextSplitter工具类"""
     
     def test_split_chapter(self):
-        """测试章节分段"""
-        text = """第一章 莫家村
-        韩立出生在莫家村的一户普通农家，父亲韩明典，母亲王氏。
+        """测试章节分段：使用小说真实文本"""
+        # 加载真实小说数据
+        novel_path = os.path.join(project_root, "novel", "test.txt")
+        with open(novel_path, 'r', encoding='utf-8') as f:
+            novel_text = f.read()
         
-        韩立从小聪明伶俐，但体弱多病，经常生病。
+        # 提取第一章内容进行测试
+        chapter_start = novel_text.find("第一章")
+        chapter_end = novel_text.find("第二章")
+        if chapter_end == -1:  # 如果找不到第二章，则使用全文
+            chapter_text = novel_text[chapter_start:]
+        else:
+            chapter_text = novel_text[chapter_start:chapter_end]
+            
+        # 使用TextSplitter进行分段
+        segments = TextSplitter.split_chapter(chapter_text, seg_size=200)
         
-        墨老给了韩立一本《铁皮指》的功法秘籍。"""
-        
-        segments = TextSplitter.split_chapter(text, seg_size=100)
-        
-        self.assertGreaterEqual(len(segments), 1)  # 至少应该有一段
+        # 验证分段结果
+        self.assertGreaterEqual(len(segments), 3)  # 应该有多个段落
         self.assertTrue("seg_id" in segments[0])
         self.assertTrue("text" in segments[0])
+        
+        # 验证分段内容是否包含原文的关键信息
+        all_text = " ".join([seg["text"] for seg in segments])
+        self.assertIn("韩立", all_text)
+        self.assertIn("二愣子", all_text)
         
 
 if __name__ == '__main__':

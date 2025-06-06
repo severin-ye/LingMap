@@ -58,17 +58,30 @@ class MockExtractor(AbstractExtractor):
     def __init__(self):
         """初始化"""
         self.mock_extract = MagicMock()
+        # 加载小说数据
+        novel_path = os.path.join(project_root, "novel", "test.txt")
+        with open(novel_path, 'r', encoding='utf-8') as f:
+            novel_text = f.read()
+        self.novel_text = novel_text
         
     def extract(self, chapter: Chapter) -> List[EventItem]:
-        """模拟提取事件"""
+        """模拟提取事件：使用小说真实内容"""
         self.mock_extract(chapter)
-        # 返回一些测试事件
+        # 返回基于小说内容的测试事件
         return [
             EventItem(
                 event_id="event-001",
                 chapter_id=chapter.chapter_id,
-                description="韩立在莫家村练习铁皮指功",
+                description="韩立和同伴一起进山拣干柴和采集浆果",
                 characters=["韩立"],
+                location="莫家村附近的山上",
+                time="幼年"
+            ),
+            EventItem(
+                event_id="event-002",
+                chapter_id=chapter.chapter_id,
+                description="韩立回家时发现三叔来访，这会改变他一生的命运",
+                characters=["韩立", "三叔", "韩父", "韩母"],
                 location="莫家村",
                 time="幼年"
             )
@@ -98,16 +111,16 @@ class MockLinker(AbstractLinker):
         self.mock_build_dag = MagicMock()
         
     def link_events(self, events: List[EventItem]) -> List[CausalEdge]:
-        """模拟链接事件"""
+        """模拟链接事件：使用小说中的真实因果关系"""
         self.mock_link_events(events)
-        # 返回一个测试边
+        # 返回基于小说内容的因果关系
         if len(events) >= 2:
             return [
                 CausalEdge(
                     from_id=events[0].event_id,
                     to_id=events[1].event_id,
                     strength="高",
-                    reason="事件关系描述"
+                    reason="韩立上山采集浆果，归来后遇到三叔，导致他的命运发生转折"
                 )
             ]
         return []
@@ -136,10 +149,33 @@ class MockGraphRenderer(AbstractGraphRenderer):
 class TestExtractorInterface(unittest.TestCase):
     """测试AbstractExtractor接口"""
     
+    def setUp(self):
+        """测试前准备，加载真实小说数据"""
+        novel_path = os.path.join(project_root, "novel", "test.txt")
+        with open(novel_path, 'r', encoding='utf-8') as f:
+            novel_text = f.read()
+            
+        # 提取第一章内容
+        chapter_start = novel_text.find("第一章")
+        chapter_end = novel_text.find("第二章")
+        if chapter_end == -1:  # 如果找不到第二章，则使用全文
+            self.chapter_text = novel_text[chapter_start:]
+        else:
+            self.chapter_text = novel_text[chapter_start:chapter_end]
+        
+        # 提取章节标题
+        title_start = self.chapter_text.find("第一章")
+        title_end = self.chapter_text.find("\n", title_start)
+        self.chapter_title = self.chapter_text[title_start:title_end].strip()
+    
     def test_extractor_interface(self):
-        """测试提取器接口"""
+        """测试提取器接口：使用小说真实内容"""
         extractor = MockExtractor()
-        chapter = Chapter(chapter_id="第一章", title="莫家村韩立", content="韩立出生在莫家村...")
+        chapter = Chapter(
+            chapter_id="第一章",
+            title=self.chapter_title,
+            content=self.chapter_text
+        )
         
         events = extractor.extract(chapter)
         
@@ -148,23 +184,58 @@ class TestExtractorInterface(unittest.TestCase):
         # 验证返回类型
         self.assertIsInstance(events, list)
         self.assertTrue(all(isinstance(event, EventItem) for event in events))
+        # 验证事件内容与小说有关
+        self.assertIn("韩立", events[0].description)
 
 
 class TestRefinerInterface(unittest.TestCase):
     """测试AbstractRefiner接口"""
     
+    def setUp(self):
+        """测试前准备，加载真实小说数据"""
+        novel_path = os.path.join(project_root, "novel", "test.txt")
+        with open(novel_path, 'r', encoding='utf-8') as f:
+            self.novel_text = f.read()
+            
+        # 提取第一章内容
+        chapter_start = self.novel_text.find("第一章")
+        chapter_end = self.novel_text.find("第二章")
+        if chapter_end == -1:  # 如果找不到第二章，则使用全文
+            self.chapter_text = self.novel_text[chapter_start:]
+        else:
+            self.chapter_text = self.novel_text[chapter_start:chapter_end]
+        
+        # 提取章节标题
+        title_start = self.chapter_text.find("第一章")
+        title_end = self.chapter_text.find("\n", title_start)
+        self.chapter_title = self.chapter_text[title_start:title_end].strip()
+    
     def test_refiner_interface(self):
-        """测试优化器接口"""
+        """测试优化器接口：使用小说真实内容"""
         refiner = MockRefiner()
         events = [
             EventItem(
                 event_id="event-001",
                 chapter_id="第一章",
-                description="韩立在莫家村练习铁皮指功",
-                characters=["韩立"]
+                description="韩立背着半人高的木柴，怀里还揣着满满一布袋浆果",
+                characters=["韩立"],
+                location="莫家村附近的山上",
+                time="幼年"
+            ),
+            EventItem(
+                event_id="event-002",
+                chapter_id="第一章",
+                description="韩立发现三叔来访，三叔是附近小城酒楼的大掌柜",
+                characters=["韩立", "三叔"],
+                location="莫家村",
+                time="幼年"
             )
         ]
-        chapter = Chapter(chapter_id="第一章", title="莫家村韩立", content="韩立出生在莫家村...")
+        chapter = Chapter(
+            chapter_id="第一章",
+            title=self.chapter_title,
+            content=self.chapter_text
+        )
         
         refined_events = refiner.refine(events, chapter)
         
@@ -173,17 +244,34 @@ class TestRefinerInterface(unittest.TestCase):
         # 验证返回类型
         self.assertIsInstance(refined_events, list)
         self.assertTrue(all(isinstance(event, EventItem) for event in refined_events))
+        # 验证事件内容仍然保留
+        self.assertEqual(len(refined_events), 2)
+        self.assertIn("韩立", refined_events[0].description)
 
 
 class TestLinkerInterface(unittest.TestCase):
     """测试AbstractLinker接口"""
     
     def test_linker_interface(self):
-        """测试链接器接口"""
+        """测试链接器接口：使用小说真实场景"""
         linker = MockLinker()
         events = [
-            EventItem(event_id="event-001", description="事件1", chapter_id="第一章"),
-            EventItem(event_id="event-002", description="事件2", chapter_id="第一章")
+            EventItem(
+                event_id="event-001",
+                description="韩立上山采集木柴和浆果",
+                characters=["韩立"],
+                location="莫家村附近的山上",
+                time="幼年",
+                chapter_id="第一章"
+            ),
+            EventItem(
+                event_id="event-002",
+                description="韩立回家后遇到三叔，三叔的到来将改变他的命运",
+                characters=["韩立", "三叔"],
+                location="莫家村",
+                time="幼年",
+                chapter_id="第一章"
+            )
         ]
         
         edges = linker.link_events(events)
@@ -198,20 +286,49 @@ class TestLinkerInterface(unittest.TestCase):
         if edges:
             self.assertEqual(edges[0].from_id, "event-001")
             self.assertEqual(edges[0].to_id, "event-002")
-    
+            self.assertTrue("韩立" in edges[0].reason if edges[0].reason else False)
+            
     def test_build_dag_interface(self):
-        """测试构建DAG接口"""
+        """测试构建DAG接口：使用小说真实场景"""
         linker = MockLinker()
         events = [
-            EventItem(event_id="event-001", description="事件1", chapter_id="第一章"),
-            EventItem(event_id="event-002", description="事件2", chapter_id="第一章")
+            EventItem(
+                event_id="event-001",
+                description="韩立被三叔带去参加七玄门的考验",
+                characters=["韩立", "三叔"],
+                location="青牛镇",
+                time="幼年",
+                chapter_id="第一章"
+            ),
+            EventItem(
+                event_id="event-002",
+                description="韩立见到墨大夫，获得三阶丹药参加测试",
+                characters=["韩立", "墨大夫"],
+                location="莫家村",
+                time="幼年",
+                chapter_id="第一章"
+            ),
+            EventItem(
+                event_id="event-003",
+                description="韩立通过七玄门测试，得到铁皮指功修炼口诀",
+                characters=["韩立", "墨大夫"],
+                location="青牛镇",
+                time="幼年",
+                chapter_id="第一章"
+            )
         ]
         edges = [
             CausalEdge(
                 from_id="event-001",
                 to_id="event-002",
                 strength="高",
-                reason="描述"
+                reason="韩立需要参加七玄门考核，所以去找墨大夫寻求帮助"
+            ),
+            CausalEdge(
+                from_id="event-002",
+                to_id="event-003",
+                strength="高",
+                reason="墨大夫赠送韩立三阶丹药，帮助他通过了七玄门测试"
             )
         ]
         
@@ -224,24 +341,52 @@ class TestLinkerInterface(unittest.TestCase):
         self.assertIsInstance(result_edges, list)
         self.assertTrue(all(isinstance(event, EventItem) for event in result_events))
         self.assertTrue(all(isinstance(edge, CausalEdge) for edge in result_edges))
+        # 验证结果内容
+        self.assertEqual(len(result_events), 3)
+        self.assertEqual(len(result_edges), 2)
 
 
 class TestGraphRendererInterface(unittest.TestCase):
     """测试AbstractGraphRenderer接口"""
     
     def test_graph_renderer_interface(self):
-        """测试图形渲染器接口"""
+        """测试图形渲染器接口：使用小说真实场景"""
         renderer = MockGraphRenderer()
         events = [
-            EventItem(event_id="event-001", description="事件1", chapter_id="第一章"),
-            EventItem(event_id="event-002", description="事件2", chapter_id="第一章")
+            EventItem(
+                event_id="event-001",
+                description="韩立被三叔带去参加七玄门的考验",
+                characters=["韩立", "三叔"],
+                location="青牛镇",
+                chapter_id="第一章"
+            ),
+            EventItem(
+                event_id="event-002",
+                description="韩立见到墨大夫，获得三阶丹药参加测试",
+                characters=["韩立", "墨大夫"],
+                location="莫家村",
+                chapter_id="第一章"
+            ),
+            EventItem(
+                event_id="event-003",
+                description="韩立通过七玄门测试，得到铁皮指功修炼口诀",
+                characters=["韩立", "墨大夫"],
+                location="青牛镇",
+                chapter_id="第一章"
+            )
         ]
         edges = [
             CausalEdge(
                 from_id="event-001",
                 to_id="event-002",
                 strength="高",
-                reason="描述"
+                reason="韩立需要参加七玄门考核，所以去找墨大夫寻求帮助"
+            ),
+            CausalEdge(
+                from_id="event-002",
+                to_id="event-003",
+                strength="高",
+                reason="墨大夫赠送韩立三阶丹药，帮助他通过了七玄门测试"
             )
         ]
         
