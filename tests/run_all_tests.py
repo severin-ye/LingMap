@@ -17,7 +17,8 @@
    
 3. 报告生成：
    - 提供测试通过/失败状态的总体报告
-   - 支持详细模式显示每个测试用例的执行结果
+   - 使用美化输出格式显示测试对象的输出
+   - 支持详细模式显示每个测试用例的执行结果和耗时
 
 使用方法：
 1. 运行所有测试: python tests/run_all_tests.py
@@ -29,11 +30,51 @@ import os
 import sys
 import argparse
 import importlib.util
+import time
 
 # 将项目根目录添加到路径
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(current_dir)
 sys.path.append(project_root)
+
+# 定义终端颜色
+class Colors:
+    HEADER = '\033[95m'
+    BLUE = '\033[94m'
+    CYAN = '\033[96m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    END = '\033[0m'
+    BOLD = '\033[1m'
+
+
+def import_test_module(stage_num):
+    """
+    导入指定阶段的测试模块
+    
+    Args:
+        stage_num: 阶段编号（1-7）
+        
+    Returns:
+        导入的模块或None
+    """
+    stage_dir = f"stage_{stage_num}"
+    run_tests_path = os.path.join(current_dir, stage_dir, "run_tests.py")
+    
+    if not os.path.exists(run_tests_path):
+        print(f"{Colors.RED}错误：阶段 {stage_num} 的测试脚本不存在！{Colors.END}")
+        return None
+    
+    # 构建模块名
+    module_name = f"tests.{stage_dir}.run_tests"
+    
+    # 导入模块
+    try:
+        return importlib.import_module(module_name)
+    except ImportError as e:
+        print(f"{Colors.RED}错误：导入阶段 {stage_num} 测试模块失败：{e}{Colors.END}")
+        return None
 
 
 def run_stage_tests(stage_num, verbose=False):
@@ -47,23 +88,38 @@ def run_stage_tests(stage_num, verbose=False):
     Returns:
         bool: 测试是否全部通过
     """
-    stage_dir = f"stage_{stage_num}"
-    run_tests_path = os.path.join(current_dir, stage_dir, "run_tests.py")
+    print(f"{Colors.CYAN}准备运行阶段 {stage_num} 测试...{Colors.END}")
     
-    if not os.path.exists(run_tests_path):
-        print(f"错误：阶段 {stage_num} 的测试脚本不存在！")
+    # 尝试导入测试模块
+    test_module = import_test_module(stage_num)
+    if not test_module:
         return False
     
-    # 直接调用测试脚本
-    cmd = [sys.executable, run_tests_path]
-    if verbose:
-        cmd.append('-v')
-    
+    # 使用模块中的测试运行函数
     try:
-        result = os.system(' '.join(cmd))
-        return result == 0
+        start_time = time.time()
+        print(f"{Colors.CYAN}开始运行阶段 {stage_num} 测试...{Colors.END}")
+        
+        # 调用模块中的测试运行函数
+        if hasattr(test_module, f"run_stage{stage_num}_tests"):
+            run_func = getattr(test_module, f"run_stage{stage_num}_tests")
+            success = run_func(verbose)
+        else:
+            # 回退到通过命令行运行
+            cmd = [sys.executable, "-m", f"tests.stage_{stage_num}.run_tests"]
+            if verbose:
+                cmd.append('-v')
+            result = os.system(' '.join(cmd))
+            success = result == 0
+            
+        end_time = time.time()
+        
+        # 显示测试耗时
+        print(f"\n阶段 {stage_num} 测试耗时: {Colors.YELLOW}{end_time - start_time:.2f}秒{Colors.END}")
+        
+        return success
     except Exception as e:
-        print(f"错误：运行阶段 {stage_num} 测试时出现异常：{e}")
+        print(f"{Colors.RED}错误：运行阶段 {stage_num} 测试时出现异常：{e}{Colors.END}")
         return False
 
 
@@ -82,14 +138,21 @@ def run_all_tests(verbose=False):
     # 当前只有阶段1的测试
     stages = [1]
     
+    # 记录总体测试开始时间
+    overall_start_time = time.time()
+    
     for stage in stages:
-        print(f"\n{'='*60}")
+        print(f"\n{Colors.HEADER}{'='*60}")
         print(f"运行阶段 {stage} 测试")
-        print(f"{'='*60}")
+        print(f"{'='*60}{Colors.END}")
         
         success = run_stage_tests(stage, verbose)
         if not success:
             all_success = False
+    
+    # 显示总测试耗时
+    overall_end_time = time.time()
+    print(f"\n{Colors.BOLD}总测试耗时: {Colors.YELLOW}{overall_end_time - overall_start_time:.2f}秒{Colors.END}")
     
     return all_success
 
@@ -100,7 +163,7 @@ if __name__ == "__main__":
     parser.add_argument("-v", "--verbose", action="store_true", help="显示详细测试输出")
     args = parser.parse_args()
     
-    print("\n《凡人修仙传》因果事件图谱生成系统 - 测试运行")
+    print(f"\n{Colors.BOLD}《凡人修仙传》因果事件图谱生成系统 - 测试运行{Colors.END}")
     
     if args.stage:
         success = run_stage_tests(args.stage, args.verbose)
@@ -108,8 +171,8 @@ if __name__ == "__main__":
         success = run_all_tests(args.verbose)
     
     if success:
-        print("\n所有测试通过！✅")
+        print(f"\n{Colors.GREEN}{Colors.BOLD}所有测试通过！✅{Colors.END}")
         sys.exit(0)
     else:
-        print("\n测试失败！❌")
+        print(f"\n{Colors.RED}{Colors.BOLD}测试失败！❌{Colors.END}")
         sys.exit(1)

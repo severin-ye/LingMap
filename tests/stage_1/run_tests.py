@@ -15,6 +15,7 @@
 2. 提供统一的测试执行入口
    - 支持命令行参数控制测试详细程度
    - 提供清晰的测试结果输出
+   - 捕获并美化显示测试对象的输出信息
    - 返回测试成功/失败状态
 
 使用方法：
@@ -31,6 +32,9 @@ import argparse
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.append(project_root)
+
+# 导入美化测试输出的运行器
+from tests.utils.pretty_test_runner import PrettyTestRunner
 
 # 导入阶段一测试
 from tests.stage_1.test_models import (
@@ -49,6 +53,22 @@ from tests.stage_1.test_interfaces import (
     TestGraphRendererInterface
 )
 
+# 添加钩子，确保所有测试类的测试方法都会输出一些内容
+import unittest
+import functools
+
+# 保存原始的setUp方法
+original_setUp = unittest.TestCase.setUp
+
+# 定义一个新的setUp方法，添加输出
+def setup_with_output(self):
+    original_setUp(self)
+    print(f"\n测试对象: {self.__class__.__name__}.{self._testMethodName} 开始执行")
+    print(f"-------------------------------------------")
+
+# 替换原始方法
+unittest.TestCase.setUp = setup_with_output
+
 
 def run_stage1_tests(verbose=False):
     """
@@ -61,26 +81,42 @@ def run_stage1_tests(verbose=False):
     suite = unittest.TestSuite()
     
     # 添加数据模型测试
-    suite.addTest(unittest.makeSuite(TestEventModel))
-    suite.addTest(unittest.makeSuite(TestChapterModel))
-    suite.addTest(unittest.makeSuite(TestCausalEdgeModel))
-    suite.addTest(unittest.makeSuite(TestTreasureModel))
-    suite.addTest(unittest.makeSuite(TestJsonLoader))
-    suite.addTest(unittest.makeSuite(TestTextSplitter))
+    print("\n正在准备模型和工具类测试...")
+    model_suite = unittest.TestSuite()
+    model_suite.addTest(unittest.makeSuite(TestEventModel))
+    model_suite.addTest(unittest.makeSuite(TestChapterModel))
+    model_suite.addTest(unittest.makeSuite(TestCausalEdgeModel))
+    model_suite.addTest(unittest.makeSuite(TestTreasureModel))
+    model_suite.addTest(unittest.makeSuite(TestJsonLoader))
+    model_suite.addTest(unittest.makeSuite(TestTextSplitter))
     
     # 添加接口测试
-    suite.addTest(unittest.makeSuite(TestExtractorInterface))
-    suite.addTest(unittest.makeSuite(TestRefinerInterface))
-    suite.addTest(unittest.makeSuite(TestLinkerInterface))
-    suite.addTest(unittest.makeSuite(TestGraphRendererInterface))
+    print("正在准备接口测试...")
+    interface_suite = unittest.TestSuite()
+    interface_suite.addTest(unittest.makeSuite(TestExtractorInterface))
+    interface_suite.addTest(unittest.makeSuite(TestRefinerInterface))
+    interface_suite.addTest(unittest.makeSuite(TestLinkerInterface))
+    interface_suite.addTest(unittest.makeSuite(TestGraphRendererInterface))
+    
+    # 合并测试套件
+    suite.addTest(model_suite)
+    suite.addTest(interface_suite)
     
     # 运行测试
     verbosity = 2 if verbose else 1
-    runner = unittest.TextTestRunner(verbosity=verbosity)
     
-    print("\n模型测试:")
-    print("-" * 40)
+    # 使用美化的测试运行器
+    print("\n模型和工具类测试:")
+    print("-" * 60)
+    runner = PrettyTestRunner(verbosity=verbosity)
     result = runner.run(suite)
+    
+    # 如果有详细模式，显示完整测试统计
+    if verbose:
+        print("\n详细测试统计:")
+        print(f"运行的测试数: {result.testsRun}")
+        print(f"失败的测试数: {len(result.failures)}")
+        print(f"错误的测试数: {len(result.errors)}")
     
     return result.wasSuccessful()
 
