@@ -15,11 +15,12 @@ class HallucinationRefiner(BaseRefiner):
     def __init__(
         self, 
         model: str = "gpt-4o", 
-        prompt_path: str = None, 
-        api_key: str = None,
-        base_url: str = None,
+        prompt_path: str = "", 
+        api_key: str = "",
+        base_url: str = "",
         max_workers: int = 3,
-        max_iterations: int = 2
+        max_iterations: int = 2,
+        provider: str = "openai"
     ):
         """
         初始化幻觉修复器
@@ -54,15 +55,17 @@ class HallucinationRefiner(BaseRefiner):
         self.base_url = base_url
         self.max_workers = max_workers
         self.max_iterations = max_iterations
+        self.provider = provider
         
         # 初始化LLM客户端
         self.llm_client = LLMClient(
             api_key=self.api_key,
             model=self.model,
-            base_url=self.base_url
+            base_url=self.base_url,
+            provider=self.provider
         )
     
-    def refine(self, events: List[EventItem], context: str = None) -> List[EventItem]:
+    def refine(self, events: List[EventItem], context: str = "") -> List[EventItem]:
         """
         对事件列表进行幻觉检测和修复
         

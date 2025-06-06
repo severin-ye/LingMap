@@ -17,11 +17,12 @@ class CausalLinker(BaseLinker):
     def __init__(
         self,
         model: str = "gpt-4o", 
-        prompt_path: str = None, 
-        api_key: str = None,
-        base_url: str = None,
+        prompt_path: str = "", 
+        api_key: str = "",
+        base_url: str = "",
         max_workers: int = 3,
-        strength_mapping: Dict[str, int] = None
+        strength_mapping: Dict[str, int] = {},
+        provider: str = "openai"
     ):
         """
         初始化因果链接器

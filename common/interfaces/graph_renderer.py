@@ -9,7 +9,7 @@ class AbstractGraphRenderer(ABC):
     """图谱渲染器接口，定义将因果事件转化为可视化图谱的方法"""
     
     @abstractmethod
-    def render(self, events: List[EventItem], edges: List[CausalEdge], format_options: Dict[str, Any] = None) -> str:
+    def render(self, events: List[EventItem], edges: List[CausalEdge], format_options: Dict[str, Any] = {}) -> str:
         """
         将事件图谱渲染为指定格式（如Mermaid）
         

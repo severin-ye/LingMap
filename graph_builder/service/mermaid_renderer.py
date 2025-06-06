@@ -11,7 +11,7 @@ from graph_builder.utils.color_map import ColorMap
 class MermaidRenderer(BaseRenderer):
     """Mermaid图谱渲染器实现类"""
     
-    def __init__(self, default_options: Dict[str, Any] = None):
+    def __init__(self, default_options: Dict[str, Any] = {}):
         """
         初始化Mermaid渲染器
         
@@ -20,7 +20,7 @@ class MermaidRenderer(BaseRenderer):
         """
         super().__init__(default_options)
         
-    def render(self, events: List[EventItem], edges: List[CausalEdge], format_options: Dict[str, Any] = None) -> str:
+    def render(self, events: List[EventItem], edges: List[CausalEdge], format_options: Dict[str, Any] = {}) -> str:
         """
         将事件图谱渲染为Mermaid格式
         

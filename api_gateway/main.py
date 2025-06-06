@@ -51,7 +51,7 @@ def setup_env():
         logger.warning("未找到 .env 文件")
 
 
-def process_text(text_path: str, output_dir: str, temp_dir: str = None, provider: str = "openai"):
+def process_text(text_path: str, output_dir: str, temp_dir: str = "", provider: str = "openai"):
     """
     处理小说文本，生成因果图谱
     

@@ -34,7 +34,7 @@ project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.append(project_root)
 
 # 导入美化测试输出的运行器
-from tests.utils.pretty_test_runner import PrettyTestRunner
+# from tests.utils.pretty_test_runner import PrettyTestRunner
 
 # 导入阶段一测试
 from tests.stage_1.test_models import (
@@ -105,10 +105,10 @@ def run_stage1_tests(verbose=False):
     # 运行测试
     verbosity = 2 if verbose else 1
     
-    # 使用美化的测试运行器
+    # 使用标准的测试运行器
     print("\n模型和工具类测试:")
     print("-" * 60)
-    runner = PrettyTestRunner(verbosity=verbosity)
+    runner = unittest.TextTestRunner(verbosity=verbosity)
     result = runner.run(suite)
     
     # 如果有详细模式，显示完整测试统计

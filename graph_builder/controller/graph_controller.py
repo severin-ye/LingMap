@@ -8,7 +8,7 @@ from common.models.event import EventItem
 from graph_builder.service.mermaid_renderer import MermaidRenderer
 
 
-def render_graph(input_path: str, output_path: str, options: Dict[str, Any] = None) -> str:
+def render_graph(input_path: str, output_path: str, options: Dict[str, Any] = {}) -> str:
     """
     将因果关系渲染为Mermaid图谱
     

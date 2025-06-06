@@ -8,7 +8,7 @@ from common.utils.json_loader import JsonLoader
 from hallucination_refine.di.provider import provide_refiner
 
 
-def refine_events(events_path: str, output_path: str, context_path: str = None) -> List[EventItem]:
+def refine_events(events_path: str, output_path: str, context_path: str = "") -> List[EventItem]:
     """
     对事件列表进行幻觉检测和修复
     
@@ -27,7 +27,7 @@ def refine_events(events_path: str, output_path: str, context_path: str = None) 
     events = [EventItem.from_dict(event_data) for event_data in events_data]
     
     # 加载上下文（如果提供）
-    context = None
+    context = ""
     if context_path and os.path.exists(context_path):
         with open(context_path, 'r', encoding='utf-8') as f:
             context = f.read()

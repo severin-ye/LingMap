@@ -16,9 +16,9 @@ class EventExtractor(BaseExtractor):
     def __init__(
         self, 
         model: str = "gpt-4o", 
-        prompt_path: str = None, 
-        api_key: str = None,
-        base_url: str = None,
+        prompt_path: str = "", 
+        api_key: str = "",
+        base_url: str = "",
         max_workers: int = 3,
         provider: str = "openai"
     ):

@@ -9,7 +9,7 @@ from common.models.event import EventItem
 class BaseRenderer(AbstractGraphRenderer, ABC):
     """图谱渲染器基类"""
     
-    def __init__(self, default_options: Dict[str, Any] = None):
+    def __init__(self, default_options: Dict[str, Any] = {}):
         """
         初始化渲染器
         
