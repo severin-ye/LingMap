@@ -14,6 +14,10 @@
   - `test_text_ingestion.py`: 测试文本加载和章节分割功能
   - `test_event_extraction.py`: 测试事件抽取模块和LLM调用
 
+- **阶段三**：HAR幻觉修复和因果链构建测试 (`stage_3/`)
+  - `test_hallucination_refine.py`: 测试HAR幻觉检测和修复功能
+  - `test_causal_linking.py`: 测试因果关系识别和DAG构建功能
+
 - **测试工具**：
   - `utils/pretty_test_runner.py`: 美化测试输出格式的自定义测试运行器，捕获并展示测试对象的输出
 
