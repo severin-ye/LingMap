@@ -319,15 +319,61 @@ class TestHARResponseParsing(unittest.TestCase):
             "refined_event": {
                 "event_id": "E1",
                 "description": "修复后的事件"
-                # 缺少其他字段
+                # 缺少其他字段：characters, treasures, location, chapter_id, result
             }
         }
         
         refined_event = self.refiner.parse_response(response, self.original_event)
         
-        # 应该使用提供的描述，但保持事件ID不变
+        # 验证修复后的字段
         self.assertEqual(refined_event.event_id, self.original_event.event_id)
         self.assertEqual(refined_event.description, "修复后的事件")  # 使用响应中的描述
+        
+        # 验证缺失的字段应该从原始事件中继承
+        self.assertEqual(refined_event.characters, self.original_event.characters)
+        self.assertEqual(refined_event.treasures, self.original_event.treasures) 
+        self.assertEqual(refined_event.location, self.original_event.location)
+        self.assertEqual(refined_event.chapter_id, self.original_event.chapter_id)
+        self.assertEqual(refined_event.result, self.original_event.result)
+        
+    def test_parse_completely_invalid_response(self):
+        """测试解析完全无效的响应"""
+        response = {
+            "has_hallucination": True,
+            "refined_event": None  # 无效的refined_event
+        }
+        
+        refined_event = self.refiner.parse_response(response, self.original_event)
+        
+        # 应该返回原始事件
+        self.assertEqual(refined_event.event_id, self.original_event.event_id)
+        self.assertEqual(refined_event.description, self.original_event.description)
+        self.assertEqual(refined_event.characters, self.original_event.characters)
+        
+    def test_parse_response_with_partial_correction(self):
+        """测试仅包含部分修正信息的响应"""
+        response = {
+            "has_hallucination": True,
+            "issues": [
+                {
+                    "field": "treasures",
+                    "corrected": ["修正后的宝物"]
+                },
+                {
+                    "field": "description", 
+                    "corrected": "修正后的描述"
+                }
+            ]
+        }
+        
+        refined_event = self.refiner.parse_response(response, self.original_event)
+        
+        # 验证只修正了指定的字段
+        self.assertEqual(refined_event.description, "修正后的描述")
+        self.assertEqual(refined_event.treasures, ["修正后的宝物"])
+        # 其他字段应该保持不变
+        self.assertEqual(refined_event.characters, self.original_event.characters)
+        self.assertEqual(refined_event.location, self.original_event.location)
 
 
 if __name__ == "__main__":

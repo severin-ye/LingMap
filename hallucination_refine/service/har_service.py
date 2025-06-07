@@ -169,6 +169,12 @@ class HallucinationRefiner(BaseRefiner):
             refined_event_data["event_id"] = original_event.event_id
             if not refined_event_data.get("chapter_id") and original_event.chapter_id:
                 refined_event_data["chapter_id"] = original_event.chapter_id
+            
+            # 对于不完整的响应，使用原始事件的字段填充缺失的字段
+            original_data = original_event.to_dict()
+            for field, value in original_data.items():
+                if field not in refined_event_data or refined_event_data[field] is None:
+                    refined_event_data[field] = value
                 
             return EventItem.from_dict(refined_event_data)
         

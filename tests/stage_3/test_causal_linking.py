@@ -112,9 +112,12 @@ class TestCausalLinker(unittest.TestCase):
         
         # 验证结果
         self.assertIsNotNone(edge)
+        assert edge is not None  # 类型检查提示
         self.assertEqual(edge.from_id, "E1")
         self.assertEqual(edge.to_id, "E2")
         self.assertEqual(edge.strength, "高")
+        self.assertIsNotNone(edge.reason)
+        assert edge.reason is not None  # 类型检查提示
         self.assertIn("自然的时间顺序", edge.reason)
         
         # 验证LLM被正确调用
@@ -206,6 +209,7 @@ class TestCausalLinker(unittest.TestCase):
         # 验证有E1->E2的边
         e1_to_e2 = next((e for e in edges if e.from_id == "E1" and e.to_id == "E2"), None)
         self.assertIsNotNone(e1_to_e2)
+        assert e1_to_e2 is not None  # 类型检查提示
         self.assertEqual(e1_to_e2.strength, "高")
         
     def test_build_dag_simple(self):
@@ -373,6 +377,7 @@ class TestCausalEdgeResponseParsing(unittest.TestCase):
         edge = self.linker.parse_response(response, "E1", "E2")
         
         self.assertIsNotNone(edge)
+        assert edge is not None  # 类型检查提示
         self.assertEqual(edge.from_id, "E1")
         self.assertEqual(edge.to_id, "E2")
         self.assertEqual(edge.strength, "高")
@@ -390,6 +395,7 @@ class TestCausalEdgeResponseParsing(unittest.TestCase):
         edge = self.linker.parse_response(response, "E1", "E2")
         
         self.assertIsNotNone(edge)
+        assert edge is not None  # 类型检查提示
         self.assertEqual(edge.from_id, "E2")
         self.assertEqual(edge.to_id, "E1")
         self.assertEqual(edge.strength, "中")
@@ -541,6 +547,7 @@ class TestCausalLinkingIntegration(unittest.TestCase):
         self.assertIsNotNone(e3_to_e4)
         
         # 验证强度
+        assert e1_to_e2 is not None and e2_to_e3 is not None and e3_to_e4 is not None  # 类型检查提示
         self.assertEqual(e1_to_e2.strength, "高")
         self.assertEqual(e2_to_e3.strength, "高")
         self.assertEqual(e3_to_e4.strength, "中")
