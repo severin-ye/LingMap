@@ -10,6 +10,8 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(current_dir)
 sys.path.append(project_root)
 
+from common.utils.path_utils import get_project_root, get_config_path, get_novel_path, get_output_path
+
 from text_ingestion.chapter_loader import ChapterLoader
 from common.models.chapter import Chapter
 from common.utils.json_loader import JsonLoader

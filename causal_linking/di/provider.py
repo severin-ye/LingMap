@@ -1,7 +1,15 @@
+import os
+import sys
+from pathlib import Path
+
+# 将项目根目录添加到系统路径
+current_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if current_dir not in sys.path:
+    sys.path.insert(0, current_dir)
+
 from common.interfaces.linker import AbstractLinker
 from causal_linking.service.linker_service import CausalLinker
-
-import os
+from common.utils.path_utils import get_config_path
 
 
 def provide_linker() -> AbstractLinker:
@@ -18,15 +26,8 @@ def provide_linker() -> AbstractLinker:
         api_key = os.environ.get("DEEPSEEK_API_KEY", "")
         model = "deepseek-chat"
     
-    # 默认提示词模板路径
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.dirname(os.path.dirname(current_dir))
-    prompt_path = os.path.join(
-        project_root, 
-        "common", 
-        "config", 
-        "prompt_causal_linking.json"
-    )
+    # 使用path_utils获取配置文件路径
+    prompt_path = get_config_path("prompt_causal_linking.json")
     
     # 强度映射
     strength_mapping = {
