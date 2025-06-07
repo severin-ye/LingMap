@@ -34,22 +34,26 @@ class HallucinationRefiner(BaseRefiner):
             max_iterations: 最大迭代次数，防止无限循环
         """
         if not prompt_path:
-            # 默认提示词模板路径
-            current_dir = os.path.dirname(os.path.abspath(__file__))
-            project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_dir)))
-            prompt_path = os.path.join(
-                project_root, 
-                "common", 
-                "config", 
-                "prompt_hallucination_refine.json"
-            )
+            # 导入path_utils获取配置文件路径
+            from common.utils.path_utils import get_config_path
+            prompt_path = get_config_path("prompt_hallucination_refine.json")
             
         super().__init__(prompt_path)
         
         # 如果未提供API密钥，尝试从环境变量获取
-        self.api_key = api_key or os.environ.get("OPENAI_API_KEY")
-        if not self.api_key:
-            raise ValueError("请提供 OpenAI API 密钥")
+        if not api_key:
+            if provider == "openai":
+                self.api_key = os.environ.get("OPENAI_API_KEY")
+                if not self.api_key:
+                    raise ValueError("请提供 OpenAI API 密钥")
+            elif provider == "deepseek":
+                self.api_key = os.environ.get("DEEPSEEK_API_KEY")
+                if not self.api_key:
+                    raise ValueError("请提供 DeepSeek API 密钥")
+            else:
+                raise ValueError(f"不支持的 API 提供商: {provider}")
+        else:
+            self.api_key = api_key
             
         self.model = model
         self.base_url = base_url

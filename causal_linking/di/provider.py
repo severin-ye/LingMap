@@ -10,13 +10,16 @@ if current_dir not in sys.path:
 from common.interfaces.linker import AbstractLinker
 from causal_linking.service.linker_service import CausalLinker
 from common.utils.path_utils import get_config_path
+from dotenv import load_dotenv
 
+# 加载.env文件中的环境变量
+load_dotenv()
 
 def provide_linker() -> AbstractLinker:
     """提供因果链接器实例"""
     
     # 检查API提供商环境变量
-    provider = os.environ.get("LLM_PROVIDER", "openai")
+    provider = os.environ.get("LLM_PROVIDER", "deepseek")
     
     # 根据提供商获取相应的API密钥
     if provider == "openai":

@@ -126,6 +126,11 @@ class LLMClient:
         Returns:
             解析后的 JSON 响应
         """
+        # 确保提示中包含json关键词，这对DeepSeek API是必要的
+        if self.provider == "deepseek" and "json" not in system.lower() and "json" not in user.lower():
+            # 在系统提示中添加json关键词
+            system = system + "\n请以JSON格式回复。"
+            
         response = self.call_llm(system, user, response_format={"type": "json_object"})
         
         if response["success"] and response["content"]:

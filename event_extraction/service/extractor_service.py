@@ -34,15 +34,9 @@ class EventExtractor(BaseExtractor):
             provider: API提供商，"openai"或"deepseek"
         """
         if not prompt_path:
-            # 默认提示词模板路径
-            current_dir = os.path.dirname(os.path.abspath(__file__))
-            project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_dir)))
-            prompt_path = os.path.join(
-                project_root, 
-                "common", 
-                "config", 
-                "prompt_event_extraction.json"
-            )
+            # 导入path_utils获取配置文件路径
+            from common.utils.path_utils import get_config_path
+            prompt_path = get_config_path("prompt_event_extraction.json")
             
         super().__init__(prompt_path)
         

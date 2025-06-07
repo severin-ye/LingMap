@@ -10,13 +10,16 @@ if current_dir not in sys.path:
 from common.interfaces.refiner import AbstractRefiner
 from hallucination_refine.service.har_service import HallucinationRefiner
 from common.utils.path_utils import get_config_path
+from dotenv import load_dotenv
 
+# 加载.env文件中的环境变量
+load_dotenv()
 
 def provide_refiner() -> AbstractRefiner:
     """提供幻觉修复器实例"""
     
     # 检查API提供商环境变量
-    provider = os.environ.get("LLM_PROVIDER", "openai")
+    provider = os.environ.get("LLM_PROVIDER", "deepseek")
     
     # 根据提供商获取相应的API密钥
     if provider == "openai":
