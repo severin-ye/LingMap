@@ -20,7 +20,7 @@ def provide_linker() -> AbstractLinker:
     
     # 默认提示词模板路径
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_dir)))
+    project_root = os.path.dirname(os.path.dirname(current_dir))
     prompt_path = os.path.join(
         project_root, 
         "common", 

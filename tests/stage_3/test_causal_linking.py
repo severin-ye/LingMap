@@ -19,6 +19,9 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
+# 定义正确的prompt路径
+causal_prompt_path = os.path.join(project_root, "common", "config", "prompt_causal_linking.json")
+
 from common.models.event import EventItem
 from common.models.causal_edge import CausalEdge
 from causal_linking.service.linker_service import CausalLinker
@@ -98,6 +101,7 @@ class TestCausalLinker(unittest.TestCase):
         
         # 创建链接器实例
         linker = CausalLinker(
+            prompt_path=causal_prompt_path,
             model="gpt-4o",
             api_key="fake-key",
             strength_mapping=self.strength_mapping
@@ -133,6 +137,7 @@ class TestCausalLinker(unittest.TestCase):
         
         # 创建链接器实例
         linker = CausalLinker(
+            prompt_path=causal_prompt_path,
             model="gpt-4o",
             api_key="fake-key",
             strength_mapping=self.strength_mapping
@@ -185,6 +190,7 @@ class TestCausalLinker(unittest.TestCase):
         
         # 创建链接器实例
         linker = CausalLinker(
+            prompt_path=causal_prompt_path,
             model="gpt-4o",
             api_key="fake-key",
             max_workers=2,
@@ -213,6 +219,7 @@ class TestCausalLinker(unittest.TestCase):
         
         # 创建链接器实例
         linker = CausalLinker(
+            prompt_path=causal_prompt_path,
             model="gpt-4o",
             api_key="fake-key",
             strength_mapping=self.strength_mapping
@@ -241,6 +248,7 @@ class TestCausalLinker(unittest.TestCase):
         
         # 创建链接器实例
         linker = CausalLinker(
+            prompt_path=causal_prompt_path,
             model="gpt-4o",
             api_key="fake-key",
             strength_mapping=self.strength_mapping
@@ -261,6 +269,7 @@ class TestCausalLinker(unittest.TestCase):
         """测试环检测算法"""
         # 创建链接器实例
         linker = CausalLinker(
+            prompt_path=causal_prompt_path,
             model="gpt-4o",
             api_key="fake-key",
             strength_mapping=self.strength_mapping
@@ -281,6 +290,7 @@ class TestCausalLinker(unittest.TestCase):
         """测试可达性检测算法"""
         # 创建链接器实例
         linker = CausalLinker(
+            prompt_path=causal_prompt_path,
             model="gpt-4o",
             api_key="fake-key",
             strength_mapping=self.strength_mapping
@@ -308,6 +318,7 @@ class TestCausalLinker(unittest.TestCase):
         
         # 创建链接器实例
         linker = CausalLinker(
+            prompt_path=causal_prompt_path,
             model="gpt-4o",
             api_key="fake-key",
             strength_mapping=self.strength_mapping
@@ -344,6 +355,7 @@ class TestCausalEdgeResponseParsing(unittest.TestCase):
     def setUp(self):
         """测试前的准备工作"""
         self.linker = CausalLinker(
+            prompt_path=causal_prompt_path,
             model="gpt-4o",
             api_key="fake-key",
             strength_mapping={"高": 3, "中": 2, "低": 1}
@@ -504,6 +516,7 @@ class TestCausalLinkingIntegration(unittest.TestCase):
         
         # 创建链接器实例
         linker = CausalLinker(
+            prompt_path=causal_prompt_path,
             model="gpt-4o",
             api_key="fake-key",
             max_workers=2,
