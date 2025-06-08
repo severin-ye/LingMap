@@ -24,7 +24,7 @@ causal_prompt_path = os.path.join(project_root, "common", "config", "prompt_caus
 
 from common.models.event import EventItem
 from common.models.causal_edge import CausalEdge
-from causal_linking.service.linker_service import CausalLinker
+from causal_linking.service.unified_linker_service import CausalLinker, UnifiedCausalLinker
 from causal_linking.di.provider import provide_linker
 
 
@@ -84,7 +84,7 @@ class TestCausalLinker(unittest.TestCase):
             "低": 1
         }
         
-    @patch('causal_linking.service.linker_service.LLMClient.call_with_json_response')
+    @patch('event_extraction.repository.llm_client.LLMClient.call_with_json_response')
     def test_analyze_causal_relation(self, mock_llm_call):
         """测试分析两个事件之间的因果关系"""
         # 模拟LLM返回存在因果关系的响应
@@ -123,7 +123,7 @@ class TestCausalLinker(unittest.TestCase):
         # 验证LLM被正确调用
         mock_llm_call.assert_called_once()
         
-    @patch('causal_linking.service.linker_service.LLMClient.call_with_json_response')
+    @patch('event_extraction.repository.llm_client.LLMClient.call_with_json_response')
     def test_no_causal_relation(self, mock_llm_call):
         """测试不存在因果关系的情况"""
         # 模拟LLM返回不存在因果关系的响应
@@ -152,7 +152,7 @@ class TestCausalLinker(unittest.TestCase):
         # 验证结果为None
         self.assertIsNone(edge)
         
-    @patch('causal_linking.service.linker_service.LLMClient.call_with_json_response')
+    @patch('event_extraction.repository.llm_client.LLMClient.call_with_json_response')
     def test_link_events_batch(self, mock_llm_call):
         """测试批量链接事件"""
         # 模拟不同事件对的LLM响应
@@ -310,7 +310,7 @@ class TestCausalLinker(unittest.TestCase):
         self.assertFalse(linker._is_reachable(graph, 2, 0, set()))  # 2不能到达0
         self.assertTrue(linker._is_reachable(graph, 1, 1, set()))   # 自己到自己
         
-    @patch('causal_linking.service.linker_service.LLMClient.call_with_json_response')
+    @patch('event_extraction.repository.llm_client.LLMClient.call_with_json_response')
     def test_llm_call_failure(self, mock_llm_call):
         """测试LLM调用失败的情况"""
         # 模拟LLM调用失败
@@ -343,8 +343,8 @@ class TestCausalLinker(unittest.TestCase):
         # 获取链接器实例
         linker = provide_linker()
         
-        # 验证实例类型
-        self.assertIsInstance(linker, CausalLinker)
+        # 验证实例类型 - 检查是否为统一链接器的实例（包括其子类）
+        self.assertIsInstance(linker, UnifiedCausalLinker)
         
         # 清理环境变量
         if "OPENAI_API_KEY" in os.environ:
@@ -472,7 +472,7 @@ class TestCausalLinkingIntegration(unittest.TestCase):
             )
         ]
         
-    @patch('causal_linking.service.linker_service.LLMClient.call_with_json_response')
+    @patch('event_extraction.repository.llm_client.LLMClient.call_with_json_response')
     def test_complete_pipeline(self, mock_llm_call):
         """测试完整的因果链构建流程"""
         # 模拟复杂的因果关系网络

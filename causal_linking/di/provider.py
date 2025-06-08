@@ -59,14 +59,13 @@ def provide_linker(use_optimized: bool = True) -> AbstractLinker:
     # 根据参数选择使用优化模式还是原始模式
     if use_optimized:
         # 使用优化版链接器
-        return UnifiedCausalLinker(
+        return OptimizedCausalLinker(
             model=model,
             prompt_path=prompt_path,
             api_key=api_key,
             max_workers=max_workers,
             strength_mapping=strength_mapping,
             provider=provider,
-            use_optimization=True,
             max_events_per_chapter=max_events_per_chapter,
             min_entity_support=min_entity_support,
             max_chapter_span=max_chapter_span,
@@ -75,12 +74,11 @@ def provide_linker(use_optimized: bool = True) -> AbstractLinker:
         )
     else:
         # 使用原始版链接器
-        return UnifiedCausalLinker(
+        return CausalLinker(
             model=model,
             prompt_path=prompt_path,
             api_key=api_key,
             max_workers=3,
             strength_mapping=strength_mapping,
-            provider=provider,
-            use_optimization=False
+            provider=provider
         )
