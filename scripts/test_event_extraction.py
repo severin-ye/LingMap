@@ -63,7 +63,7 @@ def load_test_chapter():
         chapter_id="第一章",
         title="第一章",
         content=content,
-        segments=None  # 让抽取器自动分段
+        segments=[]  # 让抽取器自动分段
     )
     
     print(f"章节信息:")
@@ -85,10 +85,10 @@ def test_extractor_initialization():
         extractor = provide_extractor()
         
         print(f"✓ 事件抽取器初始化成功")
-        print(f"  - 提供商: {extractor.provider}")
-        print(f"  - 模型: {extractor.model}")
-        print(f"  - API密钥前缀: {extractor.api_key[:10]}...")
-        print(f"  - 最大工作线程: {extractor.max_workers}")
+        print(f"  - 提供商: {getattr(extractor, 'provider', '未知')}")
+        print(f"  - 模型: {getattr(extractor, 'model', '未知')}")
+        print(f"  - API密钥前缀: {getattr(extractor, 'api_key', '')[:10] if getattr(extractor, 'api_key', '') else '未知'}...")
+        print(f"  - 最大工作线程: {getattr(extractor, 'max_workers', '未知')}")
         print(f"  - 调试模式: {getattr(extractor, 'debug_mode', False)}")
         
         return True, extractor
@@ -171,6 +171,11 @@ def test_direct_extraction():
     print(f"输入文本长度: {len(chapter.content)} 字符")
     
     try:
+        # 检查extractor是否为None
+        if not extractor:
+            print(f"\n❌ 抽取器初始化失败")
+            return False
+            
         events = extractor.extract(chapter)
         
         if events:

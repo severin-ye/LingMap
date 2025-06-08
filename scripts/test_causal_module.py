@@ -71,17 +71,18 @@ def test_causal_linker_initialization():
         linker = provide_linker()
         
         print(f"✓ 因果链接器初始化成功")
-        print(f"  - 提供商: {linker.provider}")
-        print(f"  - 模型: {linker.model}")
-        print(f"  - API密钥前缀: {linker.api_key[:10]}...")
-        print(f"  - 最大工作线程: {linker.max_workers}")
+        print(f"  - 提供商: {getattr(linker, 'provider', '未知')}")
+        print(f"  - 模型: {getattr(linker, 'model', '未知')}")
+        print(f"  - API密钥前缀: {getattr(linker, 'api_key', '')[:10] if getattr(linker, 'api_key', '') else '未知'}...")
+        print(f"  - 最大工作线程: {getattr(linker, 'max_workers', '未知')}")
         
         # 检查强度映射
         expected_mapping = {"高": 3, "中": 2, "低": 1}
-        if linker.strength_mapping == expected_mapping:
+        strength_mapping = getattr(linker, 'strength_mapping', {})
+        if strength_mapping == expected_mapping:
             print("  ✓ 强度映射配置正确")
         else:
-            print(f"  ⚠️  强度映射配置异常: {linker.strength_mapping}")
+            print(f"  ⚠️  强度映射配置异常: {strength_mapping}")
         
         return True, linker
     except Exception as e:
@@ -160,7 +161,18 @@ def test_causal_analysis():
     event1, event2 = events[0], events[1]
     
     try:
-        edge = linker.analyze_causal_relation(event1, event2)
+        # 检查linker是否为None
+        if not linker:
+            print(f"❌ 因果链接器未初始化")
+            return False
+            
+        # 使用getattr安全调用方法
+        analyze_func = getattr(linker, 'analyze_causal_relation', None)
+        if not analyze_func:
+            print(f"❌ 因果链接器没有analyze_causal_relation方法")
+            return False
+            
+        edge = analyze_func(event1, event2)
         
         if edge:
             print(f"✓ 发现因果关系: {edge.from_id} -> {edge.to_id}")
@@ -188,8 +200,19 @@ def test_full_causal_linking():
     print(f"测试事件数量: {len(events)}")
     
     try:
+        # 检查linker是否为None
+        if not linker:
+            print(f"❌ 因果链接器未初始化")
+            return False
+            
+        # 使用getattr安全调用方法
+        link_events_func = getattr(linker, 'link_events', None)
+        if not link_events_func:
+            print(f"❌ 因果链接器没有link_events方法")
+            return False
+            
         # 分析所有事件之间的因果关系
-        causal_links = linker.link_events(events)
+        causal_links = link_events_func(events)
         
         print(f"\n✓ 因果链接分析完成")
         print(f"发现的因果关系数量: {len(causal_links)}")
@@ -219,12 +242,29 @@ def test_dag_construction():
     events = create_test_events()
     
     try:
+        # 检查linker是否为None
+        if not linker:
+            print(f"❌ 因果链接器未初始化")
+            return False
+            
+        # 使用getattr安全调用方法
+        link_events_func = getattr(linker, 'link_events', None)
+        if not link_events_func:
+            print(f"❌ 因果链接器没有link_events方法")
+            return False
+            
         # 先获取因果关系
-        causal_links = linker.link_events(events)
+        causal_links = link_events_func(events)
         
         if causal_links:
+            # 检查build_dag方法
+            build_dag_func = getattr(linker, 'build_dag', None)
+            if not build_dag_func:
+                print(f"❌ 因果链接器没有build_dag方法")
+                return False
+                
             # 构建DAG
-            processed_events, dag_edges = linker.build_dag(events, causal_links)
+            processed_events, dag_edges = build_dag_func(events, causal_links)
             
             print(f"✓ DAG构建完成")
             print(f"原始边数: {len(causal_links)}")
