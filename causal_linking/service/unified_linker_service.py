@@ -1,0 +1,607 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+统一因果链接器实现
+融合基础版和优化版因果链接器功能：
+1. 方法一：同章节事件配对
+2. 方法二：实体共现跨章配对
+3. 合并配对结果，去重
+4. 送入LLM进行因果关系分析
+
+降低整体时间复杂度，从O(N²)降低到O(N·avg_m²) + O(E × k²)
+"""
+
+import os
+import json
+import time
+import math
+from typing import List, Dict, Any, Optional, Tuple, Set, DefaultDict
+from concurrent.futures import ThreadPoolExecutor
+import itertools
+from collections import defaultdict
+
+from common.interfaces.linker import AbstractLinker
+from common.models.causal_edge import CausalEdge
+from common.models.event import EventItem
+from causal_linking.domain.base_linker import BaseLinker
+from event_extraction.repository.llm_client import LLMClient
+
+
+class UnifiedCausalLinker(BaseLinker):
+    """
+    统一版因果链接器，结合原始版和优化版的功能
+    支持完整的旧版功能，同时提供优化策略选项
+    """
+    
+    def __init__(
+        self,
+        model: str = "gpt-4o", 
+        prompt_path: str = "", 
+        api_key: str = "",
+        base_url: str = "",
+        max_workers: int = 3,
+        strength_mapping: Dict[str, int] = {},
+        provider: str = "openai",
+        # 优化参数，默认启用优化
+        use_optimization: bool = True,
+        max_events_per_chapter: int = 20,
+        min_entity_support: int = 2,
+        max_chapter_span: int = 10,
+        max_candidate_pairs: int = 10000,
+        use_entity_weights: bool = True
+    ):
+        """
+        初始化统一因果链接器
+        
+        Args:
+            model: 使用的LLM模型
+            prompt_path: 提示词模板路径
+            api_key: API密钥
+            base_url: 自定义API基础URL
+            max_workers: 并行处理的最大工作线程数
+            strength_mapping: 因果强度映射，用于权重比较
+            provider: API提供商，如"openai"或"deepseek"
+            use_optimization: 是否使用优化策略，禁用则回退到原始全配对方法
+            max_events_per_chapter: 每章节最多处理的事件数
+            min_entity_support: 实体最小支持度，低于此值不考虑实体配对
+            max_chapter_span: 跨章节配对的最大章节跨度
+            max_candidate_pairs: 最大候选事件对数量
+            use_entity_weights: 是否使用实体频率反向权重（频率越高权重越低）
+        """
+        if not prompt_path:
+            # 导入path_utils获取配置文件路径
+            from common.utils.path_utils import get_config_path
+            prompt_path = get_config_path("prompt_causal_linking.json")
+            
+        super().__init__(prompt_path)
+        
+        # 如果未提供API密钥，尝试从环境变量获取
+        if not api_key:
+            if provider == "openai":
+                self.api_key = os.environ.get("OPENAI_API_KEY")
+                if not self.api_key:
+                    raise ValueError("请提供 OpenAI API 密钥")
+            elif provider == "deepseek":
+                self.api_key = os.environ.get("DEEPSEEK_API_KEY")
+                if not self.api_key:
+                    raise ValueError("请提供 DeepSeek API 密钥")
+            else:
+                raise ValueError(f"不支持的 API 提供商: {provider}")
+        else:
+            self.api_key = api_key
+            
+        self.model = model
+        self.base_url = base_url
+        self.max_workers = max_workers
+        self.provider = provider
+        
+        # 优化控制参数
+        self.use_optimization = use_optimization
+        self.max_events_per_chapter = max_events_per_chapter
+        self.min_entity_support = min_entity_support
+        self.max_chapter_span = max_chapter_span
+        self.max_candidate_pairs = max_candidate_pairs
+        self.use_entity_weights = use_entity_weights
+        
+        # 设置强度映射
+        self.strength_mapping = strength_mapping or {
+            "高": 3,
+            "中": 2,
+            "低": 1
+        }
+        
+        # 初始化LLM客户端
+        self.llm_client = LLMClient(
+            api_key=self.api_key,
+            model=self.model,
+            base_url=self.base_url,
+            provider=self.provider
+        )
+    
+    def link_events(self, events: List[EventItem]) -> List[CausalEdge]:
+        """
+        识别事件之间的因果关系
+        
+        Args:
+            events: 事件列表
+            
+        Returns:
+            事件因果边列表
+        """
+        start_time = time.time()
+        
+        if self.use_optimization:
+            # 使用优化版策略
+            
+            # 1. 同章节事件配对
+            print("正在执行策略1: 同章节事件配对...")
+            chapter_pairs = self._generate_same_chapter_pairs(events)
+            print(f"同章节事件配对完成，共生成 {len(chapter_pairs)} 对候选")
+            
+            # 2. 实体共现跨章配对（带权重）
+            print("正在执行策略2: 实体共现跨章配对...")
+            entity_pairs = self._generate_entity_co_occurrence_pairs(events)
+            print(f"实体共现跨章配对完成，共生成 {len(entity_pairs)} 对候选")
+            
+            # 3. 合并候选事件对，去重
+            candidate_pairs = self._merge_candidate_pairs(chapter_pairs, entity_pairs)
+            print(f"合并去重后的候选事件对: {len(candidate_pairs)} 对")
+            
+            # 如果候选对数量超过上限，进行截断
+            if len(candidate_pairs) > self.max_candidate_pairs:
+                print(f"候选对数量 {len(candidate_pairs)} 超过上限 {self.max_candidate_pairs}，进行截断")
+                candidate_pairs = candidate_pairs[:self.max_candidate_pairs]
+            
+            # 4. 分析因果关系
+            print(f"开始分析 {len(candidate_pairs)} 对事件的因果关系...")
+            edges = self._analyze_candidate_pairs(candidate_pairs, events)
+            
+            # 计算优化效果
+            original_pairs = len(events) * (len(events) - 1) // 2
+            print(f"优化前可能的事件对数量：{original_pairs}")
+            print(f"优化后实际分析的事件对数量：{len(candidate_pairs)}，节省了 {original_pairs - len(candidate_pairs)} 对（{(original_pairs - len(candidate_pairs)) / original_pairs * 100:.2f}%）")
+        else:
+            # 使用原始版全配对策略
+            # 创建事件对组合
+            event_pairs = list(itertools.combinations(events, 2))
+            print(f"分析 {len(event_pairs)} 对事件的因果关系...")
+            
+            edges = []
+            
+            # 使用线程池并行处理事件对
+            with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+                futures = []
+                
+                for event1, event2 in event_pairs:
+                    future = executor.submit(self.analyze_causal_relation, event1, event2)
+                    futures.append(future)
+                
+                # 收集所有结果
+                for future in futures:
+                    edge = future.result()
+                    if edge:
+                        edges.append(edge)
+        
+        elapsed = time.time() - start_time
+        print(f"发现 {len(edges)} 个因果关系")
+        print(f"总耗时: {elapsed:.2f} 秒")
+        
+        return edges
+    
+    def _generate_same_chapter_pairs(self, events: List[EventItem]) -> List[Tuple[str, str]]:
+        """
+        生成同章节事件配对
+        
+        Args:
+            events: 事件列表
+            
+        Returns:
+            事件ID对列表 [(event_id1, event_id2), ...]
+        """
+        # 按章节分组事件
+        chapter_events: Dict[str, List[EventItem]] = defaultdict(list)
+        for event in events:
+            if event.chapter_id:
+                chapter_events[event.chapter_id].append(event)
+        
+        # 生成同章节事件对
+        pairs = []
+        for chapter_id, chapter_event_list in chapter_events.items():
+            # 限制每章处理的事件数
+            if len(chapter_event_list) > self.max_events_per_chapter:
+                print(f"警告: 章节 {chapter_id} 的事件数量 {len(chapter_event_list)} 超过限制 {self.max_events_per_chapter}，将被截断")
+                chapter_event_list = chapter_event_list[:self.max_events_per_chapter]
+            
+            # 生成章节内两两组合，并规范化方向（保持索引顺序）
+            chapter_pairs = []
+            for event1, event2 in itertools.combinations(chapter_event_list, 2):
+                # 确保事件对按ID排序，避免重复
+                if event1.event_id < event2.event_id:
+                    chapter_pairs.append((event1.event_id, event2.event_id))
+                else:
+                    chapter_pairs.append((event2.event_id, event1.event_id))
+            
+            pairs.extend(chapter_pairs)
+        
+        return list(set(pairs))  # 去重
+    
+    def _generate_entity_co_occurrence_pairs(self, events: List[EventItem]) -> List[Tuple[str, str]]:
+        """
+        生成基于实体共现的跨章节事件配对
+        
+        Args:
+            events: 事件列表
+            
+        Returns:
+            事件ID对列表 [(event_id1, event_id2), ...]
+        """
+        # 创建实体到事件的倒排索引
+        character_to_events: DefaultDict[str, List[EventItem]] = defaultdict(list)
+        treasure_to_events: DefaultDict[str, List[EventItem]] = defaultdict(list)
+        
+        # 构建实体-事件倒排索引
+        for event in events:
+            for character in event.characters:
+                character_to_events[character].append(event)
+            for treasure in event.treasures:
+                treasure_to_events[treasure].append(event)
+        
+        # 计算实体频率
+        entity_freq = {
+            entity: len(events_list) 
+            for entity, events_list in {**character_to_events, **treasure_to_events}.items()
+        }
+        
+        # 实体支持度过滤
+        candidate_entities = {
+            entity: events_list 
+            for entity, events_list in {**character_to_events, **treasure_to_events}.items() 
+            if len(events_list) >= self.min_entity_support
+        }
+        
+        if not self.use_entity_weights:
+            # 不使用权重，简单生成配对
+            pairs = []
+            for entity, entity_events in candidate_entities.items():
+                # 根据事件的chapter_id排序以便应用章节跨度限制
+                entity_events.sort(key=lambda e: e.chapter_id if e.chapter_id else "")
+                
+                for event1, event2 in itertools.combinations(entity_events, 2):
+                    # 检查章节跨度
+                    if event1.chapter_id and event2.chapter_id:
+                        try:
+                            ch1 = int(event1.chapter_id.replace("第", "").replace("章", ""))
+                            ch2 = int(event2.chapter_id.replace("第", "").replace("章", ""))
+                            if abs(ch1 - ch2) > self.max_chapter_span:
+                                continue
+                        except (ValueError, AttributeError):
+                            # 如果章节ID不是数字格式，跳过跨度检查
+                            pass
+                    
+                    # 确保事件对按ID排序，避免重复
+                    if event1.event_id < event2.event_id:
+                        pairs.append((event1.event_id, event2.event_id))
+                    else:
+                        pairs.append((event2.event_id, event1.event_id))
+            
+            return list(set(pairs))  # 去重后返回
+        else:
+            # 计算实体的反向权重：频率越高，权重越低
+            # 使用 weight = 1 / log(frequency + 1.1) 公式
+            entity_weights = {
+                entity: 1.0 / math.log(freq + 1.1)  # 避免 log(1) = 0
+                for entity, freq in entity_freq.items()
+            }
+            
+            print(f"实体频率示例: {dict(list(entity_freq.items())[:5])}")
+            print(f"实体权重示例: {dict(list(entity_weights.items())[:5])}")
+            
+            # 使用权重，生成带权重的配对并排序
+            weighted_pairs = []
+            for entity, entity_events in candidate_entities.items():
+                # 根据事件的chapter_id排序以便应用章节跨度限制
+                entity_events.sort(key=lambda e: e.chapter_id if e.chapter_id else "")
+                
+                entity_weight = entity_weights[entity]
+                
+                for event1, event2 in itertools.combinations(entity_events, 2):
+                    # 检查章节跨度
+                    if event1.chapter_id and event2.chapter_id:
+                        try:
+                            ch1 = int(event1.chapter_id.replace("第", "").replace("章", ""))
+                            ch2 = int(event2.chapter_id.replace("第", "").replace("章", ""))
+                            if abs(ch1 - ch2) > self.max_chapter_span:
+                                continue
+                        except (ValueError, AttributeError):
+                            # 如果章节ID不是数字格式，跳过跨度检查
+                            pass
+                    
+                    # 确保事件对按ID排序，避免重复
+                    if event1.event_id < event2.event_id:
+                        weighted_pairs.append((event1.event_id, event2.event_id, entity_weight))
+                    else:
+                        weighted_pairs.append((event2.event_id, event1.event_id, entity_weight))
+            
+            # 合并共享多个实体的事件对的权重
+            pair_weights = {}
+            for id1, id2, weight in weighted_pairs:
+                pair_key = (id1, id2)
+                if pair_key in pair_weights:
+                    pair_weights[pair_key] += weight  # 累加权重
+                else:
+                    pair_weights[pair_key] = weight
+            
+            # 按权重排序
+            sorted_pairs = sorted(
+                [(id1, id2) for (id1, id2) in pair_weights.keys()],
+                key=lambda pair: pair_weights[pair],
+                reverse=True  # 高权重优先
+            )
+            
+            return sorted_pairs
+    
+    def _merge_candidate_pairs(
+        self, 
+        chapter_pairs: List[Tuple[str, str]], 
+        entity_pairs: List[Tuple[str, str]]
+    ) -> List[Tuple[str, str]]:
+        """
+        合并两种来源的候选事件对，并去重
+        
+        Args:
+            chapter_pairs: 同章节事件配对结果
+            entity_pairs: 实体共现配对结果（已按权重排序）
+            
+        Returns:
+            合并去重后的候选事件对列表
+        """
+        # 首先将所有同章节对放入结果列表
+        result_pairs = list(chapter_pairs)
+        
+        # 然后添加实体共现对，但避免重复
+        chapter_pairs_set = set(chapter_pairs)
+        
+        for pair in entity_pairs:
+            if pair not in chapter_pairs_set:
+                result_pairs.append(pair)
+            
+            # 如果候选对数量已经达到上限，停止添加
+            if len(result_pairs) >= self.max_candidate_pairs:
+                print(f"达到候选对上限 {self.max_candidate_pairs}，停止添加更多候选")
+                break
+        
+        print(f"合并后总共 {len(result_pairs)} 对候选，其中同章节 {len(chapter_pairs)} 对，实体共现 {len(result_pairs) - len(chapter_pairs)} 对")
+        return result_pairs
+    
+    def _analyze_candidate_pairs(
+        self,
+        candidate_pairs: List[Tuple[str, str]],
+        events: List[EventItem]
+    ) -> List[CausalEdge]:
+        """
+        分析候选事件对的因果关系
+        
+        Args:
+            candidate_pairs: 候选事件对列表 [(event_id1, event_id2), ...]
+            events: 事件列表
+            
+        Returns:
+            因果边列表
+        """
+        # 创建事件ID到事件对象的映射
+        event_map = {event.event_id: event for event in events}
+        
+        # 准备待分析的事件对
+        event_pairs = []
+        for event_id1, event_id2 in candidate_pairs:
+            if event_id1 in event_map and event_id2 in event_map:
+                event_pairs.append((event_map[event_id1], event_map[event_id2]))
+        
+        edges = []
+        
+        # 使用线程池并行处理事件对
+        with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+            futures = []
+            
+            for event1, event2 in event_pairs:
+                future = executor.submit(self.analyze_causal_relation, event1, event2)
+                futures.append(future)
+            
+            # 收集所有结果
+            for future in futures:
+                edge = future.result()
+                if edge:
+                    edges.append(edge)
+        
+        return edges
+    
+    def analyze_causal_relation(self, event1: EventItem, event2: EventItem) -> Optional[CausalEdge]:
+        """
+        分析两个事件之间的因果关系
+        
+        Args:
+            event1: 第一个事件
+            event2: 第二个事件
+            
+        Returns:
+            因果边对象，如果不存在因果关系则返回None
+        """
+        # 格式化提示
+        prompt = self.format_prompt(event1, event2)
+        
+        # 调用LLM
+        response = self.llm_client.call_with_json_response(prompt['system'], prompt['instruction'])
+        
+        if not response["success"] or "json_content" not in response:
+            print(f"事件 {event1.event_id} 和 {event2.event_id} 的因果分析失败: {response.get('error', '未知错误')}")
+            return None
+            
+        # 解析响应
+        edge = self.parse_response(response["json_content"], event1.event_id, event2.event_id)
+        
+        if edge:
+            print(f"发现因果关系: {edge.from_id} -> {edge.to_id}, 强度: {edge.strength}")
+            
+        return edge
+    
+    def parse_response(self, response: Dict[str, Any], event1_id: str, event2_id: str) -> Optional[CausalEdge]:
+        """
+        解析LLM响应，提取因果关系
+        
+        Args:
+            response: LLM响应
+            event1_id: 第一个事件ID
+            event2_id: 第二个事件ID
+            
+        Returns:
+            因果边对象，如果不存在因果关系则返回None
+        """
+        # 检查是否存在因果关系
+        has_causal = response.get("has_causal_relation", False)
+        if not has_causal:
+            return None
+        
+        # 获取因果方向
+        direction = response.get("direction", "")
+        
+        if direction == "event1->event2":
+            from_id = event1_id
+            to_id = event2_id
+        elif direction == "event2->event1":
+            from_id = event2_id
+            to_id = event1_id
+        else:
+            print(f"无法解析因果方向: {direction}")
+            return None
+        
+        # 获取因果强度和理由
+        strength = response.get("strength", "中")
+        reason = response.get("reason", "")
+        
+        return CausalEdge(
+            from_id=from_id,
+            to_id=to_id,
+            strength=strength,
+            reason=reason
+        )
+    
+    def build_dag(self, events: List[EventItem], edges: List[CausalEdge]) -> Tuple[List[EventItem], List[CausalEdge]]:
+        """
+        构建有向无环图（DAG）
+        
+        Args:
+            events: 事件列表
+            edges: 因果边列表
+            
+        Returns:
+            处理后的事件列表和因果边列表
+        """
+        # 创建事件ID到索引的映射
+        event_map = {event.event_id: i for i, event in enumerate(events)}
+        
+        # 按强度降序排序边
+        sorted_edges = sorted(
+            edges,
+            key=lambda e: self.strength_mapping.get(e.strength, 0),
+            reverse=True
+        )
+        
+        # 创建邻接表表示的图
+        graph = [[] for _ in range(len(events))]
+        
+        # 保留的边列表
+        dag_edges = []
+        
+        # 记录已经添加的边，避免重复
+        added_edges = set()
+        
+        # 遍历排序后的边，贪心构建DAG
+        for edge in sorted_edges:
+            # 检查事件是否在映射中
+            if edge.from_id not in event_map or edge.to_id not in event_map:
+                continue
+                
+            from_idx = event_map[edge.from_id]
+            to_idx = event_map[edge.to_id]
+            
+            # 检查是否已添加相同的边
+            edge_key = (from_idx, to_idx)
+            if edge_key in added_edges:
+                continue
+                
+            # 检查添加这条边是否会形成环
+            if not self._will_form_cycle(graph, from_idx, to_idx):
+                # 添加边到图中
+                graph[from_idx].append(to_idx)
+                added_edges.add(edge_key)
+                dag_edges.append(edge)
+        
+        print(f"构建DAG完成，保留 {len(dag_edges)} 条边，移除 {len(edges) - len(dag_edges)} 条边")
+        return events, dag_edges
+    
+    def _will_form_cycle(self, graph: List[List[int]], from_idx: int, to_idx: int) -> bool:
+        """
+        检查添加边是否会形成环
+        
+        Args:
+            graph: 当前图的邻接表
+            from_idx: 边的起始节点索引
+            to_idx: 边的终止节点索引
+            
+        Returns:
+            如果会形成环则返回True，否则返回False
+        """
+        # 如果to_idx已经可以到达from_idx，添加边会形成环
+        return self._is_reachable(graph, to_idx, from_idx, set())
+    
+    def _is_reachable(self, graph: List[List[int]], start: int, end: int, visited: Set[int]) -> bool:
+        """
+        检查在图中是否存在从start到end的路径
+        
+        Args:
+            graph: 图的邻接表
+            start: 起始节点索引
+            end: 目标节点索引
+            visited: 已访问节点集合
+            
+        Returns:
+            如果存在路径则返回True，否则返回False
+        """
+        if start == end:
+            return True
+            
+        visited.add(start)
+        
+        for neighbor in graph[start]:
+            if neighbor not in visited and self._is_reachable(graph, neighbor, end, visited):
+                return True
+                
+        return False
+
+
+# 为向后兼容性提供原始版和优化版链接器的别名类
+class CausalLinker(UnifiedCausalLinker):
+    """
+    原始版因果链接器的兼容类
+    实际使用统一版但禁用优化
+    """
+    def __init__(self, *args, **kwargs):
+        # 移除可能传入的优化参数
+        for param in ['use_optimization', 'max_events_per_chapter', 'min_entity_support', 
+                     'max_chapter_span', 'max_candidate_pairs', 'use_entity_weights']:
+            if param in kwargs:
+                kwargs.pop(param)
+        
+        # 固定使用不优化模式
+        super().__init__(*args, use_optimization=False, **kwargs)
+
+
+class OptimizedCausalLinker(UnifiedCausalLinker):
+    """
+    优化版因果链接器的兼容类
+    实际使用统一版且启用优化
+    """
+    def __init__(self, *args, **kwargs):
+        # 确保优化被启用
+        kwargs['use_optimization'] = True
+        super().__init__(*args, **kwargs)
