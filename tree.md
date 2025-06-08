@@ -149,20 +149,12 @@
 │   ├── pycache  # Python编译缓存目录 (可忽略)
 │   │   ├── check_env.cpython-310.pyc  # 环境检查脚本的编译缓存 (可忽略)
 │   │   └── performance_benchmark.cpython-310.pyc  # 性能基准测试脚本的编译缓存 (可忽略)
-│   ├── check_env.py  # 检查运行环境配置是否正确的脚本。
-│   ├── complete_test.py  # 执行完整端到端流程的测试脚本。
-│   ├── debug_optimized_linker.py  # 用于调试优化版链接器的脚本。
-│   ├── demo_run.py  # (可能与run_demo.py重复或为其一部分) 运行演示的脚本。
-│   ├── run_all_tests.py  # 运行所有测试用例的脚本 (可能与tests/run_all_tests.py功能相似)。
-│   ├── run_demo.py  # 运行项目演示流程的脚本。
-│   ├── test_api_integration.py  # API集成测试脚本。
-│   ├── test_causal_module.py  # 因果关系模块的测试脚本。
-│   ├── test_entity_weights.py  # 测试实体频率权重调整功能的脚本。
-│   ├── test_event_extraction.py  # 事件抽取模块的测试脚本。
-│   ├── test_linker.py  # 综合测试不同链接器实现的脚本 (标准、优化、统一版)。
-│   ├── test_optimized_linker.py  # 优化版链接器专项测试脚本。
-│   ├── test_system_config.py  # 系统配置加载和有效性测试脚本。
-│   └── test_unified_linker.py  # 统一版链接器兼容性和功能测试脚本。
+│   ├── check_env.py  # 环境检查脚本：验证依赖、API密钥、项目结构和系统配置 (合并了test_system_config功能)。
+│   ├── complete_test.py  # 完整流程测试：端到端测试整个系统工作流程。
+│   ├── run_demo.py  # 演示脚本：一键演示系统全部功能 (包含环境检查、错误处理等完整功能)。
+│   ├── test_api_integration.py  # API集成测试：测试DeepSeek API连接、JSON响应等功能。
+│   ├── test_event_extraction.py  # 事件抽取测试：测试事件抽取服务的完整功能。
+│   └── test_linker.py  # 因果链接器综合测试：合并了优化版调试、实体权重、因果模块等功能的综合测试脚本。
 ├── temp  # 临时文件存储目录 (当前为空)。
 ├── tests  # 测试代码和相关资源的主目录
 │   ├── README.md  # 测试模块的说明文档，介绍测试结构和运行方法。

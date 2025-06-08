@@ -173,6 +173,71 @@ def check_project_structure():
     return True
 
 
+def check_system_config():
+    """检查系统配置文件和路径工具"""
+    print_info("检查系统配置...")
+    
+    try:
+        # 添加项目根目录到Python路径
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        project_root = os.path.dirname(current_dir)
+        import sys
+        sys.path.insert(0, project_root)
+        
+        from common.utils.path_utils import get_project_root, get_config_path, get_novel_path
+        from common.utils.json_loader import JsonLoader
+        
+        # 测试项目根目录
+        project_root = get_project_root()
+        print_success(f"项目根目录: {project_root}")
+        
+        # 测试配置文件
+        config_files = [
+            "config.json",
+            "prompt_event_extraction.json", 
+            "prompt_hallucination_refine.json",
+            "prompt_causal_linking.json"
+        ]
+        
+        config_ok = True
+        for config_file in config_files:
+            try:
+                config_path = get_config_path(config_file)
+                if os.path.exists(config_path):
+                    print_success(f"配置文件 {config_file} 存在")
+                    
+                    # 尝试加载JSON配置
+                    if config_file.endswith('.json'):
+                        try:
+                            JsonLoader.load_json(config_path)
+                            print_success(f"配置文件 {config_file} 格式正确")
+                        except Exception as e:
+                            print_error(f"配置文件 {config_file} 格式错误: {str(e)}")
+                            config_ok = False
+                else:
+                    print_warning(f"配置文件 {config_file} 不存在")
+                    config_ok = False
+            except Exception as e:
+                print_error(f"检查配置文件 {config_file} 时出错: {str(e)}")
+                config_ok = False
+        
+        # 测试小说文件目录
+        try:
+            test_novel = get_novel_path("test.txt")
+            if os.path.exists(test_novel):
+                print_success("测试小说文件 test.txt 存在")
+            else:
+                print_warning("测试小说文件 test.txt 不存在")
+        except Exception as e:
+            print_error(f"检查小说文件时出错: {str(e)}")
+            config_ok = False
+        
+        return config_ok
+    except Exception as e:
+        print_error(f"系统配置检查失败: {str(e)}")
+        return False
+
+
 def main():
     """主函数"""
     print_info("=== 《凡人修仙传》因果图谱生成系统 - 环境检查 ===")
@@ -189,9 +254,12 @@ def main():
     # 检查项目结构
     structure_ok = check_project_structure()
     
+    # 检查系统配置
+    config_ok = check_system_config()
+    
     # 输出总结
     print_info("\n=== 检查结果汇总 ===")
-    all_passed = python_ok and deps_ok and api_ok and structure_ok
+    all_passed = python_ok and deps_ok and api_ok and structure_ok and config_ok
     
     if all_passed:
         print_success("所有检查都已通过！系统已准备就绪。")
