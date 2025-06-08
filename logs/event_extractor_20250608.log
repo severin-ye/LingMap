@@ -1,0 +1,1061 @@
+2025-06-08 00:41:41,348 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-08 00:41:41,406 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-08 00:41:41,406 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=第一章, title=第一章
+2025-06-08 00:41:41,407 - event_extractor - DEBUG - 章节没有预定义分段，正在创建分段
+2025-06-08 00:41:41,407 - event_extractor - INFO - 创建了 23 个文本分段
+2025-06-08 00:41:41,407 - event_extractor - DEBUG - 开始处理段落 1 | text_length=436
+2025-06-08 00:41:41,408 - event_extractor - DEBUG - 开始处理段落 2 | text_length=452
+2025-06-08 00:41:41,409 - event_extractor - DEBUG - 发送段落 1 的LLM请求
+2025-06-08 00:41:41,410 - event_extractor - DEBUG - 发送段落 2 的LLM请求
+2025-06-08 00:41:49,747 - event_extractor - DEBUG - 解析段落 2 的响应
+2025-06-08 00:41:49,747 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:41:49,747 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立被村里人称为'二愣子'，但他内心早熟，向往外面的世界...
+2025-06-08 00:41:49,747 - event_extractor - DEBUG - 段落 2 抽取到 1 个事件
+2025-06-08 00:41:49,748 - event_extractor - DEBUG - 开始处理段落 3 | text_length=493
+2025-06-08 00:41:49,748 - event_extractor - DEBUG - 发送段落 3 的LLM请求
+2025-06-08 00:41:58,996 - event_extractor - DEBUG - 解析段落 1 的响应
+2025-06-08 00:41:58,996 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:41:58,996 - event_extractor - DEBUG - 成功创建事件: E01-1 - 二愣子韩立在家中准备入睡，以便第二天早起与同伴进山拣干柴...
+2025-06-08 00:41:58,996 - event_extractor - DEBUG - 段落 1 抽取到 1 个事件
+2025-06-08 00:41:58,997 - event_extractor - DEBUG - 开始处理段落 4 | text_length=441
+2025-06-08 00:41:58,997 - event_extractor - INFO - 从段落 1 提取到 1 个事件
+2025-06-08 00:41:58,998 - event_extractor - INFO - 从段落 2 提取到 1 个事件
+2025-06-08 00:41:58,999 - event_extractor - DEBUG - 发送段落 4 的LLM请求
+2025-06-08 00:42:06,819 - event_extractor - DEBUG - 解析段落 4 的响应
+2025-06-08 00:42:06,820 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:42:06,820 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立羡慕大哥并梦想成为手艺学徒...
+2025-06-08 00:42:06,820 - event_extractor - DEBUG - 段落 4 抽取到 1 个事件
+2025-06-08 00:42:06,820 - event_extractor - DEBUG - 开始处理段落 5 | text_length=496
+2025-06-08 00:42:06,822 - event_extractor - DEBUG - 发送段落 5 的LLM请求
+2025-06-08 00:42:16,106 - event_extractor - DEBUG - 解析段落 3 的响应
+2025-06-08 00:42:16,107 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:42:16,107 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立一家生活清苦，他在家中排行老四，今年十岁，全家生活艰难。...
+2025-06-08 00:42:16,107 - event_extractor - DEBUG - 成功创建事件: E01-2 - 韩立决定上山时为他妹妹多拣些红浆果。...
+2025-06-08 00:42:16,107 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立从山里回家，带着木柴和浆果，不知道家中来了会改变他一生命...
+2025-06-08 00:42:16,107 - event_extractor - DEBUG - 成功创建事件: E01-4 - 韩立的三叔是家族中少有的大能人，经常帮助韩立一家。...
+2025-06-08 00:42:16,107 - event_extractor - DEBUG - 成功创建事件: E01-5 - 韩立的大哥在城里当铁匠学徒，是三叔介绍的，成为家人的骄傲。...
+2025-06-08 00:42:16,107 - event_extractor - DEBUG - 段落 3 抽取到 5 个事件
+2025-06-08 00:42:16,108 - event_extractor - DEBUG - 开始处理段落 6 | text_length=498
+2025-06-08 00:42:16,108 - event_extractor - INFO - 从段落 3 提取到 5 个事件
+2025-06-08 00:42:16,109 - event_extractor - INFO - 从段落 4 提取到 1 个事件
+2025-06-08 00:42:16,109 - event_extractor - DEBUG - 发送段落 6 的LLM请求
+2025-06-08 00:42:27,610 - event_extractor - DEBUG - 解析段落 6 的响应
+2025-06-08 00:42:27,611 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:42:27,611 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立离开父母，决心挣钱后回来与父母团聚...
+2025-06-08 00:42:27,611 - event_extractor - DEBUG - 成功创建事件: E02-1 - 韩立到达青牛镇，马车停在春香酒楼前...
+2025-06-08 00:42:27,611 - event_extractor - DEBUG - 段落 6 抽取到 2 个事件
+2025-06-08 00:42:27,613 - event_extractor - DEBUG - 开始处理段落 7 | text_length=507
+2025-06-08 00:42:27,613 - event_extractor - DEBUG - 发送段落 7 的LLM请求
+2025-06-08 00:42:33,647 - event_extractor - DEBUG - 解析段落 5 的响应
+2025-06-08 00:42:33,647 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:42:33,647 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩父听到关于七玄门的信息后犹豫不决，最终决定让韩立参加七玄门...
+2025-06-08 00:42:33,647 - event_extractor - DEBUG - 成功创建事件: E01-2 - 三叔向韩父介绍七玄门的好处，包括成为内门弟子的福利...
+2025-06-08 00:42:33,647 - event_extractor - DEBUG - 成功创建事件: E01-3 - 三叔留下银子并告知一个月后带韩立走，期间让韩立补身体...
+2025-06-08 00:42:33,647 - event_extractor - DEBUG - 成功创建事件: E01-4 - 韩立对即将进城和挣大钱感到兴奋...
+2025-06-08 00:42:33,647 - event_extractor - DEBUG - 成功创建事件: E01-5 - 三叔准时来到村中带韩立走，韩父韩母嘱咐韩立...
+2025-06-08 00:42:33,647 - event_extractor - DEBUG - 段落 5 抽取到 5 个事件
+2025-06-08 00:42:33,648 - event_extractor - DEBUG - 开始处理段落 8 | text_length=385
+2025-06-08 00:42:33,648 - event_extractor - INFO - 从段落 5 提取到 5 个事件
+2025-06-08 00:42:33,648 - event_extractor - INFO - 从段落 6 提取到 2 个事件
+2025-06-08 00:42:33,649 - event_extractor - DEBUG - 发送段落 8 的LLM请求
+2025-06-08 00:42:35,340 - event_extractor - DEBUG - 解析段落 7 的响应
+2025-06-08 00:42:35,341 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:42:35,341 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立和他的三叔韩胖子到达镇子并进入酒楼...
+2025-06-08 00:42:35,341 - event_extractor - DEBUG - 段落 7 抽取到 1 个事件
+2025-06-08 00:42:35,341 - event_extractor - DEBUG - 开始处理段落 9 | text_length=502
+2025-06-08 00:42:35,342 - event_extractor - DEBUG - 发送段落 9 的LLM请求
+2025-06-08 00:42:35,342 - event_extractor - INFO - 从段落 7 提取到 1 个事件
+2025-06-08 00:42:45,372 - event_extractor - DEBUG - 解析段落 8 的响应
+2025-06-08 00:42:45,373 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:42:45,373 - event_extractor - DEBUG - 成功创建事件: E01-1 - 小厮送饭菜给韩立，韩立与三叔聊天...
+2025-06-08 00:42:45,373 - event_extractor - DEBUG - 成功创建事件: E01-2 - 七玄门的马车到达酒楼...
+2025-06-08 00:42:45,373 - event_extractor - DEBUG - 段落 8 抽取到 2 个事件
+2025-06-08 00:42:45,374 - event_extractor - DEBUG - 开始处理段落 10 | text_length=489
+2025-06-08 00:42:45,374 - event_extractor - INFO - 从段落 8 提取到 2 个事件
+2025-06-08 00:42:45,376 - event_extractor - DEBUG - 发送段落 10 的LLM请求
+2025-06-08 00:42:55,725 - event_extractor - DEBUG - 解析段落 9 的响应
+2025-06-08 00:42:55,725 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:42:55,725 - event_extractor - DEBUG - 成功创建事件: E01-1 - 七玄门由七绝上人创立，曾雄霸镜州...
+2025-06-08 00:42:55,726 - event_extractor - DEBUG - 成功创建事件: E01-2 - 七绝上人病故，七玄门势力衰落...
+2025-06-08 00:42:55,726 - event_extractor - DEBUG - 成功创建事件: E01-3 - 七玄门搬迁至仙霞山后控制青牛镇等十几个小城镇...
+2025-06-08 00:42:55,726 - event_extractor - DEBUG - 成功创建事件: E01-4 - 野狼帮与七玄门冲突，七玄门处于下风...
+2025-06-08 00:42:55,726 - event_extractor - DEBUG - 段落 9 抽取到 4 个事件
+2025-06-08 00:42:55,727 - event_extractor - DEBUG - 开始处理段落 11 | text_length=467
+2025-06-08 00:42:55,727 - event_extractor - INFO - 从段落 9 提取到 4 个事件
+2025-06-08 00:42:55,728 - event_extractor - DEBUG - 发送段落 11 的LLM请求
+2025-06-08 00:43:01,098 - event_extractor - DEBUG - 解析段落 10 的响应
+2025-06-08 00:43:01,099 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:43:01,099 - event_extractor - DEBUG - 成功创建事件: E03-1 - 王护法亲自带队来接参加七玄门入门考查的孩童，韩立的三叔推荐韩...
+2025-06-08 00:43:01,099 - event_extractor - DEBUG - 成功创建事件: E03-2 - 韩立和其他孩童挤在前往七玄门的马车上，观察车内的其他孩童...
+2025-06-08 00:43:01,099 - event_extractor - DEBUG - 段落 10 抽取到 2 个事件
+2025-06-08 00:43:01,101 - event_extractor - DEBUG - 开始处理段落 12 | text_length=466
+2025-06-08 00:43:01,101 - event_extractor - INFO - 从段落 10 提取到 2 个事件
+2025-06-08 00:43:01,101 - event_extractor - DEBUG - 发送段落 12 的LLM请求
+2025-06-08 00:43:12,201 - event_extractor - DEBUG - 解析段落 11 的响应
+2025-06-08 00:43:12,201 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:43:12,201 - event_extractor - DEBUG - 成功创建事件: E01-1 - 舞岩因其表姐的关系得以加入七玄门，尽管年龄超过规定...
+2025-06-08 00:43:12,202 - event_extractor - DEBUG - 成功创建事件: E01-2 - 舞岩因其家庭背景和武功成为车内大部分孩童的‘大哥’...
+2025-06-08 00:43:12,202 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立等来自穷乡僻壤的孩童在车内显得畏手畏脚，与其他孩童形成鲜...
+2025-06-08 00:43:12,202 - event_extractor - DEBUG - 段落 11 抽取到 3 个事件
+2025-06-08 00:43:12,202 - event_extractor - DEBUG - 开始处理段落 13 | text_length=506
+2025-06-08 00:43:12,203 - event_extractor - INFO - 从段落 11 提取到 3 个事件
+2025-06-08 00:43:12,203 - event_extractor - DEBUG - 发送段落 13 的LLM请求
+2025-06-08 00:43:27,872 - event_extractor - DEBUG - 解析段落 12 的响应
+2025-06-08 00:43:27,873 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:43:27,873 - event_extractor - DEBUG - 成功创建事件: E01-1 - 马车从青牛镇出发，一路向西，途中接了几个孩童，最终到达彩霞山...
+2025-06-08 00:43:27,873 - event_extractor - DEBUG - 成功创建事件: E01-2 - 孩子们被彩霞山的落日美景深深迷住。...
+2025-06-08 00:43:27,874 - event_extractor - DEBUG - 成功创建事件: E01-3 - 介绍彩霞山的由来和七玄门对其的占有。...
+2025-06-08 00:43:27,874 - event_extractor - DEBUG - 成功创建事件: E01-4 - 介绍彩霞山的地理位置和七玄门的分堂分布。...
+2025-06-08 00:43:27,874 - event_extractor - DEBUG - 成功创建事件: E01-5 - 韩立跟随队伍前行，队伍突然停下，有人与王护法对话。...
+2025-06-08 00:43:27,874 - event_extractor - DEBUG - 段落 12 抽取到 5 个事件
+2025-06-08 00:43:27,875 - event_extractor - DEBUG - 开始处理段落 14 | text_length=482
+2025-06-08 00:43:27,875 - event_extractor - INFO - 从段落 12 提取到 5 个事件
+2025-06-08 00:43:27,875 - event_extractor - DEBUG - 发送段落 14 的LLM请求
+2025-06-08 00:43:30,249 - event_extractor - DEBUG - 解析段落 13 的响应
+2025-06-08 00:43:30,249 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:43:30,250 - event_extractor - DEBUG - 成功创建事件: E01-1 - 王护法向岳堂主报告护送弟子的情况...
+2025-06-08 00:43:30,250 - event_extractor - DEBUG - 成功创建事件: E01-2 - 弟子们被带到清客院休息...
+2025-06-08 00:43:30,250 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立梦见自己身怀绝世武功...
+2025-06-08 00:43:30,250 - event_extractor - DEBUG - 段落 13 抽取到 3 个事件
+2025-06-08 00:43:30,251 - event_extractor - DEBUG - 开始处理段落 15 | text_length=472
+2025-06-08 00:43:30,251 - event_extractor - INFO - 从段落 13 提取到 3 个事件
+2025-06-08 00:43:30,252 - event_extractor - DEBUG - 发送段落 15 的LLM请求
+2025-06-08 00:43:46,879 - event_extractor - DEBUG - 解析段落 14 的响应
+2025-06-08 00:43:46,879 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:43:46,880 - event_extractor - DEBUG - 成功创建事件: E04-1 - 王护法带领众人到竹林斜坡前，岳堂主和其他年青人已在那里等待。...
+2025-06-08 00:43:46,880 - event_extractor - DEBUG - 成功创建事件: E04-2 - 岳堂主宣布测试规则，说明通过竹林、岩壁地带到达炼骨崖顶的才能...
+2025-06-08 00:43:46,880 - event_extractor - DEBUG - 成功创建事件: E04-3 - 韩立和其他孩童开始向竹林进发，准备通过测试。...
+2025-06-08 00:43:46,880 - event_extractor - DEBUG - 段落 14 抽取到 3 个事件
+2025-06-08 00:43:46,880 - event_extractor - DEBUG - 开始处理段落 16 | text_length=490
+2025-06-08 00:43:46,881 - event_extractor - INFO - 从段落 14 提取到 3 个事件
+2025-06-08 00:43:46,881 - event_extractor - DEBUG - 发送段落 16 的LLM请求
+2025-06-08 00:43:52,868 - event_extractor - DEBUG - 解析段落 15 的响应
+2025-06-08 00:43:52,868 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:43:52,868 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立与三十余名孩童进入竹林，分散开来，韩立身后紧随着一位瘦长...
+2025-06-08 00:43:52,868 - event_extractor - DEBUG - 成功创建事件: E01-2 - 韩立在竹林中行走感到越来越辛苦，最终停下来休息。...
+2025-06-08 00:43:52,868 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立回头看到瘦长的师兄仍然站立不动，感到害怕，继续前进。...
+2025-06-08 00:43:52,868 - event_extractor - DEBUG - 成功创建事件: E01-4 - 韩立听到前面有人的喘气声，知道有人在休息，决定继续前进。...
+2025-06-08 00:43:52,869 - event_extractor - DEBUG - 成功创建事件: E01-5 - 坡面倾斜更厉害，韩立不得不躬下腰，手足并行前进。...
+2025-06-08 00:43:52,869 - event_extractor - DEBUG - 段落 15 抽取到 5 个事件
+2025-06-08 00:43:52,869 - event_extractor - DEBUG - 开始处理段落 17 | text_length=503
+2025-06-08 00:43:52,870 - event_extractor - INFO - 从段落 15 提取到 5 个事件
+2025-06-08 00:43:52,870 - event_extractor - DEBUG - 发送段落 17 的LLM请求
+2025-06-08 00:44:04,323 - event_extractor - DEBUG - 解析段落 17 的响应
+2025-06-08 00:44:04,323 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:44:04,323 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立观察舞岩和其他孩子在攀爬巨石壁的情况...
+2025-06-08 00:44:04,323 - event_extractor - DEBUG - 段落 17 抽取到 1 个事件
+2025-06-08 00:44:04,324 - event_extractor - DEBUG - 开始处理段落 18 | text_length=459
+2025-06-08 00:44:04,324 - event_extractor - DEBUG - 发送段落 18 的LLM请求
+2025-06-08 00:44:06,027 - event_extractor - DEBUG - 解析段落 16 的响应
+2025-06-08 00:44:06,027 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:44:06,027 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立艰难地穿越竹林，面对岩石增多和竹子减少的挑战...
+2025-06-08 00:44:06,027 - event_extractor - DEBUG - 成功创建事件: E01-2 - 韩立看到巨石上有几个瘦小的身躯在攀爬，决定加入他们...
+2025-06-08 00:44:06,027 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立在攀爬巨石过程中受伤，但受到家人和三叔的鼓励，继续坚持...
+2025-06-08 00:44:06,027 - event_extractor - DEBUG - 成功创建事件: E01-4 - 韩立为了追上其他人，不顾入七玄门的初衷，仅凭一股狠劲继续攀爬...
+2025-06-08 00:44:06,027 - event_extractor - DEBUG - 段落 16 抽取到 4 个事件
+2025-06-08 00:44:06,027 - event_extractor - DEBUG - 开始处理段落 19 | text_length=498
+2025-06-08 00:44:06,028 - event_extractor - DEBUG - 发送段落 19 的LLM请求
+2025-06-08 00:44:06,030 - event_extractor - INFO - 从段落 16 提取到 4 个事件
+2025-06-08 00:44:06,031 - event_extractor - INFO - 从段落 17 提取到 1 个事件
+2025-06-08 00:44:11,584 - event_extractor - DEBUG - 解析段落 18 的响应
+2025-06-08 00:44:11,585 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:44:11,585 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立感激自己未掉下悬崖，继续向前移动寻找麻绳攀爬。...
+2025-06-08 00:44:11,585 - event_extractor - DEBUG - 段落 18 抽取到 1 个事件
+2025-06-08 00:44:11,585 - event_extractor - DEBUG - 开始处理段落 20 | text_length=500
+2025-06-08 00:44:11,586 - event_extractor - INFO - 从段落 18 提取到 1 个事件
+2025-06-08 00:44:11,587 - event_extractor - DEBUG - 发送段落 20 的LLM请求
+2025-06-08 00:44:21,259 - event_extractor - DEBUG - 解析段落 19 的响应
+2025-06-08 00:44:21,260 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:44:21,260 - event_extractor - DEBUG - 成功创建事件: E05-1 - 韩立试图攀爬绳结但未能成功...
+2025-06-08 00:44:21,260 - event_extractor - DEBUG - 成功创建事件: E05-2 - 韩立的师兄帮助他攀登山崖...
+2025-06-08 00:44:21,260 - event_extractor - DEBUG - 成功创建事件: E05-3 - 岳堂主宣布合格者名单...
+2025-06-08 00:44:21,260 - event_extractor - DEBUG - 段落 19 抽取到 3 个事件
+2025-06-08 00:44:21,261 - event_extractor - DEBUG - 开始处理段落 21 | text_length=416
+2025-06-08 00:44:21,263 - event_extractor - INFO - 从段落 19 提取到 3 个事件
+2025-06-08 00:44:21,264 - event_extractor - DEBUG - 发送段落 21 的LLM请求
+2025-06-08 00:44:30,890 - event_extractor - DEBUG - 解析段落 21 的响应
+2025-06-08 00:44:30,891 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:44:30,891 - event_extractor - DEBUG - 成功创建事件: E01-1 - 张均和瘦长脸的师兄讨论舞岩凭借与马副门主的亲戚关系进入七绝堂...
+2025-06-08 00:44:30,891 - event_extractor - DEBUG - 段落 21 抽取到 1 个事件
+2025-06-08 00:44:30,891 - event_extractor - DEBUG - 开始处理段落 22 | text_length=514
+2025-06-08 00:44:30,891 - event_extractor - DEBUG - 发送段落 22 的LLM请求
+2025-06-08 00:44:32,088 - event_extractor - DEBUG - 解析段落 20 的响应
+2025-06-08 00:44:32,089 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:44:32,089 - event_extractor - DEBUG - 成功创建事件: E01-1 - 岳堂主评估童子们的表现，决定张铁和韩立的去向...
+2025-06-08 00:44:32,089 - event_extractor - DEBUG - 成功创建事件: E01-2 - 未过关的童子被送遣回家...
+2025-06-08 00:44:32,089 - event_extractor - DEBUG - 成功创建事件: E01-3 - 过关的童子被分成两组带往本堂...
+2025-06-08 00:44:32,089 - event_extractor - DEBUG - 成功创建事件: E01-4 - 解释舞岩的不同待遇...
+2025-06-08 00:44:32,089 - event_extractor - DEBUG - 段落 20 抽取到 4 个事件
+2025-06-08 00:44:32,089 - event_extractor - DEBUG - 开始处理段落 23 | text_length=406
+2025-06-08 00:44:32,089 - event_extractor - DEBUG - 发送段落 23 的LLM请求
+2025-06-08 00:44:32,092 - event_extractor - INFO - 从段落 20 提取到 4 个事件
+2025-06-08 00:44:32,092 - event_extractor - INFO - 从段落 21 提取到 1 个事件
+2025-06-08 00:44:39,375 - event_extractor - DEBUG - 解析段落 22 的响应
+2025-06-08 00:44:39,375 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:44:39,375 - event_extractor - DEBUG - 成功创建事件: E01-1 - 张均和另一名弟子在树林中遇到墨大夫，墨大夫挑选韩立和张铁作为...
+2025-06-08 00:44:39,375 - event_extractor - DEBUG - 段落 22 抽取到 1 个事件
+2025-06-08 00:44:39,375 - event_extractor - INFO - 从段落 22 提取到 1 个事件
+2025-06-08 00:44:40,539 - event_extractor - DEBUG - 解析段落 23 的响应
+2025-06-08 00:44:40,539 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:44:40,539 - event_extractor - DEBUG - 成功创建事件: E01-1 - 墨大夫带领韩立和张铁进入神手谷，并安排他们的住处...
+2025-06-08 00:44:40,539 - event_extractor - DEBUG - 段落 23 抽取到 1 个事件
+2025-06-08 00:44:40,540 - event_extractor - INFO - 从段落 23 提取到 1 个事件
+2025-06-08 00:44:40,540 - event_extractor - INFO - 章节事件抽取完成 | chapter_id=第一章, total_events=59, successful_segments=23, failed_segments=0
+2025-06-08 00:50:42,467 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-08 00:50:42,537 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-08 00:50:42,537 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=第一章, title=第一章
+2025-06-08 00:50:42,537 - event_extractor - DEBUG - 章节没有预定义分段，正在创建分段
+2025-06-08 00:50:42,537 - event_extractor - INFO - 创建了 23 个文本分段
+2025-06-08 00:50:42,538 - event_extractor - DEBUG - 开始处理段落 1 | text_length=436
+2025-06-08 00:50:42,538 - event_extractor - DEBUG - 开始处理段落 2 | text_length=452
+2025-06-08 00:50:42,539 - event_extractor - DEBUG - 发送段落 1 的LLM请求
+2025-06-08 00:50:42,540 - event_extractor - DEBUG - 发送段落 2 的LLM请求
+2025-06-08 00:50:51,165 - event_extractor - DEBUG - 解析段落 1 的响应
+2025-06-08 00:50:51,165 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:50:51,165 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立（二愣子）在家中准备入睡，以便第二天早起与同伴进山拣干柴...
+2025-06-08 00:50:51,165 - event_extractor - DEBUG - 段落 1 抽取到 1 个事件
+2025-06-08 00:50:51,166 - event_extractor - DEBUG - 开始处理段落 3 | text_length=493
+2025-06-08 00:50:51,166 - event_extractor - INFO - 从段落 1 提取到 1 个事件
+2025-06-08 00:50:51,167 - event_extractor - DEBUG - 发送段落 3 的LLM请求
+2025-06-08 00:50:52,826 - event_extractor - DEBUG - 解析段落 2 的响应
+2025-06-08 00:50:52,826 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:50:52,826 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立在村中被称作'二愣子'，内心早熟，向往外面的世界...
+2025-06-08 00:50:52,826 - event_extractor - DEBUG - 段落 2 抽取到 1 个事件
+2025-06-08 00:50:52,827 - event_extractor - DEBUG - 开始处理段落 4 | text_length=441
+2025-06-08 00:50:52,827 - event_extractor - INFO - 从段落 2 提取到 1 个事件
+2025-06-08 00:50:52,827 - event_extractor - DEBUG - 发送段落 4 的LLM请求
+2025-06-08 00:51:00,653 - event_extractor - DEBUG - 解析段落 4 的响应
+2025-06-08 00:51:00,654 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:51:00,654 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立对成为手艺学徒充满向往，见到三叔时感到兴奋...
+2025-06-08 00:51:00,654 - event_extractor - DEBUG - 段落 4 抽取到 1 个事件
+2025-06-08 00:51:00,656 - event_extractor - DEBUG - 开始处理段落 5 | text_length=496
+2025-06-08 00:51:00,657 - event_extractor - DEBUG - 发送段落 5 的LLM请求
+2025-06-08 00:51:12,725 - event_extractor - DEBUG - 解析段落 3 的响应
+2025-06-08 00:51:12,725 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:51:12,726 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立一家生活清苦，他在家中排行老四，今年十岁，全家生活艰难。...
+2025-06-08 00:51:12,726 - event_extractor - DEBUG - 成功创建事件: E01-2 - 韩立决定上山时为他最疼爱的妹妹多拣些红浆果。...
+2025-06-08 00:51:12,726 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立从山里回家，并不知道家中已来了一位会改变他一生命运的客人...
+2025-06-08 00:51:12,726 - event_extractor - DEBUG - 成功创建事件: E01-4 - 介绍了韩立三叔的背景和他对韩立一家的帮助。...
+2025-06-08 00:51:12,726 - event_extractor - DEBUG - 段落 3 抽取到 4 个事件
+2025-06-08 00:51:12,728 - event_extractor - DEBUG - 开始处理段落 6 | text_length=498
+2025-06-08 00:51:12,728 - event_extractor - INFO - 从段落 3 提取到 4 个事件
+2025-06-08 00:51:12,728 - event_extractor - INFO - 从段落 4 提取到 1 个事件
+2025-06-08 00:51:12,729 - event_extractor - DEBUG - 发送段落 6 的LLM请求
+2025-06-08 00:51:25,780 - event_extractor - DEBUG - 解析段落 5 的响应
+2025-06-08 00:51:25,781 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:51:25,781 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩父听到关于七玄门的信息后犹豫不决，最终决定让韩立参加七玄门...
+2025-06-08 00:51:25,781 - event_extractor - DEBUG - 成功创建事件: E01-2 - 三叔向韩父介绍七玄门的好处，包括成为内门弟子的福利...
+2025-06-08 00:51:25,781 - event_extractor - DEBUG - 成功创建事件: E01-3 - 三叔留下银子并告知一个月后会来带韩立走...
+2025-06-08 00:51:25,781 - event_extractor - DEBUG - 成功创建事件: E01-4 - 韩立对即将进城和挣大钱感到兴奋...
+2025-06-08 00:51:25,781 - event_extractor - DEBUG - 成功创建事件: E01-5 - 三叔准时来到村中带韩立走，韩父韩母嘱咐韩立...
+2025-06-08 00:51:25,781 - event_extractor - DEBUG - 段落 5 抽取到 5 个事件
+2025-06-08 00:51:25,781 - event_extractor - DEBUG - 开始处理段落 7 | text_length=507
+2025-06-08 00:51:25,781 - event_extractor - DEBUG - 发送段落 7 的LLM请求
+2025-06-08 00:51:25,783 - event_extractor - INFO - 从段落 5 提取到 5 个事件
+2025-06-08 00:51:27,395 - event_extractor - DEBUG - 解析段落 6 的响应
+2025-06-08 00:51:27,395 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:51:27,395 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立离开父母，决心挣钱后回来与父母团聚...
+2025-06-08 00:51:27,395 - event_extractor - DEBUG - 成功创建事件: E02-1 - 韩立到达青牛镇，马车停在春香酒楼前...
+2025-06-08 00:51:27,395 - event_extractor - DEBUG - 段落 6 抽取到 2 个事件
+2025-06-08 00:51:27,396 - event_extractor - DEBUG - 开始处理段落 8 | text_length=385
+2025-06-08 00:51:27,396 - event_extractor - DEBUG - 发送段落 8 的LLM请求
+2025-06-08 00:51:27,398 - event_extractor - INFO - 从段落 6 提取到 2 个事件
+2025-06-08 00:51:33,699 - event_extractor - DEBUG - 解析段落 7 的响应
+2025-06-08 00:51:33,699 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:51:33,699 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立和他的三叔韩胖子到达镇子并进入酒楼...
+2025-06-08 00:51:33,699 - event_extractor - DEBUG - 段落 7 抽取到 1 个事件
+2025-06-08 00:51:33,700 - event_extractor - DEBUG - 开始处理段落 9 | text_length=502
+2025-06-08 00:51:33,700 - event_extractor - INFO - 从段落 7 提取到 1 个事件
+2025-06-08 00:51:33,701 - event_extractor - DEBUG - 发送段落 9 的LLM请求
+2025-06-08 00:51:38,411 - event_extractor - DEBUG - 解析段落 8 的响应
+2025-06-08 00:51:38,411 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:51:38,411 - event_extractor - DEBUG - 成功创建事件: E01-1 - 小厮送饭菜给韩立，韩立与三叔聊天...
+2025-06-08 00:51:38,411 - event_extractor - DEBUG - 成功创建事件: E01-2 - 七玄门的重要人物驾临本地...
+2025-06-08 00:51:38,411 - event_extractor - DEBUG - 段落 8 抽取到 2 个事件
+2025-06-08 00:51:38,411 - event_extractor - DEBUG - 开始处理段落 10 | text_length=489
+2025-06-08 00:51:38,412 - event_extractor - INFO - 从段落 8 提取到 2 个事件
+2025-06-08 00:51:38,414 - event_extractor - DEBUG - 发送段落 10 的LLM请求
+2025-06-08 00:51:51,925 - event_extractor - DEBUG - 解析段落 10 的响应
+2025-06-08 00:51:51,925 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:51:51,925 - event_extractor - DEBUG - 成功创建事件: E03-1 - 王护法亲自带队来接参加七玄门入门考查的孩童，韩立的三叔推荐韩...
+2025-06-08 00:51:51,925 - event_extractor - DEBUG - 成功创建事件: E03-2 - 韩立和其他孩童挤在前往七玄门的马车上，观察车内的其他孩童...
+2025-06-08 00:51:51,926 - event_extractor - DEBUG - 段落 10 抽取到 2 个事件
+2025-06-08 00:51:51,926 - event_extractor - DEBUG - 开始处理段落 11 | text_length=467
+2025-06-08 00:51:51,927 - event_extractor - DEBUG - 发送段落 11 的LLM请求
+2025-06-08 00:51:53,941 - event_extractor - DEBUG - 解析段落 9 的响应
+2025-06-08 00:51:53,941 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:51:53,942 - event_extractor - DEBUG - 成功创建事件: E01-1 - 七玄门由七绝上人创立，曾雄霸镜州...
+2025-06-08 00:51:53,942 - event_extractor - DEBUG - 成功创建事件: E01-2 - 七绝上人病故，七玄门势力衰落...
+2025-06-08 00:51:53,942 - event_extractor - DEBUG - 成功创建事件: E01-3 - 七玄门搬迁至仙霞山，控制周边城镇...
+2025-06-08 00:51:53,942 - event_extractor - DEBUG - 成功创建事件: E01-4 - 野狼帮与七玄门冲突，七玄门处于下风...
+2025-06-08 00:51:53,942 - event_extractor - DEBUG - 段落 9 抽取到 4 个事件
+2025-06-08 00:51:53,943 - event_extractor - DEBUG - 开始处理段落 12 | text_length=466
+2025-06-08 00:51:53,943 - event_extractor - INFO - 从段落 9 提取到 4 个事件
+2025-06-08 00:51:53,943 - event_extractor - INFO - 从段落 10 提取到 2 个事件
+2025-06-08 00:51:53,944 - event_extractor - DEBUG - 发送段落 12 的LLM请求
+2025-06-08 00:52:09,188 - event_extractor - DEBUG - 解析段落 11 的响应
+2025-06-08 00:52:09,188 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:52:09,188 - event_extractor - DEBUG - 成功创建事件: E01-1 - 舞岩因其表姐的关系得以加入七玄门，尽管年龄超过规定...
+2025-06-08 00:52:09,188 - event_extractor - DEBUG - 成功创建事件: E01-2 - 舞岩因其家庭背景和武功成为车内大部分孩童的‘大哥’...
+2025-06-08 00:52:09,188 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立等来自穷乡僻壤的孩童在车内显得畏手畏脚，与其他孩童形成对...
+2025-06-08 00:52:09,188 - event_extractor - DEBUG - 段落 11 抽取到 3 个事件
+2025-06-08 00:52:09,189 - event_extractor - DEBUG - 开始处理段落 13 | text_length=506
+2025-06-08 00:52:09,189 - event_extractor - INFO - 从段落 11 提取到 3 个事件
+2025-06-08 00:52:09,191 - event_extractor - DEBUG - 发送段落 13 的LLM请求
+2025-06-08 00:52:18,246 - event_extractor - DEBUG - 解析段落 12 的响应
+2025-06-08 00:52:18,247 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:52:18,247 - event_extractor - DEBUG - 成功创建事件: E01-1 - 马车从青牛镇出发，一路向西，途中接了几个孩童，最终到达彩霞山...
+2025-06-08 00:52:18,247 - event_extractor - DEBUG - 成功创建事件: E01-2 - 孩子们被彩霞山的落日美景深深迷住。...
+2025-06-08 00:52:18,247 - event_extractor - DEBUG - 成功创建事件: E01-3 - 介绍彩霞山的由来和七玄门对其的占有。...
+2025-06-08 00:52:18,247 - event_extractor - DEBUG - 成功创建事件: E01-4 - 介绍彩霞山的地理位置和七玄门的分堂占据情况。...
+2025-06-08 00:52:18,247 - event_extractor - DEBUG - 成功创建事件: E01-5 - 韩立跟随队伍前行，队伍突然停下，有人与王护法对话。...
+2025-06-08 00:52:18,247 - event_extractor - DEBUG - 段落 12 抽取到 5 个事件
+2025-06-08 00:52:18,248 - event_extractor - DEBUG - 开始处理段落 14 | text_length=482
+2025-06-08 00:52:18,248 - event_extractor - INFO - 从段落 12 提取到 5 个事件
+2025-06-08 00:52:18,249 - event_extractor - DEBUG - 发送段落 14 的LLM请求
+2025-06-08 00:52:23,244 - event_extractor - DEBUG - 解析段落 13 的响应
+2025-06-08 00:52:23,244 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:52:23,245 - event_extractor - DEBUG - 成功创建事件: E01-1 - 王护法带领新弟子到达山上，向岳堂主汇报并安排弟子休息...
+2025-06-08 00:52:23,245 - event_extractor - DEBUG - 成功创建事件: E01-2 - 韩立等人在清客院住了一宿，韩立梦见自己身怀绝世武功...
+2025-06-08 00:52:23,245 - event_extractor - DEBUG - 段落 13 抽取到 2 个事件
+2025-06-08 00:52:23,245 - event_extractor - DEBUG - 开始处理段落 15 | text_length=472
+2025-06-08 00:52:23,245 - event_extractor - INFO - 从段落 13 提取到 2 个事件
+2025-06-08 00:52:23,247 - event_extractor - DEBUG - 发送段落 15 的LLM请求
+2025-06-08 00:52:30,946 - event_extractor - DEBUG - 解析段落 15 的响应
+2025-06-08 00:52:30,946 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:52:30,946 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立与三十余名孩童进入竹林，韩立因害怕紧随其后的瘦长师兄而不...
+2025-06-08 00:52:30,946 - event_extractor - DEBUG - 段落 15 抽取到 1 个事件
+2025-06-08 00:52:30,948 - event_extractor - DEBUG - 开始处理段落 16 | text_length=490
+2025-06-08 00:52:30,948 - event_extractor - DEBUG - 发送段落 16 的LLM请求
+2025-06-08 00:52:36,801 - event_extractor - DEBUG - 解析段落 14 的响应
+2025-06-08 00:52:36,802 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:52:36,802 - event_extractor - DEBUG - 成功创建事件: E04-1 - 王护法带领众人到竹林斜坡前，岳堂主和其他年青人已在那里等待。...
+2025-06-08 00:52:36,802 - event_extractor - DEBUG - 成功创建事件: E04-2 - 岳堂主宣布测试规则，说明通过测试可以成为七玄门正式弟子或记名...
+2025-06-08 00:52:36,802 - event_extractor - DEBUG - 成功创建事件: E04-3 - 韩立和其他孩童开始进入竹林，开始测试。...
+2025-06-08 00:52:36,802 - event_extractor - DEBUG - 段落 14 抽取到 3 个事件
+2025-06-08 00:52:36,807 - event_extractor - DEBUG - 开始处理段落 17 | text_length=503
+2025-06-08 00:52:36,808 - event_extractor - DEBUG - 发送段落 17 的LLM请求
+2025-06-08 00:52:36,811 - event_extractor - INFO - 从段落 14 提取到 3 个事件
+2025-06-08 00:52:36,811 - event_extractor - INFO - 从段落 15 提取到 1 个事件
+2025-06-08 00:52:38,727 - event_extractor - DEBUG - 解析段落 16 的响应
+2025-06-08 00:52:38,727 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:52:38,727 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立艰难地穿过竹林，面对巨石壁的挑战...
+2025-06-08 00:52:38,727 - event_extractor - DEBUG - 段落 16 抽取到 1 个事件
+2025-06-08 00:52:38,727 - event_extractor - DEBUG - 开始处理段落 18 | text_length=459
+2025-06-08 00:52:38,728 - event_extractor - DEBUG - 发送段落 18 的LLM请求
+2025-06-08 00:52:38,730 - event_extractor - INFO - 从段落 16 提取到 1 个事件
+2025-06-08 00:52:44,069 - event_extractor - DEBUG - 解析段落 17 的响应
+2025-06-08 00:52:44,069 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:52:44,069 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立观察舞岩和其他孩子在攀爬巨石壁的情况...
+2025-06-08 00:52:44,069 - event_extractor - DEBUG - 段落 17 抽取到 1 个事件
+2025-06-08 00:52:44,070 - event_extractor - DEBUG - 开始处理段落 19 | text_length=498
+2025-06-08 00:52:44,070 - event_extractor - DEBUG - 发送段落 19 的LLM请求
+2025-06-08 00:52:44,073 - event_extractor - INFO - 从段落 17 提取到 1 个事件
+2025-06-08 00:52:45,876 - event_extractor - DEBUG - 解析段落 18 的响应
+2025-06-08 00:52:45,877 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:52:45,877 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立感激自己未掉下悬崖，继续向前移动寻找麻绳攀爬...
+2025-06-08 00:52:45,877 - event_extractor - DEBUG - 段落 18 抽取到 1 个事件
+2025-06-08 00:52:45,878 - event_extractor - DEBUG - 开始处理段落 20 | text_length=500
+2025-06-08 00:52:45,878 - event_extractor - INFO - 从段落 18 提取到 1 个事件
+2025-06-08 00:52:45,879 - event_extractor - DEBUG - 发送段落 20 的LLM请求
+2025-06-08 00:52:59,049 - event_extractor - DEBUG - 解析段落 19 的响应
+2025-06-08 00:52:59,049 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:52:59,049 - event_extractor - DEBUG - 成功创建事件: E05-1 - 韩立试图攀爬绳结但未能成功...
+2025-06-08 00:52:59,049 - event_extractor - DEBUG - 成功创建事件: E05-2 - 韩立的师兄帮助他上升...
+2025-06-08 00:52:59,049 - event_extractor - DEBUG - 成功创建事件: E05-3 - 岳堂主宣布合格者名单...
+2025-06-08 00:52:59,049 - event_extractor - DEBUG - 段落 19 抽取到 3 个事件
+2025-06-08 00:52:59,049 - event_extractor - DEBUG - 开始处理段落 21 | text_length=416
+2025-06-08 00:52:59,049 - event_extractor - INFO - 从段落 19 提取到 3 个事件
+2025-06-08 00:52:59,050 - event_extractor - DEBUG - 发送段落 21 的LLM请求
+2025-06-08 00:53:06,575 - event_extractor - DEBUG - 解析段落 20 的响应
+2025-06-08 00:53:06,575 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 00:53:06,575 - event_extractor - DEBUG - 成功创建事件: E01-1 - 岳堂主评估童子们的表现，决定张铁和韩立的去向...
+2025-06-08 00:53:06,575 - event_extractor - DEBUG - 成功创建事件: E01-2 - 未过关的童子被送遣回家...
+2025-06-08 00:53:06,575 - event_extractor - DEBUG - 成功创建事件: E01-3 - 过关的童子被分成两组带往本堂...
+2025-06-08 00:53:06,575 - event_extractor - DEBUG - 成功创建事件: E01-4 - 解释舞岩的不同待遇...
+2025-06-08 00:53:06,575 - event_extractor - DEBUG - 段落 20 抽取到 4 个事件
+2025-06-08 00:53:06,576 - event_extractor - DEBUG - 开始处理段落 22 | text_length=514
+2025-06-08 00:53:06,576 - event_extractor - INFO - 从段落 20 提取到 4 个事件
+2025-06-08 00:53:06,576 - event_extractor - DEBUG - 发送段落 22 的LLM请求
+2025-06-08 00:53:07,733 - event_extractor - DEBUG - 解析段落 21 的响应
+2025-06-08 00:53:07,733 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:53:07,733 - event_extractor - DEBUG - 成功创建事件: Exx-1 - 张均和瘦长脸的师兄讨论舞岩凭借副门主亲戚关系进入七绝堂的事情...
+2025-06-08 00:53:07,734 - event_extractor - DEBUG - 段落 21 抽取到 1 个事件
+2025-06-08 00:53:07,734 - event_extractor - DEBUG - 开始处理段落 23 | text_length=406
+2025-06-08 00:53:07,734 - event_extractor - INFO - 从段落 21 提取到 1 个事件
+2025-06-08 00:53:07,735 - event_extractor - DEBUG - 发送段落 23 的LLM请求
+2025-06-08 00:53:15,380 - event_extractor - DEBUG - 解析段落 22 的响应
+2025-06-08 00:53:15,380 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:53:15,380 - event_extractor - DEBUG - 成功创建事件: E01-1 - 张均和另一名弟子在树林中遇到墨大夫，墨大夫因人手不足挑选了韩...
+2025-06-08 00:53:15,380 - event_extractor - DEBUG - 段落 22 抽取到 1 个事件
+2025-06-08 00:53:15,385 - event_extractor - INFO - 从段落 22 提取到 1 个事件
+2025-06-08 00:53:15,607 - event_extractor - DEBUG - 解析段落 23 的响应
+2025-06-08 00:53:15,607 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 00:53:15,607 - event_extractor - DEBUG - 成功创建事件: E01-1 - 墨大夫带领韩立和张铁进入神手谷，并安排他们的住处...
+2025-06-08 00:53:15,607 - event_extractor - DEBUG - 段落 23 抽取到 1 个事件
+2025-06-08 00:53:15,607 - event_extractor - INFO - 从段落 23 提取到 1 个事件
+2025-06-08 00:53:15,615 - event_extractor - INFO - 章节事件抽取完成 | chapter_id=第一章, total_events=50, successful_segments=23, failed_segments=0
+2025-06-08 01:03:24,609 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-08 01:03:24,702 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-08 01:03:24,702 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=第一章, title=第一章
+2025-06-08 01:03:24,702 - event_extractor - DEBUG - 章节没有预定义分段，正在创建分段
+2025-06-08 01:03:24,703 - event_extractor - INFO - 创建了 23 个文本分段
+2025-06-08 01:03:24,706 - event_extractor - DEBUG - 开始处理段落 1 | text_length=436
+2025-06-08 01:03:24,707 - event_extractor - DEBUG - 开始处理段落 2 | text_length=452
+2025-06-08 01:03:24,708 - event_extractor - DEBUG - 发送段落 1 的LLM请求
+2025-06-08 01:03:24,709 - event_extractor - DEBUG - 发送段落 2 的LLM请求
+2025-06-08 01:03:32,253 - event_extractor - DEBUG - 解析段落 2 的响应
+2025-06-08 01:03:32,253 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:03:32,253 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立被村里人称为'二愣子'，虽然不喜欢这个称呼，但只能自我安...
+2025-06-08 01:03:32,254 - event_extractor - DEBUG - 段落 2 抽取到 1 个事件
+2025-06-08 01:03:32,255 - event_extractor - DEBUG - 开始处理段落 3 | text_length=493
+2025-06-08 01:03:32,257 - event_extractor - DEBUG - 发送段落 3 的LLM请求
+2025-06-08 01:03:33,119 - event_extractor - DEBUG - 解析段落 1 的响应
+2025-06-08 01:03:33,120 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:03:33,120 - event_extractor - DEBUG - 成功创建事件: E01-1 - 二愣子韩立在家中床上准备入睡，以便第二天早起与同伴进山拣干柴...
+2025-06-08 01:03:33,120 - event_extractor - DEBUG - 段落 1 抽取到 1 个事件
+2025-06-08 01:03:33,121 - event_extractor - DEBUG - 开始处理段落 4 | text_length=441
+2025-06-08 01:03:33,121 - event_extractor - INFO - 从段落 1 提取到 1 个事件
+2025-06-08 01:03:33,122 - event_extractor - INFO - 从段落 2 提取到 1 个事件
+2025-06-08 01:03:33,122 - event_extractor - DEBUG - 发送段落 4 的LLM请求
+2025-06-08 01:03:42,669 - event_extractor - DEBUG - 解析段落 4 的响应
+2025-06-08 01:03:42,669 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:03:42,669 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立羡慕大哥并梦想成为手艺学徒...
+2025-06-08 01:03:42,669 - event_extractor - DEBUG - 段落 4 抽取到 1 个事件
+2025-06-08 01:03:42,670 - event_extractor - DEBUG - 开始处理段落 5 | text_length=496
+2025-06-08 01:03:42,670 - event_extractor - DEBUG - 发送段落 5 的LLM请求
+2025-06-08 01:03:51,945 - event_extractor - DEBUG - 解析段落 3 的响应
+2025-06-08 01:03:51,946 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:03:51,946 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立一家生活清苦，他在家中排行老四，今年十岁，全家生活艰难。...
+2025-06-08 01:03:51,946 - event_extractor - DEBUG - 成功创建事件: E01-2 - 韩立决定上山时为妹妹多拣些红浆果。...
+2025-06-08 01:03:51,946 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立从山里回家，不知道家中来了会改变他一生命运的客人。...
+2025-06-08 01:03:51,946 - event_extractor - DEBUG - 成功创建事件: E01-4 - 介绍韩立的三叔及其对韩立一家的帮助。...
+2025-06-08 01:03:51,946 - event_extractor - DEBUG - 段落 3 抽取到 4 个事件
+2025-06-08 01:03:51,947 - event_extractor - DEBUG - 开始处理段落 6 | text_length=498
+2025-06-08 01:03:51,947 - event_extractor - INFO - 从段落 3 提取到 4 个事件
+2025-06-08 01:03:51,948 - event_extractor - DEBUG - 发送段落 6 的LLM请求
+2025-06-08 01:03:51,948 - event_extractor - INFO - 从段落 4 提取到 1 个事件
+2025-06-08 01:04:03,431 - event_extractor - DEBUG - 解析段落 6 的响应
+2025-06-08 01:04:03,431 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:04:03,431 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立离开父母，决心挣钱后回来与父母团聚...
+2025-06-08 01:04:03,431 - event_extractor - DEBUG - 成功创建事件: E02-1 - 韩立到达青牛镇，马车停在春香酒楼前...
+2025-06-08 01:04:03,431 - event_extractor - DEBUG - 段落 6 抽取到 2 个事件
+2025-06-08 01:04:03,431 - event_extractor - DEBUG - 开始处理段落 7 | text_length=507
+2025-06-08 01:04:03,432 - event_extractor - DEBUG - 发送段落 7 的LLM请求
+2025-06-08 01:04:05,121 - event_extractor - DEBUG - 解析段落 5 的响应
+2025-06-08 01:04:05,121 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:04:05,121 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩父听到关于七玄门的信息后犹豫不决，最终决定让韩立参加七玄门...
+2025-06-08 01:04:05,121 - event_extractor - DEBUG - 成功创建事件: E01-2 - 三叔向韩父介绍七玄门的好处，包括成为内门弟子的福利...
+2025-06-08 01:04:05,121 - event_extractor - DEBUG - 成功创建事件: E01-3 - 三叔留下银子并告知一个月后带韩立走，期间要韩立补身体...
+2025-06-08 01:04:05,121 - event_extractor - DEBUG - 成功创建事件: E01-4 - 韩立对即将进城和挣大钱感到兴奋...
+2025-06-08 01:04:05,121 - event_extractor - DEBUG - 成功创建事件: E01-5 - 三叔准时来到村中带韩立走，韩父韩母分别嘱咐韩立...
+2025-06-08 01:04:05,121 - event_extractor - DEBUG - 段落 5 抽取到 5 个事件
+2025-06-08 01:04:05,122 - event_extractor - DEBUG - 开始处理段落 8 | text_length=385
+2025-06-08 01:04:05,122 - event_extractor - INFO - 从段落 5 提取到 5 个事件
+2025-06-08 01:04:05,123 - event_extractor - INFO - 从段落 6 提取到 2 个事件
+2025-06-08 01:04:05,123 - event_extractor - DEBUG - 发送段落 8 的LLM请求
+2025-06-08 01:04:10,837 - event_extractor - DEBUG - 解析段落 7 的响应
+2025-06-08 01:04:10,838 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:04:10,838 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立和他的三叔韩胖子到达镇子并进入酒楼...
+2025-06-08 01:04:10,838 - event_extractor - DEBUG - 段落 7 抽取到 1 个事件
+2025-06-08 01:04:10,838 - event_extractor - DEBUG - 开始处理段落 9 | text_length=502
+2025-06-08 01:04:10,839 - event_extractor - INFO - 从段落 7 提取到 1 个事件
+2025-06-08 01:04:10,839 - event_extractor - DEBUG - 发送段落 9 的LLM请求
+2025-06-08 01:04:18,024 - event_extractor - DEBUG - 解析段落 8 的响应
+2025-06-08 01:04:18,024 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:04:18,024 - event_extractor - DEBUG - 成功创建事件: E01-1 - 小厮送饭菜给韩立...
+2025-06-08 01:04:18,024 - event_extractor - DEBUG - 成功创建事件: E01-2 - 三叔与韩立聊天...
+2025-06-08 01:04:18,024 - event_extractor - DEBUG - 成功创建事件: E01-3 - 七玄门的重要人物驾临本地...
+2025-06-08 01:04:18,024 - event_extractor - DEBUG - 段落 8 抽取到 3 个事件
+2025-06-08 01:04:18,024 - event_extractor - DEBUG - 开始处理段落 10 | text_length=489
+2025-06-08 01:04:18,024 - event_extractor - DEBUG - 发送段落 10 的LLM请求
+2025-06-08 01:04:18,027 - event_extractor - INFO - 从段落 8 提取到 3 个事件
+2025-06-08 01:04:29,898 - event_extractor - DEBUG - 解析段落 9 的响应
+2025-06-08 01:04:29,899 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:04:29,899 - event_extractor - DEBUG - 成功创建事件: E01-1 - 七玄门由七绝上人创立，曾雄霸镜州...
+2025-06-08 01:04:29,899 - event_extractor - DEBUG - 成功创建事件: E01-2 - 七绝上人病故，七玄门势力衰落...
+2025-06-08 01:04:29,899 - event_extractor - DEBUG - 成功创建事件: E01-3 - 七玄门搬迁至仙霞山后控制周边城镇...
+2025-06-08 01:04:29,900 - event_extractor - DEBUG - 成功创建事件: E01-4 - 野狼帮与七玄门冲突...
+2025-06-08 01:04:29,900 - event_extractor - DEBUG - 段落 9 抽取到 4 个事件
+2025-06-08 01:04:29,901 - event_extractor - DEBUG - 开始处理段落 11 | text_length=467
+2025-06-08 01:04:29,901 - event_extractor - DEBUG - 发送段落 11 的LLM请求
+2025-06-08 01:04:29,901 - event_extractor - INFO - 从段落 9 提取到 4 个事件
+2025-06-08 01:04:29,966 - event_extractor - DEBUG - 解析段落 10 的响应
+2025-06-08 01:04:29,967 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:04:29,967 - event_extractor - DEBUG - 成功创建事件: E03-1 - 王护法亲自带队来接参加七玄门入门考查的孩童，韩立的三叔推荐韩...
+2025-06-08 01:04:29,967 - event_extractor - DEBUG - 成功创建事件: E03-2 - 韩立和其他孩童挤在前往七玄门的马车上，观察车内的其他孩童...
+2025-06-08 01:04:29,967 - event_extractor - DEBUG - 段落 10 抽取到 2 个事件
+2025-06-08 01:04:29,967 - event_extractor - DEBUG - 开始处理段落 12 | text_length=466
+2025-06-08 01:04:29,968 - event_extractor - INFO - 从段落 10 提取到 2 个事件
+2025-06-08 01:04:29,968 - event_extractor - DEBUG - 发送段落 12 的LLM请求
+2025-06-08 01:04:44,760 - event_extractor - DEBUG - 解析段落 11 的响应
+2025-06-08 01:04:44,760 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:04:44,760 - event_extractor - DEBUG - 成功创建事件: E01-1 - 舞岩因其表姐的关系得以加入七玄门，尽管年龄超过规定...
+2025-06-08 01:04:44,761 - event_extractor - DEBUG - 成功创建事件: E01-2 - 舞岩因其家庭背景和武功成为车内大部分孩童的‘大哥’...
+2025-06-08 01:04:44,761 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立等来自穷乡僻壤的孩童在车内显得畏手畏脚，与其他孩童形成对...
+2025-06-08 01:04:44,761 - event_extractor - DEBUG - 段落 11 抽取到 3 个事件
+2025-06-08 01:04:44,761 - event_extractor - DEBUG - 开始处理段落 13 | text_length=506
+2025-06-08 01:04:44,761 - event_extractor - INFO - 从段落 11 提取到 3 个事件
+2025-06-08 01:04:44,762 - event_extractor - DEBUG - 发送段落 13 的LLM请求
+2025-06-08 01:04:50,987 - event_extractor - DEBUG - 解析段落 12 的响应
+2025-06-08 01:04:50,988 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:04:50,988 - event_extractor - DEBUG - 成功创建事件: E01-1 - 马车从青牛镇出发，一路向西，途中接了几个孩童，最终到达彩霞山...
+2025-06-08 01:04:50,988 - event_extractor - DEBUG - 成功创建事件: E01-2 - 孩子们被彩霞山的落日美景深深迷住。...
+2025-06-08 01:04:50,988 - event_extractor - DEBUG - 成功创建事件: E01-3 - 介绍彩霞山的由来和七玄门对其的占有。...
+2025-06-08 01:04:50,988 - event_extractor - DEBUG - 成功创建事件: E01-4 - 介绍彩霞山的地理位置和七玄门的分堂分布。...
+2025-06-08 01:04:50,988 - event_extractor - DEBUG - 成功创建事件: E01-5 - 队伍在行进中停下，有人对王护法说话。...
+2025-06-08 01:04:50,988 - event_extractor - DEBUG - 段落 12 抽取到 5 个事件
+2025-06-08 01:04:50,989 - event_extractor - DEBUG - 开始处理段落 14 | text_length=482
+2025-06-08 01:04:50,989 - event_extractor - INFO - 从段落 12 提取到 5 个事件
+2025-06-08 01:04:50,989 - event_extractor - DEBUG - 发送段落 14 的LLM请求
+2025-06-08 01:05:00,795 - event_extractor - DEBUG - 解析段落 13 的响应
+2025-06-08 01:05:00,796 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:05:00,797 - event_extractor - DEBUG - 成功创建事件: E01-1 - 王护法向岳堂主报告护送弟子的情况...
+2025-06-08 01:05:00,797 - event_extractor - DEBUG - 成功创建事件: E01-2 - 弟子们被带到清客院休息...
+2025-06-08 01:05:00,797 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立梦见自己身怀绝世武功...
+2025-06-08 01:05:00,797 - event_extractor - DEBUG - 段落 13 抽取到 3 个事件
+2025-06-08 01:05:00,798 - event_extractor - DEBUG - 开始处理段落 15 | text_length=472
+2025-06-08 01:05:00,798 - event_extractor - INFO - 从段落 13 提取到 3 个事件
+2025-06-08 01:05:00,799 - event_extractor - DEBUG - 发送段落 15 的LLM请求
+2025-06-08 01:05:07,946 - event_extractor - DEBUG - 解析段落 14 的响应
+2025-06-08 01:05:07,946 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:05:07,946 - event_extractor - DEBUG - 成功创建事件: E04-1 - 王护法带领众人到竹林斜坡前，岳堂主和其他年青人已在那里等待。...
+2025-06-08 01:05:07,946 - event_extractor - DEBUG - 成功创建事件: E04-2 - 岳堂主宣布测试规则，说明通过竹林、岩壁地带到达炼骨崖顶的才能...
+2025-06-08 01:05:07,946 - event_extractor - DEBUG - 成功创建事件: E04-3 - 韩立和其他孩童开始进入竹林，开始测试。...
+2025-06-08 01:05:07,946 - event_extractor - DEBUG - 段落 14 抽取到 3 个事件
+2025-06-08 01:05:07,947 - event_extractor - DEBUG - 开始处理段落 16 | text_length=490
+2025-06-08 01:05:07,948 - event_extractor - DEBUG - 发送段落 16 的LLM请求
+2025-06-08 01:05:07,950 - event_extractor - INFO - 从段落 14 提取到 3 个事件
+2025-06-08 01:05:22,000 - event_extractor - DEBUG - 解析段落 15 的响应
+2025-06-08 01:05:22,001 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:05:22,001 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立与三十余名孩童进入竹林，韩立感到害怕并小心翼翼地前进...
+2025-06-08 01:05:22,001 - event_extractor - DEBUG - 成功创建事件: E01-2 - 韩立在竹林中行走感到疲惫，开始借助竹子茎杆前进...
+2025-06-08 01:05:22,001 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立因极度疲劳坐下休息，回头看到师兄仍然站立不动...
+2025-06-08 01:05:22,001 - event_extractor - DEBUG - 成功创建事件: E01-4 - 韩立听到前面有人的喘气声，决定继续前进...
+2025-06-08 01:05:22,001 - event_extractor - DEBUG - 成功创建事件: E01-5 - 韩立因坡面倾斜更厉害而手足并行前进...
+2025-06-08 01:05:22,001 - event_extractor - DEBUG - 段落 15 抽取到 5 个事件
+2025-06-08 01:05:22,001 - event_extractor - DEBUG - 开始处理段落 17 | text_length=503
+2025-06-08 01:05:22,002 - event_extractor - INFO - 从段落 15 提取到 5 个事件
+2025-06-08 01:05:22,002 - event_extractor - DEBUG - 发送段落 17 的LLM请求
+2025-06-08 01:05:24,052 - event_extractor - DEBUG - 解析段落 16 的响应
+2025-06-08 01:05:24,053 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:05:24,054 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立艰难地穿过竹林，面对岩石增多和竹子减少的挑战...
+2025-06-08 01:05:24,054 - event_extractor - DEBUG - 成功创建事件: E01-2 - 韩立看到巨石上有几个瘦小的身躯在攀爬，决定加入他们...
+2025-06-08 01:05:24,054 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立在攀爬巨石过程中受伤，但坚持继续...
+2025-06-08 01:05:24,054 - event_extractor - DEBUG - 成功创建事件: E01-4 - 韩立回忆起家人和三叔的嘱咐，决心坚持到底...
+2025-06-08 01:05:24,054 - event_extractor - DEBUG - 段落 16 抽取到 4 个事件
+2025-06-08 01:05:24,055 - event_extractor - DEBUG - 开始处理段落 18 | text_length=459
+2025-06-08 01:05:24,055 - event_extractor - INFO - 从段落 16 提取到 4 个事件
+2025-06-08 01:05:24,055 - event_extractor - DEBUG - 发送段落 18 的LLM请求
+2025-06-08 01:05:28,936 - event_extractor - DEBUG - 解析段落 17 的响应
+2025-06-08 01:05:28,936 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:05:28,936 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立观察舞岩和其他孩子在攀爬巨石壁的情况...
+2025-06-08 01:05:28,936 - event_extractor - DEBUG - 段落 17 抽取到 1 个事件
+2025-06-08 01:05:28,937 - event_extractor - DEBUG - 开始处理段落 19 | text_length=498
+2025-06-08 01:05:28,937 - event_extractor - INFO - 从段落 17 提取到 1 个事件
+2025-06-08 01:05:28,938 - event_extractor - DEBUG - 发送段落 19 的LLM请求
+2025-06-08 01:05:30,912 - event_extractor - DEBUG - 解析段落 18 的响应
+2025-06-08 01:05:30,912 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:05:30,912 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立在悬崖上攀爬麻绳，努力不让自己掉下去...
+2025-06-08 01:05:30,912 - event_extractor - DEBUG - 段落 18 抽取到 1 个事件
+2025-06-08 01:05:30,913 - event_extractor - DEBUG - 开始处理段落 20 | text_length=500
+2025-06-08 01:05:30,913 - event_extractor - INFO - 从段落 18 提取到 1 个事件
+2025-06-08 01:05:30,915 - event_extractor - DEBUG - 发送段落 20 的LLM请求
+2025-06-08 01:05:43,795 - event_extractor - DEBUG - 解析段落 19 的响应
+2025-06-08 01:05:43,795 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:05:43,795 - event_extractor - DEBUG - 成功创建事件: E05-1 - 韩立尝试攀爬绳结但未能成功...
+2025-06-08 01:05:43,796 - event_extractor - DEBUG - 成功创建事件: E05-2 - 韩立的师兄帮助他攀登山崖...
+2025-06-08 01:05:43,796 - event_extractor - DEBUG - 成功创建事件: E05-3 - 岳堂主宣布合格者名单...
+2025-06-08 01:05:43,796 - event_extractor - DEBUG - 段落 19 抽取到 3 个事件
+2025-06-08 01:05:43,796 - event_extractor - DEBUG - 开始处理段落 21 | text_length=416
+2025-06-08 01:05:43,797 - event_extractor - DEBUG - 发送段落 21 的LLM请求
+2025-06-08 01:05:43,800 - event_extractor - INFO - 从段落 19 提取到 3 个事件
+2025-06-08 01:05:49,569 - event_extractor - DEBUG - 解析段落 20 的响应
+2025-06-08 01:05:49,570 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:05:49,570 - event_extractor - DEBUG - 成功创建事件: E01-1 - 岳堂主宣布张铁和韩立的表现突出，允许他们在本门打下根基，半年...
+2025-06-08 01:05:49,570 - event_extractor - DEBUG - 成功创建事件: E01-2 - 岳堂主命令王护法将未过关的童子送遣回家...
+2025-06-08 01:05:49,570 - event_extractor - DEBUG - 成功创建事件: E01-3 - 张均和吴铭瑞将过关的童子分成两组带下山崖，分别交给顾副堂主和...
+2025-06-08 01:05:49,570 - event_extractor - DEBUG - 成功创建事件: E01-4 - 瘦长脸师兄解释舞岩被送到七绝堂作为核心弟子的原因...
+2025-06-08 01:05:49,570 - event_extractor - DEBUG - 段落 20 抽取到 4 个事件
+2025-06-08 01:05:49,570 - event_extractor - DEBUG - 开始处理段落 22 | text_length=514
+2025-06-08 01:05:49,570 - event_extractor - INFO - 从段落 20 提取到 4 个事件
+2025-06-08 01:05:49,571 - event_extractor - DEBUG - 发送段落 22 的LLM请求
+2025-06-08 01:05:52,016 - event_extractor - DEBUG - 解析段落 21 的响应
+2025-06-08 01:05:52,017 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:05:52,017 - event_extractor - DEBUG - 成功创建事件: E01-1 - 张均和瘦长脸的师兄讨论舞岩凭借副门主亲戚关系进入七绝堂的事情...
+2025-06-08 01:05:52,017 - event_extractor - DEBUG - 段落 21 抽取到 1 个事件
+2025-06-08 01:05:52,018 - event_extractor - DEBUG - 开始处理段落 23 | text_length=406
+2025-06-08 01:05:52,019 - event_extractor - INFO - 从段落 21 提取到 1 个事件
+2025-06-08 01:05:52,020 - event_extractor - DEBUG - 发送段落 23 的LLM请求
+2025-06-08 01:05:59,537 - event_extractor - DEBUG - 解析段落 23 的响应
+2025-06-08 01:05:59,537 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:05:59,537 - event_extractor - DEBUG - 成功创建事件: E01-1 - 墨大夫带领韩立和张铁进入神手谷，并安排他们住宿...
+2025-06-08 01:05:59,537 - event_extractor - DEBUG - 段落 23 抽取到 1 个事件
+2025-06-08 01:05:59,926 - event_extractor - DEBUG - 解析段落 22 的响应
+2025-06-08 01:05:59,926 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:05:59,926 - event_extractor - DEBUG - 成功创建事件: E01-1 - 墨大夫在树林中遇到张均等人，并挑选韩立和张铁作为炼药童子和采...
+2025-06-08 01:05:59,926 - event_extractor - DEBUG - 段落 22 抽取到 1 个事件
+2025-06-08 01:05:59,927 - event_extractor - INFO - 从段落 22 提取到 1 个事件
+2025-06-08 01:05:59,927 - event_extractor - INFO - 从段落 23 提取到 1 个事件
+2025-06-08 01:05:59,928 - event_extractor - INFO - 章节事件抽取完成 | chapter_id=第一章, total_events=59, successful_segments=23, failed_segments=0
+2025-06-08 01:31:31,372 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-08 01:31:31,473 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-08 01:31:31,473 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=第一章, title=第一章
+2025-06-08 01:31:31,474 - event_extractor - DEBUG - 章节没有预定义分段，正在创建分段
+2025-06-08 01:31:31,474 - event_extractor - INFO - 创建了 23 个文本分段
+2025-06-08 01:31:31,474 - event_extractor - DEBUG - 开始处理段落 1 | text_length=436
+2025-06-08 01:31:31,475 - event_extractor - DEBUG - 开始处理段落 2 | text_length=452
+2025-06-08 01:31:31,477 - event_extractor - DEBUG - 发送段落 1 的LLM请求
+2025-06-08 01:31:31,478 - event_extractor - DEBUG - 发送段落 2 的LLM请求
+2025-06-08 01:31:39,517 - event_extractor - DEBUG - 解析段落 2 的响应
+2025-06-08 01:31:39,518 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:31:39,518 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立被村里人称为'二愣子'，但他内心早熟，向往外面的世界...
+2025-06-08 01:31:39,518 - event_extractor - DEBUG - 段落 2 抽取到 1 个事件
+2025-06-08 01:31:39,520 - event_extractor - DEBUG - 开始处理段落 3 | text_length=493
+2025-06-08 01:31:39,524 - event_extractor - DEBUG - 发送段落 3 的LLM请求
+2025-06-08 01:31:40,285 - event_extractor - DEBUG - 解析段落 1 的响应
+2025-06-08 01:31:40,285 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:31:40,286 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立（二愣子）在家中准备入睡，以便第二天早起与同伴进山拣干柴...
+2025-06-08 01:31:40,286 - event_extractor - DEBUG - 段落 1 抽取到 1 个事件
+2025-06-08 01:31:40,287 - event_extractor - DEBUG - 开始处理段落 4 | text_length=441
+2025-06-08 01:31:40,287 - event_extractor - DEBUG - 发送段落 4 的LLM请求
+2025-06-08 01:31:40,288 - event_extractor - INFO - 从段落 1 提取到 1 个事件
+2025-06-08 01:31:40,291 - event_extractor - INFO - 从段落 2 提取到 1 个事件
+2025-06-08 01:31:46,964 - event_extractor - DEBUG - 解析段落 4 的响应
+2025-06-08 01:31:46,965 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:31:46,965 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立羡慕大哥并梦想成为手艺学徒...
+2025-06-08 01:31:46,965 - event_extractor - DEBUG - 段落 4 抽取到 1 个事件
+2025-06-08 01:31:46,966 - event_extractor - DEBUG - 开始处理段落 5 | text_length=496
+2025-06-08 01:31:46,967 - event_extractor - DEBUG - 发送段落 5 的LLM请求
+2025-06-08 01:32:02,834 - event_extractor - DEBUG - 解析段落 3 的响应
+2025-06-08 01:32:02,835 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:32:02,835 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立一家生活清苦，他在家中排行老四，今年十岁，全家生活艰难。...
+2025-06-08 01:32:02,835 - event_extractor - DEBUG - 成功创建事件: E01-2 - 韩立决定上山时为他妹妹多拣些红浆果。...
+2025-06-08 01:32:02,835 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立从山里回家，不知道家中来了会改变他一生命运的客人。...
+2025-06-08 01:32:02,835 - event_extractor - DEBUG - 成功创建事件: E01-4 - 韩立的三叔是家族中少有的大能人，经常帮助韩立一家。...
+2025-06-08 01:32:02,836 - event_extractor - DEBUG - 成功创建事件: E01-5 - 韩立的大哥在城里当铁匠学徒，是家人的骄傲。...
+2025-06-08 01:32:02,836 - event_extractor - DEBUG - 段落 3 抽取到 5 个事件
+2025-06-08 01:32:02,837 - event_extractor - DEBUG - 开始处理段落 6 | text_length=498
+2025-06-08 01:32:02,837 - event_extractor - INFO - 从段落 3 提取到 5 个事件
+2025-06-08 01:32:02,838 - event_extractor - INFO - 从段落 4 提取到 1 个事件
+2025-06-08 01:32:02,838 - event_extractor - DEBUG - 发送段落 6 的LLM请求
+2025-06-08 01:32:05,595 - event_extractor - DEBUG - 解析段落 5 的响应
+2025-06-08 01:32:05,595 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:32:05,595 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩父听到关于七玄门的信息后犹豫不决...
+2025-06-08 01:32:05,595 - event_extractor - DEBUG - 成功创建事件: E01-2 - 三叔介绍七玄门的好处...
+2025-06-08 01:32:05,595 - event_extractor - DEBUG - 成功创建事件: E01-3 - 三叔留下银子并约定一个月后带韩立走...
+2025-06-08 01:32:05,596 - event_extractor - DEBUG - 成功创建事件: E01-4 - 韩立因即将进城而兴奋...
+2025-06-08 01:32:05,596 - event_extractor - DEBUG - 成功创建事件: E01-5 - 三叔准时来接韩立...
+2025-06-08 01:32:05,596 - event_extractor - DEBUG - 段落 5 抽取到 5 个事件
+2025-06-08 01:32:05,596 - event_extractor - DEBUG - 开始处理段落 7 | text_length=507
+2025-06-08 01:32:05,597 - event_extractor - INFO - 从段落 5 提取到 5 个事件
+2025-06-08 01:32:05,599 - event_extractor - DEBUG - 发送段落 7 的LLM请求
+2025-06-08 01:32:12,660 - event_extractor - DEBUG - 解析段落 7 的响应
+2025-06-08 01:32:12,660 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:32:12,660 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立和他的三叔韩胖子到达镇子并进入酒楼...
+2025-06-08 01:32:12,660 - event_extractor - DEBUG - 段落 7 抽取到 1 个事件
+2025-06-08 01:32:12,661 - event_extractor - DEBUG - 开始处理段落 8 | text_length=385
+2025-06-08 01:32:12,661 - event_extractor - DEBUG - 发送段落 8 的LLM请求
+2025-06-08 01:32:13,274 - event_extractor - DEBUG - 解析段落 6 的响应
+2025-06-08 01:32:13,275 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:32:13,275 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立离开父母，决心挣钱后回来与父母团聚...
+2025-06-08 01:32:13,275 - event_extractor - DEBUG - 成功创建事件: E02-1 - 韩立到达青牛镇，马车停在春香酒楼前...
+2025-06-08 01:32:13,275 - event_extractor - DEBUG - 段落 6 抽取到 2 个事件
+2025-06-08 01:32:13,275 - event_extractor - DEBUG - 开始处理段落 9 | text_length=502
+2025-06-08 01:32:13,276 - event_extractor - INFO - 从段落 6 提取到 2 个事件
+2025-06-08 01:32:13,276 - event_extractor - DEBUG - 发送段落 9 的LLM请求
+2025-06-08 01:32:13,276 - event_extractor - INFO - 从段落 7 提取到 1 个事件
+2025-06-08 01:32:24,641 - event_extractor - DEBUG - 解析段落 8 的响应
+2025-06-08 01:32:24,641 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:32:24,641 - event_extractor - DEBUG - 成功创建事件: E01-1 - 小厮送饭菜给韩立...
+2025-06-08 01:32:24,641 - event_extractor - DEBUG - 成功创建事件: E01-2 - 三叔与韩立聊天...
+2025-06-08 01:32:24,641 - event_extractor - DEBUG - 成功创建事件: E01-3 - 七玄门的马车到达酒楼...
+2025-06-08 01:32:24,641 - event_extractor - DEBUG - 段落 8 抽取到 3 个事件
+2025-06-08 01:32:24,642 - event_extractor - DEBUG - 开始处理段落 10 | text_length=489
+2025-06-08 01:32:24,643 - event_extractor - INFO - 从段落 8 提取到 3 个事件
+2025-06-08 01:32:24,644 - event_extractor - DEBUG - 发送段落 10 的LLM请求
+2025-06-08 01:32:29,984 - event_extractor - DEBUG - 解析段落 9 的响应
+2025-06-08 01:32:29,984 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:32:29,984 - event_extractor - DEBUG - 成功创建事件: E01-1 - 七玄门由七绝上人创立，曾雄霸镜州...
+2025-06-08 01:32:29,984 - event_extractor - DEBUG - 成功创建事件: E01-2 - 七绝上人病故，七玄门势力衰落...
+2025-06-08 01:32:29,984 - event_extractor - DEBUG - 成功创建事件: E01-3 - 七玄门搬迁至仙霞山后，控制青牛镇等十几个小城镇...
+2025-06-08 01:32:29,984 - event_extractor - DEBUG - 成功创建事件: E01-4 - 野狼帮与七玄门冲突，七玄门处于下风...
+2025-06-08 01:32:29,984 - event_extractor - DEBUG - 段落 9 抽取到 4 个事件
+2025-06-08 01:32:29,985 - event_extractor - DEBUG - 开始处理段落 11 | text_length=467
+2025-06-08 01:32:29,985 - event_extractor - DEBUG - 发送段落 11 的LLM请求
+2025-06-08 01:32:29,988 - event_extractor - INFO - 从段落 9 提取到 4 个事件
+2025-06-08 01:32:36,929 - event_extractor - DEBUG - 解析段落 10 的响应
+2025-06-08 01:32:36,930 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:32:36,930 - event_extractor - DEBUG - 成功创建事件: E03-1 - 王护法亲自带队来接参加七玄门入门考查的孩童，韩立的三叔推荐韩...
+2025-06-08 01:32:36,930 - event_extractor - DEBUG - 成功创建事件: E03-2 - 韩立和其他孩童挤在前往七玄门的马车上，韩立偷偷观察其他孩童...
+2025-06-08 01:32:36,930 - event_extractor - DEBUG - 段落 10 抽取到 2 个事件
+2025-06-08 01:32:36,930 - event_extractor - DEBUG - 开始处理段落 12 | text_length=466
+2025-06-08 01:32:36,930 - event_extractor - INFO - 从段落 10 提取到 2 个事件
+2025-06-08 01:32:36,931 - event_extractor - DEBUG - 发送段落 12 的LLM请求
+2025-06-08 01:32:38,055 - event_extractor - DEBUG - 解析段落 11 的响应
+2025-06-08 01:32:38,056 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:32:38,056 - event_extractor - DEBUG - 成功创建事件: E01-1 - 舞岩因其家庭背景和武功成为车内孩童的领导者...
+2025-06-08 01:32:38,056 - event_extractor - DEBUG - 段落 11 抽取到 1 个事件
+2025-06-08 01:32:38,057 - event_extractor - DEBUG - 开始处理段落 13 | text_length=506
+2025-06-08 01:32:38,057 - event_extractor - INFO - 从段落 11 提取到 1 个事件
+2025-06-08 01:32:38,058 - event_extractor - DEBUG - 发送段落 13 的LLM请求
+2025-06-08 01:32:53,070 - event_extractor - DEBUG - 解析段落 13 的响应
+2025-06-08 01:32:53,070 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:32:53,070 - event_extractor - DEBUG - 成功创建事件: E01-1 - 王护法向岳堂主报告新一批弟子的到来...
+2025-06-08 01:32:53,070 - event_extractor - DEBUG - 成功创建事件: E01-2 - 韩立等人被带到清客院休息...
+2025-06-08 01:32:53,070 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立梦见自己身怀绝世武功...
+2025-06-08 01:32:53,070 - event_extractor - DEBUG - 段落 13 抽取到 3 个事件
+2025-06-08 01:32:53,071 - event_extractor - DEBUG - 开始处理段落 14 | text_length=482
+2025-06-08 01:32:53,072 - event_extractor - DEBUG - 发送段落 14 的LLM请求
+2025-06-08 01:32:58,337 - event_extractor - DEBUG - 解析段落 12 的响应
+2025-06-08 01:32:58,337 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:32:58,337 - event_extractor - DEBUG - 成功创建事件: E01-1 - 马车从青牛镇出发，一路向西，途中接了几个孩童，最终到达彩霞山...
+2025-06-08 01:32:58,337 - event_extractor - DEBUG - 成功创建事件: E01-2 - 孩子们被彩霞山的落日美景深深迷住。...
+2025-06-08 01:32:58,337 - event_extractor - DEBUG - 成功创建事件: E01-3 - 介绍彩霞山的由来和七玄门对其的占有。...
+2025-06-08 01:32:58,338 - event_extractor - DEBUG - 成功创建事件: E01-4 - 介绍彩霞山的地理位置和七玄门的分堂分布。...
+2025-06-08 01:32:58,338 - event_extractor - DEBUG - 成功创建事件: E01-5 - 队伍在行进中停下，有人对王护法说话。...
+2025-06-08 01:32:58,338 - event_extractor - DEBUG - 段落 12 抽取到 5 个事件
+2025-06-08 01:32:58,339 - event_extractor - DEBUG - 开始处理段落 15 | text_length=472
+2025-06-08 01:32:58,339 - event_extractor - DEBUG - 发送段落 15 的LLM请求
+2025-06-08 01:32:58,342 - event_extractor - INFO - 从段落 12 提取到 5 个事件
+2025-06-08 01:32:58,343 - event_extractor - INFO - 从段落 13 提取到 3 个事件
+2025-06-08 01:33:05,452 - event_extractor - DEBUG - 解析段落 15 的响应
+2025-06-08 01:33:05,452 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:33:05,452 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立与三十余名孩童进入竹林，韩立因害怕紧随其后的瘦长师兄而不...
+2025-06-08 01:33:05,452 - event_extractor - DEBUG - 段落 15 抽取到 1 个事件
+2025-06-08 01:33:05,452 - event_extractor - DEBUG - 开始处理段落 16 | text_length=490
+2025-06-08 01:33:05,453 - event_extractor - DEBUG - 发送段落 16 的LLM请求
+2025-06-08 01:33:06,900 - event_extractor - DEBUG - 解析段落 14 的响应
+2025-06-08 01:33:06,900 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:33:06,900 - event_extractor - DEBUG - 成功创建事件: E04-1 - 王护法带领众人到竹林斜坡前，岳堂主和其他年青人已在那里等待...
+2025-06-08 01:33:06,900 - event_extractor - DEBUG - 成功创建事件: E04-2 - 岳堂主宣布测试规则，说明通过测试可以成为七玄门正式弟子或记名...
+2025-06-08 01:33:06,900 - event_extractor - DEBUG - 成功创建事件: E04-3 - 韩立和其他孩童开始进入竹林，开始测试...
+2025-06-08 01:33:06,900 - event_extractor - DEBUG - 段落 14 抽取到 3 个事件
+2025-06-08 01:33:06,901 - event_extractor - DEBUG - 开始处理段落 17 | text_length=503
+2025-06-08 01:33:06,901 - event_extractor - INFO - 从段落 14 提取到 3 个事件
+2025-06-08 01:33:06,902 - event_extractor - INFO - 从段落 15 提取到 1 个事件
+2025-06-08 01:33:06,903 - event_extractor - DEBUG - 发送段落 17 的LLM请求
+2025-06-08 01:33:13,685 - event_extractor - DEBUG - 解析段落 17 的响应
+2025-06-08 01:33:13,686 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:33:13,686 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立观察舞岩和其他孩子在攀爬巨石壁的情况...
+2025-06-08 01:33:13,686 - event_extractor - DEBUG - 段落 17 抽取到 1 个事件
+2025-06-08 01:33:13,687 - event_extractor - DEBUG - 开始处理段落 18 | text_length=459
+2025-06-08 01:33:13,687 - event_extractor - DEBUG - 发送段落 18 的LLM请求
+2025-06-08 01:33:20,353 - event_extractor - DEBUG - 解析段落 18 的响应
+2025-06-08 01:33:20,353 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:33:20,354 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立在悬崖上攀爬麻绳，努力不让自己掉下去...
+2025-06-08 01:33:20,354 - event_extractor - DEBUG - 段落 18 抽取到 1 个事件
+2025-06-08 01:33:20,355 - event_extractor - DEBUG - 开始处理段落 19 | text_length=498
+2025-06-08 01:33:20,356 - event_extractor - DEBUG - 发送段落 19 的LLM请求
+2025-06-08 01:33:21,483 - event_extractor - DEBUG - 解析段落 16 的响应
+2025-06-08 01:33:21,484 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:33:21,484 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立艰难地穿过竹林，面对岩石增多和竹子减少的挑战...
+2025-06-08 01:33:21,484 - event_extractor - DEBUG - 成功创建事件: E01-2 - 韩立看到巨石上有几个瘦小的身躯在攀爬，决定加入他们...
+2025-06-08 01:33:21,484 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立在攀爬巨石过程中受伤，但受到家人和三叔的鼓励，继续坚持...
+2025-06-08 01:33:21,484 - event_extractor - DEBUG - 段落 16 抽取到 3 个事件
+2025-06-08 01:33:21,485 - event_extractor - DEBUG - 开始处理段落 20 | text_length=500
+2025-06-08 01:33:21,485 - event_extractor - INFO - 从段落 16 提取到 3 个事件
+2025-06-08 01:33:21,486 - event_extractor - INFO - 从段落 17 提取到 1 个事件
+2025-06-08 01:33:21,487 - event_extractor - INFO - 从段落 18 提取到 1 个事件
+2025-06-08 01:33:21,492 - event_extractor - DEBUG - 发送段落 20 的LLM请求
+2025-06-08 01:33:36,223 - event_extractor - DEBUG - 解析段落 19 的响应
+2025-06-08 01:33:36,224 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:33:36,224 - event_extractor - DEBUG - 成功创建事件: E05-1 - 韩立试图攀爬绳结但未能成功...
+2025-06-08 01:33:36,224 - event_extractor - DEBUG - 成功创建事件: E05-2 - 韩立的师兄帮助他攀爬到山崖顶部...
+2025-06-08 01:33:36,224 - event_extractor - DEBUG - 成功创建事件: E05-3 - 岳堂主宣布合格者名单...
+2025-06-08 01:33:36,225 - event_extractor - DEBUG - 段落 19 抽取到 3 个事件
+2025-06-08 01:33:36,225 - event_extractor - DEBUG - 开始处理段落 21 | text_length=416
+2025-06-08 01:33:36,226 - event_extractor - INFO - 从段落 19 提取到 3 个事件
+2025-06-08 01:33:36,226 - event_extractor - DEBUG - 发送段落 21 的LLM请求
+2025-06-08 01:33:40,109 - event_extractor - DEBUG - 解析段落 20 的响应
+2025-06-08 01:33:40,110 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 01:33:40,110 - event_extractor - DEBUG - 成功创建事件: E01-1 - 岳堂主宣布张铁和韩立因表现突出，将在本门打下根基，半年后考核...
+2025-06-08 01:33:40,110 - event_extractor - DEBUG - 成功创建事件: E01-2 - 王护法领命将未过关的童子送遣回家...
+2025-06-08 01:33:40,110 - event_extractor - DEBUG - 成功创建事件: E01-3 - 张均和吴铭瑞将过关的童子分成两组带下山崖，分别交给顾副堂主和...
+2025-06-08 01:33:40,110 - event_extractor - DEBUG - 成功创建事件: E01-4 - 瘦长脸师兄解释舞岩被送到七绝堂作为核心弟子的情况...
+2025-06-08 01:33:40,110 - event_extractor - DEBUG - 段落 20 抽取到 4 个事件
+2025-06-08 01:33:40,111 - event_extractor - DEBUG - 开始处理段落 22 | text_length=514
+2025-06-08 01:33:40,111 - event_extractor - INFO - 从段落 20 提取到 4 个事件
+2025-06-08 01:33:40,111 - event_extractor - DEBUG - 发送段落 22 的LLM请求
+2025-06-08 01:33:45,073 - event_extractor - DEBUG - 解析段落 21 的响应
+2025-06-08 01:33:45,073 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:33:45,073 - event_extractor - DEBUG - 成功创建事件: E01-1 - 张均和瘦长脸的师兄讨论舞岩凭借副门主亲戚关系进入七绝堂的事情...
+2025-06-08 01:33:45,074 - event_extractor - DEBUG - 段落 21 抽取到 1 个事件
+2025-06-08 01:33:45,075 - event_extractor - DEBUG - 开始处理段落 23 | text_length=406
+2025-06-08 01:33:45,075 - event_extractor - INFO - 从段落 21 提取到 1 个事件
+2025-06-08 01:33:45,076 - event_extractor - DEBUG - 发送段落 23 的LLM请求
+2025-06-08 01:33:50,144 - event_extractor - DEBUG - 解析段落 22 的响应
+2025-06-08 01:33:50,144 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:33:50,144 - event_extractor - DEBUG - 成功创建事件: E01-1 - 墨大夫在树林中遇到张均等人，并挑选韩立和张铁作为炼药童子和采...
+2025-06-08 01:33:50,144 - event_extractor - DEBUG - 段落 22 抽取到 1 个事件
+2025-06-08 01:33:50,145 - event_extractor - INFO - 从段落 22 提取到 1 个事件
+2025-06-08 01:33:56,616 - event_extractor - DEBUG - 解析段落 23 的响应
+2025-06-08 01:33:56,616 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 01:33:56,617 - event_extractor - DEBUG - 成功创建事件: E01-1 - 墨大夫带领韩立和张铁进入神手谷，并安排他们住宿...
+2025-06-08 01:33:56,617 - event_extractor - DEBUG - 段落 23 抽取到 1 个事件
+2025-06-08 01:33:56,618 - event_extractor - INFO - 从段落 23 提取到 1 个事件
+2025-06-08 01:33:56,620 - event_extractor - INFO - 章节事件抽取完成 | chapter_id=第一章, total_events=53, successful_segments=23, failed_segments=0
+2025-06-08 12:41:45,337 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-08 12:41:45,432 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-08 12:41:45,434 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-08 12:41:45,493 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-08 12:41:45,494 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=第一章, title=第一章
+2025-06-08 12:41:45,495 - event_extractor - DEBUG - 章节没有预定义分段，正在创建分段
+2025-06-08 12:41:45,495 - event_extractor - INFO - 创建了 23 个文本分段
+2025-06-08 12:41:45,496 - event_extractor - DEBUG - 开始处理段落 1 | text_length=436
+2025-06-08 12:41:45,497 - event_extractor - DEBUG - 开始处理段落 2 | text_length=452
+2025-06-08 12:41:45,499 - event_extractor - DEBUG - 发送段落 1 的LLM请求
+2025-06-08 12:41:45,502 - event_extractor - DEBUG - 发送段落 2 的LLM请求
+2025-06-08 12:41:53,598 - event_extractor - DEBUG - 解析段落 1 的响应
+2025-06-08 12:41:53,599 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 12:41:53,599 - event_extractor - DEBUG - 成功创建事件: E01-1 - 二愣子韩立在家中准备入睡，以便第二天早起与同伴进山拣干柴...
+2025-06-08 12:41:53,599 - event_extractor - DEBUG - 段落 1 抽取到 1 个事件
+2025-06-08 12:41:53,600 - event_extractor - DEBUG - 开始处理段落 3 | text_length=493
+2025-06-08 12:41:53,602 - event_extractor - INFO - 从段落 1 提取到 1 个事件
+2025-06-08 12:41:53,603 - event_extractor - DEBUG - 发送段落 3 的LLM请求
+2025-06-08 12:41:55,315 - event_extractor - DEBUG - 解析段落 2 的响应
+2025-06-08 12:41:55,315 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 12:41:55,316 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立被村里人称为'二愣子'，但他内心早熟，向往外面的世界...
+2025-06-08 12:41:55,316 - event_extractor - DEBUG - 段落 2 抽取到 1 个事件
+2025-06-08 12:41:55,317 - event_extractor - DEBUG - 开始处理段落 4 | text_length=441
+2025-06-08 12:41:55,318 - event_extractor - INFO - 从段落 2 提取到 1 个事件
+2025-06-08 12:41:55,320 - event_extractor - DEBUG - 发送段落 4 的LLM请求
+2025-06-08 12:42:02,603 - event_extractor - DEBUG - 解析段落 4 的响应
+2025-06-08 12:42:02,603 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 12:42:02,603 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立羡慕大哥并梦想成为手艺学徒...
+2025-06-08 12:42:02,603 - event_extractor - DEBUG - 段落 4 抽取到 1 个事件
+2025-06-08 12:42:02,604 - event_extractor - DEBUG - 开始处理段落 5 | text_length=496
+2025-06-08 12:42:02,604 - event_extractor - DEBUG - 发送段落 5 的LLM请求
+2025-06-08 12:42:16,721 - event_extractor - DEBUG - 解析段落 3 的响应
+2025-06-08 12:42:16,722 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 12:42:16,722 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立一家生活清苦，他在家中排行老四，今年十岁，全家生活艰难。...
+2025-06-08 12:42:16,722 - event_extractor - DEBUG - 成功创建事件: E01-2 - 韩立决定上山时为他最疼爱的妹妹多拣些红浆果。...
+2025-06-08 12:42:16,722 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立从山里回家时，家中来了一位会改变他一生命运的客人——他的...
+2025-06-08 12:42:16,722 - event_extractor - DEBUG - 成功创建事件: E01-4 - 介绍了韩立的三叔的背景和他对韩立一家的帮助。...
+2025-06-08 12:42:16,722 - event_extractor - DEBUG - 成功创建事件: E01-5 - 韩立的大哥在城里给一位老铁匠当学徒，是三叔介绍的，且三叔经常...
+2025-06-08 12:42:16,722 - event_extractor - DEBUG - 段落 3 抽取到 5 个事件
+2025-06-08 12:42:16,723 - event_extractor - DEBUG - 开始处理段落 6 | text_length=498
+2025-06-08 12:42:16,726 - event_extractor - INFO - 从段落 3 提取到 5 个事件
+2025-06-08 12:42:16,726 - event_extractor - INFO - 从段落 4 提取到 1 个事件
+2025-06-08 12:42:16,726 - event_extractor - DEBUG - 发送段落 6 的LLM请求
+2025-06-08 12:42:23,988 - event_extractor - DEBUG - 解析段落 5 的响应
+2025-06-08 12:42:23,988 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 12:42:23,988 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩父听到关于七玄门的信息后犹豫不决，最终决定让韩立参加七玄门...
+2025-06-08 12:42:23,988 - event_extractor - DEBUG - 成功创建事件: E01-2 - 三叔向韩父介绍七玄门的好处，包括成为内门弟子的福利...
+2025-06-08 12:42:23,988 - event_extractor - DEBUG - 成功创建事件: E01-3 - 三叔留下银子并告知一个月后带韩立走，期间让韩立补身体...
+2025-06-08 12:42:23,988 - event_extractor - DEBUG - 成功创建事件: E01-4 - 韩立对进城和挣大钱感到兴奋，连续几晚睡不着觉...
+2025-06-08 12:42:23,988 - event_extractor - DEBUG - 成功创建事件: E01-5 - 三叔准时来到村中带韩立走，韩父韩母分别嘱咐韩立...
+2025-06-08 12:42:23,989 - event_extractor - DEBUG - 段落 5 抽取到 5 个事件
+2025-06-08 12:42:23,990 - event_extractor - DEBUG - 开始处理段落 7 | text_length=507
+2025-06-08 12:42:23,990 - event_extractor - INFO - 从段落 5 提取到 5 个事件
+2025-06-08 12:42:23,990 - event_extractor - DEBUG - 发送段落 7 的LLM请求
+2025-06-08 12:42:30,037 - event_extractor - DEBUG - 解析段落 6 的响应
+2025-06-08 12:42:30,038 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 12:42:30,038 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立离开父母，决心挣钱后回来与父母团聚...
+2025-06-08 12:42:30,038 - event_extractor - DEBUG - 成功创建事件: E02-1 - 韩立到达青牛镇，马车停在春香酒楼前...
+2025-06-08 12:42:30,038 - event_extractor - DEBUG - 段落 6 抽取到 2 个事件
+2025-06-08 12:42:30,039 - event_extractor - DEBUG - 开始处理段落 8 | text_length=385
+2025-06-08 12:42:30,039 - event_extractor - INFO - 从段落 6 提取到 2 个事件
+2025-06-08 12:42:30,040 - event_extractor - DEBUG - 发送段落 8 的LLM请求
+2025-06-08 12:42:34,537 - event_extractor - DEBUG - 解析段落 7 的响应
+2025-06-08 12:42:34,538 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 12:42:34,538 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立和他的三叔韩胖子到达镇子并进入酒楼...
+2025-06-08 12:42:34,538 - event_extractor - DEBUG - 段落 7 抽取到 1 个事件
+2025-06-08 12:42:34,538 - event_extractor - DEBUG - 开始处理段落 9 | text_length=502
+2025-06-08 12:42:34,545 - event_extractor - DEBUG - 发送段落 9 的LLM请求
+2025-06-08 12:42:34,547 - event_extractor - INFO - 从段落 7 提取到 1 个事件
+2025-06-08 12:42:42,318 - event_extractor - DEBUG - 解析段落 8 的响应
+2025-06-08 12:42:42,318 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 12:42:42,318 - event_extractor - DEBUG - 成功创建事件: E01-1 - 小厮送饭菜给韩立...
+2025-06-08 12:42:42,318 - event_extractor - DEBUG - 成功创建事件: E01-2 - 三叔与韩立聊天...
+2025-06-08 12:42:42,318 - event_extractor - DEBUG - 成功创建事件: E01-3 - 七玄门的马车到达酒楼...
+2025-06-08 12:42:42,318 - event_extractor - DEBUG - 段落 8 抽取到 3 个事件
+2025-06-08 12:42:42,319 - event_extractor - DEBUG - 开始处理段落 10 | text_length=489
+2025-06-08 12:42:42,320 - event_extractor - INFO - 从段落 8 提取到 3 个事件
+2025-06-08 12:42:42,320 - event_extractor - DEBUG - 发送段落 10 的LLM请求
+2025-06-08 12:42:50,611 - event_extractor - DEBUG - 解析段落 9 的响应
+2025-06-08 12:42:50,611 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 12:42:50,611 - event_extractor - DEBUG - 成功创建事件: E01-1 - 七玄门由七绝上人创立，曾雄霸镜州...
+2025-06-08 12:42:50,611 - event_extractor - DEBUG - 成功创建事件: E01-2 - 七绝上人病故，七玄门势力衰落...
+2025-06-08 12:42:50,612 - event_extractor - DEBUG - 成功创建事件: E01-3 - 七玄门搬迁至仙霞山，控制周边城镇...
+2025-06-08 12:42:50,612 - event_extractor - DEBUG - 成功创建事件: E01-4 - 野狼帮与七玄门冲突，七玄门处于下风...
+2025-06-08 12:42:50,612 - event_extractor - DEBUG - 段落 9 抽取到 4 个事件
+2025-06-08 12:42:50,612 - event_extractor - DEBUG - 开始处理段落 11 | text_length=467
+2025-06-08 12:42:50,612 - event_extractor - INFO - 从段落 9 提取到 4 个事件
+2025-06-08 12:42:50,614 - event_extractor - DEBUG - 发送段落 11 的LLM请求
+2025-06-08 12:42:55,832 - event_extractor - DEBUG - 解析段落 10 的响应
+2025-06-08 12:42:55,832 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 12:42:55,832 - event_extractor - DEBUG - 成功创建事件: E03-1 - 王护法亲自带队来接参加七玄门入门考查的孩童...
+2025-06-08 12:42:55,832 - event_extractor - DEBUG - 成功创建事件: E03-2 - 韩立观察车厢内其他参加入门考查的孩童...
+2025-06-08 12:42:55,833 - event_extractor - DEBUG - 段落 10 抽取到 2 个事件
+2025-06-08 12:42:55,833 - event_extractor - DEBUG - 开始处理段落 12 | text_length=466
+2025-06-08 12:42:55,833 - event_extractor - DEBUG - 发送段落 12 的LLM请求
+2025-06-08 12:42:55,836 - event_extractor - INFO - 从段落 10 提取到 2 个事件
+2025-06-08 12:43:05,664 - event_extractor - DEBUG - 解析段落 11 的响应
+2025-06-08 12:43:05,665 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 12:43:05,665 - event_extractor - DEBUG - 成功创建事件: E01-1 - 舞岩因其表姐的关系得以加入七玄门，尽管年龄超过规定...
+2025-06-08 12:43:05,665 - event_extractor - DEBUG - 成功创建事件: E01-2 - 舞岩因其家庭背景和武功成为车内大部分孩童的‘大哥’...
+2025-06-08 12:43:05,665 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立等来自穷乡僻壤的孩童在车内显得畏手畏脚，与其他孩童形成对...
+2025-06-08 12:43:05,665 - event_extractor - DEBUG - 段落 11 抽取到 3 个事件
+2025-06-08 12:43:05,666 - event_extractor - DEBUG - 开始处理段落 13 | text_length=506
+2025-06-08 12:43:05,666 - event_extractor - INFO - 从段落 11 提取到 3 个事件
+2025-06-08 12:43:05,667 - event_extractor - DEBUG - 发送段落 13 的LLM请求
+2025-06-08 12:43:16,681 - event_extractor - DEBUG - 解析段落 12 的响应
+2025-06-08 12:43:16,681 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 12:43:16,682 - event_extractor - DEBUG - 成功创建事件: E01-1 - 马车从青牛镇出发，一路向西，途中接了几个孩童，最终到达彩霞山...
+2025-06-08 12:43:16,682 - event_extractor - DEBUG - 成功创建事件: E01-2 - 孩子们被彩霞山的落日美景深深迷住，直到被王护法催促才继续前进...
+2025-06-08 12:43:16,682 - event_extractor - DEBUG - 成功创建事件: E01-3 - 介绍彩霞山的背景和七玄门在彩霞山的布局。...
+2025-06-08 12:43:16,682 - event_extractor - DEBUG - 成功创建事件: E01-4 - 队伍在前进中突然停下，有人对王护法说话，询问为何比预定时间晚...
+2025-06-08 12:43:16,682 - event_extractor - DEBUG - 段落 12 抽取到 4 个事件
+2025-06-08 12:43:16,682 - event_extractor - DEBUG - 开始处理段落 14 | text_length=482
+2025-06-08 12:43:16,683 - event_extractor - DEBUG - 发送段落 14 的LLM请求
+2025-06-08 12:43:16,690 - event_extractor - INFO - 从段落 12 提取到 4 个事件
+2025-06-08 12:43:19,283 - event_extractor - DEBUG - 解析段落 13 的响应
+2025-06-08 12:43:19,283 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 12:43:19,283 - event_extractor - DEBUG - 成功创建事件: E01-1 - 王护法向岳堂主报告护送弟子的情况...
+2025-06-08 12:43:19,283 - event_extractor - DEBUG - 成功创建事件: E01-2 - 弟子们被带到清客院休息...
+2025-06-08 12:43:19,283 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立梦见自己身怀绝世武功...
+2025-06-08 12:43:19,283 - event_extractor - DEBUG - 段落 13 抽取到 3 个事件
+2025-06-08 12:43:19,284 - event_extractor - DEBUG - 开始处理段落 15 | text_length=472
+2025-06-08 12:43:19,285 - event_extractor - INFO - 从段落 13 提取到 3 个事件
+2025-06-08 12:43:19,286 - event_extractor - DEBUG - 发送段落 15 的LLM请求
+2025-06-08 12:43:24,641 - event_extractor - DEBUG - 解析段落 14 的响应
+2025-06-08 12:43:24,642 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 12:43:24,642 - event_extractor - DEBUG - 成功创建事件: E04-1 - 王护法带领众人到竹林斜坡前，岳堂主宣布选拔规则...
+2025-06-08 12:43:24,642 - event_extractor - DEBUG - 段落 14 抽取到 1 个事件
+2025-06-08 12:43:24,644 - event_extractor - DEBUG - 开始处理段落 16 | text_length=490
+2025-06-08 12:43:24,644 - event_extractor - INFO - 从段落 14 提取到 1 个事件
+2025-06-08 12:43:24,645 - event_extractor - DEBUG - 发送段落 16 的LLM请求
+2025-06-08 12:43:26,665 - event_extractor - DEBUG - 解析段落 15 的响应
+2025-06-08 12:43:26,666 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 12:43:26,666 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立与三十余名孩童进入竹林，韩立因害怕紧随其后的瘦长师兄而不...
+2025-06-08 12:43:26,666 - event_extractor - DEBUG - 段落 15 抽取到 1 个事件
+2025-06-08 12:43:26,683 - event_extractor - DEBUG - 开始处理段落 17 | text_length=503
+2025-06-08 12:43:26,685 - event_extractor - INFO - 从段落 15 提取到 1 个事件
+2025-06-08 12:43:26,691 - event_extractor - DEBUG - 发送段落 17 的LLM请求
+2025-06-08 12:43:33,516 - event_extractor - DEBUG - 解析段落 17 的响应
+2025-06-08 12:43:33,516 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 12:43:33,516 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立观察舞岩和其他孩子在攀爬巨石壁的情况...
+2025-06-08 12:43:33,516 - event_extractor - DEBUG - 段落 17 抽取到 1 个事件
+2025-06-08 12:43:33,518 - event_extractor - DEBUG - 开始处理段落 18 | text_length=459
+2025-06-08 12:43:33,518 - event_extractor - DEBUG - 发送段落 18 的LLM请求
+2025-06-08 12:43:39,868 - event_extractor - DEBUG - 解析段落 16 的响应
+2025-06-08 12:43:39,868 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 12:43:39,869 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立艰难地穿过竹林，准备进行七玄门的入门测试...
+2025-06-08 12:43:39,869 - event_extractor - DEBUG - 成功创建事件: E01-2 - 韩立开始攀爬巨石，面对风化的岩石和锐利的碎石片...
+2025-06-08 12:43:39,869 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立回忆起家人和三叔的嘱咐，决心坚持到底...
+2025-06-08 12:43:39,869 - event_extractor - DEBUG - 段落 16 抽取到 3 个事件
+2025-06-08 12:43:39,869 - event_extractor - DEBUG - 开始处理段落 19 | text_length=498
+2025-06-08 12:43:39,870 - event_extractor - INFO - 从段落 16 提取到 3 个事件
+2025-06-08 12:43:39,870 - event_extractor - DEBUG - 发送段落 19 的LLM请求
+2025-06-08 12:43:39,871 - event_extractor - INFO - 从段落 17 提取到 1 个事件
+2025-06-08 12:43:40,631 - event_extractor - DEBUG - 解析段落 18 的响应
+2025-06-08 12:43:40,631 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 12:43:40,631 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立感激自己未掉下悬崖，继续向前移动并开始攀爬麻绳...
+2025-06-08 12:43:40,631 - event_extractor - DEBUG - 段落 18 抽取到 1 个事件
+2025-06-08 12:43:40,632 - event_extractor - DEBUG - 开始处理段落 20 | text_length=500
+2025-06-08 12:43:40,633 - event_extractor - INFO - 从段落 18 提取到 1 个事件
+2025-06-08 12:43:40,633 - event_extractor - DEBUG - 发送段落 20 的LLM请求
+2025-06-08 12:43:53,485 - event_extractor - DEBUG - 解析段落 19 的响应
+2025-06-08 12:43:53,485 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 12:43:53,485 - event_extractor - DEBUG - 成功创建事件: E05-1 - 韩立试图攀爬绳结但未能成功...
+2025-06-08 12:43:53,485 - event_extractor - DEBUG - 成功创建事件: E05-2 - 韩立的师兄帮助他攀登山崖...
+2025-06-08 12:43:53,485 - event_extractor - DEBUG - 成功创建事件: E05-3 - 岳堂主宣布合格者名单...
+2025-06-08 12:43:53,485 - event_extractor - DEBUG - 段落 19 抽取到 3 个事件
+2025-06-08 12:43:53,487 - event_extractor - DEBUG - 开始处理段落 21 | text_length=416
+2025-06-08 12:43:53,487 - event_extractor - INFO - 从段落 19 提取到 3 个事件
+2025-06-08 12:43:53,489 - event_extractor - DEBUG - 发送段落 21 的LLM请求
+2025-06-08 12:44:01,472 - event_extractor - DEBUG - 解析段落 21 的响应
+2025-06-08 12:44:01,472 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 12:44:01,473 - event_extractor - DEBUG - 成功创建事件: E01-1 - 张均和瘦长脸的师兄讨论舞岩凭借副门主亲戚关系进入七绝堂的事情...
+2025-06-08 12:44:01,473 - event_extractor - DEBUG - 段落 21 抽取到 1 个事件
+2025-06-08 12:44:01,473 - event_extractor - DEBUG - 开始处理段落 22 | text_length=514
+2025-06-08 12:44:01,474 - event_extractor - DEBUG - 发送段落 22 的LLM请求
+2025-06-08 12:44:02,226 - event_extractor - DEBUG - 解析段落 20 的响应
+2025-06-08 12:44:02,226 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 12:44:02,227 - event_extractor - DEBUG - 成功创建事件: E01-1 - 岳堂主宣布张铁和韩立的表现突出，允许他们在本门打下根基，半年...
+2025-06-08 12:44:02,227 - event_extractor - DEBUG - 成功创建事件: E01-2 - 王护法领命将未过关的童子送遣回家...
+2025-06-08 12:44:02,227 - event_extractor - DEBUG - 成功创建事件: E01-3 - 张均和吴铭瑞将过关的童子分成两组，带到本堂分别交给顾副堂主和...
+2025-06-08 12:44:02,227 - event_extractor - DEBUG - 成功创建事件: E01-4 - 瘦长脸师兄解释舞岩被送到七绝堂的原因...
+2025-06-08 12:44:02,227 - event_extractor - DEBUG - 段落 20 抽取到 4 个事件
+2025-06-08 12:44:02,228 - event_extractor - DEBUG - 开始处理段落 23 | text_length=406
+2025-06-08 12:44:02,228 - event_extractor - INFO - 从段落 20 提取到 4 个事件
+2025-06-08 12:44:02,229 - event_extractor - DEBUG - 发送段落 23 的LLM请求
+2025-06-08 12:44:02,229 - event_extractor - INFO - 从段落 21 提取到 1 个事件
+2025-06-08 12:44:09,726 - event_extractor - DEBUG - 解析段落 23 的响应
+2025-06-08 12:44:09,726 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 12:44:09,727 - event_extractor - DEBUG - 成功创建事件: E01-1 - 墨大夫带领韩立和张铁进入神手谷，并安排他们住宿...
+2025-06-08 12:44:09,727 - event_extractor - DEBUG - 段落 23 抽取到 1 个事件
+2025-06-08 12:44:10,903 - event_extractor - DEBUG - 解析段落 22 的响应
+2025-06-08 12:44:10,903 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 12:44:10,903 - event_extractor - DEBUG - 成功创建事件: E01-1 - 墨大夫在树林中遇到张均等人，并挑选韩立和张铁作为炼药童子和采...
+2025-06-08 12:44:10,903 - event_extractor - DEBUG - 段落 22 抽取到 1 个事件
+2025-06-08 12:44:10,904 - event_extractor - INFO - 从段落 22 提取到 1 个事件
+2025-06-08 12:44:10,904 - event_extractor - INFO - 从段落 23 提取到 1 个事件
+2025-06-08 12:44:10,905 - event_extractor - INFO - 章节事件抽取完成 | chapter_id=第一章, total_events=52, successful_segments=23, failed_segments=0
+2025-06-08 12:45:03,190 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-08 12:45:03,288 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-08 12:45:03,288 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=第一章, title=第一章
+2025-06-08 12:45:03,288 - event_extractor - DEBUG - 章节没有预定义分段，正在创建分段
+2025-06-08 12:45:03,289 - event_extractor - INFO - 创建了 23 个文本分段
+2025-06-08 12:45:03,289 - event_extractor - DEBUG - 开始处理段落 1 | text_length=436
+2025-06-08 12:45:03,290 - event_extractor - DEBUG - 开始处理段落 2 | text_length=452
+2025-06-08 12:45:03,291 - event_extractor - DEBUG - 发送段落 1 的LLM请求
+2025-06-08 12:45:03,293 - event_extractor - DEBUG - 发送段落 2 的LLM请求
+2025-06-08 12:45:10,904 - event_extractor - DEBUG - 解析段落 2 的响应
+2025-06-08 12:45:10,904 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 12:45:10,904 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立被村里人称为'二愣子'，但他内心早熟，向往外面的世界...
+2025-06-08 12:45:10,905 - event_extractor - DEBUG - 段落 2 抽取到 1 个事件
+2025-06-08 12:45:10,905 - event_extractor - DEBUG - 开始处理段落 3 | text_length=493
+2025-06-08 12:45:10,906 - event_extractor - DEBUG - 发送段落 3 的LLM请求
+2025-06-08 12:45:11,247 - event_extractor - DEBUG - 解析段落 1 的响应
+2025-06-08 12:45:11,248 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 12:45:11,248 - event_extractor - DEBUG - 成功创建事件: E01-1 - 二愣子韩立躺在床上，试图入睡以便第二天早起与同伴进山拣干柴...
+2025-06-08 12:45:11,248 - event_extractor - DEBUG - 段落 1 抽取到 1 个事件
+2025-06-08 12:45:11,248 - event_extractor - DEBUG - 开始处理段落 4 | text_length=441
+2025-06-08 12:45:11,248 - event_extractor - INFO - 从段落 1 提取到 1 个事件
+2025-06-08 12:45:11,249 - event_extractor - INFO - 从段落 2 提取到 1 个事件
+2025-06-08 12:45:11,250 - event_extractor - DEBUG - 发送段落 4 的LLM请求
+2025-06-08 12:45:18,558 - event_extractor - DEBUG - 解析段落 4 的响应
+2025-06-08 12:45:18,559 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 12:45:18,559 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立对成为手艺学徒充满向往，见到三叔时感到兴奋...
+2025-06-08 12:45:18,559 - event_extractor - DEBUG - 段落 4 抽取到 1 个事件
+2025-06-08 12:45:18,560 - event_extractor - DEBUG - 开始处理段落 5 | text_length=496
+2025-06-08 12:45:18,561 - event_extractor - DEBUG - 发送段落 5 的LLM请求
+2025-06-08 12:45:32,937 - event_extractor - DEBUG - 解析段落 3 的响应
+2025-06-08 12:45:32,937 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 12:45:32,937 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立一家生活清苦，他在家中排行老四，今年十岁，全家生活艰难。...
+2025-06-08 12:45:32,937 - event_extractor - DEBUG - 成功创建事件: E01-2 - 韩立决定上山时为妹妹多拣些红浆果。...
+2025-06-08 12:45:32,937 - event_extractor - DEBUG - 成功创建事件: E01-3 - 韩立从山里回家，不知道家中来了会改变他一生命运的客人。...
+2025-06-08 12:45:32,937 - event_extractor - DEBUG - 成功创建事件: E01-4 - 介绍韩立的三叔及其对韩立一家的帮助。...
+2025-06-08 12:45:32,937 - event_extractor - DEBUG - 成功创建事件: E01-5 - 韩立的大哥在城里当铁匠学徒，是三叔介绍的，成为家人的骄傲。...
+2025-06-08 12:45:32,937 - event_extractor - DEBUG - 段落 3 抽取到 5 个事件
+2025-06-08 12:45:32,941 - event_extractor - DEBUG - 开始处理段落 6 | text_length=498
+2025-06-08 12:45:32,942 - event_extractor - INFO - 从段落 3 提取到 5 个事件
+2025-06-08 12:45:32,943 - event_extractor - INFO - 从段落 4 提取到 1 个事件
+2025-06-08 12:45:32,944 - event_extractor - DEBUG - 发送段落 6 的LLM请求
+2025-06-08 12:45:37,113 - event_extractor - DEBUG - 解析段落 5 的响应
+2025-06-08 12:45:37,113 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 12:45:37,114 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩父听到关于七玄门的信息后犹豫不决，最终决定让韩立参加七玄门...
+2025-06-08 12:45:37,114 - event_extractor - DEBUG - 成功创建事件: E01-2 - 三叔向韩父介绍七玄门的好处，包括成为内门弟子的福利...
+2025-06-08 12:45:37,114 - event_extractor - DEBUG - 成功创建事件: E01-3 - 三叔留下银子并告知一个月后带韩立走，韩立对此感到兴奋...
+2025-06-08 12:45:37,114 - event_extractor - DEBUG - 成功创建事件: E01-4 - 三叔准时来到村中带韩立走，韩父韩母对韩立进行嘱咐...
+2025-06-08 12:45:37,114 - event_extractor - DEBUG - 段落 5 抽取到 4 个事件
+2025-06-08 12:45:37,114 - event_extractor - DEBUG - 开始处理段落 7 | text_length=507
+2025-06-08 12:45:37,115 - event_extractor - INFO - 从段落 5 提取到 4 个事件
+2025-06-08 12:45:37,115 - event_extractor - DEBUG - 发送段落 7 的LLM请求
+2025-06-08 12:45:43,153 - event_extractor - DEBUG - 解析段落 6 的响应
+2025-06-08 12:45:43,153 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-08 12:45:43,153 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立离开父母，决心挣钱后回来与父母团聚...
+2025-06-08 12:45:43,153 - event_extractor - DEBUG - 成功创建事件: E02-1 - 韩立到达青牛镇，马车停在春香酒楼前...
+2025-06-08 12:45:43,153 - event_extractor - DEBUG - 段落 6 抽取到 2 个事件
+2025-06-08 12:45:43,154 - event_extractor - DEBUG - 开始处理段落 8 | text_length=385
+2025-06-08 12:45:43,155 - event_extractor - INFO - 从段落 6 提取到 2 个事件
+2025-06-08 12:45:43,158 - event_extractor - DEBUG - 发送段落 8 的LLM请求
+2025-06-08 12:45:44,690 - event_extractor - DEBUG - 解析段落 7 的响应
+2025-06-08 12:45:44,690 - event_extractor - DEBUG - 响应被视为单个事件
+2025-06-08 12:45:44,690 - event_extractor - DEBUG - 成功创建事件: E01-1 - 韩立和他的三叔韩胖子到达镇子并进入酒楼...
+2025-06-08 12:45:44,690 - event_extractor - DEBUG - 段落 7 抽取到 1 个事件
+2025-06-08 12:45:44,691 - event_extractor - DEBUG - 开始处理段落 9 | text_length=502
+2025-06-08 12:45:44,691 - event_extractor - INFO - 从段落 7 提取到 1 个事件
+2025-06-08 12:45:44,692 - event_extractor - DEBUG - 发送段落 9 的LLM请求

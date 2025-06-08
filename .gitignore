@@ -23,3 +23,7 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+
+# 测试生成的文件
+debug/event_extraction
+output/

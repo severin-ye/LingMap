@@ -1,0 +1,5 @@
+2025-06-08 12:41:13,721 - system_test - DEBUG - 这是调试信息
+2025-06-08 12:41:13,721 - system_test - INFO - 这是信息日志
+2025-06-08 12:41:13,721 - system_test - WARNING - 这是警告日志
+2025-06-08 12:41:13,722 - system_test - ERROR - 这是错误日志
+2025-06-08 12:41:13,722 - system_test - INFO - 结构化日志测试 | extra_field=额外数据, count=42

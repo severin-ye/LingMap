@@ -1,0 +1,1327 @@
+[
+  {
+    "event_id": "E01-1",
+    "description": "二愣子韩立在家中准备入睡，以便第二天早起与同伴进山拣干柴",
+    "characters": [
+      "韩立",
+      "韩铸",
+      "韩母",
+      "韩父",
+      "老张叔"
+    ],
+    "treasures": [],
+    "result": "韩立决定尽早入睡以确保第二天能早起",
+    "location": "韩立家",
+    "time": "夜晚",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立被村里人称为'二愣子'，但他内心早熟，向往外面的世界",
+    "characters": [
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩立虽然不喜欢这个称呼，但接受了这个现实，并怀有走出村子的梦想",
+    "location": "村子",
+    "time": "韩立童年时期",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立一家生活清苦，他在家中排行老四，今年十岁，全家生活艰难。",
+    "characters": [
+      "韩立",
+      "韩立的家人"
+    ],
+    "treasures": [],
+    "result": "描述了韩立家庭的基本情况和他们的生活状态。",
+    "location": "韩立家",
+    "time": "韩立十岁时",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-2",
+    "description": "韩立计划上山为妹妹采摘红浆果。",
+    "characters": [
+      "韩立",
+      "韩立的妹妹"
+    ],
+    "treasures": [
+      "红浆果"
+    ],
+    "result": "韩立决定帮助妹妹采摘她喜欢吃的红浆果。",
+    "location": "山上",
+    "time": "第二天",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-3",
+    "description": "韩立从山上回家，不知道家中来了会改变他一生命运的客人。",
+    "characters": [
+      "韩立",
+      "韩立的三叔"
+    ],
+    "treasures": [],
+    "result": "韩立的三叔来访，预示韩立命运的改变。",
+    "location": "韩立家",
+    "time": "第二天中午",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-4",
+    "description": "介绍韩立的三叔及其对韩立家庭的帮助。",
+    "characters": [
+      "韩立的三叔",
+      "韩立的父母",
+      "韩立的大哥"
+    ],
+    "treasures": [],
+    "result": "展示了三叔在韩立家庭中的重要地位和他对家庭的贡献。",
+    "location": "韩立家",
+    "time": "过去",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立羡慕大哥并梦想成为手艺学徒",
+    "characters": [
+      "韩立",
+      "韩立的父母",
+      "大哥"
+    ],
+    "treasures": [],
+    "result": "韩立对未来的工作有了憧憬",
+    "location": "韩立家",
+    "time": "韩立小时候",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩父听到关于七玄门的信息后犹豫不决，最终决定让韩立参加七玄门的考验",
+    "characters": [
+      "韩父",
+      "三叔",
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩父决定让韩立参加七玄门的考验",
+    "location": "韩家",
+    "time": "未明确说明",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-2",
+    "description": "三叔向韩父介绍七玄门的好处，包括成为内门弟子的福利",
+    "characters": [
+      "三叔",
+      "韩父"
+    ],
+    "treasures": [],
+    "result": "韩父被说服，决定让韩立参加七玄门的考验",
+    "location": "韩家",
+    "time": "未明确说明",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-3",
+    "description": "三叔留下银子并告知一个月后会来带韩立走",
+    "characters": [
+      "三叔",
+      "韩父",
+      "韩立"
+    ],
+    "treasures": [
+      "几两银子"
+    ],
+    "result": "三叔离开，准备一个月后带韩立参加七玄门的考验",
+    "location": "韩家",
+    "time": "未明确说明",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-4",
+    "description": "韩立对即将进城和挣大钱感到兴奋",
+    "characters": [
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩立几个晚上兴奋得睡不着觉",
+    "location": "韩家",
+    "time": "未明确说明",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-5",
+    "description": "三叔准时来到村中带韩立走，韩父韩母嘱咐韩立",
+    "characters": [
+      "三叔",
+      "韩父",
+      "韩母",
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩立随三叔离开村庄，前往七玄门",
+    "location": "村庄",
+    "time": "一个多月后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立离开父母，决心挣钱后回来与父母团聚",
+    "characters": [
+      "韩立",
+      "韩立的父母"
+    ],
+    "treasures": [],
+    "result": "韩立开始了他的旅程，决心未来与父母团聚",
+    "location": "马车上",
+    "time": "韩立十岁时",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E02-1",
+    "description": "韩立到达青牛镇，马车停在春香酒楼前",
+    "characters": [
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩立进入青牛镇，开始新的生活阶段",
+    "location": "青牛镇，春香酒楼",
+    "time": "午饭时分",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立和他的三叔韩胖子到达镇子并进入酒楼",
+    "characters": [
+      "韩立",
+      "韩胖子"
+    ],
+    "treasures": [],
+    "result": "韩立被带到酒楼后面的小院子休息",
+    "location": "酒楼及后面的小院子",
+    "time": "一连赶了三天路后刚进镇子时",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "小厮送饭菜给韩立",
+    "characters": [
+      "韩立",
+      "小厮"
+    ],
+    "treasures": [],
+    "result": "韩立吃完饭菜",
+    "location": "酒楼",
+    "time": "晚上",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-2",
+    "description": "三叔与韩立聊天",
+    "characters": [
+      "韩立",
+      "三叔"
+    ],
+    "treasures": [],
+    "result": "韩立与三叔有说有笑",
+    "location": "酒楼",
+    "time": "晚上",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-3",
+    "description": "七玄门重要人物驾临",
+    "characters": [],
+    "treasures": [
+      "玄字小三角黑旗"
+    ],
+    "result": "七玄门重要人物到达",
+    "location": "酒楼门前",
+    "time": "第三天晚上",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "七玄门由七绝上人创立，曾雄霸镜州",
+    "characters": [
+      "七绝上人"
+    ],
+    "treasures": [],
+    "result": "七玄门声名赫赫",
+    "location": "镜州",
+    "time": "二百年前",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-2",
+    "description": "七绝上人病故，七玄门势力衰落",
+    "characters": [
+      "七绝上人"
+    ],
+    "treasures": [],
+    "result": "七玄门被挤出镜州城，搬迁至仙霞山",
+    "location": "镜州城，仙霞山",
+    "time": "七绝上人病故后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-3",
+    "description": "七玄门搬迁至仙霞山后，控制周边城镇",
+    "characters": [],
+    "treasures": [],
+    "result": "成为本地两大霸主之一",
+    "location": "仙霞山，青牛镇等",
+    "time": "百年前",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-4",
+    "description": "野狼帮与七玄门冲突，七玄门处于下风",
+    "characters": [],
+    "treasures": [],
+    "result": "七玄门扩招弟子",
+    "location": "镜州",
+    "time": "近年来",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E03-1",
+    "description": "王护法亲自带队来接参加七玄门入门考查的孩童，韩立的三叔推荐韩立并贿赂王护法以求照顾",
+    "characters": [
+      "王护法",
+      "韩立的三叔",
+      "韩立"
+    ],
+    "treasures": [
+      "沉甸甸的袋子"
+    ],
+    "result": "王护法答应路上照顾韩立",
+    "location": "韩理所在的屋子外",
+    "time": "前往七玄门之前",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E03-2",
+    "description": "韩立和其他孩童挤在前往七玄门的马车上，观察车内的其他孩童",
+    "characters": [
+      "韩立",
+      "其他孩童"
+    ],
+    "treasures": [],
+    "result": "韩立观察到车内孩童分为三类人",
+    "location": "前往七玄门的马车上",
+    "time": "前往七玄门的路上",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "舞岩因其家庭背景和武功成为车内孩童的领导者",
+    "characters": [
+      "舞岩",
+      "韩立",
+      "其他孩童"
+    ],
+    "treasures": [],
+    "result": "舞岩被其他孩童尊称为'舞少爷'和'舞大哥'，成为车内的'大哥'",
+    "location": "车内",
+    "time": "舞岩十三岁时",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "马车从青牛镇出发，一路向西，途中接了几个孩童，最终到达彩霞山，七玄门总门所在地。",
+    "characters": [
+      "王护法",
+      "韩立",
+      "其他孩童"
+    ],
+    "treasures": [],
+    "result": "孩子们被彩霞山的美景迷住，随后被王护法催促继续前进。",
+    "location": "从青牛镇到彩霞山的路途",
+    "time": "第五天傍晚",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-2",
+    "description": "孩子们被彩霞山的落日美景深深迷住，直到被王护法催促才继续前进。",
+    "characters": [
+      "王护法",
+      "韩立",
+      "其他孩童"
+    ],
+    "treasures": [],
+    "result": "孩子们继续向七玄门总门前进。",
+    "location": "彩霞山",
+    "time": "傍晚",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-3",
+    "description": "介绍彩霞山的背景和七玄门在彩霞山的布局。",
+    "characters": [],
+    "treasures": [],
+    "result": "无直接事件结果，为背景介绍。",
+    "location": "彩霞山",
+    "time": "无具体时间",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-4",
+    "description": "队伍在前进中突然停下，有人对王护法说话，询问为何比预定时间晚了两天。",
+    "characters": [
+      "王护法",
+      "未知说话者"
+    ],
+    "treasures": [],
+    "result": "队伍停下，对话发生。",
+    "location": "彩霞山",
+    "time": "傍晚",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "王护法向岳堂主报告护送弟子的情况",
+    "characters": [
+      "王护法",
+      "岳堂主"
+    ],
+    "treasures": [],
+    "result": "岳堂主指示将弟子们送到清客院休息，准备第二天的选拔",
+    "location": "山脚下",
+    "time": "傍晚",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-2",
+    "description": "弟子们被带到清客院休息",
+    "characters": [
+      "韩立",
+      "王护法",
+      "其他弟子"
+    ],
+    "treasures": [],
+    "result": "弟子们在清客院住了一宿，准备第二天的选拔",
+    "location": "清客院",
+    "time": "晚上",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-3",
+    "description": "韩立梦见自己身怀绝世武功",
+    "characters": [
+      "韩立"
+    ],
+    "treasures": [
+      "金剑"
+    ],
+    "result": "韩立在梦中体验了拥有绝世武功的感觉",
+    "location": "清客院",
+    "time": "晚上",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E04-1",
+    "description": "王护法带领众人到竹林斜坡前，岳堂主和其他年青人已在那里等待",
+    "characters": [
+      "王护法",
+      "岳堂主",
+      "其他几位不认识的年青人",
+      "众人"
+    ],
+    "treasures": [],
+    "result": "众人被带到竹林斜坡前准备开始测试",
+    "location": "山下的一大片种满竹子的斜坡",
+    "time": "早上",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E04-2",
+    "description": "岳堂主宣布测试规则，说明通过竹林、岩壁地带到达炼骨崖顶的才能成为七玄门正式弟子",
+    "characters": [
+      "岳堂主",
+      "众人"
+    ],
+    "treasures": [],
+    "result": "测试规则被宣布，众人准备开始测试",
+    "location": "竹林斜坡前",
+    "time": "早上",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E04-3",
+    "description": "韩立和其他孩童开始进入竹林，开始测试",
+    "characters": [
+      "韩立",
+      "其他孩童"
+    ],
+    "treasures": [],
+    "result": "韩立和其他孩童进入竹林开始测试",
+    "location": "竹林",
+    "time": "早上",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立与三十余名孩童进入竹林，韩立因害怕紧随其后的瘦长师兄而不敢与其说话，独自沿着斜坡前进。",
+    "characters": [
+      "韩立",
+      "瘦长的师兄"
+    ],
+    "treasures": [],
+    "result": "韩立感到害怕并独自前进。",
+    "location": "竹林",
+    "time": "进入竹林后不久",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立艰难地穿过竹林，准备进行七玄门的入门测试",
+    "characters": [
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩立成功走出竹林，准备开始攀爬巨石",
+    "location": "竹林外",
+    "time": "入门测试前",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-2",
+    "description": "韩立开始攀爬巨石，面对风化的岩石和锐利的碎石片",
+    "characters": [
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩立双手和膝盖受伤，但继续坚持攀爬",
+    "location": "巨石壁",
+    "time": "入门测试期间",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-3",
+    "description": "韩立回忆起家人和三叔的嘱咐，决心坚持到底",
+    "characters": [
+      "韩立",
+      "韩立的父亲",
+      "韩立的三叔"
+    ],
+    "treasures": [],
+    "result": "韩立内心坚定了继续攀爬的决心",
+    "location": "巨石壁上",
+    "time": "入门测试期间",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立观察舞岩和其他孩子在攀爬巨石壁的情况",
+    "characters": [
+      "韩立",
+      "舞岩"
+    ],
+    "treasures": [],
+    "result": "韩立意识到自己难以追上最前面的几人",
+    "location": "巨石壁",
+    "time": "太阳逐渐爬到天空的正中间",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立感激自己未掉下悬崖，继续向前移动寻找麻绳攀爬。",
+    "characters": [
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩立找到一条没人的麻绳开始攀爬。",
+    "location": "悬崖",
+    "time": "接近正午",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E05-1",
+    "description": "韩立试图攀爬绳结但未能成功",
+    "characters": [
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩立未能攀爬成功",
+    "location": "山崖",
+    "time": "太阳高高挂在天上正中间",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E05-2",
+    "description": "师兄帮助韩立攀登山崖",
+    "characters": [
+      "韩立",
+      "师兄"
+    ],
+    "treasures": [],
+    "result": "韩立被成功带上山崖",
+    "location": "山崖",
+    "time": "太阳高高挂在天上正中间",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E05-3",
+    "description": "岳堂主宣布合格者名单",
+    "characters": [
+      "岳堂主",
+      "舞岩",
+      "富态老者",
+      "王护法",
+      "其他童子"
+    ],
+    "treasures": [],
+    "result": "七名童子合格，其中六人进入百锻堂，舞岩保送七绝堂",
+    "location": "山崖顶部",
+    "time": "所有童子被送上山后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "岳堂主决定张铁和韩立的表现突出，允许他们在本门打下根基，半年后再考核",
+    "characters": [
+      "岳堂主",
+      "张铁",
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "张铁和韩立被允许留在本门，半年后考核决定是否成为内门弟子",
+    "location": "崖顶",
+    "time": "考核结束后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-2",
+    "description": "未过关的童子被王护法领下山崖，每人领些银子送遣回家",
+    "characters": [
+      "王护法",
+      "未过关的童子"
+    ],
+    "treasures": [
+      "银子"
+    ],
+    "result": "未过关的童子被送回家",
+    "location": "崖顶",
+    "time": "考核结束后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-3",
+    "description": "过关的童子被分成两组，由张均和吴铭瑞带领到本堂分别交给顾副堂主和李教习",
+    "characters": [
+      "张均",
+      "吴铭瑞",
+      "韩立",
+      "张铁",
+      "其他过关的童子",
+      "顾副堂主",
+      "李教习"
+    ],
+    "treasures": [],
+    "result": "过关的童子被分配到不同的教习下",
+    "location": "崖顶到本堂的路上",
+    "time": "考核结束后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-4",
+    "description": "瘦长脸师兄解释舞岩被送到七绝堂作为核心弟子，学成后至少是护法身份",
+    "characters": [
+      "瘦长脸师兄",
+      "韩立",
+      "舞岩",
+      "蓝袍老者"
+    ],
+    "treasures": [],
+    "result": "韩立了解到舞岩的不同待遇",
+    "location": "下山崖的路上",
+    "time": "考核结束后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "张均和瘦长脸的师兄讨论舞岩凭借副门主亲戚关系进入七绝堂的事情",
+    "characters": [
+      "张均",
+      "瘦长脸的师兄",
+      "韩立",
+      "舞岩",
+      "马副门主"
+    ],
+    "treasures": [],
+    "result": "张均和瘦长脸的师兄意识到议论副门主的危险性，停止了讨论",
+    "location": "山路",
+    "time": "前往七绝堂的路上",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "墨大夫在树林中遇到张均等人，并选中韩立和张铁作为炼药童子和采药弟子",
+    "characters": [
+      "墨大夫",
+      "张均",
+      "韩立",
+      "张铁",
+      "吴铭瑞"
+    ],
+    "treasures": [],
+    "result": "韩立和张铁被墨大夫选中，跟随其进入林子",
+    "location": "茂密的树林",
+    "time": "未明确说明",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E06-1",
+    "description": "墨大夫带领韩立和张铁进入神手谷，并安排他们住宿",
+    "characters": [
+      "墨大夫",
+      "韩立",
+      "张铁"
+    ],
+    "treasures": [],
+    "result": "韩立和张铁被安排在神手谷住下，准备晚上见墨大夫",
+    "location": "神手谷",
+    "time": "白天",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E06-2",
+    "description": "韩立因疲惫不堪直接睡去",
+    "characters": [
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩立昏昏沉沉地睡了过去",
+    "location": "神手谷的小屋",
+    "time": "白天",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E06-3",
+    "description": "张铁叫醒韩立",
+    "characters": [
+      "韩立",
+      "张铁"
+    ],
+    "treasures": [],
+    "result": "韩立被张铁从睡梦中惊醒",
+    "location": "神手谷的小屋",
+    "time": "晚上",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "张铁给韩立带来馒头并一起吃晚饭",
+    "characters": [
+      "张铁",
+      "韩立"
+    ],
+    "treasures": [
+      "馒头"
+    ],
+    "result": "韩立吃完馒头后与张铁一起去见墨老",
+    "location": "山谷附近的大厨房",
+    "time": "晚饭时间",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立二人成为墨大夫的记名弟子，墨大夫宣布将教授他们采药炼药的常识和医术，但不教武功，并强调将教授一套修身养性的口诀，不合格者将被贬为外门弟子。",
+    "characters": [
+      "墨大夫",
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩立二人同意成为墨大夫的记名弟子，并被告知第二天一早再来。",
+    "location": "墨大夫的住处",
+    "time": "即日起",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立注意到墨大夫手中的书，但不识字无法理解书名",
+    "characters": [
+      "韩立",
+      "墨大夫"
+    ],
+    "treasures": [
+      "未知书名的书"
+    ],
+    "result": "韩立无法得知书名内容",
+    "location": "墨大夫的屋子",
+    "time": "韩立成为七玄门记名弟子前",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-2",
+    "description": "韩立成为七玄门的记名弟子，对未来充满期待",
+    "characters": [
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩立对成为外门弟子和见到家人抱有希望",
+    "location": "七玄门",
+    "time": "韩立成为记名弟子后的几天",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-3",
+    "description": "韩立和其他童子学习医药知识、武学基础知识和基本功夫",
+    "characters": [
+      "韩立",
+      "墨大夫",
+      "其他童子"
+    ],
+    "treasures": [],
+    "result": "韩立开始接受七玄门的正式训练",
+    "location": "七玄门的书屋和训练场地",
+    "time": "韩立成为记名弟子后的日子里",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立和其他童子分开，开始学习墨大夫传授的无名口诀",
+    "characters": [
+      "韩立",
+      "墨大夫"
+    ],
+    "treasures": [
+      "无名口诀"
+    ],
+    "result": "韩立和另一名童子开始专注于练习无名口诀，不得外传",
+    "location": "七玄门",
+    "time": "一个月后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-2",
+    "description": "韩立了解七玄门和墨大夫的详细信息",
+    "characters": [
+      "韩立",
+      "王6",
+      "墨大夫"
+    ],
+    "treasures": [],
+    "result": "韩立对七玄门的结构和墨大夫的地位有了更深入的了解",
+    "location": "七玄门",
+    "time": "在学习无名口诀期间",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E07-1",
+    "description": "墨大夫救下王门主并加入七玄门",
+    "characters": [
+      "墨大夫",
+      "王门主"
+    ],
+    "treasures": [],
+    "result": "墨大夫成为七玄门供奉堂的一名供奉",
+    "location": "七玄门",
+    "time": "数年前",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E07-2",
+    "description": "韩立修炼达到极限",
+    "characters": [
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩立停止修炼以避免经脉破裂",
+    "location": "修炼地点未明确",
+    "time": "修炼当天",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "记名弟子的正式入门考查结束",
+    "characters": [
+      "韩立",
+      "张铁",
+      "其他记名弟子"
+    ],
+    "treasures": [],
+    "result": "一小部分记名弟子加入内门，大部分成为外门弟子",
+    "location": "彩霞山脉",
+    "time": "韩立入门后的大半年",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-2",
+    "description": "未能通过入门考查的弟子被划入聚宝堂和飞鸟堂",
+    "characters": [
+      "未能通过考查的记名弟子"
+    ],
+    "treasures": [],
+    "result": "部分杰出弟子可能进入外刃堂，四海堂只招收武林成名人物",
+    "location": "彩霞山脉",
+    "time": "入门考查结束后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-3",
+    "description": "韩立回忆记名弟子的考查内容",
+    "characters": [
+      "韩立",
+      "其他记名弟子"
+    ],
+    "treasures": [],
+    "result": "韩立感到幸灾乐祸",
+    "location": "彩霞山脉",
+    "time": "回忆中的时间",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-4",
+    "description": "韩立和张铁测试口诀的修炼情况",
+    "characters": [
+      "韩立",
+      "张铁",
+      "墨大夫"
+    ],
+    "treasures": [],
+    "result": "测试并不容易过",
+    "location": "彩霞山脉",
+    "time": "入门考查期间",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立和另一人从墨大夫那里得到一套无名口诀的第一层修炼法决，需要在半年内有所成就才能成为墨大夫的正式弟子。",
+    "characters": [
+      "韩立",
+      "墨大夫"
+    ],
+    "treasures": [
+      "无名口诀"
+    ],
+    "result": "韩立决定认真修炼，放弃蒙混过关的想法。",
+    "location": "七玄门",
+    "time": "半年内",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立发现自己体内产生的真气与其他童子不同，感到沮丧",
+    "characters": [
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩立几乎放弃修炼",
+    "location": "七玄门",
+    "time": "修炼数月后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-2",
+    "description": "韩立从张铁那里得知张铁修炼口诀没有效果",
+    "characters": [
+      "韩立",
+      "张铁"
+    ],
+    "treasures": [],
+    "result": "韩立重拾信心，更加努力修炼",
+    "location": "七玄门",
+    "time": "得知消息的当天",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E08-1",
+    "description": "韩立疯狂修炼，尝试在睡觉时保持修炼姿势",
+    "characters": [
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "因睡眠不足导致白天修炼效率下降，停止此做法",
+    "location": "修炼地点",
+    "time": "晚上",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E08-2",
+    "description": "墨大夫对韩立和张铁的修炼进度不闻不问，专注于阅读《长生经》",
+    "characters": [
+      "墨大夫",
+      "韩立",
+      "张铁"
+    ],
+    "treasures": [
+      "长生经"
+    ],
+    "result": "韩立和张铁意识到墨大夫追求长生不老",
+    "location": "墨大夫的住处",
+    "time": "每日",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E08-3",
+    "description": "韩立接受墨大夫的测试，张铁因修炼无成感到紧张",
+    "characters": [
+      "韩立",
+      "张铁",
+      "墨大夫"
+    ],
+    "treasures": [],
+    "result": "韩立展示修炼成果，张铁无成",
+    "location": "墨大夫的住处",
+    "time": "近半年后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立和张铁努力修炼口诀，但张铁没有效果",
+    "characters": [
+      "韩立",
+      "张铁"
+    ],
+    "treasures": [],
+    "result": "张铁的口诀修炼没有产生效果",
+    "location": "修炼地点",
+    "time": "修炼期间",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-2",
+    "description": "韩立对自己的修炼成果感到不安",
+    "characters": [
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩立对自己的修炼成果是否能通过墨大夫的考核感到不安",
+    "location": "修炼地点",
+    "time": "修炼期间",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-3",
+    "description": "墨大夫考核韩立和张铁的修炼成果",
+    "characters": [
+      "墨大夫",
+      "韩立",
+      "张铁"
+    ],
+    "treasures": [
+      "寸步不离的书"
+    ],
+    "result": "墨大夫开始检查韩立和张铁的修炼成果",
+    "location": "墨大夫的居所",
+    "time": "考核时间",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-4",
+    "description": "墨大夫检查张铁的修炼情况",
+    "characters": [
+      "墨大夫",
+      "张铁"
+    ],
+    "treasures": [],
+    "result": "墨大夫通过脉门和丹田检查张铁的修炼情况",
+    "location": "墨大夫的居所",
+    "time": "考核时间",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "墨大夫检查张铁的修炼成果",
+    "characters": [
+      "墨大夫",
+      "张铁"
+    ],
+    "treasures": [],
+    "result": "墨大夫对张铁的修炼成果感到失望",
+    "location": "修炼场所",
+    "time": "一盏茶的时间后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-2",
+    "description": "墨大夫检查韩立的修炼成果",
+    "characters": [
+      "墨大夫",
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "墨大夫发现韩立体内的能量运行，表现出狂热的兴趣",
+    "location": "修炼场所",
+    "time": "检查张铁后立即",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "墨大夫检查韩立体内的能量运行情况，并因发现其符合自己的期望而激动不已，最终宣布韩立为他的亲传弟子。",
+    "characters": [
+      "墨大夫",
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩立被宣布为墨大夫的亲传弟子。",
+    "location": "墨大夫的住处",
+    "time": "韩立体内能量运行检查时",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E09-1",
+    "description": "张铁因资质问题面临被赶下山的危机，墨大夫提出另一种心法适合他",
+    "characters": [
+      "张铁",
+      "墨大夫"
+    ],
+    "treasures": [],
+    "result": "张铁被允许继续留下学习新的心法",
+    "location": "山上",
+    "time": "测试当天",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E09-2",
+    "description": "韩立和张铁因脾气相投和出身类似成为密友",
+    "characters": [
+      "韩立",
+      "张铁"
+    ],
+    "treasures": [],
+    "result": "两人结为无话不说的密友",
+    "location": "山上",
+    "time": "大半年内",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立结束打坐练功，离开石室",
+    "characters": [
+      "韩立",
+      "墨大夫"
+    ],
+    "treasures": [],
+    "result": "韩立感到腿部麻木恢复，离开石室",
+    "location": "神手谷内的石室",
+    "time": "练功结束后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "墨大夫给韩立服用药物和用药草汤汁浸泡身子，以提升其修炼速度",
+    "characters": [
+      "墨大夫",
+      "韩立"
+    ],
+    "treasures": [
+      "不知名的药物",
+      "药草汤汁"
+    ],
+    "result": "韩立的修炼速度明显提高",
+    "location": "墨大夫的住处",
+    "time": "成为正式弟子后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-2",
+    "description": "韩立冲关成功，练成无名口诀的第一层，但受内伤",
+    "characters": [
+      "韩立",
+      "墨大夫"
+    ],
+    "treasures": [
+      "好药"
+    ],
+    "result": "韩立受内伤，但无后遗症",
+    "location": "修炼地点",
+    "time": "冲关时",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-3",
+    "description": "墨大夫紧张地医治韩立的内伤",
+    "characters": [
+      "墨大夫",
+      "韩立"
+    ],
+    "treasures": [
+      "好药"
+    ],
+    "result": "韩立的伤势好转",
+    "location": "医治地点",
+    "time": "韩立受伤后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-4",
+    "description": "韩立和张铁搬出原来屋子，拥有自己的私人小屋",
+    "characters": [
+      "韩立",
+      "张铁"
+    ],
+    "treasures": [],
+    "result": "韩立和张铁分别拥有了自己的私人小屋",
+    "location": "住处",
+    "time": "成为正式弟子后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "Exx-1",
+    "description": "韩立经过张铁的屋子，发现张铁不在，推测他去赤水峰下的瀑布练功",
+    "characters": [
+      "韩立",
+      "张铁"
+    ],
+    "treasures": [],
+    "result": "韩立注意到张铁的行踪",
+    "location": "张铁的屋子附近",
+    "time": "不详",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "Exx-2",
+    "description": "韩立成为墨大夫的正式弟子后，墨大夫只让他练习无名口诀，但毫无保留地传授医术",
+    "characters": [
+      "韩立",
+      "墨大夫"
+    ],
+    "treasures": [
+      "无名口诀"
+    ],
+    "result": "韩立在医术方面得到全面传授",
+    "location": "墨大夫的住处",
+    "time": "成为正式弟子后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "Exx-3",
+    "description": "墨大夫传授张铁“象甲功”，并介绍该武功的特点和修炼难度",
+    "characters": [
+      "张铁",
+      "墨大夫"
+    ],
+    "treasures": [
+      "象甲功"
+    ],
+    "result": "张铁开始修炼“象甲功”",
+    "location": "不详",
+    "time": "成为正式弟子后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "张铁决定修炼象甲功",
+    "characters": [
+      "张铁",
+      "墨大夫"
+    ],
+    "treasures": [
+      "象甲功"
+    ],
+    "result": "张铁开始修炼象甲功",
+    "location": "未明确",
+    "time": "未明确",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-2",
+    "description": "张铁在瀑布下练功以突破象甲功第一层",
+    "characters": [
+      "张铁"
+    ],
+    "treasures": [
+      "象甲功"
+    ],
+    "result": "张铁努力修炼以突破象甲功第一层",
+    "location": "赤水峰瀑布",
+    "time": "每天下午",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E10-1",
+    "description": "张铁接近突破象甲功第二层",
+    "characters": [
+      "张铁"
+    ],
+    "treasures": [],
+    "result": "张铁距离突破象甲功第二层仅一步之遥",
+    "location": "神手谷",
+    "time": "秋末",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E10-2",
+    "description": "韩立前往赤水峰途中思考张铁的修炼情况",
+    "characters": [
+      "韩立",
+      "张铁"
+    ],
+    "treasures": [
+      "象甲功"
+    ],
+    "result": "韩立计划与张铁一起向墨大夫求情改练其他功夫",
+    "location": "前往赤水峰的山路",
+    "time": "秋末",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E10-3",
+    "description": "远处山峰传来兵器撞击声和喝彩声",
+    "characters": [],
+    "treasures": [],
+    "result": "暗示附近有其他修炼者或活动",
+    "location": "远处的一座山峰",
+    "time": "秋末",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立观察到百锻堂的教习师兄们对新入门的师弟进行兵器格斗训练，感到羡慕和不满",
+    "characters": [
+      "韩立",
+      "墨大夫",
+      "张铁"
+    ],
+    "treasures": [],
+    "result": "韩立因墨大夫的禁令无法参与兵器训练，只能私下借兵刃过瘾",
+    "location": "百锻堂附近的山峰",
+    "time": "韩立正式拜入墨大夫门下后",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立在行走时不慎踢到树叶堆中的硬石头，导致右脚拇指受伤",
+    "characters": [
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩立经过一段时间的痛苦后，最终缓过劲来，并试图寻找造成伤害的石头",
+    "location": "小路旁的树叶堆中",
+    "time": "未明确说明",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立在树叶堆中发现一个金属制成的小瓶子",
+    "characters": [
+      "韩立"
+    ],
+    "treasures": [
+      "金属小瓶子"
+    ],
+    "result": "韩立对小瓶子产生兴趣，但因脚伤决定先回住处",
+    "location": "树叶堆中",
+    "time": "未明确说明",
+    "chapter_id": "第一章"
+  },
+  {
+    "event_id": "E01-1",
+    "description": "韩立发现并藏起一个脏瓶子",
+    "characters": [
+      "韩立"
+    ],
+    "treasures": [
+      "瓶子"
+    ],
+    "result": "韩立将瓶子藏入怀中并离开",
+    "location": "未明确说明",
+    "time": "未明确说明",
+    "chapter_id": "第一章"
+  }
+]

@@ -1,0 +1,181 @@
+{
+  "content": "{\n  \"events\": [\n    {\n      \"event_id\": \"E01-1\",\n      \"description\": \"韩立在家中准备入睡，计划第二天早起与同伴进山拣干柴。\",\n      \"characters\": [\"韩立\", \"韩铸\", \"韩母\", \"韩父\"],\n      \"treasures\": [],\n      \"result\": \"韩立计划第二天早起进山。\",\n      \"location\": \"韩立家\",\n      \"time\": \"夜晚\",\n      \"chapter_id\": \"第一章\"\n    },\n    {\n      \"event_id\": \"E01-2\",\n      \"description\": \"韩立从山里回家，发现家中来了会改变他一生命运的客人——他的亲三叔。\",\n      \"characters\": [\"韩立\", \"韩三叔\"],\n      \"treasures\": [],\n      \"result\": \"韩立得知三叔来访，可能改变他的命运。\",\n      \"location\": \"韩立家\",\n      \"time\": \"第二天中午\",\n      \"chapter_id\": \"第一章\"\n    },\n    {\n      \"event_id\": \"E01-3\",\n      \"description\": \"三叔提议韩立参加七玄门招收内门弟子的考验。\",\n      \"characters\": [\"韩立\", \"韩三叔\", \"韩父\", \"韩母\"],\n      \"treasures\": [],\n      \"result\": \"韩父同意韩立参加考验。\",\n      \"location\": \"韩立家\",\n      \"time\": \"三叔来访时\",\n      \"chapter_id\": \"第一章\"\n    },\n    {\n      \"event_id\": \"E02-1\",\n      \"description\": \"韩立和三叔到达青牛镇，入住春香酒楼。\",\n      \"characters\": [\"韩立\", \"韩三叔\"],\n      \"treasures\": [],\n      \"result\": \"韩立开始在青牛镇等待七玄门的考验。\",\n      \"location\": \"青牛镇春香酒楼\",\n      \"time\": \"第三天傍晚\",\n      \"chapter_id\": \"第二章\"\n    },\n    {\n      \"event_id\": \"E03-1\",\n      \"description\": \"韩立和其他孩童被带到彩霞山，准备参加七玄门的入门测试。\",\n      \"characters\": [\"韩立\", \"王护法\", \"其他孩童\"],\n      \"treasures\": [],\n      \"result\": \"韩立等人到达彩霞山，准备测试。\",\n      \"location\": \"彩霞山\",\n      \"time\": \"第五天傍晚\",\n      \"chapter_id\": \"第三章\"\n    },\n    {\n      \"event_id\": \"E04-1\",\n      \"description\": \"韩立参加七玄门的入门测试，攀爬炼骨崖。\",\n      \"characters\": [\"韩立\", \"舞岩\", \"其他孩童\"],\n      \"treasures\": [],\n      \"result\": \"韩立未能按时到达崖顶，但表现突出，成为记名弟子。\",\n      \"location\": \"炼骨崖\",\n      \"time\": \"测试当天\",\n      \"chapter_id\": \"第四章\"\n    },\n    {\n      \"event_id\": \"E05-1\",\n      \"description\": \"韩立和张铁被墨大夫选中，成为其记名弟子。\",\n      \"characters\": [\"韩立\", \"张铁\", \"墨大夫\"],\n      \"treasures\": [],\n      \"result\": \"韩立和张铁开始跟随墨大夫学习。\",\n      \"location\": \"神手谷\",\n      \"time\": \"测试后\",\n      \"chapter_id\": \"第五章\"\n    },\n    {\n      \"event_id\": \"E06-1\",\n      \"description\": \"墨大夫传授韩立和张铁一套无名口诀。\",\n      \"characters\": [\"韩立\", \"张铁\", \"墨大夫\"],\n      \"treasures\": [\"无名口诀\"],\n      \"result\": \"韩立和张铁开始修炼无名口诀。\",\n      \"location\": \"神手谷\",\n      \"time\": \"成为记名弟子后\",\n      \"chapter_id\": \"第六章\"\n    },\n    {\n      \"event_id\": \"E07-1\",\n      \"description\": \"韩立修炼无名口诀遇到困难，进展缓慢。\",\n      \"characters\": [\"韩立\"],\n      \"treasures\": [\"无名口诀\"],\n      \"result\": \"韩立继续努力修炼。\",\n      \"location\": \"神手谷\",\n      \"time\": \"修炼期间\",\n      \"chapter_id\": \"第七章\"\n    },\n    {\n      \"event_id\": \"E08-1\",\n      \"description\": \"韩立通过墨大夫的测试，成为其亲传弟子。\",\n      \"characters\": [\"韩立\", \"墨大夫\"],\n      \"treasures\": [\"无名口诀\"],\n      \"result\": \"韩立正式成为墨大夫的弟子。\",\n      \"location\": \"神手谷\",\n      \"time\": \"测试当天\",\n      \"chapter_id\": \"第八章\"\n    },\n    {\n      \"event_id\": \"E09-1\",\n      \"description\": \"墨大夫传授张铁“象甲功”。\",\n      \"characters\": [\"张铁\", \"墨大夫\"],\n      \"treasures\": [\"象甲功\"],\n      \"result\": \"张铁开始修炼“象甲功”。\",\n      \"location\": \"神手谷\",\n      \"time\": \"成为记名弟子后\",\n      \"chapter_id\": \"第九章\"\n    },\n    {\n      \"event_id\": \"E10-1\",\n      \"description\": \"韩立在树林中意外发现一个神秘的小瓶子。\",\n      \"characters\": [\"韩立\"],\n      \"treasures\": [\"神秘瓶子\"],\n      \"result\": \"韩立获得神秘瓶子。\",\n      \"location\": \"树林中\",\n      \"time\": \"秋末\",\n      \"chapter_id\": \"第十章\"\n    }\n  ]\n}",
+  "success": true,
+  "model": "deepseek-chat",
+  "json_content": {
+    "events": [
+      {
+        "event_id": "E01-1",
+        "description": "韩立在家中准备入睡，计划第二天早起与同伴进山拣干柴。",
+        "characters": [
+          "韩立",
+          "韩铸",
+          "韩母",
+          "韩父"
+        ],
+        "treasures": [],
+        "result": "韩立计划第二天早起进山。",
+        "location": "韩立家",
+        "time": "夜晚",
+        "chapter_id": "第一章"
+      },
+      {
+        "event_id": "E01-2",
+        "description": "韩立从山里回家，发现家中来了会改变他一生命运的客人——他的亲三叔。",
+        "characters": [
+          "韩立",
+          "韩三叔"
+        ],
+        "treasures": [],
+        "result": "韩立得知三叔来访，可能改变他的命运。",
+        "location": "韩立家",
+        "time": "第二天中午",
+        "chapter_id": "第一章"
+      },
+      {
+        "event_id": "E01-3",
+        "description": "三叔提议韩立参加七玄门招收内门弟子的考验。",
+        "characters": [
+          "韩立",
+          "韩三叔",
+          "韩父",
+          "韩母"
+        ],
+        "treasures": [],
+        "result": "韩父同意韩立参加考验。",
+        "location": "韩立家",
+        "time": "三叔来访时",
+        "chapter_id": "第一章"
+      },
+      {
+        "event_id": "E02-1",
+        "description": "韩立和三叔到达青牛镇，入住春香酒楼。",
+        "characters": [
+          "韩立",
+          "韩三叔"
+        ],
+        "treasures": [],
+        "result": "韩立开始在青牛镇等待七玄门的考验。",
+        "location": "青牛镇春香酒楼",
+        "time": "第三天傍晚",
+        "chapter_id": "第二章"
+      },
+      {
+        "event_id": "E03-1",
+        "description": "韩立和其他孩童被带到彩霞山，准备参加七玄门的入门测试。",
+        "characters": [
+          "韩立",
+          "王护法",
+          "其他孩童"
+        ],
+        "treasures": [],
+        "result": "韩立等人到达彩霞山，准备测试。",
+        "location": "彩霞山",
+        "time": "第五天傍晚",
+        "chapter_id": "第三章"
+      },
+      {
+        "event_id": "E04-1",
+        "description": "韩立参加七玄门的入门测试，攀爬炼骨崖。",
+        "characters": [
+          "韩立",
+          "舞岩",
+          "其他孩童"
+        ],
+        "treasures": [],
+        "result": "韩立未能按时到达崖顶，但表现突出，成为记名弟子。",
+        "location": "炼骨崖",
+        "time": "测试当天",
+        "chapter_id": "第四章"
+      },
+      {
+        "event_id": "E05-1",
+        "description": "韩立和张铁被墨大夫选中，成为其记名弟子。",
+        "characters": [
+          "韩立",
+          "张铁",
+          "墨大夫"
+        ],
+        "treasures": [],
+        "result": "韩立和张铁开始跟随墨大夫学习。",
+        "location": "神手谷",
+        "time": "测试后",
+        "chapter_id": "第五章"
+      },
+      {
+        "event_id": "E06-1",
+        "description": "墨大夫传授韩立和张铁一套无名口诀。",
+        "characters": [
+          "韩立",
+          "张铁",
+          "墨大夫"
+        ],
+        "treasures": [
+          "无名口诀"
+        ],
+        "result": "韩立和张铁开始修炼无名口诀。",
+        "location": "神手谷",
+        "time": "成为记名弟子后",
+        "chapter_id": "第六章"
+      },
+      {
+        "event_id": "E07-1",
+        "description": "韩立修炼无名口诀遇到困难，进展缓慢。",
+        "characters": [
+          "韩立"
+        ],
+        "treasures": [
+          "无名口诀"
+        ],
+        "result": "韩立继续努力修炼。",
+        "location": "神手谷",
+        "time": "修炼期间",
+        "chapter_id": "第七章"
+      },
+      {
+        "event_id": "E08-1",
+        "description": "韩立通过墨大夫的测试，成为其亲传弟子。",
+        "characters": [
+          "韩立",
+          "墨大夫"
+        ],
+        "treasures": [
+          "无名口诀"
+        ],
+        "result": "韩立正式成为墨大夫的弟子。",
+        "location": "神手谷",
+        "time": "测试当天",
+        "chapter_id": "第八章"
+      },
+      {
+        "event_id": "E09-1",
+        "description": "墨大夫传授张铁“象甲功”。",
+        "characters": [
+          "张铁",
+          "墨大夫"
+        ],
+        "treasures": [
+          "象甲功"
+        ],
+        "result": "张铁开始修炼“象甲功”。",
+        "location": "神手谷",
+        "time": "成为记名弟子后",
+        "chapter_id": "第九章"
+      },
+      {
+        "event_id": "E10-1",
+        "description": "韩立在树林中意外发现一个神秘的小瓶子。",
+        "characters": [
+          "韩立"
+        ],
+        "treasures": [
+          "神秘瓶子"
+        ],
+        "result": "韩立获得神秘瓶子。",
+        "location": "树林中",
+        "time": "秋末",
+        "chapter_id": "第十章"
+      }
+    ]
+  }
+}
