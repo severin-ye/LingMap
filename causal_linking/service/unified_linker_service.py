@@ -24,6 +24,7 @@ from common.interfaces.linker import AbstractLinker
 from common.models.causal_edge import CausalEdge
 from common.models.event import EventItem
 from causal_linking.domain.base_linker import BaseLinker
+from causal_linking.service.graph_filter import GraphFilter
 from event_extraction.repository.llm_client import LLMClient
 
 
@@ -109,6 +110,9 @@ class UnifiedCausalLinker(BaseLinker):
             "中": 2,
             "低": 1
         }
+        
+        # 初始化图过滤器
+        self.graph_filter = GraphFilter(strength_mapping=self.strength_mapping)
         
         # 初始化LLM客户端
         self.llm_client = LLMClient(
@@ -489,6 +493,8 @@ class UnifiedCausalLinker(BaseLinker):
         """
         构建有向无环图（DAG）
         
+        使用专门的GraphFilter模块进行DAG构建，这是第四阶段CPC模块的核心功能。
+        
         Args:
             events: 事件列表
             edges: 因果边列表
@@ -496,47 +502,16 @@ class UnifiedCausalLinker(BaseLinker):
         Returns:
             处理后的事件列表和因果边列表
         """
-        # 创建事件ID到索引的映射
-        event_map = {event.event_id: i for i, event in enumerate(events)}
-        
-        # 按强度降序排序边
-        sorted_edges = sorted(
-            edges,
-            key=lambda e: self.strength_mapping.get(e.strength, 0),
-            reverse=True
-        )
-        
-        # 创建邻接表表示的图
-        graph = [[] for _ in range(len(events))]
-        
-        # 保留的边列表
-        dag_edges = []
-        
-        # 记录已经添加的边，避免重复
-        added_edges = set()
-        
-        # 遍历排序后的边，贪心构建DAG
-        for edge in sorted_edges:
-            # 检查事件是否在映射中
-            if edge.from_id not in event_map or edge.to_id not in event_map:
-                continue
-                
-            from_idx = event_map[edge.from_id]
-            to_idx = event_map[edge.to_id]
-            
-            # 检查是否已添加相同的边
-            edge_key = (from_idx, to_idx)
-            if edge_key in added_edges:
-                continue
-                
-            # 检查添加这条边是否会形成环
-            if not self._will_form_cycle(graph, from_idx, to_idx):
-                # 添加边到图中
-                graph[from_idx].append(to_idx)
-                added_edges.add(edge_key)
-                dag_edges.append(edge)
+        # 使用GraphFilter进行DAG构建
+        dag_edges = self.graph_filter.filter_edges_to_dag(events, edges)
         
         print(f"构建DAG完成，保留 {len(dag_edges)} 条边，移除 {len(edges) - len(dag_edges)} 条边")
+        
+        # 可选：输出过滤统计信息
+        if len(edges) != len(dag_edges):
+            stats = self.graph_filter.get_filter_statistics(edges, dag_edges)
+            print(f"过滤统计: 保留率 {stats['retention_rate']:.2f}, 移除了 {stats['removed_edge_count']} 条边")
+            
         return events, dag_edges
     
     def _will_form_cycle(self, graph: List[List[int]], from_idx: int, to_idx: int) -> bool:

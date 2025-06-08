@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
-因果链构建模块测试
+阶段4测试：因果链构建模块（CPC）基础功能测试
 
-本文件包含对因果链构建模块的测试用例，主要测试：
-1. CausalLinker 是否能正确识别事件间的因果关系
-2. DAG 构建算法是否正确（去环、权重处理）
-3. LLM 调用和响应解析是否正常
+本文件包含对第四阶段CPC模块的基础功能测试，主要测试：
+1. CausalLinker 基础因果关系识别功能
+2. 事件间因果关系判断逻辑
+3. LLM 调用和响应解析
+4. 提供者集成和错误处理
 """
 
 import sys
@@ -211,104 +212,6 @@ class TestCausalLinker(unittest.TestCase):
         self.assertIsNotNone(e1_to_e2)
         assert e1_to_e2 is not None  # 类型检查提示
         self.assertEqual(e1_to_e2.strength, "高")
-        
-    def test_build_dag_simple(self):
-        """测试构建简单的DAG"""
-        # 创建测试用的因果边
-        edges = [
-            CausalEdge(from_id="E1", to_id="E2", strength="高", reason="测试原因1"),
-            CausalEdge(from_id="E2", to_id="E3", strength="中", reason="测试原因2"),
-            CausalEdge(from_id="E1", to_id="E3", strength="低", reason="测试原因3")
-        ]
-        
-        # 创建链接器实例
-        linker = CausalLinker(
-            prompt_path=causal_prompt_path,
-            model="gpt-4o",
-            api_key="fake-key",
-            strength_mapping=self.strength_mapping
-        )
-        
-        # 构建DAG
-        events, dag_edges = linker.build_dag(self.test_events[:3], edges)
-        
-        # 验证结果
-        self.assertEqual(len(events), 3)
-        self.assertGreater(len(dag_edges), 0)
-        self.assertLessEqual(len(dag_edges), len(edges))
-        
-        # 验证高强度边被保留
-        high_strength_edges = [e for e in dag_edges if e.strength == "高"]
-        self.assertGreater(len(high_strength_edges), 0)
-        
-    def test_build_dag_with_cycle(self):
-        """测试包含环的情况下构建DAG"""
-        # 创建会形成环的因果边
-        edges = [
-            CausalEdge(from_id="E1", to_id="E2", strength="高", reason="E1->E2"),
-            CausalEdge(from_id="E2", to_id="E3", strength="高", reason="E2->E3"),
-            CausalEdge(from_id="E3", to_id="E1", strength="中", reason="E3->E1 (会形成环)")
-        ]
-        
-        # 创建链接器实例
-        linker = CausalLinker(
-            prompt_path=causal_prompt_path,
-            model="gpt-4o",
-            api_key="fake-key",
-            strength_mapping=self.strength_mapping
-        )
-        
-        # 构建DAG
-        events, dag_edges = linker.build_dag(self.test_events[:3], edges)
-        
-        # 验证结果：应该去掉形成环的边
-        self.assertEqual(len(events), 3)
-        self.assertLess(len(dag_edges), len(edges))  # 应该有边被移除
-        
-        # 验证没有E3->E1的边（因为会形成环）
-        cycle_edge = next((e for e in dag_edges if e.from_id == "E3" and e.to_id == "E1"), None)
-        self.assertIsNone(cycle_edge)
-        
-    def test_cycle_detection(self):
-        """测试环检测算法"""
-        # 创建链接器实例
-        linker = CausalLinker(
-            prompt_path=causal_prompt_path,
-            model="gpt-4o",
-            api_key="fake-key",
-            strength_mapping=self.strength_mapping
-        )
-        
-        # 测试简单图：0->1->2
-        graph = [[] for _ in range(3)]
-        graph[0].append(1)
-        graph[1].append(2)
-        
-        # 添加0->2不会形成环
-        self.assertFalse(linker._will_form_cycle(graph, 0, 2))
-        
-        # 添加2->0会形成环
-        self.assertTrue(linker._will_form_cycle(graph, 2, 0))
-        
-    def test_reachability(self):
-        """测试可达性检测算法"""
-        # 创建链接器实例
-        linker = CausalLinker(
-            prompt_path=causal_prompt_path,
-            model="gpt-4o",
-            api_key="fake-key",
-            strength_mapping=self.strength_mapping
-        )
-        
-        # 创建图：0->1->2
-        graph = [[] for _ in range(3)]
-        graph[0].append(1)
-        graph[1].append(2)
-        
-        # 测试可达性
-        self.assertTrue(linker._is_reachable(graph, 0, 2, set()))  # 0可以到达2
-        self.assertFalse(linker._is_reachable(graph, 2, 0, set()))  # 2不能到达0
-        self.assertTrue(linker._is_reachable(graph, 1, 1, set()))   # 自己到自己
         
     @patch('event_extraction.repository.llm_client.LLMClient.call_with_json_response')
     def test_llm_call_failure(self, mock_llm_call):
