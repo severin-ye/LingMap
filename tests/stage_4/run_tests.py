@@ -6,6 +6,9 @@
 1. 因果链接识别与构建
 2. 图过滤与DAG构建算法
 3. 环路检测与处理
+4. 完整的因果路径构建流程
+
+推荐运行 test_unified_cpc.py，这是整合了所有CPC功能测试的统一文件。
 """
 
 import sys
@@ -28,5 +31,8 @@ if __name__ == "__main__":
     # test_runner = unittest.TextTestRunner(verbosity=2)
     # test_runner.run(test_suite)
     
-    # 方式2: 使用pytest运行(推荐)
+    # 方式2: 使用pytest运行特定文件(推荐)
+    # pytest.main(["-v", os.path.join(current_dir, "test_unified_cpc.py")])
+    
+    # 方式3: 运行当前目录下所有测试
     pytest.main(["-v", current_dir])

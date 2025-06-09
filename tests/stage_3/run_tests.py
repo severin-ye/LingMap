@@ -22,11 +22,13 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from tests.stage_3.test_hallucination_refine import TestHallucinationRefiner, TestHARResponseParsing
-from tests.stage_3.test_causal_linking import (
-    TestCausalLinker, 
-    TestCausalEdgeResponseParsing, 
-    TestCausalLinkingIntegration
-)
+# 注意：因果链接测试已移至阶段 4
+# 以前的导入内容: 
+# from tests.stage_3.test_causal_linking import (
+#     TestCausalLinker, 
+#     TestCausalEdgeResponseParsing, 
+#     TestCausalLinkingIntegration
+# )
 
 
 def run_stage_3_tests():
@@ -51,10 +53,11 @@ def run_stage_3_tests():
     suite.addTests(loader.loadTestsFromTestCase(TestHallucinationRefiner))
     suite.addTests(loader.loadTestsFromTestCase(TestHARResponseParsing))
     
-    # 添加因果链构建测试
-    suite.addTests(loader.loadTestsFromTestCase(TestCausalLinker))
-    suite.addTests(loader.loadTestsFromTestCase(TestCausalEdgeResponseParsing))
-    suite.addTests(loader.loadTestsFromTestCase(TestCausalLinkingIntegration))
+    # 注意：因果链构建测试已经移动到阶段4
+    # 之前的代码:
+    # suite.addTests(loader.loadTestsFromTestCase(TestCausalLinker))
+    # suite.addTests(loader.loadTestsFromTestCase(TestCausalEdgeResponseParsing))
+    # suite.addTests(loader.loadTestsFromTestCase(TestCausalLinkingIntegration))
     
     # 运行测试
     print("阶段三测试:")
