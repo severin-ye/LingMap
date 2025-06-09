@@ -30,7 +30,7 @@ from common.utils.enhanced_logger import EnhancedLogger
 from causal_linking.di.provider import provide_linker
 from causal_linking.service.unified_linker_service import UnifiedCausalLinker
 from causal_linking.service.unified_linker_service import CausalLinker
-from causal_linking.service.optimized_linker_service import OptimizedCausalLinker
+from causal_linking.service.unified_linker_service import OptimizedCausalLinker  # 现在从统一服务中导入
 
 # 创建日志记录器
 logger = EnhancedLogger("causal_linking_test", log_level="DEBUG")
@@ -571,7 +571,7 @@ def test_unified_implementation():
     
     print(f"链接器类型: {type(linker2).__name__}")
     print(f"优化模式: {linker2.use_optimization}")
-    print(f"实体权重: {linker2.use_entity_weights}")
+    print(f"实体权重: {linker2.candidate_generator.use_entity_weights}")
 
 def test_unified_compatibility():
     """测试统一版链接器兼容性"""
