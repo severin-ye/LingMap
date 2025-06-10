@@ -1,0 +1,230 @@
+2025-06-10 15:13:02,548 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-10 15:13:02,549 - event_extractor - ERROR - 未提供DeepSeek API密钥
+2025-06-10 15:22:05,918 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-10 15:22:05,985 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-10 15:22:05,985 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=第一章, title=青牛镇
+2025-06-10 15:22:05,986 - event_extractor - DEBUG - 开始处理段落 第一章-1 | text_length=146
+2025-06-10 15:22:05,987 - event_extractor - DEBUG - 发送段落 第一章-1 的LLM请求
+2025-06-10 15:22:05,988 - event_extractor - ERROR - 处理段落 第一章-1 时出现异常 | error=string indices must be integers, traceback=Traceback (most recent call last):
+  File "/home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/event_extraction/service/enhanced_extractor_service.py", line 193, in extract_from_segment
+    response = self.llm_client.call_with_json_response(prompt['system'], prompt['instruction'])
+  File "/home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/event_extraction/repository/llm_client.py", line 136, in call_with_json_response
+    if response["success"] and response["content"]:
+TypeError: string indices must be integers
+
+2025-06-10 15:22:05,988 - event_extractor - WARNING - 从段落 第一章-1 未提取到任何事件
+2025-06-10 15:22:05,989 - event_extractor - INFO - 章节事件抽取完成 | chapter_id=第一章, total_events=0, successful_segments=0, failed_segments=1
+2025-06-10 15:22:06,059 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-10 15:22:06,127 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-10 15:22:06,127 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=test, title=测试
+2025-06-10 15:22:06,128 - event_extractor - DEBUG - 章节没有预定义分段，正在创建分段
+2025-06-10 15:22:06,128 - event_extractor - INFO - 创建了 1 个文本分段
+2025-06-10 15:22:06,128 - event_extractor - DEBUG - 开始处理段落 1 | text_length=4
+2025-06-10 15:22:06,129 - event_extractor - DEBUG - 发送段落 1 的LLM请求
+2025-06-10 15:22:06,130 - event_extractor - ERROR - 处理段落 1 时出现异常 | error=Invalid JSON: line 1 column 1 (char 0), traceback=Traceback (most recent call last):
+  File "/home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/event_extraction/service/enhanced_extractor_service.py", line 193, in extract_from_segment
+    response = self.llm_client.call_with_json_response(prompt['system'], prompt['instruction'])
+  File "/home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/event_extraction/repository/llm_client.py", line 134, in call_with_json_response
+    response = self.call_llm(system, user, response_format={"type": "json_object"})
+  File "/usr/lib/python3.10/unittest/mock.py", line 1114, in __call__
+    return self._mock_call(*args, **kwargs)
+  File "/usr/lib/python3.10/unittest/mock.py", line 1118, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+  File "/usr/lib/python3.10/unittest/mock.py", line 1173, in _execute_mock_call
+    raise effect
+json.decoder.JSONDecodeError: Invalid JSON: line 1 column 1 (char 0)
+
+2025-06-10 15:22:06,130 - event_extractor - WARNING - 从段落 1 未提取到任何事件
+2025-06-10 15:22:06,130 - event_extractor - INFO - 章节事件抽取完成 | chapter_id=test, total_events=0, successful_segments=0, failed_segments=1
+2025-06-10 15:22:06,133 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-10 15:22:06,133 - event_extractor - ERROR - 未提供DeepSeek API密钥
+2025-06-10 15:23:05,159 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-10 15:23:05,224 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-10 15:23:05,224 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=第一章, title=青牛镇
+2025-06-10 15:23:05,225 - event_extractor - DEBUG - 开始处理段落 第一章-1 | text_length=146
+2025-06-10 15:23:05,226 - event_extractor - DEBUG - 发送段落 第一章-1 的LLM请求
+2025-06-10 15:23:05,233 - event_extractor - ERROR - 处理段落 第一章-1 时出现异常 | error=the JSON object must be str, bytes or bytearray, not dict, traceback=Traceback (most recent call last):
+  File "/home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/event_extraction/service/enhanced_extractor_service.py", line 193, in extract_from_segment
+    response = self.llm_client.call_with_json_response(prompt['system'], prompt['instruction'])
+  File "/home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/event_extraction/repository/llm_client.py", line 139, in call_with_json_response
+    json_content = json.loads(response["content"])
+  File "/usr/lib/python3.10/json/__init__.py", line 339, in loads
+    raise TypeError(f'the JSON object must be str, bytes or bytearray, '
+TypeError: the JSON object must be str, bytes or bytearray, not dict
+
+2025-06-10 15:23:05,233 - event_extractor - WARNING - 从段落 第一章-1 未提取到任何事件
+2025-06-10 15:23:05,234 - event_extractor - INFO - 章节事件抽取完成 | chapter_id=第一章, total_events=0, successful_segments=0, failed_segments=1
+2025-06-10 15:23:05,314 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-10 15:23:05,384 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-10 15:23:05,384 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=test, title=测试
+2025-06-10 15:23:05,385 - event_extractor - DEBUG - 章节没有预定义分段，正在创建分段
+2025-06-10 15:23:05,385 - event_extractor - INFO - 创建了 1 个文本分段
+2025-06-10 15:23:05,385 - event_extractor - DEBUG - 开始处理段落 1 | text_length=4
+2025-06-10 15:23:05,386 - event_extractor - DEBUG - 发送段落 1 的LLM请求
+2025-06-10 15:23:05,387 - event_extractor - ERROR - 处理段落 1 时出现异常 | error=Invalid JSON: line 1 column 1 (char 0), traceback=Traceback (most recent call last):
+  File "/home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/event_extraction/service/enhanced_extractor_service.py", line 193, in extract_from_segment
+    response = self.llm_client.call_with_json_response(prompt['system'], prompt['instruction'])
+  File "/home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/event_extraction/repository/llm_client.py", line 134, in call_with_json_response
+    response = self.call_llm(system, user, response_format={"type": "json_object"})
+  File "/usr/lib/python3.10/unittest/mock.py", line 1114, in __call__
+    return self._mock_call(*args, **kwargs)
+  File "/usr/lib/python3.10/unittest/mock.py", line 1118, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+  File "/usr/lib/python3.10/unittest/mock.py", line 1173, in _execute_mock_call
+    raise effect
+json.decoder.JSONDecodeError: Invalid JSON: line 1 column 1 (char 0)
+
+2025-06-10 15:23:05,387 - event_extractor - WARNING - 从段落 1 未提取到任何事件
+2025-06-10 15:23:05,388 - event_extractor - INFO - 章节事件抽取完成 | chapter_id=test, total_events=0, successful_segments=0, failed_segments=1
+2025-06-10 15:23:05,390 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-10 15:23:05,390 - event_extractor - ERROR - 未提供DeepSeek API密钥
+2025-06-10 15:23:33,192 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-10 15:23:33,256 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-10 15:23:33,257 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=第一章, title=青牛镇
+2025-06-10 15:23:33,257 - event_extractor - DEBUG - 开始处理段落 第一章-1 | text_length=146
+2025-06-10 15:23:33,258 - event_extractor - DEBUG - 发送段落 第一章-1 的LLM请求
+2025-06-10 15:23:33,259 - event_extractor - DEBUG - 解析段落 第一章-1 的响应
+2025-06-10 15:23:33,259 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-10 15:23:33,259 - event_extractor - DEBUG - 成功创建事件: E1-1 - 韩立服用聚灵丹...
+2025-06-10 15:23:33,259 - event_extractor - DEBUG - 成功创建事件: E1-2 - 墨大夫发现韩立修为异常...
+2025-06-10 15:23:33,259 - event_extractor - DEBUG - 段落 第一章-1 抽取到 2 个事件
+2025-06-10 15:23:33,260 - event_extractor - INFO - 从段落 第一章-1 提取到 2 个事件
+2025-06-10 15:23:33,260 - event_extractor - INFO - 章节事件抽取完成 | chapter_id=第一章, total_events=2, successful_segments=1, failed_segments=0
+2025-06-10 15:23:33,334 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-10 15:23:33,395 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-10 15:23:33,396 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=test, title=测试
+2025-06-10 15:23:33,396 - event_extractor - DEBUG - 章节没有预定义分段，正在创建分段
+2025-06-10 15:23:33,396 - event_extractor - INFO - 创建了 1 个文本分段
+2025-06-10 15:23:33,397 - event_extractor - DEBUG - 开始处理段落 1 | text_length=4
+2025-06-10 15:23:33,398 - event_extractor - DEBUG - 发送段落 1 的LLM请求
+2025-06-10 15:23:33,399 - event_extractor - ERROR - 处理段落 1 时出现异常 | error=Invalid JSON: line 1 column 1 (char 0), traceback=Traceback (most recent call last):
+  File "/home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/event_extraction/service/enhanced_extractor_service.py", line 193, in extract_from_segment
+    response = self.llm_client.call_with_json_response(prompt['system'], prompt['instruction'])
+  File "/home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/event_extraction/repository/llm_client.py", line 134, in call_with_json_response
+    response = self.call_llm(system, user, response_format={"type": "json_object"})
+  File "/usr/lib/python3.10/unittest/mock.py", line 1114, in __call__
+    return self._mock_call(*args, **kwargs)
+  File "/usr/lib/python3.10/unittest/mock.py", line 1118, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+  File "/usr/lib/python3.10/unittest/mock.py", line 1173, in _execute_mock_call
+    raise effect
+json.decoder.JSONDecodeError: Invalid JSON: line 1 column 1 (char 0)
+
+2025-06-10 15:23:33,400 - event_extractor - WARNING - 从段落 1 未提取到任何事件
+2025-06-10 15:23:33,401 - event_extractor - INFO - 章节事件抽取完成 | chapter_id=test, total_events=0, successful_segments=0, failed_segments=1
+2025-06-10 15:23:33,403 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-10 15:23:33,403 - event_extractor - ERROR - 未提供DeepSeek API密钥
+2025-06-10 15:23:49,049 - event_extractor - INFO - 初始化增强型事件抽取器 | model=gpt-4o, provider=openai, max_workers=2, debug_mode=True
+2025-06-10 15:23:49,050 - event_extractor - ERROR - 未提供OpenAI API密钥
+2025-06-10 15:23:49,059 - event_extractor - INFO - 初始化增强型事件抽取器 | model=gpt-4o, provider=openai, max_workers=2, debug_mode=True
+2025-06-10 15:23:49,059 - event_extractor - ERROR - 未提供OpenAI API密钥
+2025-06-10 15:23:49,061 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-10 15:23:49,061 - event_extractor - ERROR - 未提供DeepSeek API密钥
+2025-06-10 15:26:44,583 - event_extractor - INFO - 初始化增强型事件抽取器 | model=gpt-4o, provider=openai, max_workers=2, debug_mode=True
+2025-06-10 15:26:44,646 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-10 15:26:44,646 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=第一章, title=青牛镇
+2025-06-10 15:26:44,647 - event_extractor - DEBUG - 开始处理段落 第一章-1 | text_length=146
+2025-06-10 15:26:44,648 - event_extractor - DEBUG - 发送段落 第一章-1 的LLM请求
+2025-06-10 15:26:44,648 - event_extractor - DEBUG - 解析段落 第一章-1 的响应
+2025-06-10 15:26:44,648 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-10 15:26:44,648 - event_extractor - DEBUG - 成功创建事件: E1-1 - 韩立服用聚灵丹...
+2025-06-10 15:26:44,648 - event_extractor - DEBUG - 成功创建事件: E1-2 - 墨大夫发现韩立修为异常...
+2025-06-10 15:26:44,649 - event_extractor - DEBUG - 段落 第一章-1 抽取到 2 个事件
+2025-06-10 15:26:44,650 - event_extractor - INFO - 从段落 第一章-1 提取到 2 个事件
+2025-06-10 15:26:44,651 - event_extractor - INFO - 章节事件抽取完成 | chapter_id=第一章, total_events=2, successful_segments=1, failed_segments=0
+2025-06-10 15:26:44,733 - event_extractor - INFO - 初始化增强型事件抽取器 | model=gpt-4o, provider=openai, max_workers=2, debug_mode=True
+2025-06-10 15:26:44,799 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-10 15:26:44,799 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=test, title=测试
+2025-06-10 15:26:44,799 - event_extractor - DEBUG - 章节没有预定义分段，正在创建分段
+2025-06-10 15:26:44,799 - event_extractor - INFO - 创建了 1 个文本分段
+2025-06-10 15:26:44,800 - event_extractor - DEBUG - 开始处理段落 1 | text_length=4
+2025-06-10 15:26:44,801 - event_extractor - DEBUG - 发送段落 1 的LLM请求
+2025-06-10 15:26:44,802 - event_extractor - ERROR - 处理段落 1 时出现异常 | error=Invalid JSON: line 1 column 1 (char 0), traceback=Traceback (most recent call last):
+  File "/home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/event_extraction/service/enhanced_extractor_service.py", line 193, in extract_from_segment
+    response = self.llm_client.call_with_json_response(prompt['system'], prompt['instruction'])
+  File "/home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/event_extraction/repository/llm_client.py", line 134, in call_with_json_response
+    response = self.call_llm(system, user, response_format={"type": "json_object"})
+  File "/usr/lib/python3.10/unittest/mock.py", line 1114, in __call__
+    return self._mock_call(*args, **kwargs)
+  File "/usr/lib/python3.10/unittest/mock.py", line 1118, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+  File "/usr/lib/python3.10/unittest/mock.py", line 1173, in _execute_mock_call
+    raise effect
+json.decoder.JSONDecodeError: Invalid JSON: line 1 column 1 (char 0)
+
+2025-06-10 15:26:44,802 - event_extractor - WARNING - 从段落 1 未提取到任何事件
+2025-06-10 15:26:44,803 - event_extractor - INFO - 章节事件抽取完成 | chapter_id=test, total_events=0, successful_segments=0, failed_segments=1
+2025-06-10 15:26:44,805 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-10 15:26:44,805 - event_extractor - ERROR - 未提供DeepSeek API密钥
+2025-06-10 15:27:02,032 - event_extractor - INFO - 初始化增强型事件抽取器 | model=gpt-4o, provider=openai, max_workers=2, debug_mode=True
+2025-06-10 15:27:02,103 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-10 15:27:02,104 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=第一章, title=青牛镇
+2025-06-10 15:27:02,104 - event_extractor - DEBUG - 开始处理段落 第一章-1 | text_length=146
+2025-06-10 15:27:02,106 - event_extractor - DEBUG - 发送段落 第一章-1 的LLM请求
+2025-06-10 15:27:02,106 - event_extractor - DEBUG - 解析段落 第一章-1 的响应
+2025-06-10 15:27:02,106 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-10 15:27:02,106 - event_extractor - DEBUG - 成功创建事件: E1-1 - 韩立服用聚灵丹...
+2025-06-10 15:27:02,107 - event_extractor - DEBUG - 成功创建事件: E1-2 - 墨大夫发现韩立修为异常...
+2025-06-10 15:27:02,107 - event_extractor - DEBUG - 段落 第一章-1 抽取到 2 个事件
+2025-06-10 15:27:02,109 - event_extractor - INFO - 从段落 第一章-1 提取到 2 个事件
+2025-06-10 15:27:02,109 - event_extractor - INFO - 章节事件抽取完成 | chapter_id=第一章, total_events=2, successful_segments=1, failed_segments=0
+2025-06-10 15:27:02,181 - event_extractor - INFO - 初始化增强型事件抽取器 | model=gpt-4o, provider=openai, max_workers=2, debug_mode=True
+2025-06-10 15:27:02,247 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-10 15:27:02,247 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=test, title=测试
+2025-06-10 15:27:02,248 - event_extractor - DEBUG - 章节没有预定义分段，正在创建分段
+2025-06-10 15:27:02,248 - event_extractor - INFO - 创建了 1 个文本分段
+2025-06-10 15:27:02,249 - event_extractor - DEBUG - 开始处理段落 1 | text_length=4
+2025-06-10 15:27:02,249 - event_extractor - DEBUG - 发送段落 1 的LLM请求
+2025-06-10 15:27:02,251 - event_extractor - ERROR - 处理段落 1 时出现异常 | error=Invalid JSON: line 1 column 1 (char 0), traceback=Traceback (most recent call last):
+  File "/home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/event_extraction/service/enhanced_extractor_service.py", line 193, in extract_from_segment
+    response = self.llm_client.call_with_json_response(prompt['system'], prompt['instruction'])
+  File "/home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/event_extraction/repository/llm_client.py", line 134, in call_with_json_response
+    response = self.call_llm(system, user, response_format={"type": "json_object"})
+  File "/usr/lib/python3.10/unittest/mock.py", line 1114, in __call__
+    return self._mock_call(*args, **kwargs)
+  File "/usr/lib/python3.10/unittest/mock.py", line 1118, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+  File "/usr/lib/python3.10/unittest/mock.py", line 1173, in _execute_mock_call
+    raise effect
+json.decoder.JSONDecodeError: Invalid JSON: line 1 column 1 (char 0)
+
+2025-06-10 15:27:02,251 - event_extractor - WARNING - 从段落 1 未提取到任何事件
+2025-06-10 15:27:02,251 - event_extractor - INFO - 章节事件抽取完成 | chapter_id=test, total_events=0, successful_segments=0, failed_segments=1
+2025-06-10 15:27:02,253 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-10 15:27:02,254 - event_extractor - ERROR - 未提供DeepSeek API密钥
+2025-06-10 15:27:54,066 - event_extractor - INFO - 初始化增强型事件抽取器 | model=gpt-4o, provider=openai, max_workers=2, debug_mode=True
+2025-06-10 15:27:54,133 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-10 15:27:54,133 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=第一章, title=青牛镇
+2025-06-10 15:27:54,134 - event_extractor - DEBUG - 开始处理段落 第一章-1 | text_length=146
+2025-06-10 15:27:54,135 - event_extractor - DEBUG - 发送段落 第一章-1 的LLM请求
+2025-06-10 15:27:54,135 - event_extractor - DEBUG - 解析段落 第一章-1 的响应
+2025-06-10 15:27:54,135 - event_extractor - DEBUG - 响应是包含events字段的字典格式
+2025-06-10 15:27:54,136 - event_extractor - DEBUG - 成功创建事件: E1-1 - 韩立服用聚灵丹...
+2025-06-10 15:27:54,136 - event_extractor - DEBUG - 成功创建事件: E1-2 - 墨大夫发现韩立修为异常...
+2025-06-10 15:27:54,136 - event_extractor - DEBUG - 段落 第一章-1 抽取到 2 个事件
+2025-06-10 15:27:54,138 - event_extractor - INFO - 从段落 第一章-1 提取到 2 个事件
+2025-06-10 15:27:54,138 - event_extractor - INFO - 章节事件抽取完成 | chapter_id=第一章, total_events=2, successful_segments=1, failed_segments=0
+2025-06-10 15:27:54,211 - event_extractor - INFO - 初始化增强型事件抽取器 | model=gpt-4o, provider=openai, max_workers=2, debug_mode=True
+2025-06-10 15:27:54,274 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-10 15:27:54,275 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=test, title=测试
+2025-06-10 15:27:54,276 - event_extractor - DEBUG - 章节没有预定义分段，正在创建分段
+2025-06-10 15:27:54,277 - event_extractor - INFO - 创建了 1 个文本分段
+2025-06-10 15:27:54,278 - event_extractor - DEBUG - 开始处理段落 1 | text_length=4
+2025-06-10 15:27:54,279 - event_extractor - DEBUG - 发送段落 1 的LLM请求
+2025-06-10 15:27:54,280 - event_extractor - ERROR - 处理段落 1 时出现异常 | error=Invalid JSON: line 1 column 1 (char 0), traceback=Traceback (most recent call last):
+  File "/home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/event_extraction/service/enhanced_extractor_service.py", line 193, in extract_from_segment
+    response = self.llm_client.call_with_json_response(prompt['system'], prompt['instruction'])
+  File "/home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/event_extraction/repository/llm_client.py", line 134, in call_with_json_response
+    response = self.call_llm(system, user, response_format={"type": "json_object"})
+  File "/usr/lib/python3.10/unittest/mock.py", line 1114, in __call__
+    return self._mock_call(*args, **kwargs)
+  File "/usr/lib/python3.10/unittest/mock.py", line 1118, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+  File "/usr/lib/python3.10/unittest/mock.py", line 1173, in _execute_mock_call
+    raise effect
+json.decoder.JSONDecodeError: Invalid JSON: line 1 column 1 (char 0)
+
+2025-06-10 15:27:54,280 - event_extractor - WARNING - 从段落 1 未提取到任何事件
+2025-06-10 15:27:54,281 - event_extractor - INFO - 章节事件抽取完成 | chapter_id=test, total_events=0, successful_segments=0, failed_segments=1
+2025-06-10 15:27:54,282 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-10 15:27:54,283 - event_extractor - ERROR - 未提供DeepSeek API密钥
