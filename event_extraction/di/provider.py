@@ -33,11 +33,15 @@ def provide_extractor() -> AbstractExtractor:
     prompt_path = get_config_path("prompt_event_extraction.json")
     
     # 使用增强型事件抽取器
+    import multiprocessing
+    # 根据系统CPU核心数动态设置线程数，最大不超过40个
+    optimal_workers = min(40, multiprocessing.cpu_count() * 5)
+    
     return EnhancedEventExtractor(
         model=model,
         prompt_path=prompt_path,
         api_key=api_key,
-        max_workers=2,  # 减少并发数以提高稳定性
+        max_workers=optimal_workers,  # 根据系统资源动态设置并发数
         provider=provider,
         debug_mode=True  # 启用调试模式以记录详细日志
     )

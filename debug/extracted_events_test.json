@@ -1,206 +1,174 @@
 [
   {
-    "event_id": "E01-1",
-    "description": "二愣子韩立在家中准备入睡，以便第二天早起与同伴进山拣干柴",
+    "event_id": "22-1",
+    "description": "张均和另一名弟子在树林中遇到墨大夫，墨大夫挑选韩立和张铁作为炼药童子和采药弟子。",
+    "characters": [
+      "张均",
+      "墨大夫",
+      "韩立",
+      "张铁"
+    ],
+    "treasures": [],
+    "result": "韩立和张铁被选中跟随墨大夫学习。",
+    "location": "树林",
+    "time": "不明确",
+    "chapter_id": "01"
+  },
+  {
+    "event_id": "22-2",
+    "description": "墨大夫带领韩立和张铁进入神手谷，安排他们住宿并告知晚上有话要说。",
+    "characters": [
+      "墨大夫",
+      "韩立",
+      "张铁"
+    ],
+    "treasures": [],
+    "result": "韩立和张铁被安排在神手谷居住，准备晚上听墨大夫的指示。",
+    "location": "神手谷",
+    "time": "不明确",
+    "chapter_id": "01"
+  },
+  {
+    "event_id": "1-1",
+    "description": "韩立在家中准备入睡，计划第二天早起与同伴进山拣干柴",
     "characters": [
       "韩立",
       "韩铸",
       "韩母",
-      "韩父",
-      "老张叔"
+      "韩父"
     ],
     "treasures": [],
-    "result": "韩立决定尽早入睡以确保第二天能早起",
+    "result": "韩立决定尽早入睡以便第二天早起",
     "location": "韩立家",
     "time": "夜晚",
     "chapter_id": "第一章"
   },
   {
-    "event_id": "E01-1",
-    "description": "韩立被村里人称为'二愣子'，但他内心早熟，向往外面的世界",
-    "characters": [
-      "韩立"
-    ],
-    "treasures": [],
-    "result": "韩立虽然不喜欢这个称呼，但只能自我安慰",
-    "location": "村子",
-    "time": "韩立小时候",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-1",
-    "description": "韩立一家生活清苦，他在家中排行老四，今年十岁，全家生活艰难。",
+    "event_id": "1-2",
+    "description": "韩立被村里人称为'二愣子'，但他内心渴望探索外面的世界",
     "characters": [
       "韩立",
-      "韩立的家人"
+      "老张叔"
     ],
     "treasures": [],
-    "result": "描述了韩立家庭的基本情况和他们的生活状态。",
-    "location": "韩立家",
+    "result": "韩立对外面世界充满向往",
+    "location": "村子",
     "time": "韩立十岁时",
     "chapter_id": "第一章"
   },
   {
-    "event_id": "E01-2",
-    "description": "韩立决定上山时为妹妹多拣些红浆果。",
-    "characters": [
-      "韩立",
-      "韩立的妹妹"
-    ],
-    "treasures": [
-      "红浆果"
-    ],
-    "result": "韩立心中有了为妹妹采摘红浆果的计划。",
-    "location": "山上",
-    "time": "第二天",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-3",
-    "description": "韩立从山上回家，不知道家中来了会改变他一生命运的客人。",
+    "event_id": "1-3",
+    "description": "韩立从山里回家，发现家中来了会改变他一生命运的客人——他的亲三叔",
     "characters": [
       "韩立",
       "韩立的三叔"
     ],
     "treasures": [],
-    "result": "韩立的三叔来到家中，预示着韩立命运的转折。",
+    "result": "韩立的生活即将因三叔的到来而改变",
     "location": "韩立家",
     "time": "第二天中午",
     "chapter_id": "第一章"
   },
   {
-    "event_id": "E01-4",
-    "description": "介绍韩立的三叔及其对韩立家庭的帮助。",
+    "event_id": "10-1",
+    "description": "王护法亲自带队来接韩立参加七玄门的入门考查",
     "characters": [
-      "韩立的三叔",
-      "韩立的父母",
-      "韩立的大哥"
+      "王护法",
+      "韩理",
+      "韩立"
     ],
     "treasures": [],
-    "result": "展示了三叔在家族中的地位和他对韩立家庭的积极影响。",
-    "location": "韩立家",
-    "time": "过去",
-    "chapter_id": "第一章"
+    "result": "韩立被接走，准备参加七玄门的入门考查",
+    "location": "韩理所在的屋子",
+    "time": "段落中未明确说明",
+    "chapter_id": "第三章"
   },
   {
-    "event_id": "E01-5",
-    "description": "韩立的大哥在城里当铁匠学徒，是三叔介绍的，成为家人的骄傲。",
-    "characters": [
-      "韩立的大哥",
-      "韩立的三叔"
-    ],
-    "treasures": [],
-    "result": "大哥的工作改善了家庭的经济状况，增强了家庭的希望。",
-    "location": "城里",
-    "time": "过去",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-1",
-    "description": "韩立对成为手艺学徒的向往",
+    "event_id": "10-2",
+    "description": "韩立和其他孩童被送往七玄门，车内孩童分为三类",
     "characters": [
       "韩立",
-      "韩立的父母"
+      "舞岩",
+      "其他孩童"
     ],
     "treasures": [],
-    "result": "韩立心中确立了成为手艺学徒的目标",
-    "location": "韩立家中",
-    "time": "韩立童年时期",
-    "chapter_id": "第一章"
+    "result": "揭示了车内孩童的社会分层和韩立的处境",
+    "location": "马车内",
+    "time": "前往七玄门的路上",
+    "chapter_id": "第三章"
   },
   {
-    "event_id": "E01-1",
-    "description": "韩父听到关于七玄门的信息后犹豫不决，最终决定让韩立参加七玄门的考验",
+    "event_id": "10-3",
+    "description": "马车到达彩霞山，七玄门总门所在地",
+    "characters": [
+      "韩立",
+      "王护法",
+      "其他孩童"
+    ],
+    "treasures": [],
+    "result": "孩童们被彩霞山的美景所吸引，随后继续前进",
+    "location": "彩霞山",
+    "time": "第五天傍晚",
+    "chapter_id": "第三章"
+  },
+  {
+    "event_id": "4-1",
+    "description": "韩立见到三叔，得知七玄门招收内门弟子的消息",
+    "characters": [
+      "韩立",
+      "三叔",
+      "韩父",
+      "韩母"
+    ],
+    "treasures": [],
+    "result": "韩立被三叔推荐参加七玄门的内门弟子测试",
+    "location": "韩立家",
+    "time": "韩立十岁时",
+    "chapter_id": "01"
+  },
+  {
+    "event_id": "4-2",
+    "description": "韩父在听到七玄门的介绍后，决定让韩立参加测试",
     "characters": [
       "韩父",
       "三叔"
     ],
     "treasures": [],
-    "result": "韩父决定让韩立参加七玄门的考验",
-    "location": "韩家",
-    "time": "未明确说明",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-2",
-    "description": "三叔向韩父介绍七玄门的好处，包括成为内门弟子的福利",
-    "characters": [
-      "三叔",
-      "韩父"
-    ],
-    "treasures": [],
-    "result": "韩父被说服，同意韩立参加七玄门的考验",
-    "location": "韩家",
-    "time": "未明确说明",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-3",
-    "description": "三叔留下银子并告知一个月后带韩立走，期间要韩立补身体",
-    "characters": [
-      "三叔",
-      "韩父",
-      "韩立"
-    ],
-    "treasures": [
-      "银子"
-    ],
-    "result": "三叔安排韩立参加七玄门考验的准备工作",
-    "location": "韩家",
-    "time": "未明确说明",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-4",
-    "description": "韩立对即将进城和挣大钱感到兴奋",
-    "characters": [
-      "韩立"
-    ],
-    "treasures": [],
-    "result": "韩立对未来的机会感到期待",
-    "location": "韩家",
-    "time": "未明确说明",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-5",
-    "description": "三叔准时来到村中带韩立走，韩父韩母分别嘱咐韩立",
-    "characters": [
-      "三叔",
-      "韩父",
-      "韩母",
-      "韩立"
-    ],
-    "treasures": [],
-    "result": "韩立离开家乡前往七玄门",
-    "location": "村中",
-    "time": "一个月后",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-1",
-    "description": "韩立离开父母，决心挣钱后回来与父母团聚",
-    "characters": [
-      "韩立"
-    ],
-    "treasures": [],
-    "result": "韩立开始了他的旅程，最终走上了修仙之路",
-    "location": "马车上",
+    "result": "韩父同意韩立参加七玄门的内门弟子测试",
+    "location": "韩立家",
     "time": "韩立十岁时",
-    "chapter_id": "第一章"
+    "chapter_id": "01"
   },
   {
-    "event_id": "E02-1",
-    "description": "一辆马车快速驶入青牛镇，停在春香酒楼前",
-    "characters": [],
+    "event_id": "4-3",
+    "description": "三叔带韩立离开家，前往七玄门参加测试",
+    "characters": [
+      "韩立",
+      "三叔",
+      "韩父",
+      "韩母"
+    ],
     "treasures": [],
-    "result": "马车到达青牛镇",
-    "location": "青牛镇，春香酒楼前",
-    "time": "午饭时分",
-    "chapter_id": "第一章"
+    "result": "韩立离开家，开始他的修仙之路",
+    "location": "从韩立家到青牛镇的路上",
+    "time": "一个月后",
+    "chapter_id": "01"
   },
   {
-    "event_id": "E01-1",
+    "event_id": "4-1",
+    "description": "韩立乘坐马车到达青牛镇，准备参加七玄门的内门弟子测试",
+    "characters": [
+      "韩立",
+      "三叔"
+    ],
+    "treasures": [],
+    "result": "韩立到达青牛镇，准备开始新的生活",
+    "location": "青牛镇",
+    "time": "韩立十岁时",
+    "chapter_id": "02"
+  },
+  {
+    "event_id": "7-1",
     "description": "韩立和他的三叔韩胖子到达镇子并进入酒楼",
     "characters": [
       "韩立",
@@ -209,213 +177,125 @@
     "treasures": [],
     "result": "韩立被带到酒楼后面的小院子休息",
     "location": "酒楼及后面的小院子",
-    "time": "一连赶了三天路后刚进镇子时",
-    "chapter_id": "第一章"
+    "time": "到达镇子的当天",
+    "chapter_id": "01"
   },
   {
-    "event_id": "E01-1",
-    "description": "小厮送饭菜给韩立",
+    "event_id": "7-2",
+    "description": "韩胖子向熟客介绍韩立并安排他休息",
     "characters": [
       "韩立",
-      "小厮"
+      "韩胖子"
     ],
     "treasures": [],
-    "result": "韩立吃完饭菜",
-    "location": "酒楼",
-    "time": "晚上",
-    "chapter_id": "第一章"
+    "result": "韩立答应不离开院子并开始休息",
+    "location": "酒楼后面的小院子",
+    "time": "到达镇子的当天",
+    "chapter_id": "01"
   },
   {
-    "event_id": "E01-2",
-    "description": "三叔与韩立聊天",
+    "event_id": "7-3",
+    "description": "韩立与三叔共进晚餐并聊天",
     "characters": [
       "韩立",
-      "三叔"
+      "韩胖子"
     ],
     "treasures": [],
-    "result": "韩立与三叔有说有笑",
-    "location": "酒楼",
-    "time": "晚上",
-    "chapter_id": "第一章"
+    "result": "韩立逐渐放松并与三叔有说有笑",
+    "location": "酒楼后面的小院子",
+    "time": "到达镇子的第二天晚上",
+    "chapter_id": "01"
   },
   {
-    "event_id": "E01-3",
+    "event_id": "7-4",
     "description": "七玄门的马车到达酒楼",
     "characters": [],
     "treasures": [],
     "result": "七玄门的重要人物驾临本地",
     "location": "酒楼门前",
-    "time": "第三天晚上",
-    "chapter_id": "第一章"
+    "time": "到达镇子的第三天晚上",
+    "chapter_id": "01"
   },
   {
-    "event_id": "E01-1",
-    "description": "七玄门由七绝上人创立，曾雄霸镜州",
+    "event_id": "7-5",
+    "description": "介绍七玄门的历史和现状",
     "characters": [
-      "七绝上人"
+      "七绝上人",
+      "七玄门",
+      "野狼帮"
     ],
     "treasures": [],
-    "result": "七玄门声名赫赫",
-    "location": "镜州",
-    "time": "二百年前",
-    "chapter_id": "第一章"
+    "result": "七玄门与野狼帮的冲突背景介绍",
+    "location": "彩霞山及周边地区",
+    "time": "历史背景",
+    "chapter_id": "01"
   },
   {
-    "event_id": "E01-2",
-    "description": "七绝上人病故，七玄门势力衰落",
+    "event_id": "16-1",
+    "description": "韩立艰难地穿越竹林并开始攀爬巨石壁",
     "characters": [
-      "七绝上人"
-    ],
-    "treasures": [],
-    "result": "七玄门被挤出镜州城，搬迁至仙霞山",
-    "location": "镜州城",
-    "time": "七绝上人病故后",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-3",
-    "description": "七玄门搬迁至仙霞山，控制周边城镇",
-    "characters": [],
-    "treasures": [],
-    "result": "七玄门成为本地两大霸主之一",
-    "location": "仙霞山",
-    "time": "百年前",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-4",
-    "description": "野狼帮与七玄门冲突不断",
-    "characters": [
-      "七玄门门主"
-    ],
-    "treasures": [],
-    "result": "七玄门屡处下风，扩招弟子",
-    "location": "彩霞山周边",
-    "time": "近年来",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E03-1",
-    "description": "王护法亲自带队来接参加七玄门入门考查的孩童，韩立的三叔推荐韩立并贿赂王护法以求照顾",
-    "characters": [
-      "王护法",
-      "韩立的三叔",
       "韩立"
     ],
-    "treasures": [
-      "沉甸甸的袋子"
-    ],
-    "result": "王护法答应路上照顾韩立",
-    "location": "韩理所在的屋子外",
-    "time": "前往七玄门的路上",
-    "chapter_id": "第一章"
+    "treasures": [],
+    "result": "韩立双手和膝盖受伤，但继续攀爬",
+    "location": "竹林外的巨石壁",
+    "time": "上午",
+    "chapter_id": "01"
   },
   {
-    "event_id": "E03-2",
-    "description": "韩立和其他孩童挤在前往七玄门的马车上，观察车内的其他孩童",
+    "event_id": "16-2",
+    "description": "韩立看到舞岩和其他孩子攀爬巨石壁，决定追赶",
     "characters": [
       "韩立",
-      "其他孩童"
+      "舞岩"
     ],
     "treasures": [],
-    "result": "韩立观察到车内孩童分为三类人",
-    "location": "前往七玄门的马车上",
-    "time": "前往七玄门的路上",
-    "chapter_id": "第一章"
+    "result": "韩立决心追赶前面的孩子",
+    "location": "巨石壁",
+    "time": "上午",
+    "chapter_id": "01"
   },
   {
-    "event_id": "E01-1",
-    "description": "舞岩因家庭背景和自身条件成为车内孩童的领导者",
-    "characters": [
-      "舞岩",
-      "韩立",
-      "其他孩童"
-    ],
-    "treasures": [],
-    "result": "舞岩被簇拥为'大哥'，韩立等穷苦孩童显得畏缩",
-    "location": "车内",
-    "time": "舞岩十三岁时",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-2",
-    "description": "不同背景的孩童在车内的不同表现",
-    "characters": [
-      "舞岩",
-      "簇拥舞岩的孩童",
-      "韩立等穷苦孩童"
-    ],
-    "treasures": [],
-    "result": "形成鲜明的社会阶层对比",
-    "location": "车内",
-    "time": "舞岩十三岁时",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-1",
-    "description": "马车从青牛镇出发，一路向西，途中接了几个孩童，最终到达彩霞山，七玄门总门所在地。",
-    "characters": [
-      "王护法",
-      "韩立",
-      "其他孩童"
-    ],
-    "treasures": [],
-    "result": "孩子们被彩霞山的美景迷住，后被王护法催促继续前行。",
-    "location": "从青牛镇到彩霞山",
-    "time": "第五天傍晚",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-2",
-    "description": "孩子们被彩霞山的落日美景深深迷住。",
-    "characters": [
-      "王护法",
-      "韩立",
-      "其他孩童"
-    ],
-    "treasures": [],
-    "result": "孩子们被美景吸引，直到被王护法催促才继续前行。",
-    "location": "彩霞山",
-    "time": "傍晚",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-3",
-    "description": "介绍彩霞山的背景和七玄门对其的占有。",
-    "characters": [],
-    "treasures": [],
-    "result": "彩霞山被七玄门占有，外人无法随意欣赏美景。",
-    "location": "彩霞山",
-    "time": "不详",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-4",
-    "description": "介绍彩霞山的地理位置和七玄门的分堂分布。",
-    "characters": [],
-    "treasures": [],
-    "result": "彩霞山是镜州境内第二大山，七玄门各分堂占据其山峰。",
-    "location": "彩霞山",
-    "time": "不详",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-5",
-    "description": "韩立跟随队伍前行，队伍突然停下，有人与王护法对话。",
+    "event_id": "16-3",
+    "description": "韩立攀爬巨石壁时差点掉落，被师兄保护",
     "characters": [
       "韩立",
-      "王护法",
-      "未知人物"
+      "师兄"
     ],
     "treasures": [],
-    "result": "队伍停下，有人询问王护法为何迟到。",
-    "location": "彩霞山",
-    "time": "傍晚",
-    "chapter_id": "第一章"
+    "result": "韩立安全继续攀爬",
+    "location": "巨石壁",
+    "time": "接近正午",
+    "chapter_id": "01"
   },
   {
-    "event_id": "E01-1",
-    "description": "王护法带领新一批弟子到达山上，向岳堂主汇报并安排弟子休息",
+    "event_id": "16-4",
+    "description": "韩立攀爬麻绳，看到舞岩的挑衅",
+    "characters": [
+      "韩立",
+      "舞岩"
+    ],
+    "treasures": [],
+    "result": "韩立感到气恼，继续攀爬",
+    "location": "悬崖上的麻绳",
+    "time": "正午前",
+    "chapter_id": "01"
+  },
+  {
+    "event_id": "16-5",
+    "description": "韩立用尽力气攀爬麻绳，决定再努把劲儿",
+    "characters": [
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩立决定继续向上攀登",
+    "location": "悬崖上的麻绳",
+    "time": "正午前",
+    "chapter_id": "01"
+  },
+  {
+    "event_id": "13-1",
+    "description": "王护法带领新一批弟子到达山上，向岳堂主报告并安排弟子们休息",
     "characters": [
       "王护法",
       "岳堂主",
@@ -425,217 +305,144 @@
     "result": "弟子们被安排到清客院休息，准备第二天的选拔",
     "location": "上山路上及清客院",
     "time": "傍晚",
-    "chapter_id": "第一章"
+    "chapter_id": "1"
   },
   {
-    "event_id": "E04-1",
-    "description": "王护法带领众人到竹林斜坡前，岳堂主宣布选拔规则",
+    "event_id": "13-2",
+    "description": "韩立晚上做梦梦到自己拥有绝世武功",
     "characters": [
-      "王护法",
+      "韩立"
+    ],
+    "treasures": [],
+    "result": "韩立梦到自己变得强大",
+    "location": "清客院",
+    "time": "晚上",
+    "chapter_id": "1"
+  },
+  {
+    "event_id": "13-1",
+    "description": "岳堂主向弟子们介绍选拔规则",
+    "characters": [
       "岳堂主",
+      "韩立",
+      "其他孩童"
+    ],
+    "treasures": [],
+    "result": "弟子们了解了选拔的规则和路径",
+    "location": "种满竹子的斜坡前",
+    "time": "早上",
+    "chapter_id": "2"
+  },
+  {
+    "event_id": "13-2",
+    "description": "弟子们开始向炼骨崖进发",
+    "characters": [
       "韩立",
       "其他孩童",
       "师兄们"
     ],
     "treasures": [],
-    "result": "岳堂主宣布了到达炼骨崖的选拔规则，孩童们准备开始挑战",
-    "location": "竹林斜坡前",
+    "result": "弟子们进入竹林，开始选拔",
+    "location": "竹林",
     "time": "早上",
-    "chapter_id": "第一章"
+    "chapter_id": "2"
   },
   {
-    "event_id": "E01-1",
-    "description": "韩立与三十余名孩童进入竹林，韩立因害怕紧随其后的瘦长师兄而不敢与其说话，独自沿着斜坡前进。",
+    "event_id": "13-1",
+    "description": "韩立在竹林中艰难前进",
     "characters": [
       "韩立",
       "瘦长的师兄"
     ],
     "treasures": [],
-    "result": "韩立感到害怕，独自前进。",
+    "result": "韩立感到疲惫，但继续前进",
     "location": "竹林",
-    "time": "未知",
-    "chapter_id": "第一章"
+    "time": "上午",
+    "chapter_id": "3"
   },
   {
-    "event_id": "E01-1",
-    "description": "韩立艰难地穿过竹林，面对巨石壁的挑战",
-    "characters": [
-      "韩立"
-    ],
-    "treasures": [],
-    "result": "韩立决定挑战巨石壁，尽管受伤但仍坚持向上攀爬",
-    "location": "竹林外的巨石壁",
-    "time": "入门测试期间",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-1",
-    "description": "韩立观察舞岩和其他孩子在攀爬巨石壁的情况",
-    "characters": [
-      "韩立",
-      "舞岩"
-    ],
-    "treasures": [],
-    "result": "韩立意识到自己无法追上最前面的几个人",
-    "location": "巨石壁",
-    "time": "太阳逐渐爬到天空的正中间",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-1",
-    "description": "韩立感激自己未掉下悬崖，继续向前移动寻找麻绳攀爬。",
-    "characters": [
-      "韩立"
-    ],
-    "treasures": [],
-    "result": "韩立找到一条没人的麻绳开始攀爬。",
-    "location": "悬崖",
-    "time": "接近正午",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E05-1",
-    "description": "韩立试图攀爬绳结但未能成功",
-    "characters": [
-      "韩立"
-    ],
-    "treasures": [],
-    "result": "韩立未能攀爬成功",
-    "location": "山崖",
-    "time": "太阳高高挂在天上正中间",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E05-2",
-    "description": "韩立的师兄帮助他攀登山崖",
+    "event_id": "19-1",
+    "description": "韩立尝试攀爬绳索但未能成功，被师兄救起",
     "characters": [
       "韩立",
       "师兄"
     ],
     "treasures": [],
-    "result": "韩立被成功带上山崖",
+    "result": "韩立被师兄救起并带到山崖顶部",
     "location": "山崖",
     "time": "太阳高高挂在天上正中间",
-    "chapter_id": "第一章"
+    "chapter_id": "第五章"
   },
   {
-    "event_id": "E05-3",
-    "description": "岳堂主宣布合格者名单",
+    "event_id": "19-2",
+    "description": "岳堂主宣布合格者名单，舞岩被保送到七绝堂",
     "characters": [
       "岳堂主",
       "舞岩",
       "富态老者",
-      "王护法",
-      "其他童子"
+      "王护法"
     ],
     "treasures": [],
-    "result": "七名童子合格，其中六人进入百锻堂，舞岩保送七绝堂",
+    "result": "七名童子合格，舞岩被保送到七绝堂",
     "location": "山崖顶部",
-    "time": "所有童子被送上山后",
-    "chapter_id": "第一章"
+    "time": "所有孩童被送上山后",
+    "chapter_id": "第五章"
   },
   {
-    "event_id": "E01-1",
-    "description": "岳堂主评估童子们的表现，决定张铁和韩立的去向",
+    "event_id": "19-3",
+    "description": "张铁和韩立被允许打下根基，半年后再考核",
     "characters": [
       "岳堂主",
       "张铁",
       "韩立"
     ],
     "treasures": [],
-    "result": "张铁和韩立被安排在本门打下根基，半年后再考核",
-    "location": "崖顶",
-    "time": "未明确",
-    "chapter_id": "第一章"
+    "result": "张铁和韩立有机会成为内门弟子",
+    "location": "山崖顶部",
+    "time": "宣布合格者名单后",
+    "chapter_id": "第五章"
   },
   {
-    "event_id": "E01-2",
+    "event_id": "19-4",
     "description": "未过关的童子被送遣回家",
     "characters": [
       "岳堂主",
-      "王护法",
-      "未过关的童子"
+      "王护法"
     ],
     "treasures": [],
-    "result": "未过关的童子每人领些银子，被送遣回家",
-    "location": "崖顶",
-    "time": "未明确",
-    "chapter_id": "第一章"
+    "result": "未过关的童子被送回家",
+    "location": "山崖顶部",
+    "time": "宣布合格者名单后",
+    "chapter_id": "第五章"
   },
   {
-    "event_id": "E01-3",
-    "description": "过关的童子被分成两组带往本堂",
+    "event_id": "19-5",
+    "description": "张均和吴铭瑞带领过关童子前往本堂",
     "characters": [
       "张均",
       "吴铭瑞",
       "韩立",
-      "其他过关的童子"
-    ],
-    "treasures": [],
-    "result": "过关的童子被分成两组，分别交于顾副堂主和李教习",
-    "location": "崖顶到本堂的路上",
-    "time": "未明确",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-4",
-    "description": "解释舞岩的不同待遇",
-    "characters": [
-      "瘦长脸师兄",
-      "韩立",
-      "舞岩",
-      "蓝袍老者"
-    ],
-    "treasures": [],
-    "result": "韩立了解到舞岩是被送到七绝堂的核心弟子",
-    "location": "下山崖的路上",
-    "time": "未明确",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-1",
-    "description": "张均和瘦长脸的师兄讨论舞岩凭借副门主亲戚关系进入七绝堂的事情",
-    "characters": [
-      "张均",
-      "瘦长脸的师兄",
-      "韩立",
-      "舞岩",
-      "马副门主"
-    ],
-    "treasures": [],
-    "result": "张均和瘦长脸的师兄意识到议论副门主的危险性，停止了讨论",
-    "location": "山路",
-    "time": "前往七绝堂的路上",
-    "chapter_id": "第一章"
-  },
-  {
-    "event_id": "E01-1",
-    "description": "墨大夫在树林中遇到张均等人，并挑选韩立和张铁作为炼药童子和采药弟子",
-    "characters": [
-      "墨大夫",
-      "张均",
-      "韩立",
       "张铁",
-      "吴铭瑞"
+      "其他过关童子"
     ],
     "treasures": [],
-    "result": "韩立和张铁被选中跟随墨大夫学习医术",
-    "location": "茂密的树林",
-    "time": "未明确说明",
-    "chapter_id": "第一章"
+    "result": "过关童子被分成两组带往本堂",
+    "location": "山崖顶部到本堂的路上",
+    "time": "宣布合格者名单后",
+    "chapter_id": "第五章"
   },
   {
-    "event_id": "E01-1",
-    "description": "墨大夫带领韩立和张铁进入神手谷，并安排他们的住处",
+    "event_id": "19-6",
+    "description": "张均和瘦长脸师兄讨论舞岩进入七绝堂的原因",
     "characters": [
-      "墨大夫",
-      "韩立",
-      "张铁"
+      "张均",
+      "瘦长脸师兄",
+      "韩立"
     ],
     "treasures": [],
-    "result": "韩立和张铁被安排在神手谷居住，成为七玄门的半个弟子",
-    "location": "神手谷",
-    "time": "晚上",
-    "chapter_id": "第一章"
+    "result": "韩立了解到舞岩进入七绝堂是因为有副门主的亲戚关系",
+    "location": "前往本堂的路上",
+    "time": "带领童子前往本堂途中",
+    "chapter_id": "第五章"
   }
 ]
