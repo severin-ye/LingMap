@@ -269,13 +269,172 @@ class UnifiedCausalLinker(BaseLinker):
         Returns:
             处理后的事件列表和因果边列表
         """
-        # 使用图过滤器处理环和冲突
-        filtered_edges = self.graph_filter.filter_edges_to_dag(events, edges)
+        # 首先，处理重复的节点ID
+        unique_events, updated_edges = self._ensure_unique_node_ids(events, edges)
         
-        if len(filtered_edges) != len(edges):
-            print(f"图中检测到环，已移除 {len(edges) - len(filtered_edges)} 条边以构建DAG")
+        # 使用图过滤器处理环和冲突
+        filtered_edges = self.graph_filter.filter_edges_to_dag(unique_events, updated_edges)
+        
+        if len(filtered_edges) != len(updated_edges):
+            print(f"图中检测到环，已移除 {len(updated_edges) - len(filtered_edges)} 条边以构建DAG")
             
-        return events, filtered_edges
+        return unique_events, filtered_edges
+        
+    def _ensure_unique_node_ids(self, events: List[EventItem], edges: List[CausalEdge]) -> Tuple[List[EventItem], List[CausalEdge]]:
+        """
+        确保事件节点ID的唯一性，并更新边的引用
+        
+        Args:
+            events: 事件列表
+            edges: 因果边列表
+            
+        Returns:
+            处理后的事件列表和边列表
+        """
+        # 优化: 先进行事件ID重复性检查，如果没有重复ID，可以直接返回原始数据
+        # 这是一个常见优化技术，避免在不需要处理时进行复杂操作
+        event_ids = [event.event_id for event in events]
+        if len(event_ids) == len(set(event_ids)):
+            # 没有重复ID，可以直接返回
+            print("没有检测到重复的事件ID，跳过ID处理")
+            return events, edges
+            
+        print(f"检测到重复的事件ID，正在处理 {len(events)} 个事件...")
+            
+        # 创建事件ID到事件的映射
+        event_map = {}
+        unique_events = []
+        id_counter = {}  # 计数器，用于跟踪每个基本ID出现的次数
+        id_mapping = {}  # 原始ID到唯一ID的映射
+        
+        # 处理重复ID，为每个节点分配唯一ID
+        for event in events:
+            original_id = event.event_id
+            
+            if original_id in event_map:
+                # 如果ID已经存在，为其创建唯一ID
+                if original_id not in id_counter:
+                    id_counter[original_id] = 1
+                    # 为第一个出现的ID也创建映射
+                    first_unique_id = f"{original_id}_1"
+                    id_mapping[original_id] = first_unique_id
+                    
+                    # 更新之前存储的事件
+                    old_event = event_map[original_id]
+                    unique_event = EventItem(
+                        event_id=first_unique_id,
+                        description=old_event.description,
+                        characters=old_event.characters,
+                        treasures=old_event.treasures,
+                        result=old_event.result,
+                        location=old_event.location,
+                        time=old_event.time,
+                        chapter_id=old_event.chapter_id
+                    )
+                    
+                    # 替换存储的事件
+                    event_map[first_unique_id] = unique_event
+                    
+                    # 移除原始ID的映射
+                    del event_map[original_id]
+                    
+                    # 在unique_events中找到并替换
+                    for i, node in enumerate(unique_events):
+                        if node.event_id == original_id:
+                            unique_events[i] = unique_event
+                            break
+                
+                # 为当前事件创建唯一ID
+                id_counter[original_id] += 1
+                unique_id = f"{original_id}_{id_counter[original_id]}"
+                
+                # 创建带有唯一ID的新事件
+                unique_event = EventItem(
+                    event_id=unique_id,
+                    description=event.description,
+                    characters=event.characters,
+                    treasures=event.treasures,
+                    result=event.result,
+                    location=event.location,
+                    time=event.time,
+                    chapter_id=event.chapter_id
+                )
+                
+                # 存储映射关系
+                id_mapping[unique_id] = unique_id  # 自映射，简化后续查找
+                event_map[unique_id] = unique_event
+                unique_events.append(unique_event)
+            else:
+                # 第一次出现的ID
+                event_map[original_id] = event
+                id_mapping[original_id] = original_id  # 自映射，简化后续查找
+                unique_events.append(event)
+        
+        # 并行更新边的引用，使用唯一ID
+        updated_edges = []
+        
+        # 如果边的数量超过一定阈值，使用并行处理
+        if len(edges) > 20:  # 设置一个合理的阈值，小于此值时顺序处理更快
+            def process_edge(edge):
+                from_id = edge.from_id
+                to_id = edge.to_id
+                
+                # 获取映射后的ID，如果没有映射则使用原始ID
+                from_id_mapped = id_mapping.get(from_id, from_id)
+                to_id_mapped = id_mapping.get(to_id, to_id)
+                
+                # 如果源节点或目标节点在映射中不存在，返回None
+                if from_id_mapped not in event_map or to_id_mapped not in event_map:
+                    return None
+                
+                # 创建新的边
+                return CausalEdge(
+                    from_id=from_id_mapped,
+                    to_id=to_id_mapped,
+                    strength=edge.strength,
+                    reason=edge.reason
+                )
+            
+            print(f"使用并行处理更新 {len(edges)} 条边的引用...")
+            # 使用线程池并行处理边
+            with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+                # 提交所有边处理任务
+                results = list(executor.map(process_edge, edges))
+                
+            # 过滤掉无效的边
+            updated_edges = [edge for edge in results if edge is not None]
+            
+            # 统计跳过的边数量
+            skipped_count = len(edges) - len(updated_edges)
+            if skipped_count > 0:
+                print(f"警告：有 {skipped_count} 条边引用了不存在的节点，已被跳过")
+                
+        else:
+            # 对于边数量较少的情况，使用顺序处理
+            for edge in edges:
+                from_id = edge.from_id
+                to_id = edge.to_id
+                
+                # 获取映射后的ID，如果没有映射则使用原始ID
+                from_id_mapped = id_mapping.get(from_id, from_id)
+                to_id_mapped = id_mapping.get(to_id, to_id)
+                
+                # 如果源节点或目标节点在映射中不存在，直接跳过
+                if from_id_mapped not in event_map or to_id_mapped not in event_map:
+                    print(f"警告：边 {from_id} -> {to_id} 引用了不存在的节点，将被跳过")
+                    continue
+                
+                # 创建新的边
+                updated_edge = CausalEdge(
+                    from_id=from_id_mapped,
+                    to_id=to_id_mapped,
+                    strength=edge.strength,
+                    reason=edge.reason
+                )
+                updated_edges.append(updated_edge)
+        
+        print(f"处理了节点ID唯一性：原始事件数 {len(events)}，处理后事件数 {len(unique_events)}，处理后边数 {len(updated_edges)}")
+        return unique_events, updated_edges
     
     # 以下方法是为了保持与测试兼容
     def _will_form_cycle(self, graph: List[List[int]], from_idx: int, to_idx: int) -> bool:

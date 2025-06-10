@@ -1,11 +1,14 @@
 import argparse
 import json
 import os
-from typing import Dict, Any
+import logging
+from typing import Dict, Any, List, Set
 
 from common.models.causal_edge import CausalEdge
 from common.models.event import EventItem
+from common.utils.enhanced_logger import EnhancedLogger
 from graph_builder.service.mermaid_renderer import MermaidRenderer
+from graph_builder.utils.node_id_processor import NodeIdProcessor
 
 
 def render_graph(input_path: str, output_path: str, options: Dict[str, Any] = {}) -> str:
@@ -20,6 +23,9 @@ def render_graph(input_path: str, output_path: str, options: Dict[str, Any] = {}
     Returns:
         Mermaid格式的图谱字符串
     """
+    # 创建日志记录器
+    logger = EnhancedLogger("graph_controller", log_level="INFO")
+    
     # 加载数据
     with open(input_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
@@ -30,11 +36,24 @@ def render_graph(input_path: str, output_path: str, options: Dict[str, Any] = {}
     
     print(f"加载了 {len(events)} 个事件和 {len(edges)} 条因果边")
     
+    # 检查是否有重复ID
+    duplicate_ids = _check_duplicate_ids(events)
+    if duplicate_ids:
+        logger.warning(f"检测到重复的事件ID: {len(duplicate_ids)}个。这说明上游的ID处理器可能未正确工作。")
+        for dup_id in duplicate_ids:
+            count = sum(1 for e in events if e.event_id == dup_id)
+            logger.warning(f"重复ID '{dup_id}' 出现了 {count} 次")
+    
+    # 处理重复节点ID (作为额外安全措施，即使上游已经应该处理过了)
+    unique_events, updated_edges = NodeIdProcessor.ensure_unique_node_ids(events, edges)
+    
+    print(f"处理后：{len(unique_events)} 个唯一事件和 {len(updated_edges)} 条更新边")
+    
     # 创建渲染器
     renderer = MermaidRenderer()
     
     # 渲染图谱
-    mermaid_text = renderer.render(events, edges, options)
+    mermaid_text = renderer.render(unique_events, updated_edges, options)
     
     # 保存结果
     output_dir = os.path.dirname(output_path)
@@ -46,6 +65,28 @@ def render_graph(input_path: str, output_path: str, options: Dict[str, Any] = {}
     
     print(f"Mermaid图谱已保存到: {output_path}")
     return mermaid_text
+
+
+def _check_duplicate_ids(events: List[EventItem]) -> Set[str]:
+    """
+    检查事件列表中是否存在重复ID
+    
+    Args:
+        events: 事件列表
+    
+    Returns:
+        重复ID的集合
+    """
+    id_set = set()
+    duplicate_ids = set()
+    
+    for event in events:
+        if event.event_id in id_set:
+            duplicate_ids.add(event.event_id)
+        else:
+            id_set.add(event.event_id)
+            
+    return duplicate_ids
 
 
 def main():

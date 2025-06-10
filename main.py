@@ -17,6 +17,7 @@ import sys
 import time
 import logging
 import argparse
+import multiprocessing
 from pathlib import Path
 from datetime import datetime
 from typing import List, Dict, Any, Optional, Union
@@ -24,6 +25,9 @@ from typing import List, Dict, Any, Optional, Union
 # 确保项目路径正确
 PROJECT_ROOT = Path(__file__).parent.absolute()
 sys.path.insert(0, str(PROJECT_ROOT))
+
+# 导入并行处理配置
+from common.utils.parallel_config import ParallelConfig
 
 # 设置日志
 logging.basicConfig(
@@ -93,10 +97,15 @@ def setup_environment():
     
     # 设置系统环境变量
     if "MAX_WORKERS" not in os.environ:
-        os.environ["MAX_WORKERS"] = "3"
+        cpu_count = multiprocessing.cpu_count()
+        optimal_workers = max(2, min(8, cpu_count))
+        os.environ["MAX_WORKERS"] = str(optimal_workers)
     
     if "LLM_PROVIDER" not in os.environ:
         os.environ["LLM_PROVIDER"] = "deepseek"  # 默认使用 DeepSeek
+        
+    # 初始化并行配置
+    ParallelConfig.initialize()
 
 
 def create_example_novel():
@@ -496,6 +505,10 @@ def main():
     parser.add_argument("--provider", "-p", choices=["openai", "deepseek"], 
                        default="deepseek", help="LLM API提供商 (默认: deepseek)")
     
+    # 性能选项
+    parser.add_argument("--no-parallel", action="store_true", help="禁用并行处理")
+    parser.add_argument("--threads", type=int, help="指定工作线程数量")
+    
     # 其他选项
     parser.add_argument("--quiet", "-q", action="store_true", help="静默模式")
     parser.add_argument("--verbose", "-v", action="store_true", help="详细输出")
@@ -514,6 +527,22 @@ def main():
     
     # 设置环境
     setup_environment()
+    
+    # 配置并行处理选项
+    parallel_options = {
+        "enabled": not args.no_parallel,
+    }
+    if args.threads:
+        parallel_options["max_workers"] = args.threads
+        
+    ParallelConfig.initialize(parallel_options)
+    
+    if not args.quiet:
+        if ParallelConfig.is_enabled():
+            max_workers = ParallelConfig.get_max_workers()
+            print(f"✅ 已启用并行处理 (工作线程数: {max_workers})")
+        else:
+            print("ℹ️ 已禁用并行处理，使用顺序执行模式")
     
     # 检查环境
     if args.check_env:

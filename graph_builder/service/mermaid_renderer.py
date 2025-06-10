@@ -1,5 +1,7 @@
 from typing import List, Dict, Any, Optional, Set
 import os
+import multiprocessing
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from common.interfaces.graph_renderer import AbstractGraphRenderer
 from common.models.causal_edge import CausalEdge
@@ -20,6 +22,10 @@ class MermaidRenderer(BaseRenderer):
         """
         super().__init__(default_options)
         
+        # 设置并行处理的线程数
+        cpu_count = multiprocessing.cpu_count()
+        self.max_workers = max(2, min(8, cpu_count))
+        
     def render(self, events: List[EventItem], edges: List[CausalEdge], format_options: Dict[str, Any] = {}) -> str:
         """
         将事件图谱渲染为Mermaid格式
@@ -35,89 +41,17 @@ class MermaidRenderer(BaseRenderer):
         # 合并选项
         options = {**self.default_options, **(format_options or {})}
         
-        # 创建事件ID到事件的映射，处理重复ID
-        event_map = {}
-        unique_nodes = []
-        id_counter = {}  # 计数器，用于跟踪每个基本ID出现的次数
-        id_mapping = {}  # 原始ID到唯一ID的映射
-        
-        # 首先处理重复ID问题
-        for event in events:
-            original_id = event.event_id
-            if original_id in event_map:
-                # 如果ID已经存在，为其创建唯一ID
-                if original_id not in id_counter:
-                    id_counter[original_id] = 1
-                    # 为第一个出现的ID也创建映射
-                    first_unique_id = f"{original_id}_1"
-                    id_mapping[original_id] = first_unique_id
-                    # 更新之前存储的事件
-                    old_event = event_map[original_id]
-                    unique_event = EventItem(
-                        event_id=first_unique_id,
-                        description=old_event.description,
-                        characters=old_event.characters,
-                        treasures=old_event.treasures,
-                        result=old_event.result,
-                        location=old_event.location,
-                        time=old_event.time,
-                        chapter_id=old_event.chapter_id
-                    )
-                    # 替换存储的事件
-                    event_map[first_unique_id] = unique_event
-                    # 在unique_nodes中找到并替换
-                    for i, node in enumerate(unique_nodes):
-                        if node.event_id == original_id:
-                            unique_nodes[i] = unique_event
-                            break
-                
-                id_counter[original_id] += 1
-                unique_id = f"{original_id}_{id_counter[original_id]}"
-                id_mapping[unique_id] = unique_id  # 自映射，简化后续查找
-                
-                # 创建带有唯一ID的新事件
-                unique_event = EventItem(
-                    event_id=unique_id,
-                    description=event.description,
-                    characters=event.characters,
-                    treasures=event.treasures,
-                    result=event.result,
-                    location=event.location,
-                    time=event.time,
-                    chapter_id=event.chapter_id
-                )
-                event_map[unique_id] = unique_event
-                unique_nodes.append(unique_event)
-            else:
-                # 第一次出现的ID
-                event_map[original_id] = event
-                id_mapping[original_id] = original_id  # 自映射，简化后续查找
-                unique_nodes.append(event)
-        
-        # 更新边的ID引用
-        updated_edges = []
-        for edge in edges:
-            from_id = edge.from_id
-            to_id = edge.to_id
-            
-            # 获取映射后的ID，如果没有映射则使用原始ID
-            from_id_mapped = id_mapping.get(from_id, from_id)
-            to_id_mapped = id_mapping.get(to_id, to_id)
-            
-            # 创建新的边
-            updated_edge = CausalEdge(
-                from_id=from_id_mapped,
-                to_id=to_id_mapped,
-                strength=edge.strength,
-                reason=edge.reason
-            )
-            updated_edges.append(updated_edge)
+        # 创建事件ID到事件的映射
+        # 注意：现在我们假设所有节点ID已经是唯一的（由CPC模块处理）
+        event_map = {event.event_id: event for event in events}
         
         # 生成Mermaid图定义头部
         mermaid = ["```mermaid", "graph TD"]
         
-        # 生成节点定义
-        for event in unique_nodes:
+        # 并行生成节点定义
+        node_definitions = []
+        
+        def process_node(event):
             # 获取节点颜色
             colors = ColorMap.get_node_color(
                 event.description,
@@ -131,12 +65,25 @@ class MermaidRenderer(BaseRenderer):
             # 节点样式
             style = f'    style {event.event_id} fill:{colors["fill"]},stroke:{colors["stroke"]}'
             
-            mermaid.append(node_def)
-            mermaid.append(style)
+            return (node_def, style)
+        
+        # 使用线程池并行处理节点
+        with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+            # 提交所有任务
+            future_to_event = {executor.submit(process_node, event): event for event in events}
+            
+            # 收集结果
+            for future in as_completed(future_to_event):
+                try:
+                    node_def, style = future.result()
+                    mermaid.append(node_def)
+                    mermaid.append(style)
+                except Exception as e:
+                    print(f"处理节点时出错: {e}")
         
         # 生成边定义
         link_style_index = 0
-        for edge in updated_edges:
+        for edge in edges:
             # 获取边样式
             edge_style = ColorMap.get_edge_style(edge.strength)
             

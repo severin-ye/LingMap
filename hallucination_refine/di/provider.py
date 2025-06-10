@@ -10,6 +10,7 @@ if current_dir not in sys.path:
 from common.interfaces.refiner import AbstractRefiner
 from hallucination_refine.service.har_service import HallucinationRefiner
 from common.utils.path_utils import get_config_path
+from common.utils.parallel_config import ParallelConfig
 from dotenv import load_dotenv
 
 # 加载.env文件中的环境变量
@@ -32,11 +33,20 @@ def provide_refiner() -> AbstractRefiner:
     # 使用path_utils获取配置文件路径
     prompt_path = get_config_path("prompt_hallucination_refine.json")
     
+    # 根据并行配置获取工作线程数
+    # 幻觉修复是IO密集型任务，适合使用更多线程
+    if ParallelConfig.is_enabled():
+        max_workers = ParallelConfig.get_max_workers("io_bound")
+    else:
+        max_workers = 1
+        
+    print(f"幻觉修复器使用工作线程数: {max_workers}")
+    
     return HallucinationRefiner(
         model=model,
         prompt_path=prompt_path,
         api_key=api_key,
-        max_workers=3,
+        max_workers=max_workers,
         max_iterations=2,
         provider=provider
     )

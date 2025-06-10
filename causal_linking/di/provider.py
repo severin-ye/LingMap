@@ -11,6 +11,7 @@ from common.interfaces.linker import AbstractLinker
 # 导入统一版链接器以及兼容类
 from causal_linking.service.unified_linker_service import UnifiedCausalLinker, CausalLinker, OptimizedCausalLinker
 from common.utils.path_utils import get_config_path
+from common.utils.parallel_config import ParallelConfig
 from dotenv import load_dotenv
 
 # 加载.env文件中的环境变量
@@ -53,7 +54,16 @@ def provide_linker(use_optimized: bool = True) -> AbstractLinker:
     min_entity_support = int(os.environ.get("MIN_ENTITY_SUPPORT", "2"))
     max_chapter_span = int(os.environ.get("MAX_CHAPTER_SPAN", "10"))
     max_candidate_pairs = int(os.environ.get("MAX_CANDIDATE_PAIRS", "10000"))
-    max_workers = int(os.environ.get("MAX_WORKERS", "3"))
+    
+    # 根据并行配置获取工作线程数
+    # 因果分析是IO和CPU混合型任务，使用默认线程配置
+    if ParallelConfig.is_enabled():
+        max_workers = ParallelConfig.get_max_workers()
+    else:
+        max_workers = 1
+    
+    print(f"因果链接器使用工作线程数: {max_workers}")
+    
     use_entity_weights = os.environ.get("USE_ENTITY_WEIGHTS", "1").lower() in ["1", "true", "yes"]
     
     # 根据参数选择使用优化模式还是原始模式

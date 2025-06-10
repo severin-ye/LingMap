@@ -2,8 +2,10 @@ import argparse
 import os
 import sys
 import logging
-from typing import List
+import multiprocessing
+from typing import List, Tuple
 from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # 将项目根目录添加到路径中
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -159,7 +161,7 @@ def process_text(text_path: str, output_dir: str, temp_dir: str = "", provider: 
     print(f"处理结果已保存到目录: {output_dir}")
 
 
-def process_directory(input_dir: str, output_dir: str, provider: str = "openai"):
+def process_directory(input_dir: str, output_dir: str, provider: str = "openai", parallel: bool = True):
     """
     处理目录中的所有文本文件
     
@@ -167,6 +169,7 @@ def process_directory(input_dir: str, output_dir: str, provider: str = "openai")
         input_dir: 输入目录
         output_dir: 输出目录
         provider: LLM API提供商，"openai"或"deepseek"
+        parallel: 是否并行处理文件
     """
     # 创建输出目录
     if not os.path.exists(output_dir):
@@ -176,12 +179,65 @@ def process_directory(input_dir: str, output_dir: str, provider: str = "openai")
     import glob
     txt_files = glob.glob(os.path.join(input_dir, "*.txt"))
     
-    for txt_file in txt_files:
-        file_name = os.path.basename(txt_file)
-        file_output_dir = os.path.join(output_dir, file_name.replace(".txt", ""))
+    if not parallel:
+        # 顺序处理
+        for txt_file in txt_files:
+            file_name = os.path.basename(txt_file)
+            file_output_dir = os.path.join(output_dir, file_name.replace(".txt", ""))
+            
+            print(f"\n处理文件: {file_name}")
+            process_text(txt_file, file_output_dir, provider=provider)
+    else:
+        # 并行处理
+        print(f"启用并行处理 {len(txt_files)} 个文件...")
         
-        print(f"\n处理文件: {file_name}")
-        process_text(txt_file, file_output_dir, provider=provider)
+        # 确定合适的线程数
+        cpu_count = multiprocessing.cpu_count()
+        # 使用系统CPU核心数的一半，至少2个，最多8个
+        max_workers = max(2, min(8, cpu_count // 2))
+        print(f"使用 {max_workers} 个工作线程进行并行处理")
+        
+        def process_file_task(txt_file):
+            try:
+                file_name = os.path.basename(txt_file)
+                file_output_dir = os.path.join(output_dir, file_name.replace(".txt", ""))
+                
+                print(f"开始处理文件: {file_name}")
+                process_text(txt_file, file_output_dir, provider=provider)
+                print(f"成功完成文件: {file_name}")
+                return (True, file_name, None)
+            except Exception as e:
+                print(f"处理文件 {os.path.basename(txt_file)} 时出错: {str(e)}")
+                return (False, os.path.basename(txt_file), str(e))
+        
+        # 使用线程池并行处理文件
+        results = []
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            # 提交所有任务
+            future_to_file = {executor.submit(process_file_task, txt_file): txt_file for txt_file in txt_files}
+            
+            # 收集结果
+            for future in as_completed(future_to_file):
+                txt_file = future_to_file[future]
+                try:
+                    success, file_name, error = future.result()
+                    results.append((success, file_name, error))
+                except Exception as e:
+                    results.append((False, os.path.basename(txt_file), str(e)))
+        
+        # 汇总结果
+        success_count = sum(1 for success, _, _ in results if success)
+        failed_count = len(results) - success_count
+        
+        print("\n===处理结果汇总===")
+        print(f"成功处理: {success_count} 个文件")
+        print(f"处理失败: {failed_count} 个文件")
+        
+        if failed_count > 0:
+            print("\n失败的文件:")
+            for success, file_name, error in results:
+                if not success:
+                    print(f"- {file_name}: {error}")
 
 
 def main():
@@ -192,6 +248,7 @@ def main():
     parser.add_argument("--batch", "-b", action="store_true", help="批处理模式（处理目录中的所有文件）")
     parser.add_argument("--provider", "-p", choices=["openai", "deepseek"], default="deepseek",
                         help="LLM API提供商 (默认: deepseek)")
+    parser.add_argument("--no-parallel", action="store_true", help="禁用并行处理")
     
     args = parser.parse_args()
     
@@ -208,7 +265,7 @@ def main():
             logger.error(f"错误: 输入路径 {args.input} 不是一个目录")
             return
         
-        process_directory(args.input, args.output, provider=args.provider)
+        process_directory(args.input, args.output, provider=args.provider, parallel=not args.no_parallel)
     else:
         # 单文件模式
         if not os.path.isfile(args.input):

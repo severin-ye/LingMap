@@ -87,16 +87,34 @@ class HallucinationRefiner(BaseRefiner):
         
         # 使用线程池并行处理每个事件
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
-            futures = []
+            # 优化后的实现 - 使用as_completed等待完成的任务
+            # 同时提交所有事件处理任务
+            future_to_event = {executor.submit(self.refine_event, event, context): event for event in events}
             
-            for event in events:
-                future = executor.submit(self.refine_event, event, context)
-                futures.append(future)
+            print(f"使用 {self.max_workers} 个工作线程并行处理 {len(events)} 个事件")
+            
+            # 统计完成的任务数量
+            completed = 0
+            total = len(events)
+            
+            # 实时收集已完成的任务结果
+            from concurrent.futures import as_completed
+            for future in as_completed(future_to_event):
+                original_event = future_to_event[future]
+                completed += 1
                 
-            # 收集所有结果
-            for future in futures:
-                refined_event = future.result()
-                refined_events.append(refined_event)
+                try:
+                    refined_event = future.result()
+                    refined_events.append(refined_event)
+                    
+                    # 打印进度
+                    if completed % max(1, total // 10) == 0 or completed == total:
+                        print(f"幻觉修复进度: {completed}/{total} ({(completed/total)*100:.1f}%)")
+                        
+                except Exception as e:
+                    print(f"处理事件 {original_event.event_id} 时出错: {str(e)}")
+                    # 如果处理失败，保留原始事件
+                    refined_events.append(original_event)
                     
         return refined_events
     

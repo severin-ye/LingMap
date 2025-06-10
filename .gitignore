@@ -14,6 +14,9 @@ ENV/
 # 输出文件夹
 output_*/
 
+# 日志文件
+*.log
+
 # 系统文件
 .DS_Store
 Thumbs.db

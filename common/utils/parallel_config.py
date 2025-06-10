@@ -1,0 +1,152 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+并行处理配置模块
+
+提供全局并行处理配置，用于控制系统中的多线程并行处理行为。
+"""
+
+import os
+import multiprocessing
+from typing import Dict, Any, Optional
+
+
+class ParallelConfig:
+    """
+    并行处理配置类
+    
+    负责管理系统中的并行处理配置，包括是否启用并行、线程数量等。
+    """
+    
+    # 默认配置
+    _config = {
+        "enabled": True,  # 默认启用并行处理
+        "max_workers": None,  # 自动设置工作线程数
+        "adaptive": True,  # 自适应调整线程数
+    }
+    
+    @classmethod
+    def initialize(cls, options: Dict[str, Any] = None) -> None:
+        """
+        初始化并行处理配置
+        
+        Args:
+            options: 配置选项，包括:
+                - enabled: 是否启用并行处理
+                - max_workers: 最大工作线程数
+                - adaptive: 是否自适应调整
+        """
+        if options is None:
+            options = {}
+            
+        # 检查环境变量
+        env_enabled = os.environ.get("PARALLEL_ENABLED", "").lower()
+        if env_enabled in ["false", "0", "no"]:
+            cls._config["enabled"] = False
+        elif env_enabled in ["true", "1", "yes"]:
+            cls._config["enabled"] = True
+            
+        # 环境变量中的线程配置
+        env_workers = os.environ.get("MAX_WORKERS")
+        if env_workers and env_workers.isdigit():
+            cls._config["max_workers"] = int(env_workers)
+            
+        # 参数覆盖环境变量
+        if "enabled" in options:
+            cls._config["enabled"] = bool(options["enabled"])
+        if "max_workers" in options:
+            cls._config["max_workers"] = options["max_workers"]
+        if "adaptive" in options:
+            cls._config["adaptive"] = bool(options["adaptive"])
+            
+        # 如果未指定线程数，根据CPU核心数设置
+        if cls._config["max_workers"] is None and cls._config["enabled"]:
+            cpu_count = multiprocessing.cpu_count()
+            # 默认使用CPU核心数，但设置上下限
+            cls._config["max_workers"] = max(2, min(16, cpu_count))
+            
+        # 如果禁用并行处理，强制设置线程数为1
+        if not cls._config["enabled"]:
+            cls._config["max_workers"] = 1
+    
+    @classmethod
+    def is_enabled(cls) -> bool:
+        """
+        检查是否启用并行处理
+        
+        Returns:
+            是否启用并行处理
+        """
+        return cls._config["enabled"]
+    
+    @classmethod
+    def get_max_workers(cls, task_type: str = "default") -> int:
+        """
+        获取最大工作线程数
+        
+        Args:
+            task_type: 任务类型，可用于针对不同任务调整线程数
+            
+        Returns:
+            最大工作线程数
+        """
+        if not cls._config["enabled"]:
+            return 1
+            
+        max_workers = cls._config["max_workers"]
+        
+        # 针对特定任务类型的调整
+        if cls._config["adaptive"]:
+            if task_type == "io_bound":
+                # IO密集型任务可以使用更多线程
+                return max(4, max_workers)
+            elif task_type == "cpu_bound":
+                # CPU密集型任务限制线程数
+                return min(max_workers, max(2, multiprocessing.cpu_count() - 1))
+        
+        return max_workers
+    
+    @classmethod
+    def set_enabled(cls, enabled: bool) -> None:
+        """
+        设置是否启用并行处理
+        
+        Args:
+            enabled: 是否启用
+        """
+        cls._config["enabled"] = enabled
+        if not enabled:
+            cls._config["max_workers"] = 1
+    
+    @classmethod
+    def set_max_workers(cls, max_workers: int) -> None:
+        """
+        设置最大工作线程数
+        
+        Args:
+            max_workers: 最大线程数
+        """
+        cls._config["max_workers"] = max(1, max_workers)
+    
+    @classmethod
+    def get_optimal_batch_size(cls, total_items: int, task_type: str = "default") -> int:
+        """
+        计算最优批处理大小
+        
+        Args:
+            total_items: 总项目数
+            task_type: 任务类型
+            
+        Returns:
+            最优批处理大小
+        """
+        max_workers = cls.get_max_workers(task_type)
+        
+        if max_workers <= 1 or total_items <= max_workers:
+            return total_items
+            
+        # 计算每个工作线程处理的项目数
+        items_per_worker = max(1, (total_items + max_workers - 1) // max_workers)
+        
+        # 返回合理的批处理大小
+        return items_per_worker

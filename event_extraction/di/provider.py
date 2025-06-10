@@ -10,6 +10,7 @@ if current_dir not in sys.path:
 from common.interfaces.extractor import AbstractExtractor
 from event_extraction.service.enhanced_extractor_service import EnhancedEventExtractor
 from common.utils.path_utils import get_config_path
+from common.utils.parallel_config import ParallelConfig
 from dotenv import load_dotenv
 
 # 加载.env文件中的环境变量
@@ -34,14 +35,21 @@ def provide_extractor() -> AbstractExtractor:
     
     # 使用增强型事件抽取器
     import multiprocessing
-    # 根据系统CPU核心数动态设置线程数，最大不超过40个
-    optimal_workers = min(40, multiprocessing.cpu_count() * 5)
+    
+    # 根据并行配置选择工作线程数
+    # 事件抽取是IO密集型任务，适合使用更多线程
+    if ParallelConfig.is_enabled():
+        optimal_workers = ParallelConfig.get_max_workers("io_bound")
+    else:
+        optimal_workers = 1
+        
+    print(f"事件抽取器使用工作线程数: {optimal_workers}")
     
     return EnhancedEventExtractor(
         model=model,
         prompt_path=prompt_path,
         api_key=api_key,
-        max_workers=optimal_workers,  # 根据系统资源动态设置并发数
+        max_workers=optimal_workers,  # 根据系统资源和配置动态设置并发数
         provider=provider,
         debug_mode=True  # 启用调试模式以记录详细日志
     )
