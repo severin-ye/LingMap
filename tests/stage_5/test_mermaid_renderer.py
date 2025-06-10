@@ -180,3 +180,71 @@ class TestMermaidRenderer(unittest.TestCase):
         # 其他默认选项应保持不变
         # 注意：这里无法直接测试，因为选项合并后没有直接暴露出来
         # 可以通过功能表现来间接验证
+    
+    def test_duplicate_node_ids(self):
+        """测试处理重复节点ID的情况"""
+        # 创建包含重复ID的测试事件
+        duplicate_events = [
+            EventItem(
+                event_id="E1",
+                description="韩立上山采集浆果",
+                characters=["韩立"],
+                treasures=[]
+            ),
+            EventItem(
+                event_id="E1",  # 重复ID
+                description="韩立发现药园",
+                characters=["韩立"],
+                treasures=["灵药"]
+            ),
+            EventItem(
+                event_id="E1",  # 重复ID
+                description="韩立与白衣人战斗",
+                characters=["韩立", "白衣人"],
+                treasures=[]
+            ),
+            EventItem(
+                event_id="E2",
+                description="韩立修炼功法",
+                characters=["韩立"],
+                treasures=[]
+            )
+        ]
+        
+        # 创建引用这些节点的边
+        duplicate_edges = [
+            CausalEdge(
+                from_id="E1",
+                to_id="E2",
+                strength="高",
+                reason="韩立上山采集时发现了药园"
+            )
+        ]
+        
+        # 渲染图谱
+        result = self.renderer.render(duplicate_events, duplicate_edges)
+        
+        # 验证生成的图谱包含唯一ID
+        self.assertIn("E1_1", result)
+        self.assertIn("E1_2", result)
+        self.assertIn("E1_3", result)
+        self.assertIn("E2", result)
+        
+        # 验证所有描述都存在
+        self.assertIn(self.renderer._escape_text("韩立上山采集浆果"), result)
+        self.assertIn(self.renderer._escape_text("韩立发现药园"), result)
+        self.assertIn(self.renderer._escape_text("韩立与白衣人战斗"), result)
+        
+        # 验证边被正确更新
+        # 由于我们不知道到底哪个E1会被映射为链接源，所以检查E2作为目标
+        self.assertIn("E2", result)
+        
+        # 每个节点都应该有自己的样式
+        self.assertIn("style E1_1", result)
+        self.assertIn("style E1_2", result) 
+        self.assertIn("style E1_3", result)
+        self.assertIn("style E2", result)
+
+
+if __name__ == "__main__":
+    unittest.main()
