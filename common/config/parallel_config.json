@@ -3,7 +3,7 @@
     "enabled": true,
     "description": "是否启用并行处理，设置为false时所有模块将使用单线程",
 
-    "max_workers": 6,
+    "max_workers": 10,
     "max_workers_description": "全局默认最大工作线程数，通常设置为CPU核心数或略高于核心数。如果未指定或为null，系统将自动设置为CPU核心数（有上下限）",
 
     "adaptive": {
@@ -19,16 +19,16 @@
 
     "default_workers_description": "各模块的默认线程数，可以覆盖全局设置，使每个模块使用最适合其特性的线程数",
     "default_workers": {
-      "event_extraction": 6,
+      "event_extraction": 10,
       "event_extraction_description": "事件抽取：IO密集型任务，API调用多，适合较多线程",
       
-      "hallucination_refine": 6,
+      "hallucination_refine": 10,
       "hallucination_refine_description": "幻觉修复：IO密集型任务，API调用多，适合较多线程",
       
-      "causal_linking": 6,
+      "causal_linking": 10,
       "causal_linking_description": "因果链接：混合型任务，既有计算也有API调用，使用标准线程数",
       
-      "graph_builder": 4,
+      "graph_builder": 10,
       "graph_builder_description": "图形构建：CPU密集型任务，主要是计算和渲染，适合较少线程以减少竞争"
     }
   }
