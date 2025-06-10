@@ -228,3 +228,10 @@ json.decoder.JSONDecodeError: Invalid JSON: line 1 column 1 (char 0)
 2025-06-10 15:27:54,281 - event_extractor - INFO - 章节事件抽取完成 | chapter_id=test, total_events=0, successful_segments=0, failed_segments=1
 2025-06-10 15:27:54,282 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
 2025-06-10 15:27:54,283 - event_extractor - ERROR - 未提供DeepSeek API密钥
+2025-06-10 15:35:28,185 - event_extractor - INFO - 初始化增强型事件抽取器 | model=deepseek-chat, provider=deepseek, max_workers=2, debug_mode=True
+2025-06-10 15:35:28,292 - event_extractor - INFO - 调试信息将保存到: /home/severin/CodeLib_linux/KNU_Class/Digital_Huma/Fianl_HW/debug/event_extraction
+2025-06-10 15:35:28,293 - event_extractor - INFO - 开始从章节中抽取事件 | chapter_id=第一章, title=山边小村
+2025-06-10 15:35:28,294 - event_extractor - DEBUG - 开始处理段落 第一章-1 | text_length=772
+2025-06-10 15:35:28,294 - event_extractor - DEBUG - 开始处理段落 第一章-2 | text_length=806
+2025-06-10 15:35:28,296 - event_extractor - DEBUG - 发送段落 第一章-1 的LLM请求
+2025-06-10 15:35:28,311 - event_extractor - DEBUG - 发送段落 第一章-2 的LLM请求
