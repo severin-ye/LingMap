@@ -2,12 +2,14 @@ from typing import List, Dict, Any, Optional, Set
 import os
 import multiprocessing
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import logging
 
 from common.interfaces.graph_renderer import AbstractGraphRenderer
 from common.models.causal_edge import CausalEdge
 from common.models.event import EventItem
 from graph_builder.domain.base_renderer import BaseRenderer
 from graph_builder.utils.color_map import ColorMap
+from common.utils.parallel_config import ParallelConfig
 
 
 class MermaidRenderer(BaseRenderer):
@@ -22,9 +24,19 @@ class MermaidRenderer(BaseRenderer):
         """
         super().__init__(default_options)
         
-        # 设置并行处理的线程数
-        cpu_count = multiprocessing.cpu_count()
-        self.max_workers = max(2, min(8, cpu_count))
+        # 使用模块特定配置决定线程数（确保与模块特定配置一致）
+        if ParallelConfig.is_enabled():
+            module_specific_workers = ParallelConfig._config["default_workers"]["graph_builder"]
+            self.max_workers = module_specific_workers
+        else:
+            self.max_workers = 1
+            
+        # 记录使用的线程数
+        logging.info(f"图形构建模块使用工作线程数: {self.max_workers}")
+        
+        # 使用线程监控工具记录
+        from common.utils.thread_monitor import log_thread_usage
+        log_thread_usage("graph_builder", self.max_workers, "cpu_bound")
         
     def render(self, events: List[EventItem], edges: List[CausalEdge], format_options: Dict[str, Any] = {}) -> str:
         """
@@ -67,8 +79,16 @@ class MermaidRenderer(BaseRenderer):
             
             return (node_def, style)
         
+        # 从模块特定配置获取线程数
+        module_workers = ParallelConfig._config["default_workers"]["graph_builder"]
+        actual_workers = module_workers if ParallelConfig.is_enabled() else 1
+        logging.info(f"图形渲染节点处理使用线程数: {actual_workers} (模块配置: {module_workers})")
+        
+        # 更新实例变量，确保一致性
+        self.max_workers = actual_workers
+        
         # 使用线程池并行处理节点
-        with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+        with ThreadPoolExecutor(max_workers=actual_workers) as executor:
             # 提交所有任务
             future_to_event = {executor.submit(process_node, event): event for event in events}
             

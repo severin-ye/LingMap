@@ -12,6 +12,7 @@ from common.interfaces.linker import AbstractLinker
 from causal_linking.service.unified_linker_service import UnifiedCausalLinker, CausalLinker, OptimizedCausalLinker
 from common.utils.path_utils import get_config_path
 from common.utils.parallel_config import ParallelConfig
+from common.utils.thread_monitor import log_thread_usage
 from dotenv import load_dotenv
 
 # 加载.env文件中的环境变量
@@ -63,6 +64,9 @@ def provide_linker(use_optimized: bool = True) -> AbstractLinker:
         max_workers = 1
     
     print(f"因果链接器使用工作线程数: {max_workers}")
+    
+    # 记录线程使用情况
+    log_thread_usage("causal_linking", max_workers, "default")
     
     use_entity_weights = os.environ.get("USE_ENTITY_WEIGHTS", "1").lower() in ["1", "true", "yes"]
     

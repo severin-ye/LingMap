@@ -11,6 +11,7 @@ from common.interfaces.extractor import AbstractExtractor
 from event_extraction.service.enhanced_extractor_service import EnhancedEventExtractor
 from common.utils.path_utils import get_config_path
 from common.utils.parallel_config import ParallelConfig
+from common.utils.thread_monitor import log_thread_usage
 from dotenv import load_dotenv
 
 # 加载.env文件中的环境变量
@@ -44,6 +45,9 @@ def provide_extractor() -> AbstractExtractor:
         optimal_workers = 1
         
     print(f"事件抽取器使用工作线程数: {optimal_workers}")
+    
+    # 记录线程使用情况
+    log_thread_usage("event_extraction", optimal_workers, "io_bound")
     
     return EnhancedEventExtractor(
         model=model,

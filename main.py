@@ -26,8 +26,12 @@ from typing import List, Dict, Any, Optional, Union
 PROJECT_ROOT = Path(__file__).parent.absolute()
 sys.path.insert(0, str(PROJECT_ROOT))
 
-# 导入并行处理配置
+# 导入并行处理配置和线程监控
 from common.utils.parallel_config import ParallelConfig
+from common.utils.thread_monitor import ThreadUsageMonitor
+
+# 初始化并行配置
+ParallelConfig.initialize()
 
 # 设置日志
 logging.basicConfig(
@@ -35,6 +39,9 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger("main")
+
+# 初始化线程监控
+thread_monitor = ThreadUsageMonitor.get_instance()
 
 
 def print_banner():
@@ -541,6 +548,24 @@ def main():
         if ParallelConfig.is_enabled():
             max_workers = ParallelConfig.get_max_workers()
             print(f"✅ 已启用并行处理 (工作线程数: {max_workers})")
+            
+            # 记录各模块配置的线程数
+            print("各模块线程配置:")
+            for module, workers in ParallelConfig._config["default_workers"].items():
+                print(f"  - {module}: {workers} 线程")
+                
+            # 记录自适应配置
+            if ParallelConfig._config["adaptive"]["enabled"]:
+                io_factor = ParallelConfig._config["adaptive"]["io_bound_factor"]
+                cpu_factor = ParallelConfig._config["adaptive"]["cpu_bound_factor"]
+                io_threads = int(max_workers * io_factor)
+                cpu_threads = int(max_workers * cpu_factor)
+                print(f"自适应线程配置已启用:")
+                print(f"  - IO密集型任务: {io_threads} 线程 (系数: {io_factor})")
+                print(f"  - CPU密集型任务: {cpu_threads} 线程 (系数: {cpu_factor})")
+            
+            # 记录到线程监控
+            thread_monitor.log_system_thread_usage()
         else:
             print("ℹ️ 已禁用并行处理，使用顺序执行模式")
     

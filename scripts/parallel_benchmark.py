@@ -19,6 +19,8 @@ project_root = os.path.dirname(current_dir)
 sys.path.insert(0, project_root)
 
 from common.utils.parallel_config import ParallelConfig
+from common.utils.config_writer import ConfigWriter
+from common.utils.thread_monitor import ThreadUsageMonitor
 from common.utils.json_loader import JsonLoader
 from text_ingestion.chapter_loader import ChapterLoader
 from event_extraction.di.provider import provide_extractor
@@ -48,6 +50,8 @@ def run_module_test(module_name, test_func, *args, **kwargs):
         test_func: 测试函数
         args: 位置参数
         kwargs: 关键字参数
+        
+    使用线程监控记录线程使用情况。
         
     Returns:
         测试结果和执行时间

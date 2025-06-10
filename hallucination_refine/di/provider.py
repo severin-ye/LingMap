@@ -11,6 +11,7 @@ from common.interfaces.refiner import AbstractRefiner
 from hallucination_refine.service.har_service import HallucinationRefiner
 from common.utils.path_utils import get_config_path
 from common.utils.parallel_config import ParallelConfig
+from common.utils.thread_monitor import log_thread_usage
 from dotenv import load_dotenv
 
 # 加载.env文件中的环境变量
@@ -41,6 +42,9 @@ def provide_refiner() -> AbstractRefiner:
         max_workers = 1
         
     print(f"幻觉修复器使用工作线程数: {max_workers}")
+    
+    # 记录线程使用情况
+    log_thread_usage("hallucination_refine", max_workers, "io_bound")
     
     return HallucinationRefiner(
         model=model,
