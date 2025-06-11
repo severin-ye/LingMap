@@ -294,13 +294,33 @@ class EnhancedEventExtractor(BaseExtractor):
                         all_events.extend(events)
             except Exception as e:
                 self.logger.error(f"备用处理方法失败: {str(e)}")
-                 # 确保事件ID唯一性
+                 # 在抽取服务中进行唯一ID处理（这是上游最早处理点，确保所有后续处理均使用唯一ID）
         if all_events:
+            # 进行强制ID唯一性处理
             original_count = len(all_events)
+            event_ids = [e.event_id for e in all_events]
+            unique_id_count = len(set(event_ids))
+            
+            if len(event_ids) != unique_id_count:
+                self.logger.warning(f"检测到重复ID：总事件 {original_count} 个，唯一ID仅有 {unique_id_count} 个")
+                
+                # 记录重复ID详情，帮助调试
+                id_counts = {}
+                for e_id in event_ids:
+                    id_counts[e_id] = id_counts.get(e_id, 0) + 1
+                duplicate_ids = [id for id, count in id_counts.items() if count > 1]
+                for dup_id in duplicate_ids[:5]:  # 只记录前5个，避免日志过长
+                    self.logger.warning(f"重复ID '{dup_id}' 出现 {id_counts[dup_id]} 次")
+                if len(duplicate_ids) > 5:
+                    self.logger.warning(f"... 另有 {len(duplicate_ids) - 5} 个重复ID未显示")
+            
             all_events = UnifiedIdProcessor.ensure_unique_event_ids(all_events)
-            if len(all_events) != original_count:
-                self.logger.warning(f"ID处理器可能合并了一些重复事件: {original_count} -> {len(all_events)}")
-            self.logger.info(f"确保事件ID唯一性完成，最终事件数: {len(all_events)}")
+            final_count = len(all_events)
+            
+            if final_count != original_count:
+                self.logger.warning(f"ID处理后合并了一些重复事件: {original_count} -> {final_count}")
+            
+            self.logger.info(f"ID唯一性处理完成，最终事件数: {final_count}，所有下游处理将使用唯一ID")
         
         # 汇报处理结果
         failure_rate = len(failed_segments) / len(chapter.segments) if chapter.segments else 0

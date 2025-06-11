@@ -39,15 +39,19 @@ def render_graph(input_path: str, output_path: str, options: Dict[str, Any] = {}
     # 检查是否有重复ID
     duplicate_ids = _check_duplicate_ids(events)
     if duplicate_ids:
-        logger.warning(f"检测到重复的事件ID: {len(duplicate_ids)}个。这说明上游的ID处理器可能未正确工作。")
+        logger.error(f"严重错误：检测到重复的事件ID: {len(duplicate_ids)}个。上游的ID处理器未正确工作。")
         for dup_id in duplicate_ids:
             count = sum(1 for e in events if e.event_id == dup_id)
-            logger.warning(f"重复ID '{dup_id}' 出现了 {count} 次")
-    
-    # 处理重复节点ID (作为额外安全措施，即使上游已经应该处理过了)
-    unique_events, updated_edges = UnifiedIdProcessor.ensure_unique_node_ids(events, edges)
-    
-    print(f"处理后：{len(unique_events)} 个唯一事件和 {len(updated_edges)} 条更新边")
+            logger.error(f"重复ID '{dup_id}' 出现了 {count} 次")
+        
+        # 由于上游应该已经处理ID唯一性，这里发现重复很可能是流程错误
+        # 但为了保证图谱能正常生成，仍进行一次应急处理
+        logger.warning("执行应急ID处理以保证图谱生成，但这不应成为常规流程")
+        unique_events, updated_edges = UnifiedIdProcessor.ensure_unique_node_ids(events, edges)
+        logger.info(f"应急处理后：{len(unique_events)} 个唯一事件和 {len(updated_edges)} 条更新边")
+    else:
+        logger.info("ID检查通过：所有事件ID均唯一，上游ID处理器工作正常")
+        unique_events, updated_edges = events, edges
     
     # 创建渲染器
     renderer = MermaidRenderer()

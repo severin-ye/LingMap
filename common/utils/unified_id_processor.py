@@ -17,6 +17,50 @@ from common.models.causal_edge import CausalEdge
 
 class UnifiedIdProcessor:
     """统一ID处理器，管理系统中所有ID的唯一性和标准化"""
+    
+    @staticmethod
+    def check_id_uniqueness(events: List[EventItem]) -> Dict[str, Any]:
+        """
+        检查事件列表中的ID唯一性
+        
+        Args:
+            events: 事件列表
+            
+        Returns:
+            包含唯一性检查结果的字典，包括:
+            - unique: 是否所有ID都唯一
+            - total_count: 总事件数
+            - unique_count: 唯一ID数量
+            - duplicate_ids: 重复ID列表
+            - duplicate_counts: 每个重复ID的出现次数
+        """
+        if not events:
+            return {
+                "unique": True,
+                "total_count": 0,
+                "unique_count": 0,
+                "duplicate_ids": [],
+                "duplicate_counts": {}
+            }
+        
+        event_ids = [event.event_id for event in events]
+        id_counts = {}
+        
+        # 计算每个ID的出现次数
+        for event_id in event_ids:
+            id_counts[event_id] = id_counts.get(event_id, 0) + 1
+        
+        # 找出重复ID
+        duplicate_ids = [id for id, count in id_counts.items() if count > 1]
+        duplicate_counts = {id: count for id, count in id_counts.items() if count > 1}
+        
+        return {
+            "unique": len(duplicate_ids) == 0,
+            "total_count": len(events),
+            "unique_count": len(set(event_ids)),
+            "duplicate_ids": duplicate_ids,
+            "duplicate_counts": duplicate_counts
+        }
 
     @staticmethod
     def ensure_unique_event_ids(events: List[EventItem]) -> List[EventItem]:

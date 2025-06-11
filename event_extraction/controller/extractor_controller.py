@@ -32,9 +32,12 @@ def extract_events_from_chapter(chapter_path: str, output_path: str) -> List[Eve
     events = extractor.extract(chapter)
     print(f"成功抽取 {len(events)} 个事件")
     
-    # 应用统一ID处理器，确保事件ID的唯一性
-    events = UnifiedIdProcessor.ensure_unique_event_ids(events)
-    print(f"ID处理器处理后仍有 {len(events)} 个事件，所有ID均为唯一")
+    # 注意：事件ID唯一性已在抽取服务中处理，这里不再重复处理
+    # 检查事件ID是否唯一（仅作验证）
+    event_ids = [e.event_id for e in events]
+    unique_ids = set(event_ids)
+    if len(event_ids) != len(unique_ids):
+        print(f"警告：抽取的事件中存在重复ID，原有 {len(events)} 个事件，唯一ID仅有 {len(unique_ids)} 个")
     
     # 保存结果
     output_dir = os.path.dirname(output_path)
@@ -77,9 +80,20 @@ def main():
             events = extract_events_from_chapter(chapter_file, output_file)
             total_events.extend(events)
         
-        # 确保所有章节合并后的事件ID也是唯一的
+        # 检查跨章节事件ID是否唯一（仅作验证）
+        event_ids = [e.event_id for e in total_events]
+        unique_ids = set(event_ids)
+        if len(event_ids) != len(unique_ids):
+            print(f"警告：跨章节合并后存在重复ID，原有 {len(total_events)} 个事件，唯一ID仅有 {len(unique_ids)} 个")
+            
+        # 在合并输出之前，确保事件ID的唯一性（这是多章节合并处理，较为特殊）
+        # 仅在这个跨章节合并场景才需要额外处理
+        original_count = len(total_events)
         total_events = UnifiedIdProcessor.ensure_unique_event_ids(total_events)
-        print(f"处理后合并共 {len(total_events)} 个唯一事件")
+        if len(total_events) != original_count:
+            print(f"合并去重处理：从 {original_count} 个事件减少到 {len(total_events)} 个唯一事件")
+        else:
+            print(f"所有跨章节事件ID均唯一，共 {len(total_events)} 个事件")
         
         # 保存所有事件到一个合并的文件
         all_events_path = os.path.join(args.output, "all_events.json")
