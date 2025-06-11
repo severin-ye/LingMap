@@ -1,0 +1,39 @@
+[
+  {
+    "event_id": "E01-01",
+    "description": "事件1",
+    "characters": [
+      "角色A",
+      "角色B"
+    ],
+    "treasures": [],
+    "result": "结果1",
+    "location": "位置1",
+    "time": "时间1",
+    "chapter_id": "1"
+  },
+  {
+    "event_id": "E01-01_2",
+    "description": "事件2",
+    "characters": [
+      "角色C"
+    ],
+    "treasures": [],
+    "result": "结果2",
+    "location": "位置2",
+    "time": "时间2",
+    "chapter_id": "1"
+  },
+  {
+    "event_id": "E01-03",
+    "description": "事件3",
+    "characters": [
+      "角色D"
+    ],
+    "treasures": [],
+    "result": "结果3",
+    "location": "位置3",
+    "time": "时间3",
+    "chapter_id": "1"
+  }
+]

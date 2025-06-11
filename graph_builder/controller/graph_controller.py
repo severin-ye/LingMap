@@ -7,8 +7,8 @@ from typing import Dict, Any, List, Set
 from common.models.causal_edge import CausalEdge
 from common.models.event import EventItem
 from common.utils.enhanced_logger import EnhancedLogger
+from common.utils.unified_id_processor import UnifiedIdProcessor
 from graph_builder.service.mermaid_renderer import MermaidRenderer
-from graph_builder.utils.node_id_processor import NodeIdProcessor
 
 
 def render_graph(input_path: str, output_path: str, options: Dict[str, Any] = {}) -> str:
@@ -45,7 +45,7 @@ def render_graph(input_path: str, output_path: str, options: Dict[str, Any] = {}
             logger.warning(f"重复ID '{dup_id}' 出现了 {count} 次")
     
     # 处理重复节点ID (作为额外安全措施，即使上游已经应该处理过了)
-    unique_events, updated_edges = NodeIdProcessor.ensure_unique_node_ids(events, edges)
+    unique_events, updated_edges = UnifiedIdProcessor.ensure_unique_node_ids(events, edges)
     
     print(f"处理后：{len(unique_events)} 个唯一事件和 {len(updated_edges)} 条更新边")
     

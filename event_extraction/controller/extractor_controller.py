@@ -6,7 +6,7 @@ from typing import List
 from common.models.chapter import Chapter
 from common.models.event import EventItem
 from common.utils.json_loader import JsonLoader
-from common.utils.id_processor import IdProcessor
+from common.utils.unified_id_processor import UnifiedIdProcessor
 from event_extraction.di.provider import provide_extractor
 
 
@@ -32,8 +32,8 @@ def extract_events_from_chapter(chapter_path: str, output_path: str) -> List[Eve
     events = extractor.extract(chapter)
     print(f"成功抽取 {len(events)} 个事件")
     
-    # 应用ID处理器，确保事件ID的唯一性
-    events = IdProcessor.ensure_unique_event_ids(events)
+    # 应用统一ID处理器，确保事件ID的唯一性
+    events = UnifiedIdProcessor.ensure_unique_event_ids(events)
     print(f"ID处理器处理后仍有 {len(events)} 个事件，所有ID均为唯一")
     
     # 保存结果
@@ -78,7 +78,7 @@ def main():
             total_events.extend(events)
         
         # 确保所有章节合并后的事件ID也是唯一的
-        total_events = IdProcessor.ensure_unique_event_ids(total_events)
+        total_events = UnifiedIdProcessor.ensure_unique_event_ids(total_events)
         print(f"处理后合并共 {len(total_events)} 个唯一事件")
         
         # 保存所有事件到一个合并的文件

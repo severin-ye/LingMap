@@ -18,7 +18,7 @@ from common.interfaces.extractor import AbstractExtractor
 from common.models.chapter import Chapter
 from common.models.event import EventItem
 from common.utils.enhanced_logger import EnhancedLogger
-from common.utils.id_processor import IdProcessor
+from common.utils.unified_id_processor import UnifiedIdProcessor
 from event_extraction.domain.base_extractor import BaseExtractor
 from event_extraction.repository.llm_client import LLMClient
 
@@ -297,7 +297,7 @@ class EnhancedEventExtractor(BaseExtractor):
                  # 确保事件ID唯一性
         if all_events:
             original_count = len(all_events)
-            all_events = IdProcessor.ensure_unique_event_ids(all_events)
+            all_events = UnifiedIdProcessor.ensure_unique_event_ids(all_events)
             if len(all_events) != original_count:
                 self.logger.warning(f"ID处理器可能合并了一些重复事件: {original_count} -> {len(all_events)}")
             self.logger.info(f"确保事件ID唯一性完成，最终事件数: {len(all_events)}")
@@ -643,9 +643,9 @@ class EnhancedEventExtractor(BaseExtractor):
                     chapter_match = re.search(r'(第[^-~]+章)', segment_id)
                     chapter_part = chapter_match.group(1) if chapter_match else segment_id.split('-')[0]
                     
-                    # 使用IdProcessor对ID进行标准化
+                    # 使用UnifiedIdProcessor对ID进行标准化
                     event_id = f"{chapter_part}-{i+1}"
-                    normalized_id = IdProcessor.normalize_event_id(event_id, chapter_id, i+1)
+                    normalized_id = UnifiedIdProcessor.normalize_event_id(event_id, chapter_id, i+1)
                     
                     event_data["event_id"] = normalized_id
                     self.logger.debug(f"为事件生成标准化ID: {event_data['event_id']}")
