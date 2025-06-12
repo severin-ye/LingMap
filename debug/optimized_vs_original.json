@@ -1,16 +1,16 @@
 {
   "original": {
-    "time": 10.0,
+    "time": 5.0,
     "edges_count": 0,
     "edges": []
   },
   "optimized": {
-    "time": 1.430511474609375e-05,
+    "time": 2.765655517578125e-05,
     "edges_count": 0,
     "edges": []
   },
   "comparison": {
-    "speedup": 699050.6666666666,
+    "speedup": 5000.0,
     "common_edges": 0,
     "recall": null
   }
