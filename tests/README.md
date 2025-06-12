@@ -1,22 +1,36 @@
 # 《凡人修仙传》因果事件图谱生成系统测试
 
-本目录包含针对《凡人修仙传》因果事件图谱生成系统的各阶段测试。
+本目录包含针对《凡人修仙传》因果事件图谱生成系统的各类测试。
 
 ## 测试结构
 
-测试按照系统开发阶段组织：
+测试按照功能模块进行组织：
+
+- **API测试** (`api_tests/`)
+  - `test_api_integration.py`: 测试API连接、请求和响应功能
+
+- **因果链接测试** (`causal_linking_tests/`)
+  - `test_causal_linking_optimized.py`: 测试优化后的因果链接流程
+  - `test_candidate_generator.py`: 测试候选事件对生成器
+  - `test_smart_candidate_generator.py`: 测试优化的候选事件对生成算法
+  - `test_linker.py`: 全面测试因果链接器功能
+
+- **事件抽取测试** (`event_extraction_tests/`)
+  - `test_event_extraction.py`: 测试事件抽取、处理和验证功能
+
+- **集成测试** (`integration_tests/`)
+  - `complete_test.py`: 测试从文本读取到图谱生成的完整流程
+
+- **工具测试** (`utils_tests/`)
+  - `check_env.py`: 测试环境变量、依赖和系统配置
+
+## 老版本测试结构 (已弃用)
+
+系统早期开发版本的测试按照系统开发阶段组织：
 
 - **阶段一**：抽象接口与通用模型测试 (`stage_1/`)
-  - `test_models.py`: 测试数据模型 (EventItem, Chapter, CausalEdge, Treasure) 和工具类
-  - `test_interfaces.py`: 测试抽象接口 (AbstractExtractor, AbstractRefiner, AbstractLinker, AbstractGraphRenderer)
-
 - **阶段二**：文本摄入和事件抽取测试 (`stage_2/`)
-  - `test_text_ingestion.py`: 测试文本加载和章节分割功能
-  - `test_event_extraction.py`: 测试事件抽取模块和LLM调用
-
 - **阶段三**：HAR幻觉修复和因果链构建测试 (`stage_3/`)
-  - `test_hallucination_refine.py`: 测试HAR幻觉检测和修复功能
-  - `test_causal_linking.py`: 测试因果关系识别和DAG构建功能
 
 - **测试工具**：
   - `utils/pretty_test_runner.py`: 美化测试输出格式的自定义测试运行器，捕获并展示测试对象的输出
@@ -26,22 +40,56 @@
 ### 运行所有测试
 
 ```bash
-python -m tests.run_all_tests
+python tests/run_all_tests.py
 ```
 
-### 运行特定阶段的测试
+### 运行指定类别的测试
 
 ```bash
-python -m tests.run_all_tests -s 1  # 运行阶段一测试
+python tests/run_all_tests.py -c api              # 运行API测试
+python tests/run_all_tests.py -c causal_linking   # 运行因果链接测试
+python tests/run_all_tests.py -c event_extraction # 运行事件抽取测试
+python tests/run_all_tests.py -c integration      # 运行集成测试
+python tests/run_all_tests.py -c utils            # 运行工具测试
+```
+
+### 显示详细输出
+
+添加 `-v` 参数可以显示详细测试输出：
+
+```bash
+python tests/run_all_tests.py -v
+```
+
+### 模拟模式
+
+对于依赖API的测试，设置环境变量 `MOCK_API=true` 可以启用模拟模式，避免实际调用API：
+
+```bash
+MOCK_API=true python tests/run_all_tests.py -c api
+```
+
+这对于CI/CD环境或无法访问API的情况特别有用。
+python tests/run_all_tests.py -c integration      # 运行集成测试
+python tests/run_all_tests.py -c utils            # 运行工具测试
 ```
 
 ### 显示详细测试输出
 
-添加 `-v` 参数可以显示详细的测试输出，包括每个测试类中的测试方法输出：
+添加 `-v` 参数可以显示详细的测试输出：
 
 ```bash
-python -m tests.run_all_tests -v
-python -m tests.run_all_tests -s 1 -v
+python tests/run_all_tests.py -v
+python tests/run_all_tests.py -c api -v
+```
+
+### 运行单个测试文件
+
+也可以直接运行单个测试文件：
+
+```bash
+python tests/api_tests/test_api_integration.py
+python tests/causal_linking_tests/test_linker.py
 ```
 
 使用详细模式时，测试运行器会：

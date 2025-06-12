@@ -29,21 +29,66 @@ class Colors:
     BOLD = '\033[1m'
 
 def get_test_files(test_dir):
-    """获取指定目录中的所有测试文件"""
+    """获取指定目录中的所有测试文件，优先选择改进版测试文件"""
     result = []
     if not os.path.exists(test_dir):
         return result
-        
+    
+    # 收集目录中的所有测试文件
+    regular_tests = []
+    improved_tests = []
+    
     for file in os.listdir(test_dir):
         if file.startswith('test_') and file.endswith('.py'):
-            result.append(os.path.join(test_dir, file))
+            if 'improved' in file:
+                improved_tests.append(os.path.join(test_dir, file))
+            else:
+                regular_tests.append(os.path.join(test_dir, file))
+    
+    # 对于每个常规测试文件，检查是否存在改进版
+    for test in regular_tests:
+        base_name = os.path.basename(test)
+        name_without_ext = os.path.splitext(base_name)[0]
+        
+        # 检查是否有对应的改进版测试 (test_xxx_improved.py)
+        improved_version = os.path.join(test_dir, f"{name_without_ext}_improved.py")
+        if os.path.exists(improved_version):
+            # 存在改进版，使用改进版替代原版
+            result.append(improved_version)
+        else:
+            # 不存在改进版，使用原版
+            result.append(test)
+    
+    # 添加没有对应原始版本的改进版测试
+    for improved_test in improved_tests:
+        improved_name = os.path.basename(improved_test)
+        potential_original = improved_name.replace('_improved', '')
+        
+        if not os.path.exists(os.path.join(test_dir, potential_original)):
+            result.append(improved_test)
+    
     return result
 
 def run_test(test_file, verbose=False):
     """运行单个测试文件"""
-    print(f"{Colors.CYAN}运行测试: {os.path.basename(test_file)}{Colors.END}")
+    is_improved = "improved" in os.path.basename(test_file)
+    file_label = os.path.basename(test_file)
+    
+    # 对于API测试，如果使用的是改进版，添加特殊标记
+    if "api" in test_file and is_improved:
+        print(f"{Colors.CYAN}运行测试: {file_label} {Colors.GREEN}[增强版]{Colors.END}")
+    else:
+        print(f"{Colors.CYAN}运行测试: {file_label}{Colors.END}")
     
     start_time = time.time()
+    
+    # 为API测试设置额外的环境变量
+    env = os.environ.copy()
+    if "api" in test_file:
+        # 默认使用MOCK_API模式以避免实际API调用
+        if "MOCK_API" not in env:
+            env["MOCK_API"] = "true"
+            print(f"{Colors.YELLOW}自动启用API模拟模式 (MOCK_API=true){Colors.END}")
     
     try:
         # 运行测试文件
@@ -51,7 +96,8 @@ def run_test(test_file, verbose=False):
             [sys.executable, test_file],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            universal_newlines=True
+            universal_newlines=True,
+            env=env
         )
         stdout, stderr = process.communicate()
         
@@ -59,13 +105,13 @@ def run_test(test_file, verbose=False):
         
         # 输出结果
         if process.returncode == 0:
-            print(f"{Colors.GREEN}✓ 测试通过 {os.path.basename(test_file)} ({elapsed_time:.2f}秒){Colors.END}")
+            print(f"{Colors.GREEN}✓ 测试通过 {file_label} ({elapsed_time:.2f}秒){Colors.END}")
             if verbose:
                 print(f"{Colors.BLUE}输出:{Colors.END}")
                 print(stdout)
             return True
         else:
-            print(f"{Colors.RED}✗ 测试失败 {os.path.basename(test_file)} ({elapsed_time:.2f}秒){Colors.END}")
+            print(f"{Colors.RED}✗ 测试失败 {file_label} ({elapsed_time:.2f}秒){Colors.END}")
             print(f"{Colors.RED}错误信息:{Colors.END}")
             if stderr:
                 print(stderr)
@@ -74,7 +120,7 @@ def run_test(test_file, verbose=False):
             return False
     except Exception as e:
         elapsed_time = time.time() - start_time
-        print(f"{Colors.RED}✗ 测试运行出错 {os.path.basename(test_file)} ({elapsed_time:.2f}秒): {str(e)}{Colors.END}")
+        print(f"{Colors.RED}✗ 测试运行出错 {file_label} ({elapsed_time:.2f}秒): {str(e)}{Colors.END}")
         return False
 
 def run_test_category(category_dir, category_name, verbose=False):
@@ -103,7 +149,18 @@ def main():
     parser = argparse.ArgumentParser(description="运行测试脚本")
     parser.add_argument("-v", "--verbose", action="store_true", help="显示详细输出")
     parser.add_argument("-c", "--category", type=str, help="仅运行指定类别的测试 (api, causal_linking, event_extraction, integration, utils)")
+    parser.add_argument("--no-mock", action="store_true", help="不使用模拟模式进行API测试（实际调用API）")
+    parser.add_argument("--timeout", type=int, default=30, help="API调用超时时间（秒），默认30秒")
     args = parser.parse_args()
+    
+    # 设置环境变量，控制API测试行为
+    if not args.no_mock:
+        os.environ["MOCK_API"] = "true"
+    else:
+        os.environ["MOCK_API"] = "false"
+        print(f"{Colors.YELLOW}警告: API测试将实际调用API (--no-mock){Colors.END}")
+        
+    os.environ["API_TIMEOUT"] = str(args.timeout)
     
     # 测试类别配置
     test_categories = {

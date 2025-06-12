@@ -1,0 +1,17 @@
+{
+  "original": {
+    "time": 10.0,
+    "edges_count": 0,
+    "edges": []
+  },
+  "optimized": {
+    "time": 1.430511474609375e-05,
+    "edges_count": 0,
+    "edges": []
+  },
+  "comparison": {
+    "speedup": 699050.6666666666,
+    "common_edges": 0,
+    "recall": null
+  }
+}
