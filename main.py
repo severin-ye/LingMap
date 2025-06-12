@@ -22,6 +22,9 @@ from pathlib import Path
 from datetime import datetime
 from typing import List, Dict, Any, Optional, Union
 
+# 示例小说文件路径
+file_name= Path(__file__).parent / "novel" / "test.txt"
+
 # 确保项目路径正确
 PROJECT_ROOT = Path(__file__).parent.absolute()
 sys.path.insert(0, str(PROJECT_ROOT))
@@ -117,7 +120,7 @@ def setup_environment():
 
 def create_example_novel():
     """创建示例小说文件"""
-    test_file = PROJECT_ROOT / "novel" / "test.txt"
+    test_file = file_name
     example_content = """《凡人修仙传》
 
 作者：忘语

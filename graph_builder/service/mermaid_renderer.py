@@ -54,8 +54,10 @@ class MermaidRenderer(BaseRenderer):
         # 合并选项
         options = {**self.default_options, **(format_options or {})}
         
+        # 处理重复节点ID：检测并重命名重复的节点ID
+        events, edges = self._handle_duplicate_ids(events, edges)
+        
         # 创建事件ID到事件的映射
-        # 注意：现在我们假设所有节点ID已经是唯一的（由CPC模块处理）
         event_map = {event.event_id: event for event in events}
         
         # 检测并连接孤立节点
@@ -152,39 +154,12 @@ class MermaidRenderer(BaseRenderer):
             "    legend_treasure[宝物事件]",
             "    legend_conflict[冲突事件]",
             "    legend_cultivation[修炼事件]",
-            "    legend_time_connection[时序连接]",
             "    end",
             f'    style legend_character fill:{ColorMap.DEFAULT_COLORS["character"]},stroke:{ColorMap.get_node_color("", [], ["角色"])["stroke"]}',
             f'    style legend_treasure fill:{ColorMap.DEFAULT_COLORS["treasure"]},stroke:{ColorMap.get_node_color("", ["宝物"], [])["stroke"]}',
             f'    style legend_conflict fill:{ColorMap.DEFAULT_COLORS["conflict"]},stroke:{ColorMap.get_node_color("战斗", [], [])["stroke"]}',
             f'    style legend_cultivation fill:{ColorMap.DEFAULT_COLORS["cultivation"]},stroke:{ColorMap.get_node_color("修炼", [], [])["stroke"]}'
         ]
-        
-        # 添加边的图例
-        edge_index = 0
-        
-        # 高强度边的图例
-        legend.append(f'    legend_high_edge[高强度因果] --> legend_medium_edge[中强度因果]')
-        high_edge_style = ColorMap.get_edge_style("高")
-        legend.append(f'    linkStyle {edge_index} stroke:{high_edge_style["stroke"]},stroke-width:{high_edge_style["stroke_width"]}')
-        edge_index += 1
-        
-        # 低强度边的图例
-        legend.append(f'    legend_medium_edge --> legend_low_edge[低强度因果]')
-        medium_edge_style = ColorMap.get_edge_style("中")
-        legend.append(f'    linkStyle {edge_index} stroke:{medium_edge_style["stroke"]},stroke-width:{medium_edge_style["stroke_width"]}')
-        edge_index += 1
-        
-        # 添加时序连接边的图例
-        legend.append(f'    legend_low_edge --> legend_time_edge[时序连接]')
-        low_edge_style = ColorMap.get_edge_style("低")
-        legend.append(f'    linkStyle {edge_index} stroke:{low_edge_style["stroke"]},stroke-width:{low_edge_style["stroke_width"]},stroke-dasharray:5 5')
-        edge_index += 1
-        
-        # 时序连接边的图例
-        legend.append(f'    legend_time_edge --> legend_time_connection')
-        time_edge_style = ColorMap.get_edge_style("时序")
-        legend.append(f'    linkStyle {edge_index} stroke:{time_edge_style["stroke"]},stroke-width:{time_edge_style["stroke_width"]},stroke-dasharray:5 5')
         
         return legend
     
@@ -294,3 +269,80 @@ class MermaidRenderer(BaseRenderer):
             logging.info(f"添加了 {len(new_edges)} 条新边连接孤立节点")
                 
         return edges
+    
+    def _handle_duplicate_ids(self, events: List[EventItem], edges: List[CausalEdge]) -> tuple[List[EventItem], List[CausalEdge]]:
+        """
+        处理重复的节点ID
+        
+        Args:
+            events: 事件列表
+            edges: 事件因果边列表
+            
+        Returns:
+            处理后的事件列表和边列表
+        """
+        # 检查是否有重复ID
+        event_id_count = {}
+        for event in events:
+            if event.event_id in event_id_count:
+                event_id_count[event.event_id] += 1
+            else:
+                event_id_count[event.event_id] = 1
+        
+        # 如果没有重复ID，直接返回原始数据
+        if all(count == 1 for count in event_id_count.values()):
+            return events, edges
+        
+        # 处理重复ID
+        id_map = {}  # 原始ID到新ID的映射
+        updated_events = []
+        
+        for event in events:
+            original_id = event.event_id
+            if event_id_count[original_id] > 1:
+                # 为重复ID创建新ID (例如 E1 -> E1_1, E1_2, E1_3)
+                if original_id not in id_map:
+                    id_map[original_id] = []
+                
+                # 为当前事件分配新ID
+                new_id = f"{original_id}_{len(id_map[original_id]) + 1}"
+                id_map[original_id].append(new_id)
+                
+                # 创建更新后的事件
+                updated_event = EventItem(
+                    event_id=new_id,
+                    description=event.description,
+                    characters=event.characters,
+                    treasures=event.treasures,
+                    result=event.result,
+                    location=event.location,
+                    time=event.time,
+                    chapter_id=event.chapter_id
+                )
+                updated_events.append(updated_event)
+            else:
+                # 非重复ID，保持不变
+                updated_events.append(event)
+                # 添加到映射表，便于后续处理边
+                if original_id not in id_map:
+                    id_map[original_id] = [original_id]
+        
+        # 更新边的引用
+        updated_edges = []
+        for edge in edges:
+            original_from_id = edge.from_id
+            original_to_id = edge.to_id
+            
+            # 如果边引用了重复ID，需要处理多个可能的边
+            # 这里采用简单策略：为每个可能的源节点到每个可能的目标节点创建边
+            for from_id in id_map.get(original_from_id, [original_from_id]):
+                for to_id in id_map.get(original_to_id, [original_to_id]):
+                    updated_edge = CausalEdge(
+                        from_id=from_id,
+                        to_id=to_id,
+                        strength=edge.strength,
+                        reason=edge.reason
+                    )
+                    updated_edges.append(updated_edge)
+        
+        return updated_events, updated_edges
