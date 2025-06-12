@@ -51,15 +51,17 @@ def provide_linker(use_optimized: bool = True) -> AbstractLinker:
     }
     
     # 从环境变量或默认值获取优化参数
-    max_events_per_chapter = int(os.environ.get("MAX_EVENTS_PER_CHAPTER", "20"))
-    min_entity_support = int(os.environ.get("MIN_ENTITY_SUPPORT", "2"))
-    max_chapter_span = int(os.environ.get("MAX_CHAPTER_SPAN", "10"))
-    max_candidate_pairs = int(os.environ.get("MAX_CANDIDATE_PAIRS", "10000"))
+    max_events_per_chapter = int(os.environ.get("MAX_EVENTS_PER_CHAPTER", "50"))  # 大幅增加单章事件数量限制
+    min_entity_support = int(os.environ.get("MIN_ENTITY_SUPPORT", "3"))  # 保持中等实体支持度要求
+    max_chapter_span = int(os.environ.get("MAX_CHAPTER_SPAN", "10")) 
+    max_candidate_pairs = int(os.environ.get("MAX_CANDIDATE_PAIRS", "150"))  # 适当增加最大候选对数量
     
     # 根据并行配置获取工作线程数
     # 因果分析是IO和CPU混合型任务，使用默认线程配置
     if ParallelConfig.is_enabled():
-        max_workers = ParallelConfig.get_max_workers()
+        max_workers = ParallelConfig.get_max_workers("causal_linking")  # 指定模块名获取特定配置
+        if max_workers is None:
+            max_workers = 3  # 默认值
     else:
         max_workers = 1
     

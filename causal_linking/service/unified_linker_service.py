@@ -48,10 +48,10 @@ class UnifiedCausalLinker(BaseLinker):
         provider: str = "openai",
         # 优化参数，默认启用优化
         use_optimization: bool = True,
-        max_events_per_chapter: int = 20,
-        min_entity_support: int = 2,
-        max_chapter_span: int = 10,
-        max_candidate_pairs: int = 10000,
+        max_events_per_chapter: int = 50,  # 大幅提高单章事件数量限制
+        min_entity_support: int = 3,  # 保持中等实体支持度要求
+        max_chapter_span: int = 10, 
+        max_candidate_pairs: int = 150,  # 适当增加候选对数量上限
         use_entity_weights: bool = True
     ):
         """
@@ -112,7 +112,9 @@ class UnifiedCausalLinker(BaseLinker):
             min_entity_support=min_entity_support,
             max_chapter_span=max_chapter_span,
             max_candidate_pairs=max_candidate_pairs,
-            use_entity_weights=use_entity_weights
+            use_entity_weights=use_entity_weights,
+            max_pairs_per_entity=15,  # 每个实体最多生成15对事件
+            connection_density=0.2    # 控制连接密度的系数
         )
         
         # 初始化对分析器
