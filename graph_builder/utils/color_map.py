@@ -61,7 +61,7 @@ class ColorMap:
         根据因果强度获取边样式
         
         Args:
-            strength: 因果强度（高/中/低）
+            strength: 因果强度（高/中/低/时序）
             
         Returns:
             边样式字典
@@ -77,6 +77,13 @@ class ColorMap:
                 "stroke": "#5499C7",
                 "stroke_width": "1.5px",
                 "style": "normal"
+            }
+        elif strength == "时序":
+            # 为时序关系添加特殊样式，使用绿色虚线
+            return {
+                "stroke": "#27AE60",  # 绿色
+                "stroke_width": "1px",
+                "style": "dashed"
             }
         else:  # 低强度
             return {

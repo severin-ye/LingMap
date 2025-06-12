@@ -46,6 +46,7 @@ class MermaidRenderer(BaseRenderer):
             events: 事件列表
             edges: 事件因果边列表
             format_options: 格式选项，如颜色、样式等
+                - connect_isolated_nodes: 是否自动连接孤立节点，默认为True
             
         Returns:
             Mermaid格式的图谱字符串
@@ -57,6 +58,10 @@ class MermaidRenderer(BaseRenderer):
         # 注意：现在我们假设所有节点ID已经是唯一的（由CPC模块处理）
         event_map = {event.event_id: event for event in events}
         
+        # 检测并连接孤立节点
+        if options.get("connect_isolated_nodes", True):  # 默认启用此功能
+            edges = self._connect_isolated_nodes(events, edges)
+            
         # 生成Mermaid图定义头部
         mermaid = ["```mermaid", "graph TD"]
         
@@ -147,12 +152,40 @@ class MermaidRenderer(BaseRenderer):
             "    legend_treasure[宝物事件]",
             "    legend_conflict[冲突事件]",
             "    legend_cultivation[修炼事件]",
+            "    legend_time_connection[时序连接]",
             "    end",
             f'    style legend_character fill:{ColorMap.DEFAULT_COLORS["character"]},stroke:{ColorMap.get_node_color("", [], ["角色"])["stroke"]}',
             f'    style legend_treasure fill:{ColorMap.DEFAULT_COLORS["treasure"]},stroke:{ColorMap.get_node_color("", ["宝物"], [])["stroke"]}',
             f'    style legend_conflict fill:{ColorMap.DEFAULT_COLORS["conflict"]},stroke:{ColorMap.get_node_color("战斗", [], [])["stroke"]}',
             f'    style legend_cultivation fill:{ColorMap.DEFAULT_COLORS["cultivation"]},stroke:{ColorMap.get_node_color("修炼", [], [])["stroke"]}'
         ]
+        
+        # 添加边的图例
+        edge_index = 0
+        
+        # 高强度边的图例
+        legend.append(f'    legend_high_edge[高强度因果] --> legend_medium_edge[中强度因果]')
+        high_edge_style = ColorMap.get_edge_style("高")
+        legend.append(f'    linkStyle {edge_index} stroke:{high_edge_style["stroke"]},stroke-width:{high_edge_style["stroke_width"]}')
+        edge_index += 1
+        
+        # 低强度边的图例
+        legend.append(f'    legend_medium_edge --> legend_low_edge[低强度因果]')
+        medium_edge_style = ColorMap.get_edge_style("中")
+        legend.append(f'    linkStyle {edge_index} stroke:{medium_edge_style["stroke"]},stroke-width:{medium_edge_style["stroke_width"]}')
+        edge_index += 1
+        
+        # 添加时序连接边的图例
+        legend.append(f'    legend_low_edge --> legend_time_edge[时序连接]')
+        low_edge_style = ColorMap.get_edge_style("低")
+        legend.append(f'    linkStyle {edge_index} stroke:{low_edge_style["stroke"]},stroke-width:{low_edge_style["stroke_width"]},stroke-dasharray:5 5')
+        edge_index += 1
+        
+        # 时序连接边的图例
+        legend.append(f'    legend_time_edge --> legend_time_connection')
+        time_edge_style = ColorMap.get_edge_style("时序")
+        legend.append(f'    linkStyle {edge_index} stroke:{time_edge_style["stroke"]},stroke-width:{time_edge_style["stroke_width"]},stroke-dasharray:5 5')
+        
         return legend
     
     def _escape_text(self, text: str) -> str:
@@ -183,3 +216,81 @@ class MermaidRenderer(BaseRenderer):
         if len(text) <= max_length:
             return text
         return text[:max_length - 3] + "..."
+        
+    def _connect_isolated_nodes(self, events: List[EventItem], edges: List[CausalEdge]) -> List[CausalEdge]:
+        """
+        检测孤立节点并按时间顺序连接它们
+        
+        Args:
+            events: 事件列表
+            edges: 现有边列表
+            
+        Returns:
+            更新后的边列表，包括连接孤立节点的新边
+        """
+        # 构建节点连接图 (找出已连接节点)
+        connected_nodes = set()
+        for edge in edges:
+            connected_nodes.add(edge.from_id)
+            connected_nodes.add(edge.to_id)
+            
+        # 获取所有节点ID
+        all_node_ids = {event.event_id for event in events}
+        
+        # 找出孤立节点
+        isolated_nodes = all_node_ids - connected_nodes
+        
+        if isolated_nodes:
+            logging.info(f"检测到 {len(isolated_nodes)} 个孤立节点，准备按时间顺序连接")
+            
+            # 获取所有孤立事件
+            isolated_events = [e for e in events if e.event_id in isolated_nodes]
+            
+            # 根据事件ID排序，假设格式为"E章节-序号"
+            # 首先按章节号排序，然后按序号排序
+            def extract_chapter_and_sequence(event_id):
+                # 假设格式为 E章节号-序号 或 E章节号-序号_子序号
+                parts = event_id.strip('E').split('-')
+                if len(parts) >= 2:
+                    chapter = int(parts[0]) if parts[0].isdigit() else 0
+                    # 处理可能包含下划线的序号部分
+                    seq_parts = parts[1].split('_')
+                    sequence = int(seq_parts[0]) if seq_parts[0].isdigit() else 0
+                    return (chapter, sequence)
+                return (0, 0)  # 默认值
+                
+            # 按提取的章节和序号排序
+            isolated_events.sort(key=lambda e: extract_chapter_and_sequence(e.event_id))
+            
+            # 对所有事件也进行相同的排序
+            all_events_sorted = sorted(events, key=lambda e: extract_chapter_and_sequence(e.event_id))
+            
+            # 连接孤立节点
+            new_edges = []
+            
+            # 为每个孤立节点创建到下一个节点的边
+            for event in isolated_events:
+                # 找出当前事件在排序后列表中的位置
+                current_index = next((idx for idx, e in enumerate(all_events_sorted) if e.event_id == event.event_id), -1)
+                
+                # 如果找到当前事件且不是最后一个事件
+                if current_index != -1 and current_index < len(all_events_sorted) - 1:
+                    # 获取下一个事件
+                    next_event = all_events_sorted[current_index + 1]
+                    
+                    # 创建新边
+                    new_edge = CausalEdge(
+                        from_id=event.event_id,
+                        to_id=next_event.event_id,
+                        strength="时序",  # 使用特殊的"时序"强度，表示这是时间顺序而非因果关系
+                        reason="时间顺序连接"
+                    )
+                    
+                    new_edges.append(new_edge)
+                    logging.info(f"创建时间顺序连接: {event.event_id} -> {next_event.event_id}")
+            
+            # 添加新边到现有边列表
+            edges.extend(new_edges)
+            logging.info(f"添加了 {len(new_edges)} 条新边连接孤立节点")
+                
+        return edges

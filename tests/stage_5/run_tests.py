@@ -38,7 +38,7 @@ def run_stage5_tests(verbose=False):
     
     # 准备测试套件
     print("正在准备图谱构建模块测试...")
-    print("正在准备Mermaid渲染器测试...")
+    print("正在准备Mermaid渲染器测试（含孤立节点连接功能）...")
     print("正在准备颜色映射工具测试...")
     print()
     

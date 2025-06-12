@@ -244,6 +244,109 @@ class TestMermaidRenderer(unittest.TestCase):
         self.assertIn("style E1_2", result) 
         self.assertIn("style E1_3", result)
         self.assertIn("style E2", result)
+        
+    def test_connect_isolated_nodes(self):
+        """测试孤立节点连接功能"""
+        # 创建测试事件
+        test_events = [
+            EventItem(
+                event_id="E01-1",
+                description="韩立在青牛镇长大",
+                characters=["韩立"],
+                location="青牛镇"
+            ),
+            EventItem(
+                event_id="E01-2",
+                description="韩立被选中参加七玄门测试",
+                characters=["韩立"],
+                location="青牛镇"
+            ),
+            EventItem(
+                event_id="E01-3",
+                description="七玄门测试开始",
+                characters=["韩立", "测试官"],
+                location="七玄门"
+            ),
+            EventItem(
+                event_id="E02-1",  # 不同章节的孤立节点
+                description="韩立开始修炼基础功法",
+                characters=["韩立"],
+                location="七玄门"
+            ),
+            EventItem(
+                event_id="E02-2",
+                description="韩立发现自己灵根资质较差",
+                characters=["韩立"],
+                location="七玄门"
+            ),
+            EventItem(
+                event_id="E03-1",  # 完全孤立的节点
+                description="韩立偶然发现一本古籍",
+                characters=["韩立"],
+                location="山洞"
+            )
+        ]
+        
+        # 创建测试边（只连接部分节点，让一些节点成为孤立节点）
+        test_edges = [
+            CausalEdge(
+                from_id="E01-1",
+                to_id="E01-2",
+                strength="高",
+                reason="韩立生活在青牛镇，因此有机会被选中参加测试"
+            ),
+            CausalEdge(
+                from_id="E01-2",
+                to_id="E01-3",
+                strength="高",
+                reason="被选中后需要参加测试"
+            )
+        ]
+        
+        # 1. 测试启用孤立节点连接（默认行为）
+        with_connection = self.renderer.render(
+            events=test_events,
+            edges=test_edges.copy(),
+            format_options={"connect_isolated_nodes": True}
+        )
+        
+        # 验证原始边存在
+        self.assertIn("E01-1 -->", with_connection)
+        self.assertIn("E01-2 -->", with_connection)
+        
+        # 验证新的时序连接边已创建
+        # E02-1 -> E02-2 -> E03-1
+        self.assertIn("E02-1 -->", with_connection)
+        self.assertIn("E02-2 -->", with_connection)
+        
+        # 验证时序边使用了特殊样式
+        # 找到linkStyle定义中使用绿色的行
+        self.assertIn("stroke:#27AE60", with_connection)
+        self.assertIn("stroke-dasharray:5 5", with_connection)
+        
+        # 2. 测试禁用孤立节点连接
+        without_connection = self.renderer.render(
+            events=test_events,
+            edges=test_edges.copy(),
+            format_options={"connect_isolated_nodes": False}
+        )
+        
+        # 验证原始边存在
+        self.assertIn("E01-1 -->", without_connection)
+        self.assertIn("E01-2 -->", without_connection)
+        
+        # 统计边的数量（通过计算 "-->" 出现的次数）
+        edges_with_connection = with_connection.count("-->")
+        edges_without_connection = without_connection.count("-->")
+        
+        # 确认禁用时边数量少于启用时
+        self.assertGreater(edges_with_connection, edges_without_connection)
+        
+        # 禁用时应该只有原始的两条边
+        self.assertEqual(edges_without_connection, len(test_edges))
+        
+        # 启用时应该有额外的时序连接边
+        self.assertEqual(edges_with_connection, len(test_edges) + 2)  # 增加了2个连接
 
 
 if __name__ == "__main__":
