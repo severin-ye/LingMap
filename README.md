@@ -296,17 +296,7 @@ python tests/run_all_tests.py
 - **Mermaid** - 优秀的图表渲染工具
 - **Python社区** - 丰富的开源生态系统
 
-## 📞 联系方式
-
-- **项目地址**: [GitHub Repository]
-- **问题反馈**: [GitHub Issues]
-- **邮箱**: your-email@example.com
-
 ---
-
-**项目状态**: ✅ 生产就绪  
-**最新版本**: v1.0.0  
-**更新时间**: 2025年6月10日
 
 > 🌟 如果这个项目对您有帮助，请给我们一个Star！
 
