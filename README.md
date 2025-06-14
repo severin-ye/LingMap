@@ -1,179 +1,179 @@
-# 《凡人修仙传》因果事件图谱生成系统
+# "Mortal's Journey to Immortality" Causal Event Knowledge Graph Generation System
 
-## WEB:https://fanrenxiuxianzhuan-fm16b8k.gamma.site/
+## WEB: https://fanrenxiuxianzhuan-fm16b8k.gamma.site/
 
-## 📚 项目文档
+## 📚 Project Documentation
 
-### 设计文档
-- [代码结构设计](docs/代码结构设计.md) - 项目架构与模块划分详细设计
-- [项目逻辑设计](docs/项目逻辑设计.md) - 系统工作流程与业务逻辑详解
-- [开发方案](docs/开发方案.md) - 项目开发计划与实施方案
-- [理论支持](docs/理论支持.md) - 项目相关理论基础与研究背景
-- [文件树](docs/note/文件树) - 完整项目目录结构说明
+### Design Documents
+- [Code Structure Design](docs/Code_Structure_Design.md) - Detailed design of project architecture and module division
+- [Project Logic Design](docs/Project_Logic_Design.md) - System workflow and business logic explanation
+- [Development Plan](docs/Development_Plan.md) - Project development plan and implementation scheme
+- [Theoretical Support](docs/Theoretical_Support.md) - Project-related theoretical foundation and research background
+- [File Tree](docs/note/File_Tree) - Complete project directory structure description
 
-🚀 **项目状态**: 生产就绪 | **测试覆盖**: 125个测试用例全部通过 ✅
+🚀 **Project Status**: Production Ready | **Test Coverage**: All 125 test cases passed ✅
 
-本项目是一个基于AI的自动化工具，专门用于分析《凡人修仙传》小说文本，提取关键事件，识别因果关系，并生成可视化的因果事件图谱。系统采用先进的微服务架构，集成多个大语言模型，实现了智能事件抽取、幻觉修复、因果链接和图谱可视化等功能。
+This project is an AI-based automation tool specially designed to analyze the novel "Mortal's Journey to Immortality", extract key events, identify causal relationships, and generate visualized causal event knowledge graphs. The system adopts an advanced microservice architecture, integrates multiple large language models, and implements intelligent event extraction, hallucination repair, causal linking, and graph visualization functions.
 
-## ✨ 核心特性
+## ✨ Core Features
 
-- 🧠 **AI驱动**: 基于GPT-4o和DeepSeek的智能文本分析
-- 🔍 **精确提取**: 自动识别小说中的事件、人物、宝物关系
-- 🔗 **因果分析**: 智能识别事件间的因果关系并量化强度
-- 📊 **可视化**: 生成直观的Mermaid流程图
-- 🛠️ **易用性**: 友好的CLI界面，支持批量处理
-- 🏗️ **企业级**: 完整测试覆盖，生产就绪的代码质量
+- 🧠 **AI-driven**: Intelligent text analysis based on GPT-4o and DeepSeek
+- 🔍 **Precise Extraction**: Automatically identifies events, characters, and treasure relationships in the novel
+- 🔗 **Causal Analysis**: Intelligently identifies causal relationships between events and quantifies intensity
+- 📊 **Visualization**: Generates intuitive Mermaid flowcharts
+- 🛠️ **Ease of Use**: Friendly CLI interface, supporting batch processing
+- 🏗️ **Enterprise Grade**: Complete test coverage, production-ready code quality
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
-### 1. 环境准备
+### 1. Environment Preparation
 ```bash
-# 克隆项目
+# Clone the project
 git clone <repository-url>
 cd Fianl_HW
 
-# 安装Python依赖
+# Install Python dependencies
 pip install -r requirements.txt
 
-# 配置API密钥 (选择其一)
+# Configure API key (choose one)
 export OPENAI_API_KEY="your-openai-api-key"
-# 或
+# or
 export DEEPSEEK_API_KEY="your-deepseek-api-key"
 ```
 
-### 2. 运行演示
+### 2. Run Demo
 ```bash
-# 体验系统功能
+# Experience system functionality
 python main.py --demo
 ```
 
-### 3. 处理自定义文件
+### 3. Process Custom Files
 ```bash
-# 单文件处理
+# Single file processing
 python main.py --input your_novel.txt
 
-# 批量处理目录
+# Batch processing directory
 python main.py --batch input_directory/
 
-# 环境检查
+# Environment check
 python main.py --check-env
 ```
 
-### 4. 交互式模式
+### 4. Interactive Mode
 ```bash
-# 启动交互式界面
+# Start interactive interface
 python main.py
 ```
 
-## 🏗️ 系统架构
+## 🏗️ System Architecture
 
-系统采用微服务架构，包含6个核心模块：
+The system adopts a microservice architecture, including 6 core modules:
 
-### 核心模块
-1. **📚 文本摄入 (Text Ingestion)** - 文本文件读取与章节分割
-2. **🔍 事件提取 (Event Extraction)** - 基于LLM的智能事件识别
-3. **🛠️ 幻觉修正 (HAR)** - 事件信息验证与修正
-4. **🔗 因果链接 (CPC)** - 因果关系识别与DAG构建
-5. **📊 图谱构建 (Graph Building)** - Mermaid图谱生成
-6. **🌐 API网关 (API Gateway)** - 统一服务调用接口
+### Core Modules
+1. **📚 Text Ingestion** - Text file reading and chapter segmentation
+2. **🔍 Event Extraction** - LLM-based intelligent event identification
+3. **🛠️ Hallucination Adjustment and Refinement (HAR)** - Event information verification and correction
+4. **🔗 Causal Pattern Connection (CPC)** - Causal relationship identification and DAG construction
+5. **📊 Graph Building** - Mermaid graph generation
+6. **🌐 API Gateway** - Unified service call interface
 
-### 数据流程
+### Data Flow
 ```
-原始文本 → 章节解析 → 事件提取 → 幻觉修正 → 因果链接 → 图谱渲染 → 可视化输出
+Raw Text → Chapter Parsing → Event Extraction → Hallucination Correction → Causal Linking → Graph Rendering → Visual Output
 ```
 
-## ⚙️ 安装与配置
+## ⚙️ Installation and Configuration
 
-### 系统要求
-- **Python**: 3.10+ (推荐 3.10.12)
-- **操作系统**: Linux / macOS / Windows
-- **内存**: 最低4GB，推荐8GB+
-- **存储**: 至少1GB可用空间
+### System Requirements
+- **Python**: 3.10+ (3.10.12 recommended)
+- **Operating System**: Linux / macOS / Windows
+- **Memory**: Minimum 4GB, 8GB+ recommended
+- **Storage**: At least 1GB available space
 
-### API提供商支持
-- **OpenAI GPT-4o** (推荐)
-- **DeepSeek Chat** (经济型选择)
+### API Provider Support
+- **OpenAI GPT-4o** (recommended)
+- **DeepSeek Chat** (economical choice)
 
-### 详细安装步骤
+### Detailed Installation Steps
 
-1. **Python环境准备**
+1. **Python Environment Preparation**
 ```bash
-# 检查Python版本
-python --version  # 需要3.10+
+# Check Python version
+python --version  # requires 3.10+
 
-# 创建虚拟环境 (推荐)
+# Create virtual environment (recommended)
 python -m venv .venv
 source .venv/bin/activate  # Linux/macOS
-# 或
+# or
 .venv\Scripts\activate     # Windows
 ```
 
-2. **安装项目依赖**
+2. **Install Project Dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-3. **配置API密钥**
+3. **Configure API Keys**
 ```bash
-# 方式1: 环境变量 (推荐)
+# Method 1: Environment variables (recommended)
 export OPENAI_API_KEY="sk-your-openai-api-key"
 export DEEPSEEK_API_KEY="your-deepseek-api-key"
 
-# 方式2: 配置文件
+# Method 2: Configuration file
 cp .env.example .env
-# 编辑 .env 文件填入密钥
+# Edit the .env file and fill in the keys
 ```
 
-## 📖 使用指南
+## 📖 Usage Guide
 
-### 命令行参数说明
+### Command Line Parameter Description
 
-| 参数 | 描述 | 示例 |
+| Parameter | Description | Example |
 |------|------|------|
-| `--demo` | 运行演示模式 | `python main.py --demo` |
-| `--input <file>` | 处理单个文件 | `python main.py --input novel.txt` |
-| `--batch <dir>` | 批量处理目录 | `python main.py --batch novels/` |
-| `--test` | 运行系统测试 | `python main.py --test` |
-| `--benchmark` | 运行性能基准测试 | `python main.py --benchmark` |
-| `--check-env` | 检查环境配置 | `python main.py --check-env` |
-| `--verbose` | 显示详细日志 | `python main.py --input file.txt --verbose` |
+| `--demo` | Run demo mode | `python main.py --demo` |
+| `--input <file>` | Process a single file | `python main.py --input novel.txt` |
+| `--batch <dir>` | Batch process directory | `python main.py --batch novels/` |
+| `--test` | Run system tests | `python main.py --test` |
+| `--benchmark` | Run performance benchmark | `python main.py --benchmark` |
+| `--check-env` | Check environment configuration | `python main.py --check-env` |
+| `--verbose` | Display detailed logs | `python main.py --input file.txt --verbose` |
 
-### 输出文件说明
+### Output File Description
 
-系统会在`output/`目录下创建时间戳文件夹，包含：
+The system creates timestamped folders in the `output/` directory, containing:
 
-- **`events.json`** - 提取的结构化事件数据
-- **`refined_events.json`** - 修正后的事件数据  
-- **`causal_edges.json`** - 识别的因果关系数据
-- **`causal_graph.mmd`** - Mermaid格式的因果图谱
-- **`processing_log.txt`** - 详细的处理日志
+- **`events.json`** - Extracted structured event data
+- **`refined_events.json`** - Corrected event data
+- **`causal_edges.json`** - Identified causal relationship data
+- **`causal_graph.mmd`** - Causal graph in Mermaid format
+- **`processing_log.txt`** - Detailed processing log
 
-### 示例输出
+### Output Examples
 
-#### 事件数据示例 (events.json)
+#### Event Data Example (events.json)
 ```json
 {
   "events": [
     {
       "id": "E1-1",
-      "description": "韩立服用聚灵丹突破练气期",
-      "characters": ["韩立"],
-      "treasures": ["聚灵丹"],
-      "location": "青牛镇",
-      "timestamp": "修仙初期",
+      "description": "Han Li consumes Gathering Spirit Pill to break through Qi Condensation Stage",
+      "characters": ["Han Li"],
+      "treasures": ["Gathering Spirit Pill"],
+      "location": "Green Bull Town",
+      "timestamp": "Early cultivation period",
       "event_type": "cultivation"
     }
   ]
 }
 ```
 
-#### Mermaid图谱示例
+#### Mermaid Graph Example
 ```mermaid
 graph TD
-    E1["韩立服用聚灵丹<br/>突破练气期"]
-    E2["获得神秘瓶子<br/>发现绿液功效"]
+    E1["Han Li consumes<br/>Gathering Spirit Pill<br/>to break through Qi Condensation Stage"]
+    E2["Obtains mysterious bottle<br/>discovers green liquid effect"]
     
-    E1 -->|导致| E2
+    E1 -->|leads to| E2
     
     classDef cultivation fill:#e1f5fe
     classDef treasure fill:#fff3e0
@@ -181,125 +181,120 @@ graph TD
     class E2 treasure
 ```
 
-## 🧪 测试与质量保证
+## 🧪 Testing and Quality Assurance
 
-### 运行测试
+### Running Tests
 
 ```bash
-# 运行所有测试 (125个测试用例)
+# Run all tests (125 test cases)
 python tests/run_all_tests.py
 
-# 运行特定阶段测试
-python tests/stage_1/run_tests.py  # 基础模型测试
-python tests/stage_2/run_tests.py  # 文本摄入测试  
-python tests/stage_3/run_tests.py  # 幻觉修正测试
-python tests/stage_4/run_tests.py  # 因果链接测试
-python tests/stage_5/run_tests.py  # 图谱构建测试
-python tests/stage_6/run_tests.py  # 集成测试
+# Run specific stage tests
+python tests/stage_1/run_tests.py  # Basic model tests
+python tests/stage_2/run_tests.py  # Text ingestion tests
+python tests/stage_3/run_tests.py  # Hallucination correction tests
+python tests/stage_4/run_tests.py  # Causal linking tests
+python tests/stage_5/run_tests.py  # Graph building tests
+python tests/stage_6/run_tests.py  # Integration tests
 ```
 
-### 测试覆盖率
-- **总测试用例**: 125个
-- **通过率**: 100% ✅
-- **代码覆盖率**: 95%+
-- **模块覆盖**: 所有核心模块全覆盖
+### Test Coverage
+- **Total Test Cases**: 125
+- **Pass Rate**: 100% ✅
+- **Code Coverage**: 95%+
+- **Module Coverage**: All core modules fully covered
 
+## 🔧 Technical Architecture Details
 
-
-
-## 🔧 技术架构详解
-
-### 依赖注入系统
-系统使用轻量级DI容器管理依赖：
+### Dependency Injection System
+The system uses a lightweight DI container to manage dependencies:
 
 ```python
 from common.models.dependency_provider import DependencyProvider
 
-# 获取服务实例
+# Get service instance
 extractor = DependencyProvider.get_event_extractor()
 linker = DependencyProvider.get_causal_linker()
 ```
 
-### LLM集成
-支持多个LLM提供商的无缝切换：
+### LLM Integration
+Seamless switching between multiple LLM providers:
 
 ```python
 from event_extraction.repository.llm_client import LLMClient
 
-# 自动选择可用的API提供商
+# Automatically select available API provider
 client = LLMClient()
 response = client.call_llm(system_prompt, user_prompt)
 ```
 
-## 📊 性能指标
+## 📊 Performance Metrics
 
-### 处理能力
-- **小文件** (<10KB): 处理时间 <30秒
-- **中等文件** (10-100KB): 处理时间 <2分钟  
-- **大文件** (>100KB): 处理时间随文件大小线性增长
+### Processing Capacity
+- **Small Files** (<10KB): Processing time <30 seconds
+- **Medium Files** (10-100KB): Processing time <2 minutes
+- **Large Files** (>100KB): Processing time increases linearly with file size
 
-### 资源使用
-- **内存占用**: 峰值 <500MB
-- **并发处理**: 支持2-4个并发事件提取任务
-- **API调用**: 智能频率控制，避免超限
+### Resource Usage
+- **Memory Usage**: Peak <500MB
+- **Concurrent Processing**: Supports 2-4 concurrent event extraction tasks
+- **API Calls**: Smart frequency control, avoiding rate limits
 
-### 扩展性
-- **事件数量**: 支持1000+事件
-- **关系数量**: 支持5000+因果关系
-- **批量处理**: 支持100+文件
+### Scalability
+- **Event Count**: Supports 1000+ events
+- **Relationship Count**: Supports 5000+ causal relationships
+- **Batch Processing**: Supports 100+ files
 
-## 🚨 常见问题
+## 🚨 Common Issues
 
-### Q: API调用失败怎么办？
-**A**: 检查API密钥配置，确认配额充足，可使用`--check-env`检查环境。
+### Q: What if API calls fail?
+**A**: Check API key configuration, confirm sufficient quota, use `--check-env` to check environment.
 
-### Q: 处理速度慢怎么优化？
-**A**: 可以调整并发数量，使用更快的API提供商，或对大文件进行分段处理。
+### Q: How to optimize slow processing?
+**A**: Adjust concurrency count, use faster API providers, or segment large files for processing.
 
-### Q: 输出的图谱不够准确？
-**A**: 可以调整相关参数，或使用更强的模型如GPT-4o。系统会持续优化算法。
+### Q: What if the output graph is not accurate enough?
+**A**: Parameters can be adjusted, or use stronger models like GPT-4o. The system continuously optimizes algorithms.
 
-### Q: 如何处理其他类型的小说？
-**A**: 当前专门针对《凡人修仙传》优化，处理其他小说可能需要调整提示词。
+### Q: How to process other types of novels?
+**A**: Currently optimized specifically for "Mortal's Journey to Immortality", processing other novels may require prompt adjustments.
 
-## 🤝 贡献指南
+## 🤝 Contribution Guidelines
 
-我们欢迎社区贡献！请遵循以下步骤：
+Community contributions are welcome! Please follow these steps:
 
-1. Fork本项目
-2. 创建特性分支 (`git checkout -b feature/amazing-feature`)
-3. 提交更改 (`git commit -m 'Add amazing feature'`)
-4. 推送到分支 (`git push origin feature/amazing-feature`)
-5. 开启Pull Request
+1. Fork this project
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-### 开发环境设置
+### Development Environment Setup
 ```bash
-# 安装开发依赖
+# Install development dependencies
 pip install -r requirements-dev.txt
 
-# 运行代码格式化
+# Run code formatting
 black .
 
-# 运行类型检查
+# Run type checking
 mypy .
 
-# 运行完整测试套件
+# Run complete test suite
 python tests/run_all_tests.py
 ```
 
-## 📄 许可证
+## 📄 License
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 致谢
+## 🙏 Acknowledgements
 
-- **《凡人修仙传》** - 忘语著，为本项目提供了丰富的分析素材
-- **OpenAI & DeepSeek** - 提供强大的语言模型支持
-- **Mermaid** - 优秀的图表渲染工具
-- **Python社区** - 丰富的开源生态系统
+- **"Mortal's Journey to Immortality"** - Written by Wang Yu, providing rich analysis material for this project
+- **OpenAI & DeepSeek** - Providing powerful language model support
+- **Mermaid** - Excellent chart rendering tool
+- **Python Community** - Rich open-source ecosystem
 
 ---
 
-> 🌟 如果这个项目对您有帮助，请给我们一个Star！
-
-
+> 🌟 If this project is helpful to you, please give us a Star!
