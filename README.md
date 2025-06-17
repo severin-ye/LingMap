@@ -11,6 +11,7 @@
 - [Development Plan](docs/Development_Plan.md) - Project development plan and implementation scheme
 - [Theoretical Support](docs/Theoretical_Support.md) - Project-related theoretical foundation and research background
 - [File Tree](docs/note/File_Tree) - Complete project directory structure description
+- [References](https://arxiv.org/html/2503.15655v1)
 
 🚀 **Project Status**: Production Ready | **Test Coverage**: All 125 test cases passed ✅
 
