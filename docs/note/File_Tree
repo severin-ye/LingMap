@@ -1,0 +1,194 @@
+```ini
+.
+├── FINAL_SYSTEM_REPORT.md      # Final system report, summarizing project results, metrics, and completion status
+├── README.md                   # Project documentation, including project overview, installation guide, and usage instructions
+├── api_gateway                 # API Gateway module, providing unified HTTP API interface
+│   └── main.py                 # API Gateway main file, handling external requests and inter-module communication
+├── causal_linking              # Causal relationship linking module, identifying causal relationships between events
+│   ├── app.py                  # Module entry file, providing causal linking service interface
+│   ├── controller              # Controller directory, handling causal linking-related requests
+│   │   └── linker_controller.py  # Causal linking controller, managing the processing flow of linking requests
+│   ├── di                      # Dependency injection directory
+│   │   └── provider.py         # Dependency injection provider, managing service dependencies
+│   ├── domain                  # Domain model directory
+│   │   └── base_linker.py      # Linker base class definition
+│   ├── repository              # Data repository directory (for storing or accessing data)
+│   └── service                 # Service directory, implementing causal linking business logic
+│       ├── README.md           # Causal linking service documentation
+│       ├── base_causal_linker.py  # Basic causal linking implementation
+│       ├── candidate_generator.py # Causal candidate pair generator, generating possible causal relationship candidates
+│       ├── graph_filter.py     # Graph filter, for filtering and optimizing causal graphs
+│       ├── pair_analyzer.py    # Event pair analyzer, analyzing causal relationships between event pairs
+│       ├── unified_linker_service.py  # Unified linking service, integrating various steps of causal linking
+│       └── unified_linker_service.py.bak  # Backup file of unified linking service
+├── common                      # Common components directory, containing tools and interfaces shared by modules
+│   ├── config                  # Configuration file directory
+│   │   ├── config.json         # System main configuration file
+│   │   ├── parallel_config.json  # Parallel processing configuration file
+│   │   ├── prompt_causal_linking.json  # Causal linking LLM prompt configuration
+│   │   ├── prompt_event_extraction.json  # Event extraction LLM prompt configuration
+│   │   └── prompt_hallucination_refine.json  # Hallucination repair LLM prompt configuration
+│   ├── interfaces              # Interface definition directory
+│   │   ├── extractor.py        # Event extractor interface
+│   │   ├── graph_renderer.py   # Graph renderer interface
+│   │   ├── linker.py           # Causal linker interface
+│   │   └── refiner.py          # Hallucination refiner interface
+│   ├── models                  # Data model directory
+│   │   ├── causal_edge.py      # Causal edge model, defining causal relationships between events
+│   │   ├── chapter.py          # Chapter model, defining the data structure of novel chapters
+│   │   ├── event.py            # Event model, defining the data structure of events
+│   │   └── treasure.py         # Treasure model, defining the data structure of treasures
+│   └── utils                   # Utility function directory
+│       ├── config_writer.py    # Configuration writing tool
+│       ├── enhanced_logger.py  # Enhanced logger
+│       ├── json_loader.py      # JSON loading tool
+│       ├── parallel_config.py  # Parallel configuration tool
+│       ├── path_utils.py       # Path processing tool
+│       ├── text_splitter.py    # Text splitting tool
+│       ├── thread_monitor.py   # Thread monitoring tool
+│       └── unified_id_processor.py  # Unified ID processor
+├── debug                       # Debug file directory
+│   ├── api_response.json       # API response debug data
+│   ├── extracted_events.json   # Extracted event debug data
+│   ├── extracted_events_test.json  # Test event debug data
+│   └── optimized_vs_original.json  # Optimization comparison data
+├── docs                        # Documentation directory
+│   ├── README.md               # Project documentation
+│   ├── log_doc                 # Project logs and documentation directory
+│   │   ├── FINAL_SYSTEM_REPORT.md  # Final system report
+│   │   ├── _要处理的问题.md      # Record of issues to be addressed
+│   │   ├── tree_compare.md     # File tree comparison document
+│   │   ├── 代码冗余合并优化报告.md  # Report on code redundancy merge optimization
+│   │   ├── 代码合并优化完成报告.md  # Report on completion of code merge optimization
+│   │   ├── 修复计划.md          # System repair plan
+│   │   ├── 因果图逻辑改造.md     # Causal graph logic transformation document
+│   │   ├── 并行处理优化总结报告.md  # Summary report on parallel processing optimization
+│   │   ├── 并行处理优化报告.md   # Detailed report on parallel processing optimization
+│   │   ├── 测试修复完成报告.md   # Report on completion of test repairs
+│   │   └── 脚本整合优化报告.md   # Report on script integration optimization
+│   ├── note                    # Notes directory
+│   │   ├── File_Tree           # Current file (project file tree document)
+│   │   └── 要处理的问题.md      # Record of issues to be addressed
+│   ├── 代码结构设计.md          # Description of code structure and architectural design approach
+│   ├── 开发方案.md             # Project development plan
+│   ├── 理论支持.md             # Theoretical foundation and research background of the project
+│   └── 项目逻辑设计.md         # Detailed description of overall project design and logical flow
+├── graph_builder               # Graph building module, converting causal relationships into visualization graphs
+│   ├── app.py                  # Module entry file
+│   ├── controller              # Controller directory
+│   │   └── graph_controller.py # Graph controller, handling graph generation requests
+│   ├── domain                  # Domain model directory
+│   │   └── base_renderer.py    # Renderer base class
+│   ├── service                 # Service directory
+│   │   └── mermaid_renderer.py # Mermaid format chart rendering service
+│   └── utils                   # Utility function directory
+│       └── color_map.py        # Color mapping tool, assigning colors to nodes and edges
+├── hallucination_refine        # Hallucination repair module, detecting and repairing hallucinations extracted by AI
+│   ├── app.py                  # Module entry file
+│   ├── controller              # Controller directory
+│   │   └── har_controller.py   # Hallucination repair controller
+│   ├── di                      # Dependency injection directory
+│   │   └── provider.py         # Dependency injection provider
+│   ├── domain                  # Domain model directory
+│   │   └── base_refiner.py     # Refiner base class
+│   ├── repository              # Data repository directory
+│   └── service                 # Service directory
+│       └── har_service.py      # Hallucination repair service implementation
+# The following part has been moved to the docs/log_doc directory
+├── main.py                     # System main entry file, containing command-line interface and core process control
+├── novel                       # Novel text directory
+│   ├── 1.txt                   # Novel chapter file 1
+│   ├── 2.txt                   # Novel chapter file 2
+│   └── test.txt                # Test novel text
+├── output_2025-06-10_23-06-58  # Output results directory, named by timestamp
+├── pytest.ini                  # pytest test framework configuration file
+├── reports                     # Reports directory
+│   ├── parallel_config_report_20250611_001707.md  # Parallel configuration report
+│   ├── parallel_config_report_20250611_001915.md  # Parallel configuration report
+│   ├── parallel_config_report_20250611_002013.md  # Parallel configuration report
+│   └── parallel_config_report_20250611_215755.md  # Parallel configuration report
+├── requirements.txt            # Project dependency library list
+├── scripts                     # Utility scripts directory
+│   ├── check_env.py            # Environment check script
+│   ├── complete_test.py        # Complete test script
+│   ├── fix_ids.py              # ID repair script
+│   ├── refactor_demo.py        # Refactoring demonstration script
+│   ├── run_demo.py             # Run demonstration script
+│   ├── test_api_integration.py # API integration test script
+│   ├── test_candidate_generator.py  # Candidate generator test script
+│   ├── test_causal_linking_optimized.py  # Optimized causal linking test script
+│   ├── test_event_extraction.py  # Event extraction test script
+│   ├── test_linker.py          # Linker test script
+│   ├── test_smart_candidate_generator.py  # Smart candidate generator test script
+│   └── unified_parallel_tool.py  # Unified parallel tool script
+├── temp                        # Temporary files directory
+│   ├── duplicate_events_test.json  # Duplicate events test data
+│   ├── fixed_events_test.json  # Repaired events test data
+│   └── fixed_ids.json          # Repaired ID data
+├── tests                       # Tests directory
+│   ├── PROJECT_COMPLETION_SUMMARY.md  # Project completion summary
+│   ├── README.md               # Test documentation
+│   ├── api_tests               # API tests directory
+│   │   ├── README.md           # API test documentation
+│   │   ├── fix_api_tests.py    # API test repair script
+│   │   ├── test_api_integration.new.py  # New version of API integration test
+│   │   ├── test_api_integration.py  # API integration test
+│   │   └── test_api_integration_improved.py  # Improved API integration test
+│   ├── causal_linking_tests    # Causal linking tests directory
+│   │   ├── test_candidate_generator.py  # Candidate generator test
+│   │   ├── test_causal_linking_optimized.py  # Optimized causal linking test
+│   │   ├── test_linker.py      # Linker test
+│   │   └── test_smart_candidate_generator.py  # Smart candidate generator test
+│   ├── event_extraction_tests  # Event extraction tests directory
+│   │   └── test_event_extraction.py  # Event extraction test
+│   ├── integration_tests       # Integration tests directory
+│   │   └── complete_test.py    # Complete integration test
+│   ├── run_all_tests.new.py    # New version of run all tests script
+│   ├── run_all_tests.py        # Run all tests script
+│   ├── stage_1                 # Stage 1 tests (interfaces and models)
+│   │   ├── Stage_1_Test_Report.md  # Stage 1 test report
+│   │   ├── __init__.py         # Package initialization file
+│   │   ├── run_tests.py        # Run tests script
+│   │   ├── test_interfaces.py  # Interface tests
+│   │   └── test_models.py      # Model tests
+│   ├── stage_2                 # Stage 2 tests (text ingestion and event extraction)
+│   │   ├── Stage_2_Test_Report.md  # Stage 2 test report
+│   │   ├── __init__.py         # Package initialization file
+│   │   ├── run_tests.py        # Run tests script
+│   │   ├── test_event_extraction.py  # Event extraction test
+│   │   └── test_text_ingestion.py  # Text ingestion test
+│   ├── stage_3                 # Stage 3 tests (hallucination repair tests)
+│   │   ├── STAGE3_COMPREHENSIVE_TEST_REPORT.md  # Stage 3 comprehensive test report
+│   │   ├── Stage_3_Test_Report.md  # Stage 3 test report
+│   │   ├── __init__.py         # Package initialization file
+│   │   ├── run_tests.py        # Run tests script
+│   │   └── test_hallucination_refine.py  # Hallucination repair test
+│   ├── stage_4                 # Stage 4 tests (causal relationship linking tests)
+│   │   ├── Stage_4_Test_Report.md  # Stage 4 test report
+│   │   ├── __init__.py         # Package initialization file
+│   │   ├── run_tests.py        # Run tests script
+│   │   ├── test_causal_linking.py.bak  # Causal linking test backup
+│   │   ├── test_cpc_module.py.bak  # CPC module test backup
+│   │   └── test_unified_cpc.py  # Unified CPC test
+│   ├── stage_5                 # Stage 5 tests (graph building tests)
+│   │   ├── Stage_5_Test_Report.md  # Stage 5 test report
+│   │   ├── __init__.py         # Package initialization file
+│   │   ├── run_tests.py        # Run tests script
+│   │   ├── test_color_map.py   # Color mapping test
+│   │   ├── test_graph_builder_integration.py  # Graph building integration test
+│   │   ├── test_graph_controller.py  # Graph controller test
+│   │   ├── test_mermaid_renderer.py  # Mermaid renderer test
+│   │   └── {__pycache__}       # Python cache directory
+│   ├── stage_6                 # Stage 6 tests (API gateway and end-to-end integration tests)
+│   │   ├── Stage_6_Test_Report.md  # Stage 6 test report
+│   │   ├── __init__.py         # Package initialization file
+│   │   ├── run_tests.py        # Run tests script
+│   │   ├── test_api_gateway_cli.py  # API gateway CLI test
+│   │   └── test_end_to_end_integration.py  # End-to-end integration test
+│   └── utils_tests             # Utility tests directory
+│       └── test_check_env.py   # Environment check test
+├── text_ingestion             # Text ingestion module, responsible for reading and processing raw text
+│   ├── app.py                 # Module entry file
+│   └── chapter_loader.py      # Chapter loader, handling the loading and preprocessing of novel chapters
+├── tree                       # File tree generation tool
+```
