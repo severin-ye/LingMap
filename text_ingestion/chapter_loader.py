@@ -29,9 +29,9 @@ class ChapterLoader:
         Returns:
             包含章节ID和标题的字典，如果无法提取则返回None
         """
-        # 匹配章节标题，如【第十五章 聚灵丹】或 第一章 初入七玄门
+        # Match chapter titles, such as 【Chapter 15 聚灵丹】 or Chapter 1 初入七玄门
         pattern = r'[【]?第([^章]+)章\s*([^】\n]+)[】]?'
-        match = re.search(pattern, text[:200])  # 只在开头部分查找
+        match = re.search(pattern, text[:200])  # Only search at the beginning
         
         if match:
             chapter_id = f"第{match.group(1)}章"
@@ -59,19 +59,19 @@ class ChapterLoader:
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
                 
-            # 提取章节信息
+            # Extract chapter information
             chapter_info = self.extract_chapter_info(content)
             if not chapter_info:
                 chapter_id = os.path.basename(file_path).replace('.txt', '')
-                title = f"未命名章节_{chapter_id}"
+                title = f"Unnamed_chapter_{chapter_id}"
             else:
                 chapter_id = chapter_info["chapter_id"]
                 title = chapter_info["title"]
             
-            # 分段
+            # Segment the text
             segments = TextSplitter.split_chapter(content, self.segment_size)
             
-            # 为每个segment添加chapter_id前缀
+            # Add chapter_id prefix to each segment
             for i, seg in enumerate(segments):
                 seg["seg_id"] = f"{chapter_id}-{seg['seg_id']}"
                 

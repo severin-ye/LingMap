@@ -12,12 +12,12 @@ import time
 from datetime import datetime
 import argparse
 
-# 将项目根目录添加到路径
+# Add project root directory to path
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(current_dir)
 sys.path.append(project_root)
 
-# 定义终端颜色
+# Define terminal colors
 class Colors:
     HEADER = '\033[95m'
     BLUE = '\033[94m'
@@ -46,7 +46,7 @@ def run_test(test_file, verbose=False):
     start_time = time.time()
     
     try:
-        # 运行测试文件
+        # Run test file
         process = subprocess.Popen(
             [sys.executable, test_file],
             stdout=subprocess.PIPE,
@@ -57,7 +57,7 @@ def run_test(test_file, verbose=False):
         
         elapsed_time = time.time() - start_time
         
-        # 输出结果
+        # Output result
         if process.returncode == 0:
             print(f"{Colors.GREEN}✓ 测试通过 {os.path.basename(test_file)} ({elapsed_time:.2f}秒){Colors.END}")
             if verbose:
@@ -105,7 +105,7 @@ def main():
     parser.add_argument("-c", "--category", type=str, help="仅运行指定类别的测试 (api, causal_linking, event_extraction, integration, utils)")
     args = parser.parse_args()
     
-    # 测试类别配置
+    # Test category configuration
     test_categories = {
         "api": ("API测试", os.path.join(current_dir, "api_tests")),
         "causal_linking": ("因果链接测试", os.path.join(current_dir, "causal_linking_tests")),
@@ -121,7 +121,7 @@ def main():
     
     print(f"{Colors.BOLD}{Colors.HEADER}开始运行测试 - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}{Colors.END}")
     
-    # 如果指定了类别，只运行该类别的测试
+    # If a category is specified, only run tests for that category
     if args.category:
         if args.category not in test_categories:
             print(f"{Colors.RED}错误：未知测试类别 '{args.category}'。可用类别: {', '.join(test_categories.keys())}{Colors.END}")
@@ -133,14 +133,14 @@ def main():
         total_failed += failed
         test_report.append((args.category, passed, failed))
     else:
-        # 运行所有类别的测试
+        # Run tests for all categories
         for category, (name, directory) in test_categories.items():
             passed, failed = run_test_category(directory, name, args.verbose)
             total_passed += passed
             total_failed += failed
             test_report.append((category, passed, failed))
     
-    # 输出测试总结
+    # Output test summary
     total_time = time.time() - start_time
     total_tests = total_passed + total_failed
     

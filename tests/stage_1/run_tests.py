@@ -28,15 +28,15 @@ import sys
 import os
 import argparse
 
-# 将项目根目录添加到路径
+# Add project root directory to path
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.append(project_root)
 
-# 导入美化测试输出的运行器
+# Import beautified test output runner
 # from tests.utils.pretty_test_runner import PrettyTestRunner
 
-# 导入阶段一测试
+# Import stage 1 tests
 from tests.stage_1.test_models import (
     TestEventModel,
     TestChapterModel,
@@ -53,20 +53,20 @@ from tests.stage_1.test_interfaces import (
     TestGraphRendererInterface
 )
 
-# 添加钩子，确保所有测试类的测试方法都会输出一些内容
+# Add hook to ensure all test class methods output something
 import unittest
 import functools
 
-# 保存原始的setUp方法
+# Save original setUp method
 original_setUp = unittest.TestCase.setUp
 
-# 定义一个新的setUp方法，添加输出
+# Define a new setUp method to add output
 def setup_with_output(self):
     original_setUp(self)
     print(f"\n测试对象: {self.__class__.__name__}.{self._testMethodName} 开始执行")
     print(f"-------------------------------------------")
 
-# 替换原始方法
+# Replace original method
 unittest.TestCase.setUp = setup_with_output
 
 
@@ -77,10 +77,10 @@ def run_stage1_tests(verbose=False):
     Args:
         verbose: 是否显示详细输出
     """
-    # 创建测试套件
+    # Create test suite
     suite = unittest.TestSuite()
     
-    # 添加数据模型测试
+    # Add data model tests
     print("\n正在准备模型和工具类测试...")
     model_suite = unittest.TestSuite()
     model_suite.addTest(unittest.makeSuite(TestEventModel))
@@ -90,7 +90,7 @@ def run_stage1_tests(verbose=False):
     model_suite.addTest(unittest.makeSuite(TestJsonLoader))
     model_suite.addTest(unittest.makeSuite(TestTextSplitter))
     
-    # 添加接口测试
+    # Add interface tests
     print("正在准备接口测试...")
     interface_suite = unittest.TestSuite()
     interface_suite.addTest(unittest.makeSuite(TestExtractorInterface))
@@ -98,20 +98,20 @@ def run_stage1_tests(verbose=False):
     interface_suite.addTest(unittest.makeSuite(TestLinkerInterface))
     interface_suite.addTest(unittest.makeSuite(TestGraphRendererInterface))
     
-    # 合并测试套件
+    # Merge test suites
     suite.addTest(model_suite)
     suite.addTest(interface_suite)
     
-    # 运行测试
+    # Run tests
     verbosity = 2 if verbose else 1
     
-    # 使用标准的测试运行器
+    # Use standard test runner
     print("\n模型和工具类测试:")
     print("-" * 60)
     runner = unittest.TextTestRunner(verbosity=verbosity)
     result = runner.run(suite)
     
-    # 如果有详细模式，显示完整测试统计
+    # If in verbose mode, show full test statistics
     if verbose:
         print("\n详细测试统计:")
         print(f"运行的测试数: {result.testsRun}")

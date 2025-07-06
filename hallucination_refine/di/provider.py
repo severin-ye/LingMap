@@ -2,7 +2,7 @@ import os
 import sys
 from pathlib import Path
 
-# 将项目根目录添加到系统路径
+# Add project root directory to system path
 current_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 if current_dir not in sys.path:
     sys.path.insert(0, current_dir)
@@ -14,16 +14,16 @@ from common.utils.parallel_config import ParallelConfig
 from common.utils.thread_monitor import log_thread_usage
 from dotenv import load_dotenv
 
-# 加载.env文件中的环境变量
+# Load environment variables from .env file
 load_dotenv()
 
 def provide_refiner() -> AbstractRefiner:
-    """提供幻觉修复器实例"""
+    """Provide hallucination refiner instance"""
     
-    # 检查API提供商环境变量
+    # Check API provider environment variable
     provider = os.environ.get("LLM_PROVIDER", "deepseek")
     
-    # 根据提供商获取相应的API密钥
+    # Get the corresponding API key according to the provider
     if provider == "openai":
         api_key = os.environ.get("OPENAI_API_KEY", "")
         model = "gpt-4o"
@@ -31,19 +31,19 @@ def provide_refiner() -> AbstractRefiner:
         api_key = os.environ.get("DEEPSEEK_API_KEY", "")
         model = "deepseek-chat"
     
-    # 使用path_utils获取配置文件路径
+    # Use path_utils to get config file path
     prompt_path = get_config_path("prompt_hallucination_refine.json")
     
-    # 根据并行配置获取工作线程数
-    # 幻觉修复是IO密集型任务，适合使用更多线程
+    # Get the number of worker threads according to parallel configuration
+    # Hallucination repair is an IO-intensive task, suitable for using more threads
     if ParallelConfig.is_enabled():
         max_workers = ParallelConfig.get_max_workers("io_bound")
     else:
         max_workers = 1
         
-    print(f"幻觉修复器使用工作线程数: {max_workers}")
+    print(f"Hallucination refiner using worker threads: {max_workers}")
     
-    # 记录线程使用情况
+    # Log thread usage
     log_thread_usage("hallucination_refine", max_workers, "io_bound")
     
     return HallucinationRefiner(
