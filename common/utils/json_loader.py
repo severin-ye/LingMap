@@ -20,7 +20,7 @@ class JsonLoader:
             加载的 JSON 数据字典
         """
         if not os.path.exists(file_path):
-            raise FileNotFoundError(f"文件不存在: {file_path}")
+            raise FileNotFoundError(f"File does not exist: {file_path}")
         
         with open(file_path, 'r', encoding='utf-8') as file:
             return json.load(file)

@@ -359,8 +359,8 @@ class CandidateGenerator:
         检查两个事件的章节跨度是否在允许范围内
         
         Args:
-            event1: 第一个事件
-            event2: 第二个事件
+            event1: First event
+            event2: Second event
             
         Returns:
             如果章节跨度合法则返回True，否则返回False

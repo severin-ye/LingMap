@@ -61,7 +61,7 @@ class TestAPIGateway(unittest.TestCase):
         """测试环境设置功能"""
         with patch.dict(os.environ, {}, clear=True):
             with patch('os.path.exists') as mock_exists:
-                mock_exists.return_value = False  # TODO: Translate - 模拟.env文件不存在
+                mock_exists.return_value = False  # TODO: Translate - 模拟.envFile does not exist
                 
                 # TODO: Translate - Test环境Set不会出错
                 try:
@@ -186,7 +186,7 @@ graph TD
             
             # TODO: Translate - VerifyOutput了Failed信息
             calls = [call[0][0] for call in mock_print.call_args_list]
-            self.assertTrue(any("加载章节失败" in str(call) for call in calls))
+            self.assertTrue(any("Failed to load chapter" in str(call) for call in calls))
 
 
 class TestMainCLI(unittest.TestCase):
@@ -291,7 +291,7 @@ class TestMainCLI(unittest.TestCase):
                     pass
 
     def test_main_invalid_input_file(self):
-        """测试输入文件不存在的情况"""
+        """测试输入File does not exist的情况"""
         with patch('sys.argv', ['main.py', '--input', '/nonexistent/file.txt']):
             with patch('main.setup_environment'):
                 with patch('main.check_environment'):
@@ -302,7 +302,7 @@ class TestMainCLI(unittest.TestCase):
                             
                             # TODO: Translate - VerifyOutput了Error信息
                             calls = [call[0][0] for call in mock_print.call_args_list]
-                            self.assertTrue(any("输入文件不存在" in str(call) for call in calls))
+                            self.assertTrue(any("输入File does not exist" in str(call) for call in calls))
 
     def test_main_invalid_input_directory(self):
         """测试输入目录不存在的情况"""

@@ -7,29 +7,29 @@ from common.utils.text_splitter import TextSplitter
 
 
 class ChapterLoader:
-    """从文本文件加载小说章节并处理成标准格式"""
+    """Load novel chapters from text files and process into standard format"""
     
     def __init__(self, segment_size: int = 800):
         """
-        初始化章节加载器
+        Initialize chapter loader
         
         Args:
-            segment_size: 分段大小，每段的目标字符数
+            segment_size: Segment size, target character count per segment
         """
         self.segment_size = segment_size
     
     @staticmethod
     def extract_chapter_info(text: str) -> Optional[Dict[str, str]]:
         """
-        从文本中提取章节信息（章节号和标题）
+        Extract chapter information (chapter number and title) from text
         
         Args:
-            text: 章节文本
+            text: Chapter text
             
         Returns:
-            包含章节ID和标题的字典，如果无法提取则返回None
+            Dictionary containing chapter ID and title, returns None if unable to extract
         """
-        # Match chapter titles like 【第十五章 聚灵丹】 or 第一章 初入七玄门
+        # Match chapter titles like 【Chapter 15 Spirit Gathering Pill】 or Chapter 1 Enter Seven Mystery Gate
         pattern = r'[【]?第([^章]+)章\s*([^】\n]+)[】]?'
         match = re.search(pattern, text[:200])  # Only search at the beginning
         
@@ -42,17 +42,17 @@ class ChapterLoader:
     
     def load_from_txt(self, file_path: str) -> Optional[Chapter]:
         """
-        从TXT文件加载章节内容
+        Load chapter content from TXT file
         
         Args:
-            file_path: TXT文件路径
+            file_path: TXT file path
             
         Returns:
-            章节对象，如果加载失败则返回None
+            Chapter object, returns None if loading fails
         """
         if not os.path.exists(file_path):
             import logging
-            logging.error(f"文件不存在: {file_path}")
+            logging.error(f"File does not exist: {file_path}")
             return None
         
         try:
@@ -83,19 +83,19 @@ class ChapterLoader:
             )
         
         except Exception as e:
-            print(f"加载章节失败: {str(e)}")
+            print(f"Failed to load chapter: {str(e)}")
             return None
     
     def load_multiple_txt(self, directory: str, pattern: str = "*.txt") -> List[Chapter]:
         """
-        批量加载TXT文件
+        Batch load TXT files
         
         Args:
-            directory: 目录路径
-            pattern: 文件匹配模式
+            directory: Directory path
+            pattern: File matching pattern
             
         Returns:
-            章节对象列表
+            List of chapter objects
         """
         import glob
         

@@ -28,7 +28,7 @@ import logging
 from pathlib import Path
 from datetime import datetime
 
-# TODO: Translate - Add project root directory toPython路径
+# TODO: Translate - Add project root directory to Python path
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.insert(0, project_root)

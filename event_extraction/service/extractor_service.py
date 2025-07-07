@@ -27,7 +27,7 @@ class EventExtractor(BaseExtractor):
         
         Args:
             model: 使用的LLM模型
-            prompt_path: 提示词模板路径
+            prompt_path: Prompt template path
             api_key: API密钥
             base_url: 自定义API基础URL
             max_workers: 并行处理的最大工作线程数
@@ -115,7 +115,7 @@ class EventExtractor(BaseExtractor):
             segment_id: 段落ID
             
         Returns:
-            提取的事件列表
+            List of extracted events
         """
         prompt = self.format_prompt(text)
         response = self.llm_client.call_with_json_response(prompt['system'], prompt['instruction'])
@@ -136,7 +136,7 @@ class EventExtractor(BaseExtractor):
             segment_id: 段落ID
             
         Returns:
-            提取的事件列表
+            List of extracted events
         """
         events = []
         

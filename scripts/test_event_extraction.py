@@ -45,9 +45,9 @@ def load_test_chapter():
         print(f"✓ 从测试文件加载了 {len(content)} 个字符")
         source = "test.txt"
     else:
-        # TODO: Translate - 如果Test文件不存在，Use第1章
+        # TODO: Translate - 如果TestFile does not exist，Use第1章
         chapter_path = get_novel_path("1.txt")
-        print(f"测试文件不存在，尝试加载: {chapter_path}")
+        print(f"测试File does not exist，尝试加载: {chapter_path}")
         
         if not os.path.exists(chapter_path):
             print(f"❌ 未找到任何小说文件")
@@ -104,7 +104,7 @@ def test_prompt_template():
     
     # TODO: Translate - Load提示词模板
     prompt_path = get_config_path("prompt_event_extraction.json")
-    print(f"提示词模板路径: {prompt_path}")
+    print(f"Prompt template path: {prompt_path}")
     
     try:
         template = JsonLoader.load_json(prompt_path)
@@ -168,7 +168,7 @@ def test_direct_extraction():
         return False
     
     print(f"\n开始事件抽取...")
-    print(f"输入文本长度: {len(chapter.content)} 字符")
+    print(f"Input text长度: {len(chapter.content)} 字符")
     
     try:
         # TODO: Translate - Checkextractor是否为None

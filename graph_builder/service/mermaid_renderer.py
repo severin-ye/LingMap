@@ -20,7 +20,7 @@ class MermaidRenderer(BaseRenderer):
         初始化Mermaid渲染器
         
         Args:
-            default_options: 默认渲染选项
+            default_options: Default rendering options
         """
         super().__init__(default_options)
         

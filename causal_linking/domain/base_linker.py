@@ -9,27 +9,27 @@ from common.utils.json_loader import JsonLoader
 
 
 class BaseLinker(AbstractLinker, ABC):
-    """因果链接器基类"""
+    """Causal linker base class"""
     
     def __init__(self, prompt_path: str):
         """
-        初始化链接器
+        Initialize linker
         
         Args:
-            prompt_path: 提示词模板路径
+            prompt_path: Prompt template path
         """
         self.prompt_template = JsonLoader.load_json(prompt_path)
     
     def format_prompt(self, event1: EventItem, event2: EventItem) -> Dict[str, Any]:
         """
-        格式化提示模板
+        Format prompt template
         
         Args:
-            event1: 第一个事件
-            event2: 第二个事件
+            event1: First event
+            event2: Second event
             
         Returns:
-            格式化后的提示词字典
+            Formatted prompt dictionary
         """
         system_prompt = self.prompt_template.get('system', '')
         instruction = self.prompt_template.get('instruction', '').format(
@@ -44,14 +44,14 @@ class BaseLinker(AbstractLinker, ABC):
     
     def parse_response(self, response: Dict[str, Any], event1_id: str, event2_id: str) -> Optional[CausalEdge]:
         """
-        解析LLM响应，提取因果关系
+        Parse LLM response to extract causal relationships
         
         Args:
-            response: LLM响应
-            event1_id: 第一个事件ID
-            event2_id: 第二个事件ID
+            response: LLM response
+            event1_id: First event ID
+            event2_id: Second event ID
             
         Returns:
-            因果边对象，如果不存在因果关系则返回None
+            Causal edge object, returns None if no causal relationship exists
         """
-        raise NotImplementedError("子类必须实现该方法")
+        raise NotImplementedError("Subclasses must implement this method")

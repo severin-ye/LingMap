@@ -2,23 +2,23 @@ import argparse
 import os
 import sys
 
-# TODO: Translate - Add project root directory to路径中
+# Add project root directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from graph_builder.controller.graph_controller import render_graph
 
 
 def main():
-    """GRAPH_BUILDER 模块的主入口"""
-    parser = argparse.ArgumentParser(description="生成因果图谱")
-    parser.add_argument("--input", "-i", required=True, help="输入因果关系JSON文件")
-    parser.add_argument("--output", "-o", required=True, help="输出Mermaid文件路径")
-    parser.add_argument("--show-legend", action="store_true", help="显示图例")
-    parser.add_argument("--show-labels", action="store_true", help="在边上显示标签")
+    """Main entry point for GRAPH_BUILDER module"""
+    parser = argparse.ArgumentParser(description="Generate causal graph")
+    parser.add_argument("--input", "-i", required=True, help="Input causal relationship JSON file")
+    parser.add_argument("--output", "-o", required=True, help="Output Mermaid file path")
+    parser.add_argument("--show-legend", action="store_true", help="Show legend")
+    parser.add_argument("--show-labels", action="store_true", help="Show labels on edges")
     
     args = parser.parse_args()
     
-    # TODO: Translate - 渲染选项
+    # Rendering options
     options = {
         "show_legend": args.show_legend,
         "show_edge_labels": args.show_labels,

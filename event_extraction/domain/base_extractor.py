@@ -8,26 +8,26 @@ from common.utils.json_loader import JsonLoader
 
 
 class BaseExtractor(AbstractExtractor, ABC):
-    """事件抽取器基类"""
+    """Event extractor base class"""
     
     def __init__(self, prompt_path: str):
         """
-        初始化抽取器
+        Initialize extractor
         
         Args:
-            prompt_path: 提示词模板路径
+            prompt_path: Prompt template path
         """
         self.prompt_template = JsonLoader.load_json(prompt_path)
         
     def format_prompt(self, text: str) -> Dict[str, Any]:
         """
-        格式化提示模板
+        Format prompt template
         
         Args:
-            text: 待处理文本
+            text: Text to process
             
         Returns:
-            格式化后的提示词字典
+            Formatted prompt dictionary
         """
         system_prompt = self.prompt_template.get('system', '')
         instruction = self.prompt_template.get('instruction', '').format(text=text)
@@ -39,14 +39,14 @@ class BaseExtractor(AbstractExtractor, ABC):
         
     def parse_response(self, response: Dict[str, Any], chapter_id: str, segment_id: str) -> List[EventItem]:
         """
-        解析 LLM 响应，提取事件
+        Parse LLM response to extract events
         
         Args:
-            response: LLM 响应
-            chapter_id: 章节 ID
-            segment_id: 段落 ID
+            response: LLM response
+            chapter_id: Chapter ID
+            segment_id: Segment ID
             
         Returns:
-            提取的事件列表
+            List of extracted events
         """
-        raise NotImplementedError("子类必须实现该方法")
+        raise NotImplementedError("Subclasses must implement this method")

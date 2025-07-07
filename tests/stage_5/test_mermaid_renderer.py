@@ -163,7 +163,7 @@ class TestMermaidRenderer(unittest.TestCase):
         self.assertEqual(self.renderer._truncate_text(short_text, 10), short_text)
     
     def test_options_merging(self):
-        """测试渲染选项合并功能"""
+        """测试Rendering options合并功能"""
         # TODO: Translate - Set默认选项的渲染器
         custom_renderer = MermaidRenderer({"show_legend": True, "custom_option": "value"})
         

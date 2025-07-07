@@ -13,10 +13,10 @@ class AbstractRefiner(ABC):
         对抽取的事件进行幻觉检测和修复
         
         Args:
-            events: 待精修的事件列表
-            context: 支持精修的上下文信息
+            events: Event to be refined列表
+            context: Context information supporting refinement
             
         Returns:
-            精修后的事件列表
+            Refined event列表
         """
         pass

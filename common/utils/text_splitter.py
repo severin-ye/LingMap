@@ -3,37 +3,37 @@ import re
 
 
 class TextSplitter:
-    """文本分段工具，将章节文本切分为多个段落"""
+    """Text segmentation tool for splitting chapter text into multiple paragraphs"""
     
     @staticmethod
     def split_by_paragraphs(text: str) -> List[str]:
         """
-        按段落分割文本（以空行为分隔）
+        Split text by paragraphs (separated by empty lines)
         
         Args:
-            text: 输入文本
+            text: Input text
             
         Returns:
-            段落列表
+            List of paragraphs
         """
         paragraphs = [p.strip() for p in text.split('\n\n')]
-        return [p for p in paragraphs if p]  # TODO: Translate - 过滤空段落
+        return [p for p in paragraphs if p]  # Filter empty paragraphs
     
     @staticmethod
     def split_by_sentences(text: str) -> List[str]:
         """
-        按句子分割文本（以句号、叹号、问号为分隔）
+        Split text by sentences (separated by periods, exclamation marks, question marks)
         
         Args:
-            text: 输入文本
+            text: Input text
             
         Returns:
-            句子列表
+            List of sentences
         """
-        # TODO: Translate - 中文分句正则
+        # Chinese sentence splitting regex
         pattern = r'([^。！？]+[。！？])'
         sentences = re.findall(pattern, text)
-        # TODO: Translate - Process末尾可能没有标点的句子
+        # Process sentences that may not end with punctuation
         if text and not text.endswith(('。', '！', '？')):
             last_sentence = text.split('。')[-1].split('！')[-1].split('？')[-1].strip()
             if last_sentence:
@@ -43,14 +43,14 @@ class TextSplitter:
     @staticmethod
     def split_chapter(chapter_text: str, seg_size: int = 500) -> List[Dict]:
         """
-        将章节内容分割为适合LLM处理的片段
+        Split chapter content into segments suitable for LLM processing
         
         Args:
-            chapter_text: 章节文本
-            seg_size: 目标片段长度
+            chapter_text: Chapter text
+            seg_size: Target segment length
             
         Returns:
-            分段后的章节片段列表，每个片段为字典 {"seg_id": "xx-1", "text": "..."}
+            List of segmented chapter fragments, each segment is a dictionary {"seg_id": "xx-1", "text": "..."}
         """
         paragraphs = TextSplitter.split_by_paragraphs(chapter_text)
         
@@ -62,7 +62,7 @@ class TextSplitter:
         for para in paragraphs:
             para_length = len(para)
             
-            # TODO: Translate - 如果当前段落加上已有内容会超出目标长度且当前段不为空，则Save当前段并Start新段
+            # If current paragraph plus existing content would exceed target length and current segment is not empty, save current segment and start new segment
             if current_length + para_length > seg_size and current_segment:
                 segment_text = '\n\n'.join(current_segment)
                 segments.append({
@@ -76,7 +76,7 @@ class TextSplitter:
                 current_segment.append(para)
                 current_length += para_length
         
-        # TODO: Translate - Process剩余内容
+        # Process remaining content
         if current_segment:
             segment_text = '\n\n'.join(current_segment)
             segments.append({

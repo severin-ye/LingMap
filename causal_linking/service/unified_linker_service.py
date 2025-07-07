@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-统一因果链接器实现
+Unified causal linker implementation
 融合基础版和优化版因果链接器功能：
 1. 使用CandidateGenerator生成候选事件对
 2. 使用PairAnalyzer分析事件对因果关系
@@ -18,7 +18,7 @@ import itertools
 from concurrent.futures import ThreadPoolExecutor
 from typing import List, Dict, Any, Optional, Tuple, Set
 
-# TODO: Translate - Add project root directory toPython路径
+# TODO: Translate - Add project root directory to Python path
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 sys.path.insert(0, root_dir)
 
@@ -33,7 +33,7 @@ from event_extraction.repository.llm_client import LLMClient
 
 class UnifiedCausalLinker(BaseLinker):
     """
-    统一版因果链接器，结合原始版和优化版的功能
+    Unified causal linker combining original and optimized features
     支持完整的旧版功能，同时提供优化策略选项
     """
     
@@ -46,7 +46,7 @@ class UnifiedCausalLinker(BaseLinker):
         max_workers: int = 3,
         strength_mapping: Dict[str, int] = {},
         provider: str = "openai",
-        # TODO: Translate - 优化参数，默认启用优化
+        # TODO: Translate - Optimization parameters, optimization enabled by default
         use_optimization: bool = True,
         max_events_per_chapter: int = 50,  # TODO: Translate - 大幅提高单章event数量限制
         min_entity_support: int = 3,  # TODO: Translate - 保持中等实体支持度要求
@@ -59,7 +59,7 @@ class UnifiedCausalLinker(BaseLinker):
         
         Args:
             model: 使用的LLM模型
-            prompt_path: 提示词模板路径
+            prompt_path: Prompt template path
             api_key: API密钥
             base_url: 自定义API基础URL
             max_workers: 并行处理的最大工作线程数
@@ -195,11 +195,11 @@ class UnifiedCausalLinker(BaseLinker):
         分析两个事件之间的因果关系
         
         Args:
-            event1: 第一个事件
-            event2: 第二个事件
+            event1: First event
+            event2: Second event
             
         Returns:
-            因果边对象，如果不存在因果关系则返回None
+            Causal edge object, returns None if no causal relationship exists
         """
         # TODO: Translate - 格式化提示
         prompt = self.format_prompt(event1, event2)
@@ -221,15 +221,15 @@ class UnifiedCausalLinker(BaseLinker):
     
     def parse_response(self, response: Dict[str, Any], event1_id: str, event2_id: str) -> Optional[CausalEdge]:
         """
-        解析LLM响应，提取因果关系
+        Parse LLM response to extract causal relationships
         
         Args:
             response: LLM响应
-            event1_id: 第一个事件ID
-            event2_id: 第二个事件ID
+            event1_id: First eventID
+            event2_id: Second eventID
             
         Returns:
-            因果边对象，如果不存在因果关系则返回None
+            Causal edge object, returns None if no causal relationship exists
         """
         # TODO: Translate - Check是否存在causal关系
         has_causal = response.get("has_causal_relation", False)

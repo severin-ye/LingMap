@@ -34,7 +34,7 @@ def main():
         
         # TODO: Translate - 确保输入文件存在
         if not os.path.exists(args.input):
-            print(f"错误: 文件不存在: {args.input}")
+            print(f"错误: File does not exist: {args.input}")
             return 1
         
         # TODO: Translate - SetOutput路径

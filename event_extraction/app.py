@@ -2,7 +2,7 @@ import argparse
 import os
 import sys
 
-# TODO: Translate - Add project root directory to路径中
+# TODO: Translate - Add project root directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from event_extraction.controller.extractor_controller import extract_events_from_chapter

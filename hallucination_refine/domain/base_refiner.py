@@ -8,27 +8,27 @@ from common.utils.json_loader import JsonLoader
 
 
 class BaseRefiner(AbstractRefiner, ABC):
-    """幻觉修复基类"""
+    """Hallucination refiner base class"""
     
     def __init__(self, prompt_path: str):
         """
-        初始化精修器
+        Initialize refiner
         
         Args:
-            prompt_path: 提示词模板路径
+            prompt_path: Prompt template path
         """
         self.prompt_template = JsonLoader.load_json(prompt_path)
     
     def format_prompt(self, event: EventItem, context: str) -> Dict[str, Any]:
         """
-        格式化提示模板
+        Format prompt template
         
         Args:
-            event: 待精修的事件
-            context: 支持精修的上下文信息
+            event: Event to be refined
+            context: Context information supporting refinement
             
         Returns:
-            格式化后的提示词字典
+            Formatted prompt dictionary
         """
         system_prompt = self.prompt_template.get('system', '')
         instruction = self.prompt_template.get('instruction', '').format(
@@ -43,13 +43,13 @@ class BaseRefiner(AbstractRefiner, ABC):
     
     def parse_response(self, response: Dict[str, Any], original_event: EventItem) -> EventItem:
         """
-        解析LLM响应，更新事件
+        Parse LLM response to update event
         
         Args:
-            response: LLM响应
-            original_event: 原始事件
+            response: LLM response
+            original_event: Original event
             
         Returns:
-            精修后的事件
+            Refined event
         """
-        raise NotImplementedError("子类必须实现该方法")
+        raise NotImplementedError("Subclasses must implement this method")

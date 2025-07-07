@@ -37,7 +37,7 @@ class PairAnalyzer:
         
         Args:
             model: 使用的LLM模型
-            prompt_path: 提示词模板路径
+            prompt_path: Prompt template path
             api_key: API密钥
             base_url: 自定义API基础URL
             max_workers: 并行处理的最大工作线程数
@@ -130,11 +130,11 @@ class PairAnalyzer:
         分析一对事件的因果关系
         
         Args:
-            event1: 第一个事件
-            event2: 第二个事件
+            event1: First event
+            event2: Second event
             
         Returns:
-            因果边对象，如果不存在因果关系则返回None
+            Causal edge object, returns None if no causal relationship exists
         """
         # TODO: Translate - 格式化提示
         prompt = self.format_prompt(event1, event2)
@@ -159,11 +159,11 @@ class PairAnalyzer:
         格式化提示词
         
         Args:
-            event1: 第一个事件
-            event2: 第二个事件
+            event1: First event
+            event2: Second event
             
         Returns:
-            格式化后的提示词字典，包含system和instruction
+            Formatted prompt dictionary，包含system和instruction
         """
         # TODO: Translate - 格式化event1描述
         event1_desc = f"""
@@ -201,15 +201,15 @@ class PairAnalyzer:
     
     def parse_response(self, response: Dict[str, Any], event1_id: str, event2_id: str) -> Optional[CausalEdge]:
         """
-        解析LLM响应，提取因果关系
+        Parse LLM response to extract causal relationships
         
         Args:
             response: LLM响应
-            event1_id: 第一个事件ID
-            event2_id: 第二个事件ID
+            event1_id: First eventID
+            event2_id: Second eventID
             
         Returns:
-            因果边对象，如果不存在因果关系则返回None
+            Causal edge object, returns None if no causal relationship exists
         """
         # TODO: Translate - Check是否存在causal关系
         has_causal = response.get("has_causal_relation", False)

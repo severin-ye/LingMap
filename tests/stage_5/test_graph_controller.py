@@ -101,7 +101,7 @@ class TestGraphController(unittest.TestCase):
     
     def test_render_with_options(self):
         """测试带选项的图谱渲染"""
-        # TODO: Translate - 定义渲染选项
+        # TODO: Translate - 定义Rendering options
         options = {
             "show_legend": True,
             "show_edge_labels": True,
@@ -112,12 +112,12 @@ class TestGraphController(unittest.TestCase):
         mermaid_text = render_graph(self.input_file, self.output_file, options)
         
         # TODO: Translate - Verify选项是否生效
-        self.assertIn("subgraph 图例", mermaid_text)  # TODO: Translate - 显示图例
+        self.assertIn("subgraph 图例", mermaid_text)  # TODO: Translate - Show legend
         self.assertIn("|", mermaid_text)  # TODO: Translate - 显示边标签
         self.assertIn("linkStyle", mermaid_text)  # TODO: Translate - 自定义边样式
     
     def test_render_missing_input(self):
-        """测试输入文件不存在的情况"""
+        """测试输入File does not exist的情况"""
         invalid_input = os.path.join(self.temp_dir, "nonexistent.json")
         
         # TODO: Translate - Verify渲染不存在的文件会引发异常

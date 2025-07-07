@@ -28,7 +28,7 @@
    - test_save_json: 测试保存JSON文件功能
 
 6. TextSplitter 工具类：测试文本分段功能
-   - test_split_chapter: 测试章节文本分段功能
+   - test_split_chapter: 测试Chapter text分段功能
 """
 
 import unittest

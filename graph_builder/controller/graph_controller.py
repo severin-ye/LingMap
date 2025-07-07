@@ -17,8 +17,8 @@ def render_graph(input_path: str, output_path: str, options: Dict[str, Any] = {}
     
     Args:
         input_path: 因果关系JSON文件路径
-        output_path: 输出Mermaid文件路径
-        options: 渲染选项
+        output_path: Output Mermaid file path
+        options: Rendering options
         
     Returns:
         Mermaid格式的图谱字符串
@@ -95,15 +95,15 @@ def _check_duplicate_ids(events: List[EventItem]) -> Set[str]:
 
 def main():
     """GRAPH_BUILDER 模块执行入口"""
-    parser = argparse.ArgumentParser(description="生成因果图谱")
-    parser.add_argument("--input", "-i", required=True, help="输入因果关系JSON文件")
-    parser.add_argument("--output", "-o", required=True, help="输出Mermaid文件路径")
-    parser.add_argument("--show-legend", action="store_true", help="显示图例")
-    parser.add_argument("--show-labels", action="store_true", help="在边上显示标签")
+    parser = argparse.ArgumentParser(description="Generate causal graph")
+    parser.add_argument("--input", "-i", required=True, help="Input causal relationship JSON file")
+    parser.add_argument("--output", "-o", required=True, help="Output Mermaid file path")
+    parser.add_argument("--show-legend", action="store_true", help="Show legend")
+    parser.add_argument("--show-labels", action="store_true", help="Show labels on edges")
     
     args = parser.parse_args()
     
-    # TODO: Translate - 渲染选项
+    # TODO: Translate - Rendering options
     options = {
         "show_legend": args.show_legend,
         "show_edge_labels": args.show_labels,

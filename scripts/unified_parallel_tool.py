@@ -418,7 +418,7 @@ def test_event_extraction(chapter_file):
     chapter = loader.load_from_json(chapter_file)
     
     if not chapter:
-        raise ValueError("加载章节失败")
+        raise ValueError("Failed to load chapter")
     
     # Extractevent
     extractor = provide_extractor()
@@ -438,7 +438,7 @@ def test_hallucination_refine(events, context):
         context: 上下文信息
         
     Returns:
-        精修后的事件
+        Refined event
     """
     from hallucination_refine.di.provider import provide_refiner
     

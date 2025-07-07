@@ -41,7 +41,7 @@ class EnhancedEventExtractor(BaseExtractor):
         
         Args:
             model: 使用的LLM模型
-            prompt_path: 提示词模板路径
+            prompt_path: Prompt template path
             api_key: API密钥
             base_url: 自定义API基础URL
             max_workers: 并行处理的最大工作线程数
@@ -63,7 +63,7 @@ class EnhancedEventExtractor(BaseExtractor):
             # TODO: Translate - Importpath_utilsGetConfigure文件路径
             from common.utils.path_utils import get_config_path
             prompt_path = get_config_path("prompt_event_extraction.json")
-            self.logger.debug(f"使用默认提示词模板路径: {prompt_path}")
+            self.logger.debug(f"使用默认Prompt template path: {prompt_path}")
             
         super().__init__(prompt_path)
         
@@ -345,7 +345,7 @@ class EnhancedEventExtractor(BaseExtractor):
             segment_id: 段落ID
             
         Returns:
-            提取的事件列表
+            List of extracted events
         """
         self.logger.debug(f"开始处理段落 {segment_id}", text_length=len(text))
         
@@ -428,7 +428,7 @@ class EnhancedEventExtractor(BaseExtractor):
         判断是否应该批量处理段落
         
         Args:
-            segments: 要处理的段落列表
+            segments: 要处理的List of paragraphs
             failure_rate: 当前API调用失败率
             
         Returns:
@@ -468,11 +468,11 @@ class EnhancedEventExtractor(BaseExtractor):
         将多个小段落合并为一个请求，减少API调用次数
         
         Args:
-            segments: 要处理的段落列表
+            segments: 要处理的List of paragraphs
             chapter_id: 章节ID
             
         Returns
-            提取的事件列表
+            List of extracted events
         """
         # TODO: Translate - 为提高Process效率，确保批次大小合适
         # TODO: Translate - 如果段落过多，可能会导致提示过长，拆分为更小的批次
@@ -586,7 +586,7 @@ class EnhancedEventExtractor(BaseExtractor):
             segment_id: 段落ID
             
         Returns:
-            提取的事件列表
+            List of extracted events
         """
         self.logger.debug(f"解析段落 {segment_id} 的响应")
         events = []

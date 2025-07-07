@@ -25,7 +25,7 @@ class BaseLinker(AbstractLinker):
         初始化基础链接器
         
         Args:
-            prompt_path: 提示词模板路径
+            prompt_path: Prompt template path
         """
         self.prompt_path = prompt_path
         
@@ -85,11 +85,11 @@ class BaseLinker(AbstractLinker):
         格式化提示词
         
         Args:
-            event1: 第一个事件
-            event2: 第二个事件
+            event1: First event
+            event2: Second event
             
         Returns:
-            格式化后的提示词字典，包含system和instruction
+            Formatted prompt dictionary，包含system和instruction
         """
         # TODO: Translate - 格式化event1描述
         event1_desc = f"""
