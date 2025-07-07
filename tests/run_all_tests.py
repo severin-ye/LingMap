@@ -12,12 +12,12 @@ import time
 from datetime import datetime
 import argparse
 
-# 将项目根目录添加到路径
+# TODO: Translate - Add project root directory to路径
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(current_dir)
 sys.path.append(project_root)
 
-# 定义终端颜色
+# TODO: Translate - 定义终端颜色
 class Colors:
     HEADER = '\033[95m'
     BLUE = '\033[94m'
@@ -34,7 +34,7 @@ def get_test_files(test_dir):
     if not os.path.exists(test_dir):
         return result
     
-    # 收集目录中的所有测试文件
+    # TODO: Translate - 收集目录中的所有Test文件
     regular_tests = []
     improved_tests = []
     
@@ -45,21 +45,21 @@ def get_test_files(test_dir):
             else:
                 regular_tests.append(os.path.join(test_dir, file))
     
-    # 对于每个常规测试文件，检查是否存在改进版
+    # TODO: Translate - 对于每个常规Test文件，Check是否存在改进版
     for test in regular_tests:
         base_name = os.path.basename(test)
         name_without_ext = os.path.splitext(base_name)[0]
         
-        # 检查是否有对应的改进版测试 (test_xxx_improved.py)
+        # TODO: Translate - Check是否有对应的改进版Test (test_xxx_improved.py)
         improved_version = os.path.join(test_dir, f"{name_without_ext}_improved.py")
         if os.path.exists(improved_version):
-            # 存在改进版，使用改进版替代原版
+            # TODO: Translate - 存在改进版，Use改进版替代原版
             result.append(improved_version)
         else:
-            # 不存在改进版，使用原版
+            # TODO: Translate - 不存在改进版，Use原版
             result.append(test)
     
-    # 添加没有对应原始版本的改进版测试
+    # TODO: Translate - 添加没有对应原始版本的改进版Test
     for improved_test in improved_tests:
         improved_name = os.path.basename(improved_test)
         potential_original = improved_name.replace('_improved', '')
@@ -74,7 +74,7 @@ def run_test(test_file, verbose=False):
     is_improved = "improved" in os.path.basename(test_file)
     file_label = os.path.basename(test_file)
     
-    # 对于API测试，如果使用的是改进版，添加特殊标记
+    # TODO: Translate - 对于APITest，如果Use的是改进版，添加特殊标记
     if "api" in test_file and is_improved:
         print(f"{Colors.CYAN}运行测试: {file_label} {Colors.GREEN}[增强版]{Colors.END}")
     else:
@@ -82,16 +82,16 @@ def run_test(test_file, verbose=False):
     
     start_time = time.time()
     
-    # 为API测试设置额外的环境变量
+    # TODO: Translate - 为APITestSet额外的environment variables
     env = os.environ.copy()
     if "api" in test_file:
-        # 默认使用MOCK_API模式以避免实际API调用
+        # TODO: Translate - 默认UseMOCK_API模式以避免实际API调用
         if "MOCK_API" not in env:
             env["MOCK_API"] = "true"
             print(f"{Colors.YELLOW}自动启用API模拟模式 (MOCK_API=true){Colors.END}")
     
     try:
-        # 运行测试文件
+        # TODO: Translate - RunTest文件
         process = subprocess.Popen(
             [sys.executable, test_file],
             stdout=subprocess.PIPE,
@@ -103,7 +103,7 @@ def run_test(test_file, verbose=False):
         
         elapsed_time = time.time() - start_time
         
-        # 输出结果
+        # TODO: Translate - Output结果
         if process.returncode == 0:
             print(f"{Colors.GREEN}✓ 测试通过 {file_label} ({elapsed_time:.2f}秒){Colors.END}")
             if verbose:
@@ -153,7 +153,7 @@ def main():
     parser.add_argument("--timeout", type=int, default=30, help="API调用超时时间（秒），默认30秒")
     args = parser.parse_args()
     
-    # 设置环境变量，控制API测试行为
+    # TODO: Translate - Setenvironment variables，控制APITest行为
     if not args.no_mock:
         os.environ["MOCK_API"] = "true"
     else:
@@ -162,7 +162,7 @@ def main():
         
     os.environ["API_TIMEOUT"] = str(args.timeout)
     
-    # 测试类别配置
+    # TODO: Translate - Test类别Configure
     test_categories = {
         "api": ("API测试", os.path.join(current_dir, "api_tests")),
         "causal_linking": ("因果链接测试", os.path.join(current_dir, "causal_linking_tests")),
@@ -178,7 +178,7 @@ def main():
     
     print(f"{Colors.BOLD}{Colors.HEADER}开始运行测试 - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}{Colors.END}")
     
-    # 如果指定了类别，只运行该类别的测试
+    # TODO: Translate - 如果指定了类别，只Run该类别的Test
     if args.category:
         if args.category not in test_categories:
             print(f"{Colors.RED}错误：未知测试类别 '{args.category}'。可用类别: {', '.join(test_categories.keys())}{Colors.END}")
@@ -190,14 +190,14 @@ def main():
         total_failed += failed
         test_report.append((args.category, passed, failed))
     else:
-        # 运行所有类别的测试
+        # TODO: Translate - Run所有类别的Test
         for category, (name, directory) in test_categories.items():
             passed, failed = run_test_category(directory, name, args.verbose)
             total_passed += passed
             total_failed += failed
             test_report.append((category, passed, failed))
     
-    # 输出测试总结
+    # TODO: Translate - OutputTest总结
     total_time = time.time() - start_time
     total_tests = total_passed + total_failed
     

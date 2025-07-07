@@ -11,21 +11,21 @@ import sys
 import argparse
 from pathlib import Path
 
-# 将项目根目录添加到系统路径
+# TODO: Translate - Add project root directory to系统路径
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(current_dir)
 sys.path.insert(0, project_root)
 
-# 导入新的统一ID处理器
+# TODO: Translate - Import新的统一IDProcess器
 from common.utils.unified_id_processor import UnifiedIdProcessor
-# 导入事件和因果边模型
+# TODO: Translate - Importevent和causal边model
 from common.models.event import EventItem
 from common.models.causal_edge import CausalEdge
 
 
 def generate_test_data():
     """生成测试数据"""
-    # 创建一些测试事件
+    # TODO: Translate - Create一些Testevent
     events = [
         EventItem(
             event_id="E01-01",
@@ -38,7 +38,7 @@ def generate_test_data():
             chapter_id="1"
         ),
         EventItem(
-            event_id="E01-01",  # 重复ID
+            event_id="E01-01",  # TODO: Translate - 重复ID
             description="事件2",
             characters=["角色C"],
             treasures=[],
@@ -59,7 +59,7 @@ def generate_test_data():
         )
     ]
     
-    # 创建一些测试边
+    # TODO: Translate - Create一些Test边
     edges = [
         CausalEdge(
             from_id="E01-01",
@@ -76,10 +76,10 @@ def demo_id_processing():
     """演示ID处理功能"""
     print("=== 演示统一ID处理器功能 ===\n")
     
-    # 生成测试数据
+    # TODO: Translate - GenerateTest数据
     events, edges = generate_test_data()
     
-    # 显示原始数据
+    # TODO: Translate - 显示原始数据
     print("原始事件数据:")
     for event in events:
         print(f"  ID: {event.event_id}, 描述: {event.description}")
@@ -88,13 +88,13 @@ def demo_id_processing():
     for edge in edges:
         print(f"  {edge.from_id} -> {edge.to_id} (强度: {edge.strength})")
     
-    # 演示1: 确保事件ID唯一性
+    # TODO: Translate - 演示1: 确保eventID唯一性
     print("\n1. 确保事件ID唯一性:")
     unique_events = UnifiedIdProcessor.ensure_unique_event_ids(events)
     for event in unique_events:
         print(f"  ID: {event.event_id}, 描述: {event.description}")
     
-    # 演示2: 确保节点ID唯一性并更新边
+    # TODO: Translate - 演示2: 确保节点ID唯一性并更新边
     print("\n2. 确保节点ID唯一性并更新边:")
     node_events, node_edges = UnifiedIdProcessor.ensure_unique_node_ids(events, edges)
     
@@ -106,7 +106,7 @@ def demo_id_processing():
     for edge in node_edges:
         print(f"    {edge.from_id} -> {edge.to_id} (强度: {edge.strength})")
     
-    # 演示3: 标准化事件ID
+    # TODO: Translate - 演示3: 标准化eventID
     print("\n3. 标准化事件ID:")
     
     test_ids = [
@@ -120,30 +120,30 @@ def demo_id_processing():
         normalized_id = UnifiedIdProcessor.normalize_event_id(original_id, chapter_id, index)
         print(f"  原始ID: '{original_id}', 章节: '{chapter_id}', 索引: {index} => 标准化ID: '{normalized_id}'")
     
-    # 演示4: 保存测试文件
+    # TODO: Translate - 演示4: SaveTest文件
     print("\n4. 保存和修复测试文件:")
     
-    # 创建临时目录
+    # TODO: Translate - Create临时目录
     temp_dir = Path("temp")
     temp_dir.mkdir(exist_ok=True)
     
-    # 保存带有重复ID的事件
+    # TODO: Translate - Save带有重复ID的event
     import json
     event_file = temp_dir / "duplicate_events_test.json"
     with open(event_file, 'w', encoding='utf-8') as f:
-        # 将事件转换为字典
+        # TODO: Translate - 将event转换为字典
         event_dicts = [event.__dict__ for event in events]
         json.dump(event_dicts, f, ensure_ascii=False, indent=2)
     
     print(f"  保存了测试文件: {event_file}")
     
-    # 使用统一ID处理器修复文件
+    # TODO: Translate - Use统一IDProcess器refine文件
     fixed_file = temp_dir / "fixed_events_test.json"
     UnifiedIdProcessor.fix_duplicate_event_ids(str(event_file), str(fixed_file))
     
     print(f"  修复后的文件: {fixed_file}")
     
-    # 读取并显示修复后的文件
+    # TODO: Translate - Read并显示refine后的文件
     try:
         with open(fixed_file, 'r', encoding='utf-8') as f:
             fixed_data = json.load(f)

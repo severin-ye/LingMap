@@ -8,7 +8,7 @@
 import os
 import sys
 
-# 将项目根目录添加到路径
+# TODO: Translate - Add project root directory to路径
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(current_dir)
 sys.path.append(project_root)
@@ -19,7 +19,7 @@ from graph_builder.service.mermaid_renderer import MermaidRenderer
 
 def test_legend_display():
     """测试图例显示是否符合要求"""
-    # 创建测试数据
+    # TODO: Translate - CreateTest数据
     events = [
         EventItem(
             event_id="E01",
@@ -44,28 +44,28 @@ def test_legend_display():
         )
     ]
     
-    # 创建渲染器
+    # TODO: Translate - Create渲染器
     renderer = MermaidRenderer()
     
-    # 渲染有图例的图表
+    # TODO: Translate - 渲染有图例的图表
     mermaid_content = renderer.render(
         events=events,
         edges=edges,
         format_options={"show_legend": True}
     )
     
-    # 输出到文件
+    # TODO: Translate - Output到文件
     output_file = "legend_test.mmd"
     with open(output_file, "w", encoding="utf-8") as f:
         f.write(mermaid_content)
     
     print(f"已生成测试图表: {output_file}")
     
-    # 检查图例内容
+    # TODO: Translate - Check图例内容
     print("\n验证图例内容:")
     print("-" * 50)
     
-    # 检查不应出现的项
+    # TODO: Translate - Check不应出现的项
     unwanted_elements = [
         "legend_high_edge",
         "legend_medium_edge", 
@@ -74,7 +74,7 @@ def test_legend_display():
         "legend_time_connection",
     ]
     
-    # 提取图例部分
+    # TODO: Translate - Extract图例部分
     legend_start = mermaid_content.find("subgraph 图例")
     legend_end = mermaid_content.find("end", legend_start)
     if legend_start >= 0 and legend_end >= 0:
@@ -83,7 +83,7 @@ def test_legend_display():
         legend_content = ""
         print("❌ 错误: 未找到图例部分")
     
-    # 检查图例中是否包含连线
+    # TODO: Translate - Check图例中是否包含连线
     if " --> " in legend_content:
         print(f"❌ 错误: 图例中不应包含连线，但找到了连线")
     else:
@@ -97,7 +97,7 @@ def test_legend_display():
     
     print("-" * 50)
     
-    # 应该包含的项
+    # TODO: Translate - 应该包含的项
     expected_elements = [
         "subgraph 图例",
         "legend_character[人物事件]",

@@ -12,12 +12,12 @@ import time
 from pathlib import Path
 from datetime import datetime
 
-# 添加项目根目录到系统路径
+# TODO: Translate - Add project root directory to系统路径
 current_dir = Path(os.path.dirname(os.path.abspath(__file__)))
 project_root = current_dir.parent
 sys.path.insert(0, str(project_root))
 
-# 加载环境变量
+# Loadenvironment variables
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -31,7 +31,7 @@ from hallucination_refine.di.provider import provide_refiner
 from causal_linking.di.provider import provide_linker
 from graph_builder.service.mermaid_renderer import MermaidRenderer
 
-# 创建日志记录器
+# TODO: Translate - Create日志记录器
 logger = EnhancedLogger("complete_test", log_level="DEBUG")
 
 def main():
@@ -40,7 +40,7 @@ def main():
     print("《凡人修仙传》因果事件图谱生成系统 - 完整流程测试")
     print("="*80)
     
-    # 创建输出目录
+    # TODO: Translate - CreateOutput目录
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_dir = get_output_path(f"test_{timestamp}")
     os.makedirs(output_dir, exist_ok=True)
@@ -50,7 +50,7 @@ def main():
     
     print(f"输出目录: {output_dir}")
     
-    # 加载章节
+    # Loadchapter
     chapter_path = get_novel_path("test.txt")
     if not os.path.exists(chapter_path):
         print(f"错误: 未找到章节文件: {chapter_path}")
@@ -63,7 +63,7 @@ def main():
     chapter = Chapter(chapter_id="第一章", title="第一章", content=content)
     print(f"  ✓ 成功加载章节: {chapter.title}, {len(chapter.content)} 字符")
     
-    # 事件抽取
+    # eventExtract
     print("\n2. 提取事件...")
     extractor = provide_extractor()
     events = extractor.extract(chapter)
@@ -74,19 +74,19 @@ def main():
     
     print(f"  ✓ 成功抽取 {len(events)} 个事件")
     
-    # 保存原始事件
+    # TODO: Translate - Save原始event
     events_path = os.path.join(temp_dir, f"{chapter.chapter_id}_events.json")
     with open(events_path, 'w', encoding='utf-8') as f:
         json.dump([event.to_dict() for event in events], f, ensure_ascii=False, indent=2)
     
     print(f"  原始事件已保存到: {events_path}")
     
-    # 幻觉消除
+    # TODO: Translate - hallucination消除
     print("\n3. 幻觉消除...")
     refiner = provide_refiner()
     refined_events = refiner.refine(events, chapter.content)
     
-    # 保存精炼后的事件
+    # TODO: Translate - Save精炼后的event
     refined_events_path = os.path.join(temp_dir, f"{chapter.chapter_id}_refined_events.json")
     with open(refined_events_path, 'w', encoding='utf-8') as f:
         json.dump([event.to_dict() for event in refined_events], f, ensure_ascii=False, indent=2)
@@ -94,12 +94,12 @@ def main():
     print(f"  ✓ 幻觉消除完成，剩余 {len(refined_events)} 个事件")
     print(f"  精炼后的事件已保存到: {refined_events_path}")
     
-    # 因果链接
+    # causallinking
     print("\n4. 生成因果链接...")
     linker = provide_linker()
     causal_links = linker.link_events(refined_events)
     
-    # 保存因果链接
+    # Savecausallinking
     causal_path = os.path.join(temp_dir, f"{chapter.chapter_id}_causal.json")
     with open(causal_path, 'w', encoding='utf-8') as f:
         json.dump([link.to_dict() for link in causal_links], f, ensure_ascii=False, indent=2)
@@ -107,12 +107,12 @@ def main():
     print(f"  ✓ 成功生成 {len(causal_links)} 个因果链接")
     print(f"  因果链接已保存到: {causal_path}")
     
-    # 生成图谱
+    # TODO: Translate - Generate图谱
     print("\n5. 生成图谱...")
     renderer = MermaidRenderer()
     graph = renderer.render(refined_events, causal_links)
     
-    # 保存图谱
+    # TODO: Translate - Save图谱
     graph_path = os.path.join(output_dir, f"{chapter.chapter_id}_graph.mmd")
     with open(graph_path, 'w', encoding='utf-8') as f:
         f.write("```mermaid\n")

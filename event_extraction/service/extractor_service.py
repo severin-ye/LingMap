@@ -34,7 +34,7 @@ class EventExtractor(BaseExtractor):
             provider: API提供商，"openai"或"deepseek"
         """
         if not prompt_path:
-            # 导入path_utils获取配置文件路径
+            # TODO: Translate - Importpath_utilsGetConfigure文件路径
             from common.utils.path_utils import get_config_path
             prompt_path = get_config_path("prompt_event_extraction.json")
             
@@ -42,7 +42,7 @@ class EventExtractor(BaseExtractor):
         
         self.provider = provider
         
-        # 如果未提供API密钥，尝试从环境变量获取
+        # TODO: Translate - 如果未提供API key，尝试从environment variablesGet
         if not api_key:
             if provider == "openai":
                 self.api_key = os.environ.get("OPENAI_API_KEY")
@@ -59,7 +59,7 @@ class EventExtractor(BaseExtractor):
         self.base_url = base_url
         self.max_workers = max_workers
         
-        # 初始化LLM客户端
+        # InitializeLLMclient
         self.llm_client = LLMClient(
             api_key=self.api_key,
             model=self.model,
@@ -78,13 +78,13 @@ class EventExtractor(BaseExtractor):
             抽取的事件列表
         """
         if not chapter.segments:
-            # 如果章节没有预定义的分段，创建分段
+            # TODO: Translate - 如果chapter没有预定义的Segment text，CreateSegment text
             from common.utils.text_splitter import TextSplitter
             chapter.segments = TextSplitter.split_chapter(chapter.content)
             
         all_events = []
         
-        # 使用线程池并行处理每个段落
+        # TODO: Translate - Usethread池parallelProcess每个段落
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             futures = []
             
@@ -97,7 +97,7 @@ class EventExtractor(BaseExtractor):
                 )
                 futures.append(future)
                 
-            # 收集所有结果
+            # TODO: Translate - 收集所有结果
             for future in futures:
                 events = future.result()
                 if events:
@@ -140,33 +140,33 @@ class EventExtractor(BaseExtractor):
         """
         events = []
         
-        # 处理响应中可能的多种格式
+        # TODO: Translate - Process响应中可能的多种格式
         if isinstance(response, list):
-            # 如果响应直接是事件列表
+            # TODO: Translate - 如果响应直接是event列表
             event_list = response
         elif "events" in response:
-            # 如果响应包含events字段
+            # TODO: Translate - 如果响应包含events字段
             event_list = response["events"]
         else:
-            # 假设响应本身就是单个事件
+            # TODO: Translate - 假设响应本身就是单个event
             event_list = [response]
             
         for i, event_data in enumerate(event_list):
-            # 检查是否为有效事件数据
+            # TODO: Translate - Check是否为有效event数据
             if not isinstance(event_data, dict) or not event_data.get("description"):
                 continue
                 
-            # 生成事件ID，如果没有提供的话
+            # TODO: Translate - GenerateeventID，如果没有提供的话
             if not event_data.get("event_id"):
-                # 从segment_id提取章节部分，如"第一章-1"提取"第一章"
+                # TODO: Translate - 从segment_idExtractchapter部分，如"第一章-1"Extract"第一章"
                 chapter_match = re.search(r'(第[^-]+章)', segment_id)
                 chapter_part = chapter_match.group(1) if chapter_match else segment_id.split('-')[0]
                 event_data["event_id"] = f"{chapter_part}-{i+1}"
                 
-            # 确保chapter_id已设置
+            # TODO: Translate - 确保chapter_id已Set
             event_data["chapter_id"] = chapter_id
             
-            # 创建EventItem对象
+            # TODO: Translate - CreateEventItem对象
             event = EventItem.from_dict(event_data)
             events.append(event)
             

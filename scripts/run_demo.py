@@ -9,19 +9,19 @@ import argparse
 import time
 from pathlib import Path
 
-# 获取项目根目录
+# TODO: Translate - Get项目根目录
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(current_dir)
 sys.path.append(project_root)
 
-# 导入相关模块
+# TODO: Translate - Import相关模块
 from api_gateway.main import setup_env, process_text
 from scripts.check_env import check_python_version, check_dependencies, check_api_key
 
 
 def run_complete_demo():
     """运行完整演示"""
-    # 解析命令行参数
+    # TODO: Translate - 解析命令行参数
     parser = argparse.ArgumentParser(description="《凡人修仙传》因果图谱生成系统完整演示")
     parser.add_argument("--provider", "-p", choices=["openai", "deepseek"], default="deepseek",
                       help="LLM API提供商 (默认: deepseek)")
@@ -31,14 +31,14 @@ def run_complete_demo():
                       help="输出目录名 (默认: output_YYYY-MM-DD_HH-MM-SS)")
     args = parser.parse_args()
     
-    # 设置环境变量
+    # Setenvironment variables
     setup_env()
     
     print("\n" + "=" * 60)
     print(f"《凡人修仙传》因果图谱生成系统 - 完整演示")
     print("=" * 60)
     
-    # 步骤1: 检查环境
+    # TODO: Translate - 步骤1: Check环境
     print("\n【步骤1】检查环境...")
     python_ok = check_python_version()
     deps_ok = check_dependencies()
@@ -48,10 +48,10 @@ def run_complete_demo():
         print("\n环境检查未通过，请解决上述问题后再试。")
         return 1
     
-    # 步骤2: 准备输入输出路径
+    # TODO: Translate - 步骤2: 准备输入Output路径
     print("\n【步骤2】准备输入输出路径...")
     
-    # 输入文件
+    # TODO: Translate - 输入文件
     novel_dir = os.path.join(project_root, "novel")
     input_file = os.path.join(novel_dir, args.input)
     
@@ -59,21 +59,21 @@ def run_complete_demo():
         print(f"错误: 输入文件 {input_file} 不存在")
         return 1
     
-    # 输出目录
+    # TODO: Translate - Output目录
     if args.output:
         output_dir = os.path.join(project_root, args.output)
     else:
         timestamp = time.strftime("%Y-%m-%d_%H-%M-%S")
         output_dir = os.path.join(project_root, f"output_{timestamp}")
     
-    # 创建输出目录
+    # TODO: Translate - CreateOutput目录
     os.makedirs(output_dir, exist_ok=True)
     
     print(f"输入文件: {input_file}")
     print(f"输出目录: {output_dir}")
     print(f"API提供商: {args.provider}")
     
-    # 步骤3: 处理文本
+    # TODO: Translate - 步骤3: Process文本
     print("\n【步骤3】开始处理文本...")
     try:
         process_text(input_file, output_dir, provider=args.provider)
@@ -81,10 +81,10 @@ def run_complete_demo():
         print(f"处理过程中发生错误: {str(e)}")
         return 1
     
-    # 步骤4: 验证输出
+    # TODO: Translate - 步骤4: VerifyOutput
     print("\n【步骤4】验证输出文件...")
     
-    # 检查生成的Mermaid文件
+    # TODO: Translate - CheckGenerate的Mermaid文件
     mermaid_files = list(Path(output_dir).glob("*.mmd"))
     if mermaid_files:
         print("\n成功生成以下图谱文件:")

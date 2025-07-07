@@ -8,12 +8,12 @@ import sys
 import importlib
 import platform
 
-# 添加项目根目录到系统路径
+# TODO: Translate - Add project root directory to系统路径
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.insert(0, str(project_root))
 
-# 设置彩色输出
+# TODO: Translate - Set彩色Output
 GREEN = '\033[92m'
 RED = '\033[91m'
 YELLOW = '\033[93m'
@@ -92,11 +92,11 @@ def check_api_key():
     openai_status = False
     deepseek_status = False
     
-    # 检查OpenAI API密钥
+    # CheckOpenAI API key
     if openai_key:
         print_success("OpenAI API密钥已设置")
         
-        # 尝试验证API密钥（可选）
+        # TODO: Translate - 尝试VerifyAPI key（可选）
         try:
             import openai
             client = openai.OpenAI(api_key=openai_key)
@@ -113,11 +113,11 @@ def check_api_key():
         print_warning("OpenAI API密钥未设置")
         print_info("要使用OpenAI，请设置环境变量：export OPENAI_API_KEY=\"your-api-key\"")
     
-    # 检查DeepSeek API密钥
+    # CheckDeepSeek API key
     if deepseek_key:
         print_success("DeepSeek API密钥已设置")
         
-        # 尝试验证API密钥
+        # TODO: Translate - 尝试VerifyAPI key
         try:
             import openai
             client = openai.OpenAI(api_key=deepseek_key, base_url="https://api.deepseek.com/v1")
@@ -134,7 +134,7 @@ def check_api_key():
         print_warning("DeepSeek API密钥未设置")
         print_info("要使用DeepSeek，请设置环境变量：export DEEPSEEK_API_KEY=\"your-api-key\"")
             
-    # 如果任一API有效，则返回成功
+    # TODO: Translate - 如果任一API有效，则ReturnSuccessfully
     if openai_status or deepseek_status:
         return True
     else:
@@ -146,7 +146,7 @@ def check_project_structure():
     """检查项目结构是否完整"""
     print_info("检查项目结构...")
     
-    # 检查必要的目录
+    # TODO: Translate - Check必要的目录
     required_dirs = [
         "common",
         "text_ingestion",
@@ -182,11 +182,11 @@ def check_system_config():
         from common.utils.path_utils import get_project_root, get_config_path, get_novel_path
         from common.utils.json_loader import JsonLoader
         
-        # 测试项目根目录
+        # TODO: Translate - Test项目根目录
         project_root = get_project_root()
         print_success(f"项目根目录: {project_root}")
         
-        # 测试配置文件
+        # TODO: Translate - TestConfigure文件
         config_files = [
             "config.json",
             "prompt_event_extraction.json", 
@@ -201,7 +201,7 @@ def check_system_config():
                 if os.path.exists(config_path):
                     print_success(f"配置文件 {config_file} 存在")
                     
-                    # 尝试加载JSON配置
+                    # TODO: Translate - 尝试LoadJSONConfigure
                     if config_file.endswith('.json'):
                         try:
                             JsonLoader.load_json(config_path)
@@ -216,7 +216,7 @@ def check_system_config():
                 print_error(f"检查配置文件 {config_file} 时出错: {str(e)}")
                 config_ok = False
         
-        # 测试小说文件目录
+        # TODO: Translate - Test小说文件目录
         try:
             test_novel = get_novel_path("test.txt")
             if os.path.exists(test_novel):
@@ -237,22 +237,22 @@ def main():
     """主函数"""
     print_info("=== 《凡人修仙传》因果图谱生成系统 - 环境检查 ===")
     
-    # 检查Python版本
+    # TODO: Translate - CheckPython版本
     python_ok = check_python_version()
     
-    # 检查依赖
+    # TODO: Translate - Check依赖
     deps_ok = check_dependencies()
     
-    # 检查API密钥
+    # CheckAPI key
     api_ok = check_api_key()
     
-    # 检查项目结构
+    # TODO: Translate - Check项目结构
     structure_ok = check_project_structure()
     
-    # 检查系统配置
+    # TODO: Translate - Check系统Configure
     config_ok = check_system_config()
     
-    # 输出总结
+    # TODO: Translate - Output总结
     print_info("\n=== 检查结果汇总 ===")
     all_passed = python_ok and deps_ok and api_ok and structure_ok and config_ok
     

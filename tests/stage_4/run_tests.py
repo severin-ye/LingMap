@@ -16,7 +16,7 @@ import os
 import unittest
 import pytest
 
-# 添加项目根目录到 Python 路径
+# TODO: Translate - Add project root directory to Python 路径
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 if project_root not in sys.path:
@@ -25,14 +25,14 @@ if project_root not in sys.path:
 if __name__ == "__main__":
     print("======== 运行阶段4测试：因果路径构建模块(CPC) ========")
     
-    # 方式1: 使用unittest运行
+    # TODO: Translate - 方式1: UseunittestRun
     # test_loader = unittest.TestLoader()
     # test_suite = test_loader.discover(current_dir, pattern="test_*.py")
     # test_runner = unittest.TextTestRunner(verbosity=2)
     # test_runner.run(test_suite)
     
-    # 方式2: 使用pytest运行特定文件(推荐)
+    # TODO: Translate - 方式2: UsepytestRun特定文件(推荐)
     # pytest.main(["-v", os.path.join(current_dir, "test_unified_cpc.py")])
     
-    # 方式3: 运行当前目录下所有测试
+    # TODO: Translate - 方式3: Run当前目录下所有Test
     pytest.main(["-v", current_dir])

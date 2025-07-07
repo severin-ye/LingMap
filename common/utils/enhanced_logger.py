@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional, Union
 
-# 获取项目根目录
+# Get project root directory
 try:
     from common.utils.path_utils import get_project_root
     PROJECT_ROOT = get_project_root()
@@ -51,22 +51,22 @@ class EnhancedLogger:
         self.logger = logging.getLogger(name)
         self.logger.setLevel(self.LOG_LEVELS.get(log_level.upper(), logging.INFO))
         
-        # 避免重复添加处理器
+        # Avoid adding duplicate handlers
         if self.logger.handlers:
             self.logger.handlers.clear()
             
-        # 创建日志格式
+        # Create log format
         formatter = logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         )
         
-        # 添加控制台输出
+        # Add console output
         if console_output:
             console_handler = logging.StreamHandler(sys.stdout)
             console_handler.setFormatter(formatter)
             self.logger.addHandler(console_handler)
         
-        # 添加文件输出
+        # Add file output
         if log_file:
             log_path = log_file
         else:
@@ -134,8 +134,8 @@ class EnhancedLogger:
         response: Optional[Dict[str, Any]] = None,
         error: Optional[str] = None
     ):
-        """记录API请求日志"""
-        # 隐藏敏感信息
+        """Log API request"""
+        # Hide sensitive information
         safe_payload = self._mask_sensitive_info(payload)
         
         if success:
@@ -187,10 +187,10 @@ class EnhancedLogger:
             return str(response)[:200]
 
 
-# 默认日志记录器实例
+# Default logger instance
 default_logger = EnhancedLogger("fanren_system")
 
-# 导出便捷函数
+# Export convenience functions
 debug = default_logger.debug
 info = default_logger.info
 warning = default_logger.warning

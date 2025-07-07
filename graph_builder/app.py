@@ -2,7 +2,7 @@ import argparse
 import os
 import sys
 
-# 将项目根目录添加到路径中
+# TODO: Translate - Add project root directory to路径中
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from graph_builder.controller.graph_controller import render_graph
@@ -18,7 +18,7 @@ def main():
     
     args = parser.parse_args()
     
-    # 渲染选项
+    # TODO: Translate - 渲染选项
     options = {
         "show_legend": args.show_legend,
         "show_edge_labels": args.show_labels,

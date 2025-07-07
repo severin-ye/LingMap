@@ -10,12 +10,12 @@ import sys
 import json
 from pathlib import Path
 
-# 添加项目根目录到系统路径
+# TODO: Translate - Add project root directory to系统路径
 current_dir = Path(os.path.dirname(os.path.abspath(__file__)))
 project_root = current_dir.parent
 sys.path.insert(0, str(project_root))
 
-# 加载环境变量
+# Loadenvironment variables
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -26,7 +26,7 @@ from common.utils.enhanced_logger import EnhancedLogger
 from event_extraction.di.provider import provide_extractor
 from event_extraction.service.enhanced_extractor_service import EnhancedEventExtractor
 
-# 创建日志记录器
+# TODO: Translate - Create日志记录器
 logger = EnhancedLogger("event_extraction_test", log_level="DEBUG")
 
 def load_test_chapter():
@@ -35,7 +35,7 @@ def load_test_chapter():
     print("1. 加载测试章节数据")
     print("="*80)
     
-    # 尝试加载测试文件
+    # TODO: Translate - 尝试LoadTest文件
     test_novel_path = get_novel_path("test.txt")
     print(f"检查测试文件: {test_novel_path}")
     
@@ -45,7 +45,7 @@ def load_test_chapter():
         print(f"✓ 从测试文件加载了 {len(content)} 个字符")
         source = "test.txt"
     else:
-        # 如果测试文件不存在，使用第1章
+        # TODO: Translate - 如果Test文件不存在，Use第1章
         chapter_path = get_novel_path("1.txt")
         print(f"测试文件不存在，尝试加载: {chapter_path}")
         
@@ -54,16 +54,16 @@ def load_test_chapter():
             return None, None
         
         with open(chapter_path, 'r', encoding='utf-8') as f:
-            content = f.read(2000)  # 只读取前2000个字符用于测试
+            content = f.read(2000)  # TODO: Translate - 只Read前2000个字符用于Test
         print(f"✓ 从第1章加载了 {len(content)} 个字符")
         source = "1.txt (前2000字符)"
     
-    # 创建Chapter对象
+    # TODO: Translate - CreateChapter对象
     chapter = Chapter(
         chapter_id="第一章",
         title="第一章",
         content=content,
-        segments=[]  # 让抽取器自动分段
+        segments=[]  # TODO: Translate - 让Extract器自动Segment text
     )
     
     print(f"章节信息:")
@@ -81,7 +81,7 @@ def test_extractor_initialization():
     print("="*80)
     
     try:
-        # 使用provider获取抽取器
+        # TODO: Translate - UseproviderGetExtract器
         extractor = provide_extractor()
         
         print(f"✓ 事件抽取器初始化成功")
@@ -102,7 +102,7 @@ def test_prompt_template():
     print("3. 事件抽取提示词模板测试")
     print("="*80)
     
-    # 加载提示词模板
+    # TODO: Translate - Load提示词模板
     prompt_path = get_config_path("prompt_event_extraction.json")
     print(f"提示词模板路径: {prompt_path}")
     
@@ -110,7 +110,7 @@ def test_prompt_template():
         template = JsonLoader.load_json(prompt_path)
         print(f"✓ 成功加载提示词模板")
         
-        # 检查必要字段
+        # TODO: Translate - Check必要字段
         required_fields = ["system", "instruction", "output_format"]
         missing_fields = [field for field in required_fields if field not in template]
         
@@ -120,7 +120,7 @@ def test_prompt_template():
         
         print(f"✓ 包含所有必要字段: {required_fields}")
         
-        # 检查指令模板
+        # TODO: Translate - Check指令模板
         instruction = template.get("instruction", "")
         if "{text}" in instruction:
             print(f"✓ 指令模板包含文本占位符")
@@ -128,7 +128,7 @@ def test_prompt_template():
             print(f"❌ 指令模板缺少{{text}}占位符")
             return False
         
-        # 检查输出格式
+        # TODO: Translate - CheckOutput格式
         output_format = template.get("output_format", {})
         if isinstance(output_format, dict) and output_format:
             print(f"✓ 输出格式定义完整")
@@ -137,7 +137,7 @@ def test_prompt_template():
             print(f"❌ 输出格式定义不完整")
             return False
         
-        # 测试格式化功能
+        # TODO: Translate - Test格式化功能
         sample_text = "韩立从储物袋中取出一颗灵乳，小心翼翼地服下..."
         try:
             formatted_instruction = instruction.format(text=sample_text)
@@ -157,12 +157,12 @@ def test_direct_extraction():
     print("4. 直接事件抽取测试")
     print("="*80)
     
-    # 获取测试章节
+    # GetTestchapter
     chapter, source = load_test_chapter()
     if not chapter:
         return False
     
-    # 初始化抽取器
+    # TODO: Translate - InitializeExtract器
     success, extractor = test_extractor_initialization()
     if not success:
         return False
@@ -171,7 +171,7 @@ def test_direct_extraction():
     print(f"输入文本长度: {len(chapter.content)} 字符")
     
     try:
-        # 检查extractor是否为None
+        # TODO: Translate - Checkextractor是否为None
         if not extractor:
             print(f"\n❌ 抽取器初始化失败")
             return False
@@ -181,7 +181,7 @@ def test_direct_extraction():
         if events:
             print(f"\n✓ 成功抽取 {len(events)} 个事件")
             
-            # 显示前3个事件的详细信息
+            # TODO: Translate - 显示前3个event的详细信息
             for i, event in enumerate(events[:3], 1):
                 print(f"\n事件 {i}:")
                 print(f"  ID: {event.event_id}")
@@ -195,7 +195,7 @@ def test_direct_extraction():
             if len(events) > 3:
                 print(f"\n... 还有 {len(events) - 3} 个事件")
             
-            # 保存事件到调试文件
+            # TODO: Translate - Saveevent到调试文件
             debug_dir = project_root / "debug"
             debug_dir.mkdir(exist_ok=True)
             
@@ -222,7 +222,7 @@ def test_extraction_quality():
     print("5. 事件抽取质量评估")
     print("="*80)
     
-    # 加载已保存的事件数据
+    # TODO: Translate - Load已Save的event数据
     debug_dir = project_root / "debug"
     events_file = debug_dir / "extracted_events_test.json"
     
@@ -236,7 +236,7 @@ def test_extraction_quality():
         
         print(f"✓ 加载了 {len(events_data)} 个事件")
         
-        # 质量检查指标
+        # TODO: Translate - 质量Check指标
         total_events = len(events_data)
         events_with_description = sum(1 for e in events_data if e.get('description'))
         events_with_characters = sum(1 for e in events_data if e.get('characters'))
@@ -251,7 +251,7 @@ def test_extraction_quality():
         print(f"  有位置的事件: {events_with_location}/{total_events} ({events_with_location/total_events*100:.1f}%)")
         print(f"  有结果的事件: {events_with_result}/{total_events} ({events_with_result/total_events*100:.1f}%)")
         
-        # 检查事件ID的唯一性
+        # TODO: Translate - CheckeventID的唯一性
         event_ids = [e.get('event_id') for e in events_data if e.get('event_id')]
         unique_ids = set(event_ids)
         
@@ -260,7 +260,7 @@ def test_extraction_quality():
         else:
             print(f"  ❌ 事件ID唯一性: 失败 ({len(event_ids)} vs {len(unique_ids)})")
         
-        # 基本质量评分
+        # TODO: Translate - 基本质量评分
         quality_score = (
             (events_with_description / total_events) * 0.3 +
             (events_with_characters / total_events) * 0.25 +
@@ -307,7 +307,7 @@ def main():
             print(f"❌ 测试 '{test_name}' 发生异常: {str(e)}")
             results.append((test_name, False))
     
-    # 输出测试总结
+    # TODO: Translate - OutputTest总结
     print("\n" + "="*80)
     print("测试总结")
     print("="*80)

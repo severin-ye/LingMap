@@ -37,7 +37,7 @@ import sys
 from typing import List, Dict, Any, Tuple
 from unittest.mock import MagicMock
 
-# 将项目根目录添加到路径
+# TODO: Translate - Add project root directory to路径
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.append(project_root)
@@ -58,7 +58,7 @@ class MockExtractor(AbstractExtractor):
     def __init__(self):
         """初始化"""
         self.mock_extract = MagicMock()
-        # 加载小说数据
+        # TODO: Translate - Load小说数据
         novel_path = os.path.join(project_root, "novel", "test.txt")
         with open(novel_path, 'r', encoding='utf-8') as f:
             novel_text = f.read()
@@ -67,7 +67,7 @@ class MockExtractor(AbstractExtractor):
     def extract(self, chapter: Chapter) -> List[EventItem]:
         """模拟提取事件：使用小说真实内容"""
         self.mock_extract(chapter)
-        # 返回基于小说内容的测试事件
+        # TODO: Translate - Return基于小说内容的Testevent
         return [
             EventItem(
                 event_id="event-001",
@@ -98,7 +98,7 @@ class MockRefiner(AbstractRefiner):
     def refine(self, events: List[EventItem], chapter: Chapter) -> List[EventItem]:
         """模拟优化事件"""
         self.mock_refine(events, chapter)
-        # 简单返回输入的事件
+        # TODO: Translate - 简单Return输入的event
         return events
 
 
@@ -113,7 +113,7 @@ class MockLinker(AbstractLinker):
     def link_events(self, events: List[EventItem]) -> List[CausalEdge]:
         """模拟链接事件：使用小说中的真实因果关系"""
         self.mock_link_events(events)
-        # 返回基于小说内容的因果关系
+        # TODO: Translate - Return基于小说内容的causal关系
         if len(events) >= 2:
             return [
                 CausalEdge(
@@ -128,7 +128,7 @@ class MockLinker(AbstractLinker):
     def build_dag(self, events: List[EventItem], edges: List[CausalEdge]) -> Tuple[List[EventItem], List[CausalEdge]]:
         """模拟构建DAG"""
         self.mock_build_dag(events, edges)
-        # 简单返回输入
+        # TODO: Translate - 简单Return输入
         return events, edges
 
 
@@ -142,7 +142,7 @@ class MockGraphRenderer(AbstractGraphRenderer):
     def render(self, events: List[EventItem], edges: List[CausalEdge]) -> str:
         """模拟渲染图谱"""
         self.mock_render(events, edges)
-        # 返回简单的Mermaid字符串
+        # TODO: Translate - Return简单的Mermaid字符串
         return "graph TD;\n  event-001-->event-002;"
 
 
@@ -155,15 +155,15 @@ class TestExtractorInterface(unittest.TestCase):
         with open(novel_path, 'r', encoding='utf-8') as f:
             novel_text = f.read()
             
-        # 提取第一章内容
+        # TODO: Translate - Extract第一章内容
         chapter_start = novel_text.find("第一章")
         chapter_end = novel_text.find("第二章")
-        if chapter_end == -1:  # 如果找不到第二章，则使用全文
+        if chapter_end == -1:  # TODO: Translate - 如果找不到第二章，则Use全文
             self.chapter_text = novel_text[chapter_start:]
         else:
             self.chapter_text = novel_text[chapter_start:chapter_end]
         
-        # 提取章节标题
+        # TODO: Translate - Extractchapter标题
         title_start = self.chapter_text.find("第一章")
         title_end = self.chapter_text.find("\n", title_start)
         self.chapter_title = self.chapter_text[title_start:title_end].strip()
@@ -179,12 +179,12 @@ class TestExtractorInterface(unittest.TestCase):
         
         events = extractor.extract(chapter)
         
-        # 验证模拟方法被调用
+        # TODO: Translate - Verify模拟方法被调用
         extractor.mock_extract.assert_called_once_with(chapter)
-        # 验证返回类型
+        # TODO: Translate - VerifyReturn类型
         self.assertIsInstance(events, list)
         self.assertTrue(all(isinstance(event, EventItem) for event in events))
-        # 验证事件内容与小说有关
+        # TODO: Translate - Verifyevent内容与小说有关
         self.assertIn("韩立", events[0].description)
 
 
@@ -197,15 +197,15 @@ class TestRefinerInterface(unittest.TestCase):
         with open(novel_path, 'r', encoding='utf-8') as f:
             self.novel_text = f.read()
             
-        # 提取第一章内容
+        # TODO: Translate - Extract第一章内容
         chapter_start = self.novel_text.find("第一章")
         chapter_end = self.novel_text.find("第二章")
-        if chapter_end == -1:  # 如果找不到第二章，则使用全文
+        if chapter_end == -1:  # TODO: Translate - 如果找不到第二章，则Use全文
             self.chapter_text = self.novel_text[chapter_start:]
         else:
             self.chapter_text = self.novel_text[chapter_start:chapter_end]
         
-        # 提取章节标题
+        # TODO: Translate - Extractchapter标题
         title_start = self.chapter_text.find("第一章")
         title_end = self.chapter_text.find("\n", title_start)
         self.chapter_title = self.chapter_text[title_start:title_end].strip()
@@ -239,12 +239,12 @@ class TestRefinerInterface(unittest.TestCase):
         
         refined_events = refiner.refine(events, chapter)
         
-        # 验证模拟方法被调用
+        # TODO: Translate - Verify模拟方法被调用
         refiner.mock_refine.assert_called_once()
-        # 验证返回类型
+        # TODO: Translate - VerifyReturn类型
         self.assertIsInstance(refined_events, list)
         self.assertTrue(all(isinstance(event, EventItem) for event in refined_events))
-        # 验证事件内容仍然保留
+        # TODO: Translate - Verifyevent内容仍然保留
         self.assertEqual(len(refined_events), 2)
         self.assertIn("韩立", refined_events[0].description)
 
@@ -276,13 +276,13 @@ class TestLinkerInterface(unittest.TestCase):
         
         edges = linker.link_events(events)
         
-        # 验证模拟方法被调用
+        # TODO: Translate - Verify模拟方法被调用
         linker.mock_link_events.assert_called_once_with(events)
-        # 验证返回类型
+        # TODO: Translate - VerifyReturn类型
         self.assertIsInstance(edges, list)
         self.assertTrue(all(isinstance(edge, CausalEdge) for edge in edges))
         
-        # 验证边的属性
+        # TODO: Translate - Verify边的属性
         if edges:
             self.assertEqual(edges[0].from_id, "event-001")
             self.assertEqual(edges[0].to_id, "event-002")
@@ -334,14 +334,14 @@ class TestLinkerInterface(unittest.TestCase):
         
         result_events, result_edges = linker.build_dag(events, edges)
         
-        # 验证模拟方法被调用
+        # TODO: Translate - Verify模拟方法被调用
         linker.mock_build_dag.assert_called_once_with(events, edges)
-        # 验证返回类型
+        # TODO: Translate - VerifyReturn类型
         self.assertIsInstance(result_events, list)
         self.assertIsInstance(result_edges, list)
         self.assertTrue(all(isinstance(event, EventItem) for event in result_events))
         self.assertTrue(all(isinstance(edge, CausalEdge) for edge in result_edges))
-        # 验证结果内容
+        # TODO: Translate - Verify结果内容
         self.assertEqual(len(result_events), 3)
         self.assertEqual(len(result_edges), 2)
 
@@ -392,11 +392,11 @@ class TestGraphRendererInterface(unittest.TestCase):
         
         mermaid_str = renderer.render(events, edges)
         
-        # 验证模拟方法被调用
+        # TODO: Translate - Verify模拟方法被调用
         renderer.mock_render.assert_called_once_with(events, edges)
-        # 验证返回类型
+        # TODO: Translate - VerifyReturn类型
         self.assertIsInstance(mermaid_str, str)
-        # 简单验证返回的Mermaid字符串格式
+        # TODO: Translate - 简单VerifyReturn的Mermaid字符串格式
         self.assertTrue("graph TD" in mermaid_str)
         self.assertTrue("event-001-->event-002" in mermaid_str)
 

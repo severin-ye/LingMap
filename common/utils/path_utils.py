@@ -6,7 +6,7 @@
 import os
 from pathlib import Path
 
-# 项目根目录的绝对路径 - 从common/utils向上两级
+# TODO: Translate - 项目根目录的绝对路径 - 从common/utils向上两级
 PROJECT_ROOT = Path(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))).absolute()
 
 def get_project_root() -> Path:

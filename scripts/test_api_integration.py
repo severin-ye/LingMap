@@ -10,19 +10,19 @@ import sys
 import json
 from pathlib import Path
 
-# 添加项目根目录到系统路径
+# TODO: Translate - Add project root directory to系统路径
 current_dir = Path(os.path.dirname(os.path.abspath(__file__)))
 project_root = current_dir.parent
 sys.path.insert(0, str(project_root))
 
-# 加载环境变量
+# Loadenvironment variables
 from dotenv import load_dotenv
 load_dotenv()
 
 from event_extraction.repository.llm_client import LLMClient
 from common.utils.enhanced_logger import EnhancedLogger
 
-# 创建日志记录器
+# TODO: Translate - Create日志记录器
 logger = EnhancedLogger("api_integration_test", log_level="DEBUG")
 
 def test_basic_api_connection():
@@ -31,7 +31,7 @@ def test_basic_api_connection():
     print("1. 基本API连接测试")
     print("="*80)
     
-    # 获取API密钥
+    # GetAPI key
     api_key = os.environ.get("DEEPSEEK_API_KEY")
     if not api_key:
         print("❌ 错误: 未找到DeepSeek API密钥")
@@ -39,7 +39,7 @@ def test_basic_api_connection():
     
     print(f"✓ 找到API密钥: {api_key[:10]}...")
     
-    # 初始化客户端
+    # Initializeclient
     client = LLMClient(
         api_key=api_key,
         model="deepseek-chat",
@@ -47,7 +47,7 @@ def test_basic_api_connection():
         temperature=0.0
     )
     
-    # 测试简单调用
+    # TODO: Translate - Test简单调用
     print("\n测试简单文本调用...")
     system = "你是一个有用的AI助手。"
     user = "请简单介绍一下《凡人修仙传》这部小说。"
@@ -78,7 +78,7 @@ def test_json_response():
         provider="deepseek"
     )
     
-    # 测试JSON响应
+    # TODO: Translate - TestJSON响应
     system = "你是一个专门分析小说内容的AI助手。请以JSON格式回复。"
     user = """请分析《凡人修仙传》主角韩立的基本信息，以JSON格式回复：
 {
@@ -96,7 +96,7 @@ def test_json_response():
         print("\nJSON内容:")
         print(json.dumps(json_content, ensure_ascii=False, indent=2))
         
-        # 验证JSON结构
+        # TODO: Translate - VerifyJSON结构
         required_fields = ["name", "origin", "cultivation_type", "main_characteristics"]
         missing_fields = [field for field in required_fields if field not in json_content]
         
@@ -126,7 +126,7 @@ def test_causal_analysis_api():
         provider="deepseek"
     )
     
-    # 测试因果分析
+    # TODO: Translate - Testcausal分析
     system = "你是一个专门分析《凡人修仙传》中事件因果关系的AI助手。请以JSON格式回复。"
     user = """请分析以下两个事件之间是否存在因果关系:
 
@@ -150,7 +150,7 @@ def test_causal_analysis_api():
         print("\n因果分析结果:")
         print(json.dumps(json_content, ensure_ascii=False, indent=2))
         
-        # 验证因果分析结果
+        # TODO: Translate - Verifycausal分析结果
         has_causal = json_content.get("has_causal_relation", False)
         if has_causal:
             direction = json_content.get("direction", "")
@@ -188,7 +188,7 @@ def main():
             print(f"❌ 测试 '{test_name}' 发生异常: {str(e)}")
             results.append((test_name, False))
     
-    # 输出测试总结
+    # TODO: Translate - OutputTest总结
     print("\n" + "="*80)
     print("测试总结")
     print("="*80)

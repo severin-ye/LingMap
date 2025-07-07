@@ -22,21 +22,21 @@ class ParallelConfig:
     所有模块使用同一份配置，确保线程数的一致性。
     """
     
-    # 默认配置
+    # TODO: Translate - 默认Configure
     _config = {
-        "enabled": True,  # 默认启用并行处理
+        "enabled": True,  # TODO: Translate - 默认启用parallelProcess
         "description": "是否启用并行处理，设置为false时所有模块将使用单线程",
-        "max_workers": None,  # 自动设置工作线程数
+        "max_workers": None,  # TODO: Translate - 自动Set工作thread数
         "max_workers_description": "全局默认最大工作线程数，通常设置为CPU核心数或略高于核心数",
         "adaptive": {
-            "enabled": True,  # 是否启用自适应调整
+            "enabled": True,  # TODO: Translate - 是否启用自适应调整
             "enabled_description": "是否启用自适应线程分配，根据任务类型动态调整线程数",
-            "io_bound_factor": 1.5,  # IO密集型任务的线程数因子
+            "io_bound_factor": 1.5,  # TODO: Translate - IO密集型任务的thread数因子
             "io_bound_factor_description": "IO密集型任务（如API调用）的线程系数，通常设置>1",
-            "cpu_bound_factor": 0.8,  # CPU密集型任务的线程数因子
+            "cpu_bound_factor": 0.8,  # TODO: Translate - CPU密集型任务的thread数因子
             "cpu_bound_factor_description": "CPU密集型任务（如图形渲染）的线程系数，通常设置<1"
         },
-        "default_workers": {  # 各模块默认线程数
+        "default_workers": {  # TODO: Translate - 各模块默认thread数
             "event_extraction": None,
             "event_extraction_description": "事件抽取：IO密集型任务，API调用多，适合较多线程",
             "hallucination_refine": None,
@@ -64,22 +64,22 @@ class ParallelConfig:
         if options is None:
             options = {}
             
-        # 首先尝试从配置文件加载
+        # TODO: Translate - 首先尝试从Configure文件Load
         config_loaded = cls._load_from_config_file()
         
-        # 检查环境变量
+        # Checkenvironment variables
         env_enabled = os.environ.get("PARALLEL_ENABLED", "").lower()
         if env_enabled in ["false", "0", "no"]:
             cls._config["enabled"] = False
         elif env_enabled in ["true", "1", "yes"]:
             cls._config["enabled"] = True
             
-        # 环境变量中的线程配置（覆盖配置文件）
+        # TODO: Translate - environment variables中的threadConfigure（覆盖Configure文件）
         env_workers = os.environ.get("MAX_WORKERS")
         if env_workers and env_workers.isdigit():
             cls._config["max_workers"] = int(env_workers)
             
-        # 参数覆盖环境变量和配置文件
+        # TODO: Translate - 参数覆盖environment variables和Configure文件
         if "enabled" in options:
             cls._config["enabled"] = bool(options["enabled"])
         if "max_workers" in options:
@@ -92,18 +92,18 @@ class ParallelConfig:
             elif isinstance(options["adaptive"], bool):
                 cls._config["adaptive"]["enabled"] = options["adaptive"]
                 
-        # 如果未指定线程数，根据CPU核心数设置
+        # TODO: Translate - 如果未指定thread数，根据CPU核心数Set
         if cls._config["max_workers"] is None and cls._config["enabled"]:
             cpu_count = multiprocessing.cpu_count()
-            # 默认使用CPU核心数，但设置上下限
+            # TODO: Translate - 默认UseCPU核心数，但Set上下限
             cls._config["max_workers"] = max(2, min(16, cpu_count))
             
-        # 设置各模块的工作线程数为统一配置
+        # TODO: Translate - Set各模块的工作thread数为统一Configure
         for module in cls._config["default_workers"]:
             if cls._config["default_workers"][module] is None:
                 cls._config["default_workers"][module] = cls._config["max_workers"]
             
-        # 如果禁用并行处理，强制设置线程数为1
+        # TODO: Translate - 如果禁用parallelProcess，强制Setthread数为1
         if not cls._config["enabled"]:
             cls._config["max_workers"] = 1
             for module in cls._config["default_workers"]:
@@ -117,12 +117,12 @@ class ParallelConfig:
         Returns:
             是否成功加载配置
         """
-        # 尝试找到配置文件路径
+        # TODO: Translate - 尝试找到Configure文件路径
         try:
             from common.utils.path_utils import get_config_path
             config_file = get_config_path("parallel_config.json")
         except ImportError:
-            # 如果找不到path_utils，尝试直接查找配置文件
+            # TODO: Translate - 如果找不到path_utils，尝试直接查找Configure文件
             current_dir = Path(__file__).parent.absolute()
             project_root = current_dir.parent.parent.parent
             config_file = project_root / "common" / "config" / "parallel_config.json"
@@ -134,23 +134,23 @@ class ParallelConfig:
             with open(config_file, 'r', encoding='utf-8') as f:
                 config_data = json.load(f)
                 
-            # 解析配置数据
+            # TODO: Translate - 解析Configure数据
             if "parallel" in config_data:
                 parallel_config = config_data["parallel"]
                 
-                # 基本配置
+                # TODO: Translate - 基本Configure
                 if "enabled" in parallel_config:
                     cls._config["enabled"] = bool(parallel_config["enabled"])
                 if "max_workers" in parallel_config:
                     cls._config["max_workers"] = int(parallel_config["max_workers"])
                     
-                # 自适应配置
+                # TODO: Translate - 自适应Configure
                 if "adaptive" in parallel_config and isinstance(parallel_config["adaptive"], dict):
                     for key, value in parallel_config["adaptive"].items():
                         if key in cls._config["adaptive"] or key == "enabled":
                             cls._config["adaptive"][key] = value
                             
-                # 各模块默认线程数
+                # TODO: Translate - 各模块默认thread数
                 if "default_workers" in parallel_config and isinstance(parallel_config["default_workers"], dict):
                     for module, workers in parallel_config["default_workers"].items():
                         if module in cls._config["default_workers"]:
@@ -187,13 +187,13 @@ class ParallelConfig:
             
         max_workers = cls._config["max_workers"]
         
-        # 针对特定任务类型的调整
+        # TODO: Translate - 针对特定任务类型的调整
         if cls._config["adaptive"]:
             if task_type == "io_bound":
-                # IO密集型任务可以使用更多线程
+                # TODO: Translate - IO密集型任务可以Use更多thread
                 return max(4, max_workers)
             elif task_type == "cpu_bound":
-                # CPU密集型任务限制线程数
+                # TODO: Translate - CPU密集型任务限制thread数
                 return min(max_workers, max(2, multiprocessing.cpu_count() - 1))
         
         return max_workers
@@ -237,10 +237,10 @@ class ParallelConfig:
         if max_workers <= 1 or total_items <= max_workers:
             return total_items
             
-        # 计算每个工作线程处理的项目数
+        # TODO: Translate - 计算每个工作threadProcess的项目数
         items_per_worker = max(1, (total_items + max_workers - 1) // max_workers)
         
-        # 返回合理的批处理大小
+        # TODO: Translate - Return合理的批Process大小
         return items_per_worker
     
     @classmethod

@@ -33,12 +33,12 @@ class ConfigWriter:
             更新是否成功
         """
         try:
-            # 尝试找到配置文件路径
+            # TODO: Translate - 尝试找到Configure文件路径
             try:
                 from common.utils.path_utils import get_config_path
                 config_file = get_config_path("parallel_config.json")
             except ImportError:
-                # 如果找不到path_utils，尝试直接查找配置文件
+                # TODO: Translate - 如果找不到path_utils，尝试直接查找Configure文件
                 current_dir = Path(__file__).parent.absolute()
                 project_root = current_dir.parent.parent
                 config_file = project_root / "common" / "config" / "parallel_config.json"
@@ -47,18 +47,18 @@ class ConfigWriter:
                 logging.error(f"找不到并行配置文件: {config_file}")
                 return False
             
-            # 读取现有配置
+            # TODO: Translate - Read现有Configure
             with open(config_file, 'r', encoding='utf-8') as f:
                 config = json.load(f)
             
-            # 递归更新配置
+            # TODO: Translate - 递归更新Configure
             ConfigWriter._update_nested_dict(config["parallel"], updates)
             
-            # 写回配置文件
+            # TODO: Translate - 写回Configure文件
             with open(config_file, 'w', encoding='utf-8') as f:
                 json.dump(config, f, ensure_ascii=False, indent=2)
             
-            # 重新初始化ParallelConfig
+            # TODO: Translate - 重新InitializeParallelConfig
             from common.utils.parallel_config import ParallelConfig
             ParallelConfig.initialize()
             
@@ -80,8 +80,8 @@ class ConfigWriter:
         """
         for key, value in source.items():
             if key in target and isinstance(target[key], dict) and isinstance(value, dict):
-                # 对嵌套字典递归更新
+                # TODO: Translate - 对嵌套字典递归更新
                 ConfigWriter._update_nested_dict(target[key], value)
             else:
-                # 直接更新值
+                # TODO: Translate - 直接更新值
                 target[key] = value

@@ -27,12 +27,12 @@ import os
 import argparse
 import time
 
-# 将项目根目录添加到路径
+# TODO: Translate - Add project root directory to路径
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.append(project_root)
 
-# 导入阶段二测试
+# TODO: Translate - Import阶段二Test
 from tests.stage_2.test_text_ingestion import TestChapterLoader
 from tests.stage_2.test_event_extraction import TestEventExtractor
 
@@ -47,33 +47,33 @@ def run_stage2_tests(verbose=False) -> bool:
     Returns:
         测试是否全部通过
     """
-    # 创建测试套件
+    # TODO: Translate - CreateTest套件
     suite = unittest.TestSuite()
     
-    # 添加文本摄入测试
+    # TODO: Translate - 添加文本摄入Test
     print("\n正在准备文本摄入模块测试...")
     text_suite = unittest.TestSuite()
     text_suite.addTest(unittest.makeSuite(TestChapterLoader))
     
-    # 添加事件抽取测试
+    # TODO: Translate - 添加eventExtractTest
     print("正在准备事件抽取模块测试...")
     event_suite = unittest.TestSuite()
     event_suite.addTest(unittest.makeSuite(TestEventExtractor))
     
-    # 合并测试套件
+    # TODO: Translate - 合并Test套件
     suite.addTest(text_suite)
     suite.addTest(event_suite)
     
-    # 运行测试
+    # RunTest
     verbosity = 2 if verbose else 1
     
-    # 使用标准的测试运行器
+    # TODO: Translate - Use标准的TestRun器
     print("\n阶段二测试:")
     print("-" * 60)
     runner = unittest.TextTestRunner(verbosity=verbosity)
     result = runner.run(suite)
     
-    # 如果有详细模式，显示完整测试统计
+    # TODO: Translate - 如果有详细模式，显示完整Test统计
     if verbose:
         print("\n详细测试统计:")
         print(f"运行的测试数: {result.testsRun}")

@@ -37,7 +37,7 @@ import sys
 import json
 from typing import Dict, List, Any
 
-# 将项目根目录添加到路径
+# TODO: Translate - Add project root directory to路径
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.append(project_root)
@@ -59,12 +59,12 @@ class TestEventModel(unittest.TestCase):
         with open(novel_path, 'r', encoding='utf-8') as f:
             novel_text = f.read()
             
-        # 从小说中提取可能的人物、地点等信息
+        # TODO: Translate - 从小说中Extract可能的人物、地点等信息
         self.characters = ["韩立", "韩铸", "韩父", "韩母", "老张叔", "墨大夫", "三叔"]
         self.locations = ["莫家村", "青牛镇", "神手谷", "彩霞山", "赤水峰"]
         self.times = ["幼年", "少年", "成年"]
         
-        # 提取第一章标识
+        # TODO: Translate - Extract第一章标识
         chapter_start = novel_text.find("第一章")
         if chapter_start != -1:
             self.chapter_id = novel_text[chapter_start:novel_text.find("\n", chapter_start)].strip()
@@ -128,15 +128,15 @@ class TestChapterModel(unittest.TestCase):
         with open(novel_path, 'r', encoding='utf-8') as f:
             self.novel_text = f.read()
         
-        # 提取第一章内容
+        # TODO: Translate - Extract第一章内容
         chapter_start = self.novel_text.find("第一章")
         chapter_end = self.novel_text.find("第二章")
-        if chapter_end == -1:  # 如果找不到第二章，则使用全文
+        if chapter_end == -1:  # TODO: Translate - 如果找不到第二章，则Use全文
             self.chapter_text = self.novel_text[chapter_start:]
         else:
             self.chapter_text = self.novel_text[chapter_start:chapter_end]
         
-        # 提取章节标题
+        # TODO: Translate - Extractchapter标题
         title_start = self.chapter_text.find("第一章")
         title_end = self.chapter_text.find("\n", title_start)
         self.chapter_title = self.chapter_text[title_start:title_end].strip()
@@ -155,7 +155,7 @@ class TestChapterModel(unittest.TestCase):
         
     def test_chapter_with_segments(self):
         """测试带有段落的Chapter对象：使用真实文本生成的段落"""
-        # 使用TextSplitter生成真实段落
+        # TODO: Translate - UseTextSplitterGenerate真实段落
         segments = TextSplitter.split_chapter(self.chapter_text, seg_size=200)
         
         chapter = Chapter(
@@ -165,9 +165,9 @@ class TestChapterModel(unittest.TestCase):
             segments=segments
         )
         
-        # 验证分段数量（不固定为2，因为真实小说文本的分段结果可能随内容变化）
+        # TODO: Translate - VerifySegment text数量（不固定为2，因为真实小说文本的Segment text结果可能随内容变化）
         self.assertGreater(len(chapter.segments), 0)
-        self.assertEqual(chapter.segments[0]["seg_id"], "1")  # TextSplitter生成的段落ID格式为数字
+        self.assertEqual(chapter.segments[0]["seg_id"], "1")  # TODO: Translate - TextSplitterGenerate的段落ID格式为数字
         
     def test_chapter_to_dict(self):
         """测试Chapter转换为字典：使用真实小说文本"""
@@ -224,7 +224,7 @@ class TestTreasureModel(unittest.TestCase):
         with open(novel_path, 'r', encoding='utf-8') as f:
             self.novel_text = f.read()
             
-        # 从小说中提取可能的宝物信息
+        # TODO: Translate - 从小说中Extract可能的宝物信息
         self.treasures = [
             {
                 "name": "铁皮指功",
@@ -244,7 +244,7 @@ class TestTreasureModel(unittest.TestCase):
     
     def test_treasure_creation(self):
         """测试创建Treasure对象：使用小说中的真实法宝信息"""
-        treasure_data = self.treasures[0]  # 使用铁皮指功作为测试
+        treasure_data = self.treasures[0]  # TODO: Translate - Use铁皮指功作为Test
         
         treasure = Treasure(
             name=treasure_data["name"],
@@ -260,7 +260,7 @@ class TestTreasureModel(unittest.TestCase):
         
     def test_treasure_to_dict(self):
         """测试Treasure转换为字典：使用小说中的真实法宝信息"""
-        treasure_data = self.treasures[1]  # 使用三阶丹药作为测试
+        treasure_data = self.treasures[1]  # TODO: Translate - Use三阶丹药作为Test
         
         treasure = Treasure(
             name=treasure_data["name"],
@@ -289,7 +289,7 @@ class TestJsonLoader(unittest.TestCase):
             "skills": ["铁皮指功", "符箓"]
         }
         
-        # 写入测试数据
+        # TODO: Translate - WriteTest数据
         with open(self.temp_file, 'w', encoding='utf-8') as f:
             json.dump(self.test_data, f, ensure_ascii=False)
             
@@ -310,7 +310,7 @@ class TestJsonLoader(unittest.TestCase):
         new_data = {"name": "墨老", "age": 60}
         JsonLoader.save_json(new_data, self.temp_file)
         
-        # 再次加载确认保存成功
+        # TODO: Translate - 再次Load确认SaveSuccessfully
         loaded_data = JsonLoader.load_json(self.temp_file)
         self.assertEqual(loaded_data["name"], "墨老")
         self.assertEqual(loaded_data["age"], 60)
@@ -321,28 +321,28 @@ class TestTextSplitter(unittest.TestCase):
     
     def test_split_chapter(self):
         """测试章节分段：使用小说真实文本"""
-        # 加载真实小说数据
+        # TODO: Translate - Load真实小说数据
         novel_path = os.path.join(project_root, "novel", "test.txt")
         with open(novel_path, 'r', encoding='utf-8') as f:
             novel_text = f.read()
         
-        # 提取第一章内容进行测试
+        # TODO: Translate - Extract第一章内容进行Test
         chapter_start = novel_text.find("第一章")
         chapter_end = novel_text.find("第二章")
-        if chapter_end == -1:  # 如果找不到第二章，则使用全文
+        if chapter_end == -1:  # TODO: Translate - 如果找不到第二章，则Use全文
             chapter_text = novel_text[chapter_start:]
         else:
             chapter_text = novel_text[chapter_start:chapter_end]
             
-        # 使用TextSplitter进行分段
+        # TODO: Translate - UseTextSplitter进行Segment text
         segments = TextSplitter.split_chapter(chapter_text, seg_size=200)
         
-        # 验证分段结果
-        self.assertGreaterEqual(len(segments), 3)  # 应该有多个段落
+        # TODO: Translate - VerifySegment text结果
+        self.assertGreaterEqual(len(segments), 3)  # TODO: Translate - 应该有多个段落
         self.assertTrue("seg_id" in segments[0])
         self.assertTrue("text" in segments[0])
         
-        # 验证分段内容是否包含原文的关键信息
+        # TODO: Translate - VerifySegment text内容是否包含原文的关键信息
         all_text = " ".join([seg["text"] for seg in segments])
         self.assertIn("韩立", all_text)
         self.assertIn("二愣子", all_text)

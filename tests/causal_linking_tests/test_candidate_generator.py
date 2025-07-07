@@ -9,7 +9,7 @@ import sys
 import json
 from datetime import datetime
 
-# 添加项目根目录到Python路径
+# TODO: Translate - Add project root directory toPython路径
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.insert(0, project_root)
@@ -23,7 +23,7 @@ def test_candidate_generation():
     """测试候选事件对生成效果"""
     print("=== 候选事件对生成优化测试 ===")
     
-    # 加载事件数据
+    # TODO: Translate - Loadevent数据
     try:
         event_file = os.path.join(project_root, 'debug/extracted_events.json')
         with open(event_file, 'r', encoding='utf-8') as f:
@@ -34,23 +34,23 @@ def test_candidate_generation():
         print(f"加载事件失败: {e}")
         return
     
-    # 测试不同配置
+    # TODO: Translate - Test不同Configure
     configs = [
         {
             "name": "高限制",
             "params": {
                 "max_events_per_chapter": 10,
-                "min_entity_support": 5,  # 高支持度
-                "max_chapter_span": 5,   # 小跨度
-                "max_candidate_pairs": 50,  # 少候选对
-                "max_pairs_per_entity": 5   # 每实体少对
+                "min_entity_support": 5,  # TODO: Translate - 高支持度
+                "max_chapter_span": 5,   # TODO: Translate - 小跨度
+                "max_candidate_pairs": 50,  # TODO: Translate - 少候选对
+                "max_pairs_per_entity": 5   # TODO: Translate - 每实体少对
             }
         },
         {
             "name": "中限制",
             "params": {
                 "max_events_per_chapter": 15,
-                "min_entity_support": 3,   # 中支持度
+                "min_entity_support": 3,   # TODO: Translate - 中支持度
                 "max_chapter_span": 10,
                 "max_candidate_pairs": 100,
                 "max_pairs_per_entity": 10
@@ -60,15 +60,15 @@ def test_candidate_generation():
             "name": "低限制",
             "params": {
                 "max_events_per_chapter": 20,
-                "min_entity_support": 2,   # 低支持度
+                "min_entity_support": 2,   # TODO: Translate - 低支持度
                 "max_chapter_span": 15,
                 "max_candidate_pairs": 300,
-                "max_pairs_per_entity": 20  # 每实体多对
+                "max_pairs_per_entity": 20  # TODO: Translate - 每实体多对
             }
         }
     ]
     
-    # 输出结果到文件
+    # TODO: Translate - Output结果到文件
     result_file = os.path.join(project_root, f'logs/candidate_test_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log')
     with open(result_file, 'w', encoding='utf-8') as log:
         log.write(f"候选事件对优化测试结果 - {datetime.now()}\n")
@@ -78,14 +78,14 @@ def test_candidate_generation():
             print(f"\n测试配置: {config['name']}")
             log.write(f"=== 配置: {config['name']} ===\n")
             
-            # 创建候选生成器
+            # TODO: Translate - Create候选Generate器
             generator = CandidateGenerator(**config['params'])
             
-            # 生成候选事件对
+            # TODO: Translate - Generate候选event对
             try:
                 candidate_pairs = generator.generate_candidates(events)
                 
-                # 输出结果
+                # TODO: Translate - Output结果
                 result = (
                     f"配置: {config['name']}\n"
                     f"参数: {config['params']}\n"

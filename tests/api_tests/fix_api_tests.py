@@ -14,7 +14,7 @@ import sys
 import argparse
 from pathlib import Path
 
-# 添加项目根目录到系统路径
+# TODO: Translate - Add project root directory to系统路径
 current_dir = Path(os.path.dirname(os.path.abspath(__file__)))
 project_root = current_dir.parent.parent
 sys.path.insert(0, str(project_root))
@@ -43,33 +43,33 @@ def run_test_script(script_path, mock=False, timeout=30, debug=False):
         timeout: API超时时间
         debug: 是否启用调试模式
     """
-    # 设置环境变量
+    # Setenvironment variables
     env = os.environ.copy()
     
-    # 配置模拟模式
+    # TODO: Translate - Configure模拟模式
     if mock:
         env["MOCK_API"] = "true"
         print(f"🔄 将以模拟模式运行: {script_path}")
     else:
         env["MOCK_API"] = "false"
         
-    # 配置超时
+    # TODO: Translate - Configure超时
     env["API_TIMEOUT"] = str(timeout)
     print(f"🕒 API超时设置为: {timeout}秒")
     
-    # 配置调试模式
+    # TODO: Translate - Configure调试模式
     if debug:
         env["DEBUG_MODE"] = "true"
         print("🐞 调试模式已启用")
     else:
         env["DEBUG_MODE"] = "false"
         
-    # 确保脚本有执行权限
+    # TODO: Translate - 确保脚本有Execute权限
     if not os.access(script_path, os.X_OK):
         print(f"🔧 正在设置脚本执行权限: {script_path}")
         os.chmod(script_path, 0o755)
         
-    # 运行脚本
+    # TODO: Translate - Run脚本
     print(f"\n{'='*60}")
     print(f"运行测试脚本: {os.path.basename(script_path)}")
     print(f"{'='*60}")
@@ -84,35 +84,35 @@ def main():
     parser = setup_parser()
     args = parser.parse_args()
     
-    # 定义脚本路径
+    # TODO: Translate - 定义脚本路径
     original_script = os.path.join(current_dir, "test_api_integration.py")
     improved_script = os.path.join(current_dir, "test_api_integration_improved.py")
     
-    # 确保改进版脚本有执行权限
+    # TODO: Translate - 确保改进版脚本有Execute权限
     if os.path.exists(improved_script) and not os.access(improved_script, os.X_OK):
         os.chmod(improved_script, 0o755)
     
-    # 显示执行信息
+    # TODO: Translate - 显示Execute信息
     print("API测试修复工具")
     print("="*60)
     
     if args.compare:
-        # 先运行原始脚本
+        # TODO: Translate - 先Run原始脚本
         print("\n🔄 正在运行原始测试脚本...")
         orig_result = run_test_script(original_script, args.mock, args.timeout, args.debug)
         
-        # 然后运行改进版脚本
+        # TODO: Translate - 然后Run改进版脚本
         print("\n🔄 正在运行改进版测试脚本...")
         imp_result = run_test_script(improved_script, args.mock, args.timeout, args.debug)
         
-        # 输出比较结果
+        # TODO: Translate - Output比较结果
         print("\n"+"="*60)
         print("脚本对比结果")
         print("="*60)
         print(f"原始脚本: {'通过 ✓' if orig_result == 0 else '失败 ✗'}")
         print(f"改进脚本: {'通过 ✓' if imp_result == 0 else '失败 ✗'}")
         
-        # 输出建议
+        # TODO: Translate - Output建议
         if orig_result != 0 and imp_result == 0:
             print("\n🎯 建议: 改进版脚本解决了问题，推荐使用改进版脚本")
         elif orig_result != 0 and imp_result != 0:
@@ -121,7 +121,7 @@ def main():
             print("\n✅ 两个脚本都可以正常工作")
             
     elif args.use_improved:
-        # 使用改进版脚本
+        # TODO: Translate - Use改进版脚本
         if not os.path.exists(improved_script):
             print(f"❌ 错误: 改进版脚本不存在: {improved_script}")
             return 1
@@ -129,7 +129,7 @@ def main():
         print("🚀 使用改进版API测试脚本...")
         run_test_script(improved_script, args.mock, args.timeout, args.debug)
     else:
-        # 使用原始脚本
+        # TODO: Translate - Use原始脚本
         print("🔄 使用原始API测试脚本...")
         run_test_script(original_script, args.mock, args.timeout, args.debug)
     

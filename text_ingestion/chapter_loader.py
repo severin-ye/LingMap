@@ -29,7 +29,7 @@ class ChapterLoader:
         Returns:
             包含章节ID和标题的字典，如果无法提取则返回None
         """
-        # Match chapter titles, such as 【Chapter 15 聚灵丹】 or Chapter 1 初入七玄门
+        # Match chapter titles like 【第十五章 聚灵丹】 or 第一章 初入七玄门
         pattern = r'[【]?第([^章]+)章\s*([^】\n]+)[】]?'
         match = re.search(pattern, text[:200])  # Only search at the beginning
         

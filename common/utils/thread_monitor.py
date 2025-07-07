@@ -41,10 +41,10 @@ class ThreadUsageMonitor:
         """设置日志记录"""
         if ThreadUsageMonitor._logger is None:
             ThreadUsageMonitor._logger = logging.getLogger("thread_monitor")
-            # 日志级别
+            # TODO: Translate - 日志级别
             ThreadUsageMonitor._logger.setLevel(logging.INFO)
             
-            # 文件处理器
+            # TODO: Translate - 文件Process器
             log_dir = Path("logs")
             log_dir.mkdir(exist_ok=True)
             
@@ -55,7 +55,7 @@ class ThreadUsageMonitor:
             ))
             ThreadUsageMonitor._logger.addHandler(file_handler)
             
-            # 控制台处理器
+            # TODO: Translate - 控制台Process器
             console_handler = logging.StreamHandler(sys.stdout)
             console_handler.setFormatter(logging.Formatter(
                 '%(asctime)s - %(levelname)s - %(message)s'
@@ -76,14 +76,14 @@ class ThreadUsageMonitor:
             "task_type": task_type
         }
         
-        # 记录到日志
+        # TODO: Translate - 记录到日志
         ThreadUsageMonitor._logger.info(
             f"模块 '{module_name}' 使用 {thread_count} 个线程执行 {task_type} 类型任务"
         )
     
     def log_system_thread_usage(self):
         """记录系统整体线程使用情况"""
-        # 获取配置
+        # GetConfigure
         enabled = ParallelConfig.is_enabled()
         max_workers = ParallelConfig._config["max_workers"]
         module_config = ParallelConfig._config["default_workers"]
@@ -92,12 +92,12 @@ class ThreadUsageMonitor:
             f"系统并行配置: 启用状态={enabled}, 全局线程数={max_workers}"
         )
         
-        # 记录各模块配置
+        # TODO: Translate - 记录各模块Configure
         ThreadUsageMonitor._logger.info("模块线程配置:")
         for module, workers in module_config.items():
             ThreadUsageMonitor._logger.info(f"  - {module}: {workers}")
         
-        # 记录实际使用情况
+        # TODO: Translate - 记录实际Use情况
         ThreadUsageMonitor._logger.info("模块实际线程使用情况:")
         for module, info in self.thread_usage.items():
             ThreadUsageMonitor._logger.info(
@@ -105,7 +105,7 @@ class ThreadUsageMonitor:
             )
 
 
-# 导入datetime，避免在类内部使用时报错
+# TODO: Translate - Importdatetime，避免在类内部Use时报错
 from datetime import datetime
 
 

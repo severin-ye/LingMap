@@ -16,14 +16,14 @@ import os
 import time
 from io import StringIO
 
-# 添加项目根目录到 Python 路径
+# TODO: Translate - Add project root directory to Python 路径
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from tests.stage_3.test_hallucination_refine import TestHallucinationRefiner, TestHARResponseParsing
-# 注意：因果链接测试已移至阶段 4
-# 以前的导入内容: 
+# TODO: Translate - 注意：causallinkingTest已移至阶段 4
+# TODO: Translate - 以前的Import内容: 
 # from tests.stage_3.test_causal_linking import (
 #     TestCausalLinker, 
 #     TestCausalEdgeResponseParsing, 
@@ -40,32 +40,32 @@ def run_stage_3_tests():
     print("测试内容：HAR幻觉修复和因果链构建模块")
     print()
     
-    # 准备测试套件
+    # TODO: Translate - 准备Test套件
     print("正在准备HAR幻觉修复模块测试...")
     print("正在准备因果链构建模块测试...")
     print()
     
-    # 创建测试套件
+    # TODO: Translate - CreateTest套件
     loader = unittest.TestLoader()
     suite = unittest.TestSuite()
     
-    # 添加HAR幻觉修复测试
+    # TODO: Translate - 添加HARhallucinationrefineTest
     suite.addTests(loader.loadTestsFromTestCase(TestHallucinationRefiner))
     suite.addTests(loader.loadTestsFromTestCase(TestHARResponseParsing))
     
-    # 注意：因果链构建测试已经移动到阶段4
-    # 之前的代码:
+    # TODO: Translate - 注意：causal链BuildTest已经移动到阶段4
+    # TODO: Translate - 之前的代码:
     # suite.addTests(loader.loadTestsFromTestCase(TestCausalLinker))
     # suite.addTests(loader.loadTestsFromTestCase(TestCausalEdgeResponseParsing))
     # suite.addTests(loader.loadTestsFromTestCase(TestCausalLinkingIntegration))
     
-    # 运行测试
+    # RunTest
     print("阶段三测试:")
     print("-" * 60)
     
     start_time = time.time()
     
-    # 创建测试运行器
+    # TODO: Translate - CreateTestRun器
     stream = StringIO()
     runner = unittest.TextTestRunner(
         stream=stream,
@@ -73,10 +73,10 @@ def run_stage_3_tests():
         failfast=False
     )
     
-    # 运行测试
+    # RunTest
     result = runner.run(suite)
     
-    # 获取并显示输出
+    # TODO: Translate - Get并显示Output
     test_output = stream.getvalue()
     print(test_output)
     
@@ -86,7 +86,7 @@ def run_stage_3_tests():
     print(f"阶段三测试耗时: {duration:.2f}秒")
     print()
     
-    # 显示测试结果统计
+    # TODO: Translate - 显示Test结果统计
     if result.wasSuccessful():
         print("所有测试通过！✅")
     else:

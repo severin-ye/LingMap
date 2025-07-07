@@ -20,7 +20,7 @@ from pathlib import Path
 from unittest.mock import patch, MagicMock, call
 from io import StringIO
 
-# 添加项目根目录到系统路径
+# TODO: Translate - Add project root directory to系统路径
 current_dir = Path(os.path.dirname(os.path.abspath(__file__)))
 project_root = current_dir.parent.parent
 sys.path.insert(0, str(project_root))
@@ -41,7 +41,7 @@ class TestAPIGateway(unittest.TestCase):
         self.test_output_dir = os.path.join(self.test_dir, "output")
         os.makedirs(self.test_output_dir, exist_ok=True)
         
-        # 创建测试用的小说文件
+        # TODO: Translate - CreateTest用的小说文件
         self.test_novel_file = os.path.join(self.test_dir, "test_novel.txt")
         with open(self.test_novel_file, 'w', encoding='utf-8') as f:
             f.write("""第一章 青牛镇
@@ -61,9 +61,9 @@ class TestAPIGateway(unittest.TestCase):
         """测试环境设置功能"""
         with patch.dict(os.environ, {}, clear=True):
             with patch('os.path.exists') as mock_exists:
-                mock_exists.return_value = False  # 模拟.env文件不存在
+                mock_exists.return_value = False  # TODO: Translate - 模拟.env文件不存在
                 
-                # 测试环境设置不会出错
+                # TODO: Translate - Test环境Set不会出错
                 try:
                     setup_env()
                 except Exception as e:
@@ -76,7 +76,7 @@ class TestAPIGateway(unittest.TestCase):
     @patch('api_gateway.main.ChapterLoader')
     def test_process_text_success(self, mock_loader, mock_renderer, mock_linker, mock_refiner, mock_extractor):
         """测试单个文本文件处理成功情况"""
-        # 模拟章节加载器
+        # TODO: Translate - 模拟chapterLoad器
         mock_chapter = Chapter(
             chapter_id="第一章",
             title="青牛镇",
@@ -84,7 +84,7 @@ class TestAPIGateway(unittest.TestCase):
         )
         mock_loader.return_value.load_from_txt.return_value = mock_chapter
         
-        # 模拟事件提取器
+        # TODO: Translate - 模拟eventExtract器
         mock_events = [
             EventItem(
                 event_id="E1-1",
@@ -103,10 +103,10 @@ class TestAPIGateway(unittest.TestCase):
         ]
         mock_extractor.return_value.extract.return_value = mock_events
         
-        # 模拟精炼器
+        # TODO: Translate - 模拟精炼器
         mock_refiner.return_value.refine.return_value = mock_events
         
-        # 模拟链接器
+        # TODO: Translate - 模拟linking器
         mock_edges = [
             CausalEdge(
                 from_id="E1-1",
@@ -118,24 +118,24 @@ class TestAPIGateway(unittest.TestCase):
         mock_linker.return_value.link_events.return_value = mock_edges
         mock_linker.return_value.build_dag.return_value = (mock_events, mock_edges)
         
-        # 模拟渲染器
+        # TODO: Translate - 模拟渲染器
         mock_renderer.return_value.render.return_value = """
 graph TD
     E1-1[韩立服用聚灵丹] --> E1-2[韩立修为提升]
 """
         
-        # 执行测试
-        with patch('builtins.print'):  # 抑制打印输出
+        # ExecuteTest
+        with patch('builtins.print'):  # TODO: Translate - 抑制打印Output
             try:
-                # 设置临时目录为有效路径
+                # TODO: Translate - Set临时目录为有效路径
                 temp_dir = os.path.join(self.test_output_dir, "temp")
                 os.makedirs(temp_dir, exist_ok=True)
                 process_text(self.test_novel_file, self.test_output_dir, temp_dir=temp_dir)
                 
-                # 验证各个组件被正确调用
+                # TODO: Translate - Verify各个组件被正确调用
                 mock_loader.return_value.load_from_txt.assert_called_once_with(self.test_novel_file)
                 mock_extractor.return_value.extract.assert_called_once_with(mock_chapter)
-                # refine方法被调用时会传入额外的context参数
+                # TODO: Translate - refine方法被调用时会传入额外的context参数
                 mock_refiner.return_value.refine.assert_called_once()
                 mock_linker.return_value.link_events.assert_called_once()
                 mock_linker.return_value.build_dag.assert_called_once()
@@ -148,7 +148,7 @@ graph TD
     @patch('glob.glob')
     def test_process_directory_success(self, mock_glob, mock_process_text):
         """测试目录批量处理成功情况"""
-        # 模拟glob返回的文件列表
+        # TODO: Translate - 模拟globReturn的文件列表
         test_input_dir = os.path.join(self.test_dir, "input")
         os.makedirs(test_input_dir, exist_ok=True)
         
@@ -159,14 +159,14 @@ graph TD
         ]
         mock_glob.return_value = mock_files
         
-        # 执行测试
-        with patch('builtins.print'):  # 抑制打印输出
+        # ExecuteTest
+        with patch('builtins.print'):  # TODO: Translate - 抑制打印Output
             process_directory(test_input_dir, self.test_output_dir)
             
-            # 验证每个txt文件都被处理
+            # TODO: Translate - Verify每个txt文件都被Process
             self.assertEqual(mock_process_text.call_count, 3)
             
-            # 验证调用参数
+            # TODO: Translate - Verify调用参数
             call_args_list = mock_process_text.call_args_list
             called_files = [call_args[0][0] for call_args in call_args_list]
             
@@ -176,7 +176,7 @@ graph TD
     @patch('api_gateway.main.ChapterLoader')
     def test_process_text_load_failure(self, mock_loader):
         """测试章节加载失败的情况"""
-        # 模拟加载失败
+        # TODO: Translate - 模拟LoadFailed
         mock_loader.return_value.load_from_txt.return_value = None
         
         with patch('builtins.print') as mock_print:
@@ -184,7 +184,7 @@ graph TD
             os.makedirs(temp_dir, exist_ok=True)
             process_text(self.test_novel_file, self.test_output_dir, temp_dir=temp_dir)
             
-            # 验证输出了失败信息
+            # TODO: Translate - VerifyOutput了Failed信息
             calls = [call[0][0] for call in mock_print.call_args_list]
             self.assertTrue(any("加载章节失败" in str(call) for call in calls))
 
@@ -211,7 +211,7 @@ class TestMainCLI(unittest.TestCase):
                     main.main()
                     mock_check.assert_called()
                 except SystemExit:
-                    pass  # check-env模式会调用return，这是正常的
+                    pass  # TODO: Translate - check-env模式会调用return，这是正常的
 
     @patch('main.run_demo')
     @patch('main.setup_environment')  
@@ -300,7 +300,7 @@ class TestMainCLI(unittest.TestCase):
                             with self.assertRaises(SystemExit):
                                 main.main()
                             
-                            # 验证输出了错误信息
+                            # TODO: Translate - VerifyOutput了Error信息
                             calls = [call[0][0] for call in mock_print.call_args_list]
                             self.assertTrue(any("输入文件不存在" in str(call) for call in calls))
 
@@ -314,7 +314,7 @@ class TestMainCLI(unittest.TestCase):
                             with self.assertRaises(SystemExit):
                                 main.main()
                             
-                            # 验证输出了错误信息
+                            # TODO: Translate - VerifyOutput了Error信息
                             calls = [call[0][0] for call in mock_print.call_args_list]
                             self.assertTrue(any("输入目录不存在" in str(call) for call in calls))
 
@@ -334,7 +334,7 @@ class TestEnvironmentFunctions(unittest.TestCase):
                         try:
                             main.setup_environment()
                             
-                            # 验证默认环境变量被设置
+                            # TODO: Translate - Verify默认environment variables被Set
                             self.assertEqual(os.environ.get("MAX_WORKERS"), "3")
                             self.assertEqual(os.environ.get("LLM_PROVIDER"), "deepseek")
                             
@@ -348,7 +348,7 @@ class TestEnvironmentFunctions(unittest.TestCase):
             try:
                 main.check_environment()
                 
-                # 验证检查函数正常执行
+                # TODO: Translate - VerifyCheck函数正常Execute
                 self.assertTrue(mock_print.called)
                 
             except Exception as e:
@@ -358,13 +358,13 @@ class TestEnvironmentFunctions(unittest.TestCase):
     @patch('builtins.print')
     def test_run_interactive_exit(self, mock_print, mock_input):
         """测试交互式模式退出功能"""
-        # 模拟用户选择退出
+        # TODO: Translate - 模拟用户选择退出
         mock_input.return_value = "0"
         
         try:
             main.run_interactive()
             
-            # 验证输出了退出信息
+            # TODO: Translate - VerifyOutput了退出信息
             calls = [call[0][0] for call in mock_print.call_args_list]
             self.assertTrue(any("再见" in str(call) for call in calls))
             
@@ -387,7 +387,7 @@ class TestIntegrationFlow(unittest.TestCase):
     @patch('builtins.print')
     def test_run_tests_integration(self, mock_print, mock_subprocess):
         """测试运行测试的集成功能"""
-        # 模拟成功的测试运行
+        # TODO: Translate - 模拟Successfully的TestRun
         mock_subprocess.return_value = MagicMock(
             returncode=0,
             stdout="test output",
@@ -397,7 +397,7 @@ class TestIntegrationFlow(unittest.TestCase):
         try:
             main.run_tests()
             
-            # 验证subprocess.run被调用
+            # TODO: Translate - Verifysubprocess.run被调用
             mock_subprocess.assert_called()
             
         except Exception as e:
@@ -407,7 +407,7 @@ class TestIntegrationFlow(unittest.TestCase):
     @patch('builtins.print')
     def test_run_benchmark_integration(self, mock_print, mock_subprocess):
         """测试运行基准测试的集成功能"""
-        # 模拟成功的基准测试运行
+        # TODO: Translate - 模拟Successfully的基准TestRun
         mock_subprocess.return_value = MagicMock(
             returncode=0,
             stdout="benchmark output",
@@ -417,7 +417,7 @@ class TestIntegrationFlow(unittest.TestCase):
         try:
             main.run_benchmark()
             
-            # 验证输出了基准测试信息
+            # TODO: Translate - VerifyOutput了基准Test信息
             self.assertTrue(mock_print.called)
             
         except Exception as e:
@@ -435,8 +435,8 @@ class TestIntegrationFlow(unittest.TestCase):
                                 with self.assertRaises(SystemExit):
                                     main.main()
                                 
-                                # 在详细模式下应该输出异常堆栈
-                                # 注意：这里可能不会调用traceback.print_exc，因为是FileNotFoundError而不是通用异常
+                                # TODO: Translate - 在详细模式下应该Output异常堆栈
+                                # TODO: Translate - 注意：这里可能不会调用traceback.print_exc，因为是FileNotFoundError而不是通用异常
 
 
 def run_tests():
@@ -445,10 +445,10 @@ def run_tests():
     print("第六阶段测试：集成与统一调用接口测试")
     print("=" * 80)
     
-    # 创建测试套件
+    # TODO: Translate - CreateTest套件
     test_suite = unittest.TestSuite()
     
-    # 添加所有测试类
+    # TODO: Translate - 添加所有Test类
     test_classes = [
         TestAPIGateway,
         TestMainCLI,
@@ -460,11 +460,11 @@ def run_tests():
         tests = unittest.TestLoader().loadTestsFromTestCase(test_class)
         test_suite.addTests(tests)
     
-    # 运行测试
+    # RunTest
     runner = unittest.TextTestRunner(verbosity=2)
     result = runner.run(test_suite)
     
-    # 输出测试总结
+    # TODO: Translate - OutputTest总结
     print("\n" + "=" * 80)
     print("第六阶段测试总结")
     print("=" * 80)

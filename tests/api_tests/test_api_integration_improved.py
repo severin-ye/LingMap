@@ -17,28 +17,28 @@ import threading
 from pathlib import Path
 import traceback
 
-# 添加项目根目录到系统路径
+# TODO: Translate - Add project root directory to系统路径
 current_dir = Path(os.path.dirname(os.path.abspath(__file__)))
 project_root = current_dir.parent.parent
 sys.path.insert(0, str(project_root))
 
-# 加载环境变量
+# Loadenvironment variables
 from dotenv import load_dotenv
 load_dotenv()
 
 from event_extraction.repository.llm_client import LLMClient
 from common.utils.enhanced_logger import EnhancedLogger
 
-# 创建日志记录器
+# TODO: Translate - Create日志记录器
 logger = EnhancedLogger("api_integration_test", log_level="DEBUG")
 
-# 是否使用模拟模式（不实际调用API）
+# TODO: Translate - 是否Use模拟模式（不实际调用API）
 MOCK_MODE = os.environ.get("MOCK_API", "false").lower() == "true"
 
-# 调试模式：打印更多详细信息
+# TODO: Translate - 调试模式：打印更多详细信息
 DEBUG_MODE = os.environ.get("DEBUG_MODE", "false").lower() == "true"
 
-# 超时设置（秒）
+# TODO: Translate - 超时Set（秒）
 API_TIMEOUT = int(os.environ.get("API_TIMEOUT", "30"))
 
 class TimeoutException(Exception):
@@ -72,28 +72,28 @@ def with_timeout(func, *args, **kwargs):
     
     同时使用信号和线程两种超时机制，确保在各种环境下都能正常工作
     """
-    # 设置信号处理器（如果平台支持）
+    # TODO: Translate - Set信号Process器（如果平台支持）
     try:
         old_handler = signal.signal(signal.SIGALRM, timeout_handler)
         signal.alarm(API_TIMEOUT)
         has_alarm = True
     except (AttributeError, ValueError):
-        # 某些平台不支持SIGALRM
+        # TODO: Translate - 某些平台不支持SIGALRM
         has_alarm = False
     
-    # 使用线程作为备选超时机制
+    # TODO: Translate - Usethread作为备选超时机制
     with ThreadingTimeout(API_TIMEOUT) as timeout_ctx:
         try:
-            # 执行目标函数
+            # TODO: Translate - Execute目标函数
             start_time = time.time()
             result = func(*args, **kwargs)
             elapsed = time.time() - start_time
             
-            # 检查线程超时
+            # TODO: Translate - Checkthread超时
             if timeout_ctx.timeout_happened:
                 return {"success": False, "error": f"API调用超时 (线程触发，{API_TIMEOUT}秒)"}
                 
-            # 一切正常，返回结果
+            # TODO: Translate - 一切正常，Return结果
             return result
         except TimeoutException as e:
             logger.warning(f"API调用超时: {str(e)}")
@@ -105,7 +105,7 @@ def with_timeout(func, *args, **kwargs):
                 logger.debug(f"异常详情:\n{traceback.format_exc()}")
             return {"success": False, "error": error_msg}
         finally:
-            # 清理超时设置
+            # TODO: Translate - 清理超时Set
             if has_alarm:
                 signal.alarm(0)
                 signal.signal(signal.SIGALRM, old_handler)
@@ -113,7 +113,7 @@ def with_timeout(func, *args, **kwargs):
 def mock_api_response(system_prompt, user_prompt):
     """生成模拟API响应，用于测试模式"""
     logger.info("使用模拟API响应模式")
-    time.sleep(0.5)  # 模拟少量的网络延迟
+    time.sleep(0.5)  # TODO: Translate - 模拟少量的网络延迟
     
     if "JSON" in system_prompt.upper() or "json" in user_prompt.lower():
         mock_result = {
@@ -134,9 +134,9 @@ def mock_api_response(system_prompt, user_prompt):
             "model": "mock-model"
         }
     
-    # 模拟网络延迟
+    # TODO: Translate - 模拟网络延迟
     if "causal" in system_prompt.lower() or "因果" in system_prompt:
-        time.sleep(0.5)  # 复杂查询需要更长时间
+        time.sleep(0.5)  # TODO: Translate - 复杂查询需要更长时间
         mock_result["json_content"] = {
             "has_causal_relation": True,
             "direction": "event1->event2",
@@ -152,7 +152,7 @@ def test_basic_api_connection():
     logger.info("1. 基本API连接测试")
     logger.info("="*80)
     
-    # 获取API密钥
+    # GetAPI key
     api_key = os.environ.get("DEEPSEEK_API_KEY")
     if not api_key and not MOCK_MODE:
         logger.error("未找到DeepSeek API密钥")
@@ -168,16 +168,16 @@ def test_basic_api_connection():
         logger.info(f"找到API密钥: {api_key[:5]}...")
         
         try:
-            # 初始化客户端
+            # Initializeclient
             client = LLMClient(
                 api_key=api_key,
                 model="deepseek-chat",
                 provider="deepseek",
                 temperature=0.0,
-                timeout=API_TIMEOUT  # 设置超时时间
+                timeout=API_TIMEOUT  # TODO: Translate - Set超时时间
             )
             
-            # 测试简单调用
+            # TODO: Translate - Test简单调用
             logger.info("\n测试简单文本调用...")
             system = "你是一个有用的AI助手。"
             user = "请简单介绍一下《凡人修仙传》这部小说。"
@@ -230,7 +230,7 @@ def test_json_response():
                 timeout=API_TIMEOUT
             )
             
-            # 测试JSON响应
+            # TODO: Translate - TestJSON响应
             system = "你是一个专门分析小说内容的AI助手。请以JSON格式回复。"
             user = """请分析《凡人修仙传》主角韩立的基本信息，以JSON格式回复：
 {
@@ -257,7 +257,7 @@ def test_json_response():
         logger.info("\nJSON内容:")
         logger.info(json.dumps(json_content, ensure_ascii=False, indent=2))
         
-        # 验证JSON结构
+        # TODO: Translate - VerifyJSON结构
         required_fields = ["name", "origin", "cultivation_type", "main_characteristics"]
         missing_fields = [field for field in required_fields if field not in json_content]
         
@@ -280,7 +280,7 @@ def test_causal_analysis_api():
     logger.info("3. 因果分析API测试")
     logger.info("="*80)
     
-    # 如果是模拟模式，返回模拟数据
+    # TODO: Translate - 如果是模拟模式，Return模拟数据
     if MOCK_MODE:
         logger.warning("测试运行在模拟模式，使用模拟数据")
         response = mock_api_response(
@@ -301,7 +301,7 @@ def test_causal_analysis_api():
                 timeout=API_TIMEOUT
             )
             
-            # 测试因果分析
+            # TODO: Translate - Testcausal分析
             system = "你是一个专门分析《凡人修仙传》中事件因果关系的AI助手。请以JSON格式回复。"
             user = """请分析以下两个事件之间是否存在因果关系:
 
@@ -334,7 +334,7 @@ def test_causal_analysis_api():
         logger.info("\n因果分析结果:")
         logger.info(json.dumps(json_content, ensure_ascii=False, indent=2))
         
-        # 验证因果分析结果
+        # TODO: Translate - Verifycausal分析结果
         has_causal = json_content.get("has_causal_relation", False)
         if has_causal:
             direction = json_content.get("direction", "")
@@ -357,7 +357,7 @@ def main():
     print("DeepSeek API集成测试套件")
     print("="*80)
     
-    # 检查是否启用了模拟模式和调试模式
+    # TODO: Translate - Check是否启用了模拟模式和调试模式
     if MOCK_MODE:
         print("⚠️  警告: 测试运行在模拟模式，不会实际调用API")
         
@@ -392,7 +392,7 @@ def main():
                 print(f"异常详情:\n{traceback.format_exc()}")
             results.append((test_name, False, 0))
     
-    # 输出测试总结
+    # TODO: Translate - OutputTest总结
     print("\n" + "="*80)
     print("测试总结")
     print("="*80)
@@ -417,7 +417,7 @@ def main():
         print("4. 使用MOCK_API=true在模拟模式下测试")
         print("5. 启用DEBUG_MODE=true获取更多错误信息")
     
-    # 返回0表示成功，非0表示失败
+    # TODO: Translate - Return0表示Successfully，非0表示Failed
     return 0 if passed == total else 1
 
 if __name__ == "__main__":

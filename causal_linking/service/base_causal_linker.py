@@ -29,7 +29,7 @@ class BaseLinker(AbstractLinker):
         """
         self.prompt_path = prompt_path
         
-        # 加载提示词模板
+        # TODO: Translate - Load提示词模板
         if prompt_path and os.path.exists(prompt_path):
             try:
                 with open(prompt_path, "r", encoding="utf-8") as f:
@@ -91,7 +91,7 @@ class BaseLinker(AbstractLinker):
         Returns:
             格式化后的提示词字典，包含system和instruction
         """
-        # 格式化事件1描述
+        # TODO: Translate - 格式化event1描述
         event1_desc = f"""
 事件ID: {event1.event_id}
 描述: {event1.description}
@@ -102,7 +102,7 @@ class BaseLinker(AbstractLinker):
 结果: {event1.result or '未知'}
         """.strip()
         
-        # 格式化事件2描述
+        # TODO: Translate - 格式化event2描述
         event2_desc = f"""
 事件ID: {event2.event_id}
 描述: {event2.description}
@@ -113,7 +113,7 @@ class BaseLinker(AbstractLinker):
 结果: {event2.result or '未知'}
         """.strip()
         
-        # 从模板中获取系统提示和指令
+        # TODO: Translate - 从模板中Get系统提示和指令
         system_prompt = self.prompt_template.get("system", "")
         instruction = self.prompt_template.get("instruction", "").format(
             event1=event1_desc,

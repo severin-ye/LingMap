@@ -6,11 +6,11 @@ from typing import List, Optional
 class Treasure:
     """天材地宝数据结构，描述小说中的法宝、丹药等物品"""
     
-    name: str  # 宝物名称
-    description: Optional[str] = None  # 宝物描述
-    effects: List[str] = field(default_factory=list)  # 宝物效用
-    origin: Optional[str] = None  # 宝物来源
-    first_appearance: Optional[str] = None  # 首次出现的章节ID
+    name: str  # TODO: Translate - 宝物名称
+    description: Optional[str] = None  # TODO: Translate - 宝物描述
+    effects: List[str] = field(default_factory=list)  # TODO: Translate - 宝物效用
+    origin: Optional[str] = None  # TODO: Translate - 宝物来源
+    first_appearance: Optional[str] = None  # TODO: Translate - 首次出现的chapterID
     
     def to_dict(self):
         """转换为字典表示"""

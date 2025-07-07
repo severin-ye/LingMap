@@ -6,10 +6,10 @@ from typing import Optional
 class CausalEdge:
     """事件因果边数据结构，描述两个事件之间的因果关系"""
     
-    from_id: str  # 起始事件ID
-    to_id: str  # 目标事件ID
-    strength: str  # 因果强度，如 "高", "中", "低"
-    reason: Optional[str] = None  # 因果关系解释
+    from_id: str  # Source event ID
+    to_id: str  # Target event ID
+    strength: str  # Causal strength, such as "high", "medium", "low"
+    reason: Optional[str] = None  # TODO: Translate - causal关系解释
     
     def to_dict(self):
         """转换为字典表示"""

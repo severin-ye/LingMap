@@ -43,7 +43,7 @@ class PairAnalyzer:
             max_workers: 并行处理的最大工作线程数
             provider: API提供商，如"openai"或"deepseek"
         """
-        # 如果未提供API密钥，尝试从环境变量获取
+        # TODO: Translate - 如果未提供API key，尝试从environment variablesGet
         if not api_key:
             if provider == "openai":
                 self.api_key = os.environ.get("OPENAI_API_KEY")
@@ -64,10 +64,10 @@ class PairAnalyzer:
         self.provider = provider
         self.prompt_path = prompt_path
         
-        # 加载提示模板
+        # TODO: Translate - Load提示模板
         self.prompt_template = self._load_prompt_template(prompt_path)
         
-        # 初始化LLM客户端
+        # InitializeLLMclient
         self.llm_client = LLMClient(
             api_key=self.api_key,
             model=self.model,
@@ -109,7 +109,7 @@ class PairAnalyzer:
         """
         edges = []
         
-        # 使用线程池并行处理事件对
+        # TODO: Translate - Usethread池parallelProcessevent对
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             futures = []
             
@@ -117,7 +117,7 @@ class PairAnalyzer:
                 future = executor.submit(self.analyze_pair, event1, event2)
                 futures.append(future)
             
-            # 收集所有结果
+            # TODO: Translate - 收集所有结果
             for future in futures:
                 edge = future.result()
                 if edge:
@@ -136,17 +136,17 @@ class PairAnalyzer:
         Returns:
             因果边对象，如果不存在因果关系则返回None
         """
-        # 格式化提示
+        # TODO: Translate - 格式化提示
         prompt = self.format_prompt(event1, event2)
         
-        # 调用LLM
+        # TODO: Translate - 调用LLM
         response = self.llm_client.call_with_json_response(prompt['system'], prompt['instruction'])
         
         if not response["success"] or "json_content" not in response:
             print(f"事件 {event1.event_id} 和 {event2.event_id} 的因果分析失败: {response.get('error', '未知错误')}")
             return None
             
-        # 解析响应
+        # TODO: Translate - 解析响应
         edge = self.parse_response(response["json_content"], event1.event_id, event2.event_id)
         
         if edge:
@@ -165,7 +165,7 @@ class PairAnalyzer:
         Returns:
             格式化后的提示词字典，包含system和instruction
         """
-        # 格式化事件1描述
+        # TODO: Translate - 格式化event1描述
         event1_desc = f"""
 事件ID: {event1.event_id}
 描述: {event1.description}
@@ -176,7 +176,7 @@ class PairAnalyzer:
 结果: {event1.result or '未知'}
         """.strip()
         
-        # 格式化事件2描述
+        # TODO: Translate - 格式化event2描述
         event2_desc = f"""
 事件ID: {event2.event_id}
 描述: {event2.description}
@@ -187,7 +187,7 @@ class PairAnalyzer:
 结果: {event2.result or '未知'}
         """.strip()
         
-        # 从模板中获取系统提示和指令
+        # TODO: Translate - 从模板中Get系统提示和指令
         system_prompt = self.prompt_template.get("system", "")
         instruction = self.prompt_template.get("instruction", "").format(
             event1=event1_desc,
@@ -211,12 +211,12 @@ class PairAnalyzer:
         Returns:
             因果边对象，如果不存在因果关系则返回None
         """
-        # 检查是否存在因果关系
+        # TODO: Translate - Check是否存在causal关系
         has_causal = response.get("has_causal_relation", False)
         if not has_causal:
             return None
         
-        # 获取因果方向
+        # TODO: Translate - Getcausal方向
         direction = response.get("direction", "")
         
         if direction == "event1->event2":
@@ -229,7 +229,7 @@ class PairAnalyzer:
             print(f"无法解析因果方向: {direction}")
             return None
         
-        # 获取因果强度和理由
+        # TODO: Translate - Getcausal强度和理由
         strength = response.get("strength", "中")
         reason = response.get("reason", "")
         

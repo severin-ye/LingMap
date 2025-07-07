@@ -14,7 +14,7 @@ import json
 from pathlib import Path
 from unittest.mock import patch, MagicMock
 
-# 添加项目根目录到系统路径
+# TODO: Translate - Add project root directory to系统路径
 current_dir = Path(os.path.dirname(os.path.abspath(__file__)))
 project_root = current_dir.parent.parent
 sys.path.insert(0, str(project_root))
@@ -38,7 +38,7 @@ class TestEndToEndIntegration(unittest.TestCase):
         self.test_output_dir = os.path.join(self.test_dir, "output")
         os.makedirs(self.test_output_dir, exist_ok=True)
         
-        # 创建测试用的小说文件
+        # TODO: Translate - CreateTest用的小说文件
         self.test_novel_file = os.path.join(self.test_dir, "test_novel.txt")
         with open(self.test_novel_file, 'w', encoding='utf-8') as f:
             f.write("""第一章 青牛镇
@@ -58,10 +58,10 @@ class TestEndToEndIntegration(unittest.TestCase):
         """测试章节加载阶段"""
         loader = ChapterLoader()
         
-        # 测试从文本文件加载章节
+        # TODO: Translate - Test从文本文件Loadchapter
         chapter = loader.load_from_txt(self.test_novel_file)
         
-        # 验证章节加载成功
+        # VerifychapterLoadSuccessfully
         self.assertIsNotNone(chapter)
         if chapter is not None:
             self.assertIsInstance(chapter, Chapter)
@@ -72,7 +72,7 @@ class TestEndToEndIntegration(unittest.TestCase):
     @patch('event_extraction.repository.llm_client.LLMClient.call_llm')
     def test_event_extraction_stage(self, mock_llm_call):
         """测试事件提取阶段"""
-        # 模拟LLM响应
+        # TODO: Translate - 模拟LLM响应
         mock_response = {
             "success": True,
             "content": json.dumps({
@@ -100,21 +100,21 @@ class TestEndToEndIntegration(unittest.TestCase):
         }
         mock_llm_call.return_value = mock_response
         
-        # 加载章节
+        # Loadchapter
         loader = ChapterLoader()
         chapter = loader.load_from_txt(self.test_novel_file)
         
-        # 确保章节加载成功
+        # TODO: Translate - 确保chapterLoadSuccessfully
         self.assertIsNotNone(chapter)
         if chapter is None:
             self.skipTest("章节加载失败")
         
-        # 提取事件
+        # Extractevent
         with patch.dict(os.environ, {"OPENAI_API_KEY": "test-key", "LLM_PROVIDER": "openai"}):
             extractor = provide_extractor()
             events = extractor.extract(chapter)
             
-            # 验证事件提取结果
+            # TODO: Translate - VerifyeventExtract结果
             self.assertIsInstance(events, list)
             self.assertGreater(len(events), 0)
             
@@ -126,7 +126,7 @@ class TestEndToEndIntegration(unittest.TestCase):
     @patch('hallucination_refine.service.har_service.HallucinationRefiner.refine')  
     def test_hallucination_refine_stage(self, mock_refine):
         """测试幻觉修正阶段"""
-        # 创建测试事件
+        # CreateTestevent
         test_events = [
             EventItem(
                 event_id="E1-1",
@@ -137,15 +137,15 @@ class TestEndToEndIntegration(unittest.TestCase):
             )
         ]
         
-        # 模拟精炼器返回相同的事件（表示无需修正）
+        # TODO: Translate - 模拟精炼器Return相同的event（表示无需修正）
         mock_refine.return_value = test_events
         
-        # 精炼事件
+        # TODO: Translate - 精炼event
         with patch.dict(os.environ, {"OPENAI_API_KEY": "test-key", "LLM_PROVIDER": "openai"}):
             refiner = provide_refiner()
             refined_events = refiner.refine(test_events)
             
-            # 验证精炼结果
+            # TODO: Translate - Verify精炼结果
             self.assertIsInstance(refined_events, list)
             self.assertEqual(len(refined_events), len(test_events))
             
@@ -155,7 +155,7 @@ class TestEndToEndIntegration(unittest.TestCase):
     @patch('causal_linking.service.unified_linker_service.UnifiedCausalLinker.link_events')
     def test_causal_linking_stage(self, mock_link_events):
         """测试因果链接阶段"""
-        # 模拟链接器返回结果
+        # TODO: Translate - 模拟linking器Return结果
         mock_edges = [
             CausalEdge(
                 from_id="E1-1",
@@ -166,7 +166,7 @@ class TestEndToEndIntegration(unittest.TestCase):
         ]
         mock_link_events.return_value = mock_edges
         
-        # 创建测试事件
+        # CreateTestevent
         test_events = [
             EventItem(
                 event_id="E1-1",
@@ -184,12 +184,12 @@ class TestEndToEndIntegration(unittest.TestCase):
             )
         ]
         
-        # 链接事件
+        # linkingevent
         with patch.dict(os.environ, {"OPENAI_API_KEY": "test-key", "LLM_PROVIDER": "openai"}):
             linker = provide_linker()
             edges = linker.link_events(test_events)
             
-            # 验证因果链接结果
+            # TODO: Translate - Verifycausallinking结果
             self.assertIsInstance(edges, list)
             
             for edge in edges:
@@ -200,7 +200,7 @@ class TestEndToEndIntegration(unittest.TestCase):
 
     def test_mermaid_rendering_stage(self):
         """测试Mermaid渲染阶段"""
-        # 创建测试数据
+        # TODO: Translate - CreateTest数据
         test_events = [
             EventItem(
                 event_id="E1-1",
@@ -227,11 +227,11 @@ class TestEndToEndIntegration(unittest.TestCase):
             )
         ]
         
-        # 渲染图谱
+        # TODO: Translate - 渲染图谱
         renderer = MermaidRenderer()
         mermaid_code = renderer.render(test_events, test_edges)
         
-        # 验证渲染结果
+        # TODO: Translate - Verify渲染结果
         self.assertIsInstance(mermaid_code, str)
         self.assertIn("graph TD", mermaid_code)
         self.assertIn("E1-1", mermaid_code)
@@ -240,12 +240,12 @@ class TestEndToEndIntegration(unittest.TestCase):
 
     def test_file_io_operations(self):
         """测试文件输入输出操作"""
-        # 测试创建输出目录
+        # TODO: Translate - TestCreateOutput目录
         test_output_subdir = os.path.join(self.test_output_dir, "test_subdir")
         os.makedirs(test_output_subdir, exist_ok=True)
         self.assertTrue(os.path.exists(test_output_subdir))
         
-        # 测试保存JSON文件
+        # TODO: Translate - TestSaveJSON文件
         test_data = {
             "events": ["event1", "event2"],
             "edges": ["edge1", "edge2"]
@@ -256,13 +256,13 @@ class TestEndToEndIntegration(unittest.TestCase):
         
         self.assertTrue(os.path.exists(test_json_file))
         
-        # 测试读取JSON文件
+        # TODO: Translate - TestReadJSON文件
         with open(test_json_file, 'r', encoding='utf-8') as f:
             loaded_data = json.load(f)
         
         self.assertEqual(loaded_data, test_data)
         
-        # 测试保存文本文件
+        # TODO: Translate - TestSave文本文件
         test_text_file = os.path.join(test_output_subdir, "test_graph.mmd")
         test_content = """graph TD
     A[事件A] --> B[事件B]
@@ -273,7 +273,7 @@ class TestEndToEndIntegration(unittest.TestCase):
         
         self.assertTrue(os.path.exists(test_text_file))
         
-        # 验证文件内容
+        # TODO: Translate - Verify文件内容
         with open(test_text_file, 'r', encoding='utf-8') as f:
             loaded_content = f.read()
         
@@ -294,38 +294,38 @@ class TestErrorHandling(unittest.TestCase):
     def test_missing_api_key_handling(self):
         """测试缺少API密钥的处理"""
         with patch.dict(os.environ, {}, clear=True):
-            # 清除所有API密钥环境变量
+            # TODO: Translate - 清除所有API keyenvironment variables
             for key in ["OPENAI_API_KEY", "DEEPSEEK_API_KEY"]:
                 if key in os.environ:
                     del os.environ[key]
             
-            # 测试各个组件在没有API密钥时的行为
-            # 应该抛出ValueError，这是期望的行为
+            # TODO: Translate - Test各个组件在没有API key时的行为
+            # TODO: Translate - 应该抛出ValueError，这是期望的行为
             with self.assertRaises(ValueError):
-                # 默认使用openai提供商
+                # TODO: Translate - 默认Useopenaiprovider
                 extractor = provide_extractor()
                 
-            # 这表明系统正确地验证了API密钥的存在
+            # TODO: Translate - 这表明系统正确地Verify了API key的存在
 
     def test_invalid_file_handling(self):
         """测试无效文件处理"""
-        # 测试不存在的文件
+        # TODO: Translate - Test不存在的文件
         nonexistent_file = os.path.join(self.test_dir, "nonexistent.txt")
         loader = ChapterLoader()
         
-        # 这应该返回None或抛出适当的异常
+        # TODO: Translate - 这应该ReturnNone或抛出适当的异常
         try:
             result = loader.load_from_txt(nonexistent_file)
-            # 如果返回None，这是可接受的
+            # TODO: Translate - 如果ReturnNone，这是可接受的
             if result is not None:
                 self.fail("加载不存在的文件应该返回None或抛出异常")
         except (FileNotFoundError, IOError):
-            # 抛出文件相关异常是可接受的
+            # TODO: Translate - 抛出文件相关异常是可接受的
             pass
 
     def test_empty_file_handling(self):
         """测试空文件处理"""
-        # 创建空文件
+        # TODO: Translate - Create空文件
         empty_file = os.path.join(self.test_dir, "empty.txt")
         with open(empty_file, 'w', encoding='utf-8') as f:
             f.write("")
@@ -333,35 +333,35 @@ class TestErrorHandling(unittest.TestCase):
         loader = ChapterLoader()
         result = loader.load_from_txt(empty_file)
         
-        # 空文件应该返回None或空章节
+        # TODO: Translate - 空文件应该ReturnNone或空chapter
         if result is not None:
             self.assertIsInstance(result, Chapter)
-            # 如果返回章节，内容应该为空或者章节ID应该指示问题
+            # TODO: Translate - 如果Returnchapter，内容应该为空或者chapterID应该指示问题
             self.assertTrue(len(result.content.strip()) == 0 or "empty" in result.chapter_id.lower())
 
     def test_invalid_json_handling(self):
         """测试无效JSON处理"""
-        # 这个测试主要是确保系统能处理LLM返回的无效JSON
-        # 在实际的LLM调用中这种情况可能发生
+        # TODO: Translate - 这个Test主要是确保系统能ProcessLLMReturn的无效JSON
+        # TODO: Translate - 在实际的LLM调用中这种情况可能发生
         with patch('event_extraction.repository.llm_client.LLMClient.call_llm') as mock_call:
             mock_call.side_effect = json.JSONDecodeError("Invalid JSON", "doc", 0)
             
-            # 创建测试章节
+            # CreateTestchapter
             test_chapter = Chapter(
                 chapter_id="test",
                 title="测试",
                 content="测试内容"
             )
             
-            # 测试提取器是否能处理无效JSON
+            # TODO: Translate - TestExtract器是否能Process无效JSON
             with patch.dict(os.environ, {"OPENAI_API_KEY": "test-key", "LLM_PROVIDER": "openai"}):
                 extractor = provide_extractor()
                 try:
                     events = extractor.extract(test_chapter)
-                    # 应该返回空列表或处理错误
+                    # TODO: Translate - 应该Return空列表或ProcessError
                     self.assertIsInstance(events, list)
                 except (json.JSONDecodeError, ValueError, Exception):
-                    # 抛出JSON解析错误是可接受的
+                    # TODO: Translate - 抛出JSON解析Error是可接受的
                     pass
 
 
@@ -370,7 +370,7 @@ class TestPerformanceAndScaling(unittest.TestCase):
     
     def test_large_text_handling(self):
         """测试大文本文件处理"""
-        # 创建相对较大的测试文件
+        # TODO: Translate - Create相对较大的Test文件
         large_content = """第一章 开始
 """ + "韩立修炼。" * 1000 + """
 
@@ -383,7 +383,7 @@ class TestPerformanceAndScaling(unittest.TestCase):
             with open(large_file, 'w', encoding='utf-8') as f:
                 f.write(large_content)
             
-            # 测试章节加载器能否处理大文件
+            # TODO: Translate - TestchapterLoad器能否Process大文件
             loader = ChapterLoader()
             chapter = loader.load_from_txt(large_file)
             
@@ -395,7 +395,7 @@ class TestPerformanceAndScaling(unittest.TestCase):
 
     def test_multiple_events_handling(self):
         """测试多事件处理"""
-        # 创建大量测试事件
+        # TODO: Translate - Create大量Testevent
         events = []
         for i in range(50):
             events.append(EventItem(
@@ -406,13 +406,13 @@ class TestPerformanceAndScaling(unittest.TestCase):
                 chapter_id="测试章节"
             ))
         
-        # 测试Mermaid渲染器能否处理大量事件
+        # TODO: Translate - TestMermaid渲染器能否Process大量event
         renderer = MermaidRenderer()
         mermaid_code = renderer.render(events, [])
         
         self.assertIsInstance(mermaid_code, str)
         self.assertIn("graph TD", mermaid_code)
-        # 验证所有事件都被包含
+        # TODO: Translate - Verify所有event都被包含
         for i in range(50):
             self.assertIn(f"E{i}", mermaid_code)
 
@@ -423,10 +423,10 @@ def run_tests():
     print("第六阶段测试：端到端集成测试")
     print("=" * 80)
     
-    # 创建测试套件
+    # TODO: Translate - CreateTest套件
     test_suite = unittest.TestSuite()
     
-    # 添加所有测试类
+    # TODO: Translate - 添加所有Test类
     test_classes = [
         TestEndToEndIntegration,
         TestErrorHandling,
@@ -437,11 +437,11 @@ def run_tests():
         tests = unittest.TestLoader().loadTestsFromTestCase(test_class)
         test_suite.addTests(tests)
     
-    # 运行测试
+    # RunTest
     runner = unittest.TextTestRunner(verbosity=2)
     result = runner.run(test_suite)
     
-    # 输出测试总结
+    # TODO: Translate - OutputTest总结
     print("\n" + "=" * 80)
     print("第六阶段端到端集成测试总结")
     print("=" * 80)

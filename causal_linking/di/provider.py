@@ -2,20 +2,20 @@ import os
 import sys
 from pathlib import Path
 
-# 将项目根目录添加到系统路径
+# TODO: Translate - Add project root directory to系统路径
 current_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 if current_dir not in sys.path:
     sys.path.insert(0, current_dir)
 
 from common.interfaces.linker import AbstractLinker
-# 导入统一版链接器以及兼容类
+# TODO: Translate - Import统一版linking器以及兼容类
 from causal_linking.service.unified_linker_service import UnifiedCausalLinker, CausalLinker, OptimizedCausalLinker
 from common.utils.path_utils import get_config_path
 from common.utils.parallel_config import ParallelConfig
 from common.utils.thread_monitor import log_thread_usage
 from dotenv import load_dotenv
 
-# 加载.env文件中的环境变量
+# TODO: Translate - Load.env文件中的environment variables
 load_dotenv()
 
 def provide_linker(use_optimized: bool = True) -> AbstractLinker:
@@ -29,10 +29,10 @@ def provide_linker(use_optimized: bool = True) -> AbstractLinker:
         因果链接器实例
     """
     
-    # 检查API提供商环境变量
+    # CheckAPIproviderenvironment variables
     provider = os.environ.get("LLM_PROVIDER", "deepseek")
     
-    # 根据提供商获取相应的API密钥
+    # TODO: Translate - 根据providerGet相应的API key
     if provider == "openai":
         api_key = os.environ.get("OPENAI_API_KEY", "")
         model = "gpt-4o"
@@ -40,41 +40,41 @@ def provide_linker(use_optimized: bool = True) -> AbstractLinker:
         api_key = os.environ.get("DEEPSEEK_API_KEY", "")
         model = "deepseek-chat"
     
-    # 使用path_utils获取配置文件路径
+    # TODO: Translate - Usepath_utilsGetConfigure文件路径
     prompt_path = get_config_path("prompt_causal_linking.json")
     
-    # 强度映射
+    # TODO: Translate - 强度映射
     strength_mapping = {
         "高": 3,
         "中": 2,
         "低": 1
     }
     
-    # 从环境变量或默认值获取优化参数
-    max_events_per_chapter = int(os.environ.get("MAX_EVENTS_PER_CHAPTER", "50"))  # 大幅增加单章事件数量限制
-    min_entity_support = int(os.environ.get("MIN_ENTITY_SUPPORT", "3"))  # 保持中等实体支持度要求
+    # TODO: Translate - 从environment variables或默认值Get优化参数
+    max_events_per_chapter = int(os.environ.get("MAX_EVENTS_PER_CHAPTER", "50"))  # TODO: Translate - 大幅增加单章event数量限制
+    min_entity_support = int(os.environ.get("MIN_ENTITY_SUPPORT", "3"))  # TODO: Translate - 保持中等实体支持度要求
     max_chapter_span = int(os.environ.get("MAX_CHAPTER_SPAN", "10")) 
-    max_candidate_pairs = int(os.environ.get("MAX_CANDIDATE_PAIRS", "150"))  # 适当增加最大候选对数量
+    max_candidate_pairs = int(os.environ.get("MAX_CANDIDATE_PAIRS", "150"))  # TODO: Translate - 适当增加最大候选对数量
     
-    # 根据并行配置获取工作线程数
-    # 因果分析是IO和CPU混合型任务，使用默认线程配置
+    # TODO: Translate - 根据parallelConfigureGet工作thread数
+    # TODO: Translate - causal分析是IO和CPU混合型任务，Use默认threadConfigure
     if ParallelConfig.is_enabled():
-        max_workers = ParallelConfig.get_max_workers("causal_linking")  # 指定模块名获取特定配置
+        max_workers = ParallelConfig.get_max_workers("causal_linking")  # TODO: Translate - 指定模块名Get特定Configure
         if max_workers is None:
-            max_workers = 3  # 默认值
+            max_workers = 3  # TODO: Translate - 默认值
     else:
         max_workers = 1
     
     print(f"因果链接器使用工作线程数: {max_workers}")
     
-    # 记录线程使用情况
+    # TODO: Translate - 记录threadUse情况
     log_thread_usage("causal_linking", max_workers, "default")
     
     use_entity_weights = os.environ.get("USE_ENTITY_WEIGHTS", "1").lower() in ["1", "true", "yes"]
     
-    # 根据参数选择使用优化模式还是原始模式
+    # TODO: Translate - 根据参数选择Use优化模式还是原始模式
     if use_optimized:
-        # 使用优化版链接器
+        # TODO: Translate - Use优化版linking器
         return OptimizedCausalLinker(
             model=model,
             prompt_path=prompt_path,
@@ -89,7 +89,7 @@ def provide_linker(use_optimized: bool = True) -> AbstractLinker:
             use_entity_weights=use_entity_weights
         )
     else:
-        # 使用原始版链接器
+        # TODO: Translate - Use原始版linking器
         return CausalLinker(
             model=model,
             prompt_path=prompt_path,

@@ -18,7 +18,7 @@ import itertools
 from concurrent.futures import ThreadPoolExecutor
 from typing import List, Dict, Any, Optional, Tuple, Set
 
-# 添加项目根目录到Python路径
+# TODO: Translate - Add project root directory toPython路径
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 sys.path.insert(0, root_dir)
 
@@ -46,12 +46,12 @@ class UnifiedCausalLinker(BaseLinker):
         max_workers: int = 3,
         strength_mapping: Dict[str, int] = {},
         provider: str = "openai",
-        # 优化参数，默认启用优化
+        # TODO: Translate - 优化参数，默认启用优化
         use_optimization: bool = True,
-        max_events_per_chapter: int = 50,  # 大幅提高单章事件数量限制
-        min_entity_support: int = 3,  # 保持中等实体支持度要求
+        max_events_per_chapter: int = 50,  # TODO: Translate - 大幅提高单章event数量限制
+        min_entity_support: int = 3,  # TODO: Translate - 保持中等实体支持度要求
         max_chapter_span: int = 10, 
-        max_candidate_pairs: int = 150,  # 适当增加候选对数量上限
+        max_candidate_pairs: int = 150,  # TODO: Translate - 适当增加候选对数量上限
         use_entity_weights: bool = True
     ):
         """
@@ -73,13 +73,13 @@ class UnifiedCausalLinker(BaseLinker):
             use_entity_weights: 是否使用实体频率反向权重（频率越高权重越低）
         """
         if not prompt_path:
-            # 导入path_utils获取配置文件路径
+            # TODO: Translate - Importpath_utilsGetConfigure文件路径
             from common.utils.path_utils import get_config_path
             prompt_path = get_config_path("prompt_causal_linking.json")
             
         super().__init__(prompt_path)
         
-        # 如果未提供API密钥，尝试从环境变量获取
+        # TODO: Translate - 如果未提供API key，尝试从environment variablesGet
         if not api_key:
             if provider == "openai":
                 api_key_env = os.environ.get("OPENAI_API_KEY")
@@ -99,25 +99,25 @@ class UnifiedCausalLinker(BaseLinker):
         self.provider = provider
         self.use_optimization = use_optimization
         
-        # 设置强度映射
+        # TODO: Translate - Set强度映射
         self.strength_mapping = strength_mapping or {
             "高": 3,
             "中": 2,
             "低": 1
         }
         
-        # 初始化候选生成器
+        # TODO: Translate - Initialize候选Generate器
         self.candidate_generator = CandidateGenerator(
             max_events_per_chapter=max_events_per_chapter,
             min_entity_support=min_entity_support,
             max_chapter_span=max_chapter_span,
             max_candidate_pairs=max_candidate_pairs,
             use_entity_weights=use_entity_weights,
-            max_pairs_per_entity=15,  # 每个实体最多生成15对事件
-            connection_density=0.2    # 控制连接密度的系数
+            max_pairs_per_entity=15,  # TODO: Translate - 每个实体最多Generate15对event
+            connection_density=0.2    # TODO: Translate - 控制连接密度的系数
         )
         
-        # 初始化对分析器
+        # TODO: Translate - Initialize对分析器
         self.pair_analyzer = PairAnalyzer(
             model=model,
             prompt_path=prompt_path,
@@ -127,10 +127,10 @@ class UnifiedCausalLinker(BaseLinker):
             provider=provider
         )
         
-        # 初始化图过滤器
+        # TODO: Translate - Initialize图过滤器
         self.graph_filter = GraphFilter(strength_mapping=self.strength_mapping)
         
-        # 初始化LLM客户端 (仍然需要保留，用于analyze_causal_relation方法)
+        # TODO: Translate - InitializeLLMclient (仍然需要保留，用于analyze_causal_relation方法)
         self.llm_client = LLMClient(
             api_key=api_key,
             model=self.model,
@@ -151,15 +151,15 @@ class UnifiedCausalLinker(BaseLinker):
         start_time = time.time()
         
         if self.use_optimization:
-            # 使用优化版策略
+            # TODO: Translate - Use优化版策略
             print("使用优化策略生成候选事件对...")
-            # 通过CandidateGenerator生成候选事件对
+            # TODO: Translate - 通过CandidateGeneratorGenerate候选event对
             candidate_pairs = self.candidate_generator.generate_candidates(events)
             
-            # 准备事件ID到事件对象的映射，便于后续查询
+            # TODO: Translate - 准备eventID到event对象的映射，便于后续查询
             event_map = {event.event_id: event for event in events}
             
-            # 将候选事件对(ID对)转换为事件对象对
+            # TODO: Translate - 将候选event对(ID对)转换为event对象对
             event_pairs = []
             for id1, id2 in candidate_pairs:
                 if id1 in event_map and id2 in event_map:
@@ -168,20 +168,20 @@ class UnifiedCausalLinker(BaseLinker):
                     print(f"警告: 事件ID {id1} 或 {id2} 在事件列表中不存在")
             
             print(f"开始分析 {len(event_pairs)} 对事件的因果关系...")
-            # 使用PairAnalyzer批量分析事件对
+            # TODO: Translate - UsePairAnalyzer批量分析event对
             edges = self.pair_analyzer.analyze_batch(event_pairs)
             
-            # 计算优化效果
+            # TODO: Translate - 计算优化效果
             original_pairs = len(events) * (len(events) - 1) // 2
             print(f"优化前可能的事件对数量：{original_pairs}")
             print(f"优化后实际分析的事件对数量：{len(event_pairs)}，节省了 {original_pairs - len(event_pairs)} 对（{(original_pairs - len(event_pairs)) / original_pairs * 100:.2f}%）")
         else:
-            # 使用原始版全配对策略
-            # 创建所有可能的事件对组合
+            # TODO: Translate - Use原始版全配对策略
+            # TODO: Translate - Create所有可能的event对组合
             all_event_pairs = list(itertools.combinations(events, 2))
             print(f"分析 {len(all_event_pairs)} 对事件的因果关系...")
             
-            # 使用PairAnalyzer批量分析事件对
+            # TODO: Translate - UsePairAnalyzer批量分析event对
             edges = self.pair_analyzer.analyze_batch(all_event_pairs)
         
         elapsed = time.time() - start_time
@@ -201,17 +201,17 @@ class UnifiedCausalLinker(BaseLinker):
         Returns:
             因果边对象，如果不存在因果关系则返回None
         """
-        # 格式化提示
+        # TODO: Translate - 格式化提示
         prompt = self.format_prompt(event1, event2)
         
-        # 调用LLM
+        # TODO: Translate - 调用LLM
         response = self.llm_client.call_with_json_response(prompt['system'], prompt['instruction'])
         
         if not response["success"] or "json_content" not in response:
             print(f"事件 {event1.event_id} 和 {event2.event_id} 的因果分析失败: {response.get('error', '未知错误')}")
             return None
             
-        # 解析响应
+        # TODO: Translate - 解析响应
         edge = self.parse_response(response["json_content"], event1.event_id, event2.event_id)
         
         if edge:
@@ -231,12 +231,12 @@ class UnifiedCausalLinker(BaseLinker):
         Returns:
             因果边对象，如果不存在因果关系则返回None
         """
-        # 检查是否存在因果关系
+        # TODO: Translate - Check是否存在causal关系
         has_causal = response.get("has_causal_relation", False)
         if not has_causal:
             return None
         
-        # 获取因果方向
+        # TODO: Translate - Getcausal方向
         direction = response.get("direction", "")
         
         if "event1->event2" in direction:
@@ -249,7 +249,7 @@ class UnifiedCausalLinker(BaseLinker):
             print(f"无法解析因果方向: {direction}")
             return None
         
-        # 获取因果强度和理由
+        # TODO: Translate - Getcausal强度和理由
         strength = response.get("strength", "中")
         reason = response.get("reason", "")
         
@@ -271,10 +271,10 @@ class UnifiedCausalLinker(BaseLinker):
         Returns:
             处理后的事件列表和因果边列表
         """
-        # 首先，处理重复的节点ID
+        # TODO: Translate - 首先，Process重复的节点ID
         unique_events, updated_edges = self._ensure_unique_node_ids(events, edges)
         
-        # 使用图过滤器处理环和冲突
+        # TODO: Translate - Use图过滤器Process环和冲突
         filtered_edges = self.graph_filter.filter_edges_to_dag(unique_events, updated_edges)
         
         if len(filtered_edges) != len(updated_edges):
@@ -293,35 +293,35 @@ class UnifiedCausalLinker(BaseLinker):
         Returns:
             处理后的事件列表和边列表
         """
-        # 优化: 先进行事件ID重复性检查，如果没有重复ID，可以直接返回原始数据
-        # 这是一个常见优化技术，避免在不需要处理时进行复杂操作
+        # TODO: Translate - 优化: 先进行eventID重复性Check，如果没有重复ID，可以直接Return原始数据
+        # TODO: Translate - 这是一个常见优化技术，避免在不需要Process时进行复杂操作
         event_ids = [event.event_id for event in events]
         if len(event_ids) == len(set(event_ids)):
-            # 没有重复ID，可以直接返回
+            # TODO: Translate - 没有重复ID，可以直接Return
             print("没有检测到重复的事件ID，跳过ID处理")
             return events, edges
             
         print(f"检测到重复的事件ID，正在处理 {len(events)} 个事件...")
             
-        # 创建事件ID到事件的映射
+        # TODO: Translate - CreateeventID到event的映射
         event_map = {}
         unique_events = []
-        id_counter = {}  # 计数器，用于跟踪每个基本ID出现的次数
-        id_mapping = {}  # 原始ID到唯一ID的映射
+        id_counter = {}  # TODO: Translate - 计数器，用于跟踪每个基本ID出现的次数
+        id_mapping = {}  # TODO: Translate - 原始ID到唯一ID的映射
         
-        # 处理重复ID，为每个节点分配唯一ID
+        # TODO: Translate - Process重复ID，为每个节点分配唯一ID
         for event in events:
             original_id = event.event_id
             
             if original_id in event_map:
-                # 如果ID已经存在，为其创建唯一ID
+                # TODO: Translate - 如果ID已经存在，为其Create唯一ID
                 if original_id not in id_counter:
                     id_counter[original_id] = 1
-                    # 为第一个出现的ID也创建映射
+                    # TODO: Translate - 为第一个出现的ID也Create映射
                     first_unique_id = f"{original_id}_1"
                     id_mapping[original_id] = first_unique_id
                     
-                    # 更新之前存储的事件
+                    # TODO: Translate - 更新之前存储的event
                     old_event = event_map[original_id]
                     unique_event = EventItem(
                         event_id=first_unique_id,
@@ -334,23 +334,23 @@ class UnifiedCausalLinker(BaseLinker):
                         chapter_id=old_event.chapter_id
                     )
                     
-                    # 替换存储的事件
+                    # TODO: Translate - 替换存储的event
                     event_map[first_unique_id] = unique_event
                     
-                    # 移除原始ID的映射
+                    # TODO: Translate - 移除原始ID的映射
                     del event_map[original_id]
                     
-                    # 在unique_events中找到并替换
+                    # TODO: Translate - 在unique_events中找到并替换
                     for i, node in enumerate(unique_events):
                         if node.event_id == original_id:
                             unique_events[i] = unique_event
                             break
                 
-                # 为当前事件创建唯一ID
+                # TODO: Translate - 为当前eventCreate唯一ID
                 id_counter[original_id] += 1
                 unique_id = f"{original_id}_{id_counter[original_id]}"
                 
-                # 创建带有唯一ID的新事件
+                # TODO: Translate - Create带有唯一ID的新event
                 unique_event = EventItem(
                     event_id=unique_id,
                     description=event.description,
@@ -362,34 +362,34 @@ class UnifiedCausalLinker(BaseLinker):
                     chapter_id=event.chapter_id
                 )
                 
-                # 存储映射关系
-                id_mapping[unique_id] = unique_id  # 自映射，简化后续查找
+                # TODO: Translate - 存储映射关系
+                id_mapping[unique_id] = unique_id  # TODO: Translate - 自映射，简化后续查找
                 event_map[unique_id] = unique_event
                 unique_events.append(unique_event)
             else:
-                # 第一次出现的ID
+                # TODO: Translate - 第一次出现的ID
                 event_map[original_id] = event
-                id_mapping[original_id] = original_id  # 自映射，简化后续查找
+                id_mapping[original_id] = original_id  # TODO: Translate - 自映射，简化后续查找
                 unique_events.append(event)
         
-        # 并行更新边的引用，使用唯一ID
+        # TODO: Translate - parallel更新边的引用，Use唯一ID
         updated_edges = []
         
-        # 如果边的数量超过一定阈值，使用并行处理
-        if len(edges) > 20:  # 设置一个合理的阈值，小于此值时顺序处理更快
+        # TODO: Translate - 如果边的数量超过一定阈值，UseparallelProcess
+        if len(edges) > 20:  # TODO: Translate - Set一个合理的阈值，小于此值时顺序Process更快
             def process_edge(edge):
                 from_id = edge.from_id
                 to_id = edge.to_id
                 
-                # 获取映射后的ID，如果没有映射则使用原始ID
+                # TODO: Translate - Get映射后的ID，如果没有映射则Use原始ID
                 from_id_mapped = id_mapping.get(from_id, from_id)
                 to_id_mapped = id_mapping.get(to_id, to_id)
                 
-                # 如果源节点或目标节点在映射中不存在，返回None
+                # TODO: Translate - 如果源节点或目标节点在映射中不存在，ReturnNone
                 if from_id_mapped not in event_map or to_id_mapped not in event_map:
                     return None
                 
-                # 创建新的边
+                # TODO: Translate - Create新的边
                 return CausalEdge(
                     from_id=from_id_mapped,
                     to_id=to_id_mapped,
@@ -398,35 +398,35 @@ class UnifiedCausalLinker(BaseLinker):
                 )
             
             print(f"使用并行处理更新 {len(edges)} 条边的引用...")
-            # 使用线程池并行处理边
+            # TODO: Translate - Usethread池parallelProcess边
             with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
-                # 提交所有边处理任务
+                # TODO: Translate - 提交所有边Process任务
                 results = list(executor.map(process_edge, edges))
                 
-            # 过滤掉无效的边
+            # TODO: Translate - 过滤掉无效的边
             updated_edges = [edge for edge in results if edge is not None]
             
-            # 统计跳过的边数量
+            # TODO: Translate - 统计跳过的边数量
             skipped_count = len(edges) - len(updated_edges)
             if skipped_count > 0:
                 print(f"警告：有 {skipped_count} 条边引用了不存在的节点，已被跳过")
                 
         else:
-            # 对于边数量较少的情况，使用顺序处理
+            # TODO: Translate - 对于边数量较少的情况，Use顺序Process
             for edge in edges:
                 from_id = edge.from_id
                 to_id = edge.to_id
                 
-                # 获取映射后的ID，如果没有映射则使用原始ID
+                # TODO: Translate - Get映射后的ID，如果没有映射则Use原始ID
                 from_id_mapped = id_mapping.get(from_id, from_id)
                 to_id_mapped = id_mapping.get(to_id, to_id)
                 
-                # 如果源节点或目标节点在映射中不存在，直接跳过
+                # TODO: Translate - 如果源节点或目标节点在映射中不存在，直接跳过
                 if from_id_mapped not in event_map or to_id_mapped not in event_map:
                     print(f"警告：边 {from_id} -> {to_id} 引用了不存在的节点，将被跳过")
                     continue
                 
-                # 创建新的边
+                # TODO: Translate - Create新的边
                 updated_edge = CausalEdge(
                     from_id=from_id_mapped,
                     to_id=to_id_mapped,
@@ -438,7 +438,7 @@ class UnifiedCausalLinker(BaseLinker):
         print(f"处理了节点ID唯一性：原始事件数 {len(events)}，处理后事件数 {len(unique_events)}，处理后边数 {len(updated_edges)}")
         return unique_events, updated_edges
     
-    # 以下方法是为了保持与测试兼容
+    # TODO: Translate - 以下方法是为了保持与Test兼容
     def _will_form_cycle(self, graph: List[List[int]], from_idx: int, to_idx: int) -> bool:
         """
         检查添加边是否会在图中形成环
@@ -451,7 +451,7 @@ class UnifiedCausalLinker(BaseLinker):
         Returns:
             如果会形成环则返回True，否则返回False
         """
-        # 如果to_idx已经可以到达from_idx，添加边会形成环
+        # TODO: Translate - 如果to_idx已经可以到达from_idx，添加边会形成环
         return self._is_reachable(graph, to_idx, from_idx, set())
     
     def _is_reachable(self, graph: List[List[int]], start: int, end: int, visited: Set[int]) -> bool:
@@ -488,27 +488,27 @@ class UnifiedCausalLinker(BaseLinker):
         Returns:
             处理后的事件列表和因果边列表(DAG)
         """
-        # 1. 找出事件间的因果关系
+        # TODO: Translate - 1. 找出event间的causal关系
         edges = self.link_events(events)
         
-        # 2. 构建有向无环图
+        # TODO: Translate - 2. Build有向无环图
         return self.build_dag(events, edges)
 
 
-# 为向后兼容性提供原始版和优化版链接器的别名类
+# TODO: Translate - 为向后兼容性提供原始版和优化版linking器的别名类
 class CausalLinker(UnifiedCausalLinker):
     """
     原始版因果链接器的兼容类
     实际使用统一版但禁用优化
     """
     def __init__(self, *args, **kwargs):
-        # 移除可能传入的优化参数
+        # TODO: Translate - 移除可能传入的优化参数
         for param in ['use_optimization', 'max_events_per_chapter', 'min_entity_support', 
                      'max_chapter_span', 'max_candidate_pairs', 'use_entity_weights']:
             if param in kwargs:
                 kwargs.pop(param)
         
-        # 固定使用不优化模式
+        # TODO: Translate - 固定Use不优化模式
         super().__init__(*args, use_optimization=False, **kwargs)
     
     def _will_form_cycle(self, graph, from_idx, to_idx):
@@ -523,7 +523,7 @@ class CausalLinker(UnifiedCausalLinker):
         Returns:
             如果会形成环则返回True，否则返回False
         """
-        # 如果to_idx已经可以到达from_idx，添加边会形成环
+        # TODO: Translate - 如果to_idx已经可以到达from_idx，添加边会形成环
         return self._is_reachable(graph, to_idx, from_idx, set())
     
     def _is_reachable(self, graph, start, end, visited):
@@ -557,23 +557,23 @@ class OptimizedCausalLinker(UnifiedCausalLinker):
     实际使用统一版且启用优化
     """
     def __init__(self, *args, **kwargs):
-        # 确保优化被启用
+        # TODO: Translate - 确保优化被启用
         kwargs['use_optimization'] = True
         super().__init__(*args, **kwargs)
 
 
-# 当直接运行此文件时执行的测试代码
+# TODO: Translate - 当直接Run此文件时Execute的Test代码
 if __name__ == "__main__":
     print("运行统一因果链接器模块测试...")
     
-    # 简单初始化测试 - 验证模块可以正确加载和初始化
+    # TODO: Translate - 简单InitializeTest - Verify模块可以正确Load和Initialize
     try:
-        # 创建没有API密钥的实例（仅用于验证导入成功）
-        # 实际使用时应该提供正确的API密钥
+        # TODO: Translate - Create没有API key的实例（仅用于VerifyImportSuccessfully）
+        # TODO: Translate - 实际Use时应该提供正确的API key
         linker = UnifiedCausalLinker(prompt_path="", api_key="test_key")
         print("✓ 统一因果链接器初始化成功")
         
-        # 验证导入的其他模块
+        # TODO: Translate - VerifyImport的其他模块
         print("✓ 成功导入 PairAnalyzer")
         print("✓ 成功导入 CandidateGenerator")
         print("✓ 成功导入 GraphFilter")

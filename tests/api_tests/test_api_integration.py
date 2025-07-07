@@ -12,25 +12,25 @@ import time
 import signal
 from pathlib import Path
 
-# 添加项目根目录到系统路径
+# TODO: Translate - Add project root directory to系统路径
 current_dir = Path(os.path.dirname(os.path.abspath(__file__)))
 project_root = current_dir.parent.parent
 sys.path.insert(0, str(project_root))
 
-# 加载环境变量
+# Loadenvironment variables
 from dotenv import load_dotenv
 load_dotenv()
 
 from event_extraction.repository.llm_client import LLMClient
 from common.utils.enhanced_logger import EnhancedLogger
 
-# 创建日志记录器
+# TODO: Translate - Create日志记录器
 logger = EnhancedLogger("api_integration_test", log_level="DEBUG")
 
-# 是否使用模拟模式（不实际调用API）
+# TODO: Translate - 是否Use模拟模式（不实际调用API）
 MOCK_MODE = os.environ.get("MOCK_API", "false").lower() == "true"
 
-# 超时设置（秒）
+# TODO: Translate - 超时Set（秒）
 API_TIMEOUT = 30
 
 class TimeoutException(Exception):
@@ -43,19 +43,19 @@ def timeout_handler(signum, frame):
 
 def with_timeout(func, *args, **kwargs):
     """添加超时控制的函数装饰器"""
-    # 设置信号处理器
+    # TODO: Translate - Set信号Process器
     signal.signal(signal.SIGALRM, timeout_handler)
     signal.alarm(API_TIMEOUT)
     
     try:
         result = func(*args, **kwargs)
-        signal.alarm(0)  # 取消闹钟
+        signal.alarm(0)  # TODO: Translate - 取消闹钟
         return result
     except TimeoutException as e:
         print(f"⚠️  {str(e)}")
         return {"success": False, "error": str(e)}
     finally:
-        signal.alarm(0)  # 确保闹钟被取消
+        signal.alarm(0)  # TODO: Translate - 确保闹钟被取消
 
 def mock_api_response(system_prompt, user_prompt):
     """生成模拟API响应，用于测试模式"""
@@ -83,7 +83,7 @@ def test_basic_api_connection():
     print("1. 基本API连接测试")
     print("="*80)
     
-    # 获取API密钥
+    # GetAPI key
     api_key = os.environ.get("DEEPSEEK_API_KEY")
     if not api_key and not MOCK_MODE:
         print("❌ 错误: 未找到DeepSeek API密钥")
@@ -99,16 +99,16 @@ def test_basic_api_connection():
         print(f"✓ 找到API密钥: {api_key[:5]}...")
         
         try:
-            # 初始化客户端
+            # Initializeclient
             client = LLMClient(
                 api_key=api_key,
                 model="deepseek-chat",
                 provider="deepseek",
                 temperature=0.0,
-                timeout=API_TIMEOUT  # 设置超时时间
+                timeout=API_TIMEOUT  # TODO: Translate - Set超时时间
             )
             
-            # 测试简单调用
+            # TODO: Translate - Test简单调用
             print("\n测试简单文本调用...")
             system = "你是一个有用的AI助手。"
             user = "请简单介绍一下《凡人修仙传》这部小说。"
@@ -159,7 +159,7 @@ def test_json_response():
                 timeout=API_TIMEOUT
             )
             
-            # 测试JSON响应
+            # TODO: Translate - TestJSON响应
             system = "你是一个专门分析小说内容的AI助手。请以JSON格式回复。"
             user = """请分析《凡人修仙传》主角韩立的基本信息，以JSON格式回复：
     {
@@ -184,7 +184,7 @@ def test_json_response():
         print("\nJSON内容:")
         print(json.dumps(json_content, ensure_ascii=False, indent=2))
         
-        # 验证JSON结构
+        # TODO: Translate - VerifyJSON结构
         required_fields = ["name", "origin", "cultivation_type", "main_characteristics"]
         missing_fields = [field for field in required_fields if field not in json_content]
         
@@ -207,7 +207,7 @@ def test_causal_analysis_api():
     print("3. 因果分析API测试")
     print("="*80)
     
-    # 如果是模拟模式，返回模拟数据
+    # TODO: Translate - 如果是模拟模式，Return模拟数据
     if MOCK_MODE:
         print("⚠️  测试运行在模拟模式，使用模拟数据")
         response = {
@@ -233,7 +233,7 @@ def test_causal_analysis_api():
                 timeout=API_TIMEOUT
             )
             
-            # 测试因果分析
+            # TODO: Translate - Testcausal分析
             system = "你是一个专门分析《凡人修仙传》中事件因果关系的AI助手。请以JSON格式回复。"
             user = """请分析以下两个事件之间是否存在因果关系:
 
@@ -264,7 +264,7 @@ def test_causal_analysis_api():
         print("\n因果分析结果:")
         print(json.dumps(json_content, ensure_ascii=False, indent=2))
         
-        # 验证因果分析结果
+        # TODO: Translate - Verifycausal分析结果
         has_causal = json_content.get("has_causal_relation", False)
         if has_causal:
             direction = json_content.get("direction", "")
@@ -287,7 +287,7 @@ def main():
     print("DeepSeek API集成测试套件")
     print("="*80)
     
-    # 检查是否启用了模拟模式
+    # TODO: Translate - Check是否启用了模拟模式
     if MOCK_MODE:
         print("⚠️  警告: 测试运行在模拟模式，不会实际调用API")
     
@@ -315,7 +315,7 @@ def main():
             print(f"❌ 测试 '{test_name}' 发生异常: {str(e)}")
             results.append((test_name, False, 0))
     
-    # 输出测试总结
+    # TODO: Translate - OutputTest总结
     print("\n" + "="*80)
     print("测试总结")
     print("="*80)
@@ -334,7 +334,7 @@ def main():
     else:
         print("⚠️  部分测试失败，请检查配置和网络连接")
     
-    # 返回0表示成功，非0表示失败
+    # TODO: Translate - Return0表示Successfully，非0表示Failed
     return 0 if passed == total else 1
 
 if __name__ == "__main__":

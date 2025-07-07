@@ -46,11 +46,11 @@ class UnifiedIdProcessor:
         event_ids = [event.event_id for event in events]
         id_counts = {}
         
-        # 计算每个ID的出现次数
+        # TODO: Translate - 计算每个ID的出现次数
         for event_id in event_ids:
             id_counts[event_id] = id_counts.get(event_id, 0) + 1
         
-        # 找出重复ID
+        # TODO: Translate - 找出重复ID
         duplicate_ids = [id for id, count in id_counts.items() if count > 1]
         duplicate_counts = {id: count for id, count in id_counts.items() if count > 1}
         
@@ -73,29 +73,29 @@ class UnifiedIdProcessor:
         Returns:
             处理后具有唯一ID的事件列表
         """
-        # 创建ID计数器，用于跟踪每个基本ID的出现次数
+        # TODO: Translate - CreateID计数器，用于跟踪每个基本ID的出现次数
         id_counter: Dict[str, int] = {}
-        # 记录已存在的ID
+        # TODO: Translate - 记录已存在的ID
         existing_ids: Set[str] = set()
-        # 返回的唯一ID事件列表
+        # TODO: Translate - Return的唯一IDevent列表
         unique_events: List[EventItem] = []
 
         for event in events:
             original_id = event.event_id
             
-            # 如果ID已存在，为其创建唯一变体
+            # TODO: Translate - 如果ID已存在，为其Create唯一变体
             if original_id in existing_ids:
                 if original_id not in id_counter:
-                    # 第一次遇到重复，初始化计数为1
+                    # TODO: Translate - 第一次遇到重复，Initialize计数为1
                     id_counter[original_id] = 1
                 
-                # 增加计数
+                # TODO: Translate - 增加计数
                 id_counter[original_id] += 1
                 
-                # 创建带有序号的唯一ID
+                # TODO: Translate - Create带有序号的唯一ID
                 unique_id = f"{original_id}_{id_counter[original_id]}"
                 
-                # 创建带有唯一ID的新事件对象
+                # TODO: Translate - Create带有唯一ID的新event对象
                 unique_event = EventItem(
                     event_id=unique_id,
                     description=event.description,
@@ -110,7 +110,7 @@ class UnifiedIdProcessor:
                 unique_events.append(unique_event)
                 existing_ids.add(unique_id)
             else:
-                # ID不重复，直接使用
+                # TODO: Translate - ID不重复，直接Use
                 existing_ids.add(original_id)
                 unique_events.append(event)
         
@@ -129,27 +129,27 @@ class UnifiedIdProcessor:
         Returns:
             标准化的事件ID
         """
-        # 如果没有事件ID，则基于章节ID和索引生成
+        # TODO: Translate - 如果没有eventID，则基于chapterID和索引Generate
         if not event_id:
             normalized_chapter_id = re.sub(r'[章节]', '', chapter_id)
             try:
                 chapter_num = int(normalized_chapter_id)
                 return f"E{chapter_num:02d}-{index}"
             except ValueError:
-                # 如果无法转换为整数，直接使用原值
+                # TODO: Translate - 如果无法转换为整数，直接Use原值
                 return f"E{normalized_chapter_id}-{index}"
         
-        # 如果已有事件ID，检查格式
+        # TODO: Translate - 如果已有eventID，Check格式
         if re.match(r'E\d+-\d+', event_id):
             return event_id
         
-        # 尝试从现有ID中提取章节和索引信息
+        # TODO: Translate - 尝试从现有ID中Extractchapter和索引信息
         match = re.search(r'第([一二三四五六七八九十百千万零]+|\d+)章-(\d+)', event_id)
         if match:
             chapter_number = match.group(1)
             event_number = match.group(2)
             
-            # 处理中文数字
+            # TODO: Translate - Process中文数字
             chinese_numbers = {'一': 1, '二': 2, '三': 3, '四': 4, '五': 5, 
                               '六': 6, '七': 7, '八': 8, '九': 9, '十': 10}
             try:
@@ -158,12 +158,12 @@ class UnifiedIdProcessor:
                 else:
                     chapter_number = int(chapter_number)
             except ValueError:
-                # 处理复合中文数字，此处简化处理
-                chapter_number = 1  # 默认值
+                # TODO: Translate - Process复合中文数字，此处简化Process
+                chapter_number = 1  # TODO: Translate - 默认值
                 
             return f"E{chapter_number:02d}-{event_number}"
         
-        # 默认情况，使用原始ID
+        # TODO: Translate - 默认情况，Use原始ID
         return event_id
 
     @staticmethod
@@ -178,38 +178,38 @@ class UnifiedIdProcessor:
         Returns:
             处理后的事件列表和边列表
         """
-        # 创建事件ID到事件的映射
+        # TODO: Translate - CreateeventID到event的映射
         event_map = {}
         unique_events = []
-        duplicate_ids = set()  # 用于存储重复的ID
-        id_counter = {}  # 计数器，用于跟踪每个基本ID出现的次数
+        duplicate_ids = set()  # TODO: Translate - 用于存储重复的ID
+        id_counter = {}  # TODO: Translate - 计数器，用于跟踪每个基本ID出现的次数
         
-        # 第一遍：检测重复ID
+        # TODO: Translate - 第一遍：检测重复ID
         for event in events:
             if event.event_id in event_map:
                 duplicate_ids.add(event.event_id)
             else:
                 event_map[event.event_id] = event
         
-        # 清空事件映射表，重新构建
+        # TODO: Translate - 清空event映射表，重新Build
         event_map.clear()
         
-        # 第二遍：处理所有节点，为重复ID的节点分配唯一ID
+        # TODO: Translate - 第二遍：Process所有节点，为重复ID的节点分配唯一ID
         for event in events:
             original_id = event.event_id
             
             if original_id in duplicate_ids:
-                # 这是一个重复ID
+                # TODO: Translate - 这是一个重复ID
                 if original_id not in id_counter:
                     id_counter[original_id] = 0
                 
-                # 增加计数
+                # TODO: Translate - 增加计数
                 id_counter[original_id] += 1
                 
-                # 创建唯一ID
+                # TODO: Translate - Create唯一ID
                 unique_id = f"{original_id}_{id_counter[original_id]}"
                 
-                # 创建新的事件对象
+                # TODO: Translate - Create新的event对象
                 unique_event = EventItem(
                     event_id=unique_id,
                     description=event.description,
@@ -221,40 +221,40 @@ class UnifiedIdProcessor:
                     chapter_id=event.chapter_id
                 )
                 
-                # 添加到映射
+                # TODO: Translate - 添加到映射
                 event_map[unique_id] = unique_event
                 unique_events.append(unique_event)
             else:
-                # 非重复ID，直接使用
+                # TODO: Translate - 非重复ID，直接Use
                 event_map[original_id] = event
                 unique_events.append(event)
         
-        # 创建用于更新边的映射，将原始ID映射到唯一ID列表
+        # TODO: Translate - Create用于更新边的映射，将原始ID映射到唯一ID列表
         original_to_unique_ids = {}
         for unique_event in unique_events:
             event_id = unique_event.event_id
             if "_" in event_id:
-                # 这是一个带后缀的唯一ID
+                # TODO: Translate - 这是一个带后缀的唯一ID
                 original_id = event_id.rsplit("_", 1)[0]
                 if original_id not in original_to_unique_ids:
                     original_to_unique_ids[original_id] = []
                 original_to_unique_ids[original_id].append(event_id)
             else:
-                # 非重复ID，自映射
+                # TODO: Translate - 非重复ID，自映射
                 if event_id not in original_to_unique_ids:
                     original_to_unique_ids[event_id] = [event_id]
         
-        # 更新边的引用
+        # TODO: Translate - 更新边的引用
         updated_edges = []
         for edge in edges:
             from_id = edge.from_id
             to_id = edge.to_id
             
-            # 获取所有可能的唯一ID
+            # TODO: Translate - Get所有可能的唯一ID
             from_unique_ids = original_to_unique_ids.get(from_id, [from_id])
             to_unique_ids = original_to_unique_ids.get(to_id, [to_id])
             
-            # 为每对唯一ID创建边
+            # TODO: Translate - 为每对唯一IDCreate边
             for from_unique_id in from_unique_ids:
                 for to_unique_id in to_unique_ids:
                     if from_unique_id in event_map and to_unique_id in event_map:
@@ -280,33 +280,33 @@ class UnifiedIdProcessor:
         """
         import json
         
-        # 如果未指定输出路径，则覆盖输入文件
+        # TODO: Translate - 如果未指定Output路径，则覆盖输入文件
         if output_path is None:
             output_path = input_path
             
         try:
-            # 读取文件
+            # TODO: Translate - Read文件
             with open(input_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 
             if isinstance(data, list):
-                # 假设文件包含事件列表
+                # TODO: Translate - 假设文件包含event列表
                 try:
                     from common.models.event import EventItem
                     events = [EventItem(**item) if isinstance(item, dict) else item for item in data]
                     unique_events = UnifiedIdProcessor.ensure_unique_event_ids(events)
-                    # 转换回原始格式
+                    # TODO: Translate - 转换回原始格式
                     result = [event.__dict__ for event in unique_events]
                 except Exception as e:
                     print(f"解析事件数据失败: {e}，尝试其他格式")
                     result = data
             elif isinstance(data, dict) and "events" in data:
-                # 假设文件包含带有events键的字典
+                # TODO: Translate - 假设文件包含带有events键的字典
                 try:
                     from common.models.event import EventItem
                     events = [EventItem(**item) if isinstance(item, dict) else item for item in data["events"]]
                     unique_events = UnifiedIdProcessor.ensure_unique_event_ids(events)
-                    # 更新events键
+                    # TODO: Translate - 更新events键
                     data["events"] = [event.__dict__ for event in unique_events]
                     result = data
                 except Exception as e:
@@ -316,7 +316,7 @@ class UnifiedIdProcessor:
                 print("未识别的数据格式，保持不变")
                 result = data
                 
-            # 写回文件
+            # TODO: Translate - 写回文件
             with open(output_path, 'w', encoding='utf-8') as f:
                 json.dump(result, f, ensure_ascii=False, indent=2)
                 

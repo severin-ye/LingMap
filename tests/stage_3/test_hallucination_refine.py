@@ -14,7 +14,7 @@ import unittest
 import json
 from unittest.mock import patch, MagicMock
 
-# 添加项目根目录到 Python 路径
+# TODO: Translate - Add project root directory to Python 路径
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
@@ -29,17 +29,17 @@ class TestHallucinationRefiner(unittest.TestCase):
     
     def setUp(self):
         """测试前的准备工作"""
-        # 获取项目根目录
+        # TODO: Translate - Get项目根目录
         current_dir = os.path.dirname(os.path.abspath(__file__))
         self.project_root = os.path.dirname(os.path.dirname(current_dir))
         
-        # 创建测试用的事件数据（包含一些可能的幻觉）
+        # TODO: Translate - CreateTest用的event数据（包含一些可能的hallucination）
         self.test_events = [
             EventItem(
                 event_id="E1",
                 description="韩立在青铜门前遇到了神秘的黑袍修士，获得了传说中的混沌神剑",
                 characters=["韩立", "黑袍修士"],
-                treasures=["混沌神剑"],  # 这个宝物在《凡人修仙传》中可能是幻觉
+                treasures=["混沌神剑"],  # TODO: Translate - 这个宝物在《凡人修仙传》中可能是hallucination
                 location="青铜门前",
                 chapter_id="第一章",
                 result="获得强大武器"
@@ -55,7 +55,7 @@ class TestHallucinationRefiner(unittest.TestCase):
             )
         ]
         
-        # 模拟支持上下文
+        # TODO: Translate - 模拟支持上下文
         self.test_context = """
         《凡人修仙传》是忘语创作的仙侠小说。主角韩立是一个普通山村少年，
         通过努力修炼逐步成长。小说中的宝物系统包括灵药、法器、功法等，
@@ -65,7 +65,7 @@ class TestHallucinationRefiner(unittest.TestCase):
     @patch('hallucination_refine.service.har_service.LLMClient.call_with_json_response')
     def test_refine_single_event(self, mock_llm_call):
         """测试单个事件的幻觉修复"""
-        # 模拟 LLM 返回检测到幻觉的响应
+        # TODO: Translate - 模拟 LLM Return检测到hallucination的响应
         mock_response = {
             "success": True,
             "json_content": {
@@ -90,7 +90,7 @@ class TestHallucinationRefiner(unittest.TestCase):
         }
         mock_llm_call.return_value = mock_response
         
-        # 创建修复器实例（使用假API密钥和正确的prompt路径）
+        # TODO: Translate - Createrefine器实例（Use假API key和正确的prompt路径）
         prompt_path = os.path.join(project_root, "common", "config", "prompt_hallucination_refine.json")
         refiner = HallucinationRefiner(
             model="gpt-4o",
@@ -99,22 +99,22 @@ class TestHallucinationRefiner(unittest.TestCase):
             max_iterations=1
         )
         
-        # 修复单个事件
+        # TODO: Translate - refine单个event
         refined_event = refiner.refine_event(self.test_events[0], self.test_context)
         
-        # 验证修复结果
+        # TODO: Translate - Verifyrefine结果
         self.assertIsNotNone(refined_event)
         self.assertEqual(refined_event.event_id, "E1")
         self.assertIn("古朴长剑", refined_event.treasures)
         self.assertNotIn("混沌神剑", refined_event.treasures)
         
-        # 验证LLM被正确调用
+        # TODO: Translate - VerifyLLM被正确调用
         mock_llm_call.assert_called_once()
         
     @patch('hallucination_refine.service.har_service.LLMClient.call_with_json_response')
     def test_refine_events_batch(self, mock_llm_call):
         """测试批量事件修复"""
-        # 模拟不同的LLM响应
+        # TODO: Translate - 模拟不同的LLM响应
         def mock_llm_side_effect(system_prompt, user_prompt):
             if "混沌神剑" in user_prompt or "E1" in user_prompt:
                 return {
@@ -154,7 +154,7 @@ class TestHallucinationRefiner(unittest.TestCase):
         
         mock_llm_call.side_effect = mock_llm_side_effect
         
-        # 创建修复器实例
+        # TODO: Translate - Createrefine器实例
         prompt_path = os.path.join(project_root, "common", "config", "prompt_hallucination_refine.json")
         refiner = HallucinationRefiner(
             model="gpt-4o",
@@ -164,27 +164,27 @@ class TestHallucinationRefiner(unittest.TestCase):
             max_iterations=1
         )
         
-        # 批量修复事件
+        # TODO: Translate - 批量refineevent
         refined_events = refiner.refine(self.test_events, self.test_context)
         
-        # 验证修复结果
+        # TODO: Translate - Verifyrefine结果
         self.assertEqual(len(refined_events), 2)
         
-        # 第一个事件应该被修复
+        # TODO: Translate - 第一个event应该被refine
         refined_event_1 = next(e for e in refined_events if e.event_id == "E1")
         self.assertIn("古朴长剑", refined_event_1.treasures)
         self.assertNotIn("混沌神剑", refined_event_1.treasures)
         
-        # 第二个事件应该保持基本信息不变
+        # TODO: Translate - 第二个event应该保持基本信息不变
         refined_event_2 = next(e for e in refined_events if e.event_id == "E2")
         self.assertEqual(refined_event_2.event_id, "E2")
-        # 由于并发处理和模拟响应的复杂性，我们只验证事件ID正确
-        # 在实际使用中，事件描述应该保持不变或正确处理
+        # TODO: Translate - 由于并发Process和模拟响应的复杂性，我们只VerifyeventID正确
+        # TODO: Translate - 在实际Use中，event描述应该保持不变或正确Process
         
     @patch('hallucination_refine.service.har_service.LLMClient.call_with_json_response')
     def test_no_hallucination_detected(self, mock_llm_call):
         """测试没有检测到幻觉的情况"""
-        # 模拟LLM返回没有幻觉的响应
+        # TODO: Translate - 模拟LLMReturn没有hallucination的响应
         mock_response = {
             "success": True,
             "json_content": {
@@ -195,7 +195,7 @@ class TestHallucinationRefiner(unittest.TestCase):
         }
         mock_llm_call.return_value = mock_response
         
-        # 创建修复器实例
+        # TODO: Translate - Createrefine器实例
         prompt_path = os.path.join(project_root, "common", "config", "prompt_hallucination_refine.json")
         refiner = HallucinationRefiner(
             model="gpt-4o",
@@ -203,24 +203,24 @@ class TestHallucinationRefiner(unittest.TestCase):
             api_key="fake-key"
         )
         
-        # 修复事件（使用一个正常的事件）
+        # TODO: Translate - refineevent（Use一个正常的event）
         refined_event = refiner.refine_event(self.test_events[1], self.test_context)
         
-        # 验证原事件被返回
+        # TODO: Translate - Verify原event被Return
         self.assertEqual(refined_event.event_id, self.test_events[1].event_id)
         self.assertEqual(refined_event.description, self.test_events[1].description)
         
     @patch('hallucination_refine.service.har_service.LLMClient.call_with_json_response')
     def test_llm_call_failure(self, mock_llm_call):
         """测试LLM调用失败的情况"""
-        # 模拟LLM调用失败
+        # TODO: Translate - 模拟LLM调用Failed
         mock_response = {
             "success": False,
             "error": "API调用失败"
         }
         mock_llm_call.return_value = mock_response
         
-        # 创建修复器实例
+        # TODO: Translate - Createrefine器实例
         prompt_path = os.path.join(project_root, "common", "config", "prompt_hallucination_refine.json")
         refiner = HallucinationRefiner(
             model="gpt-4o",
@@ -228,26 +228,26 @@ class TestHallucinationRefiner(unittest.TestCase):
             api_key="fake-key"
         )
         
-        # 修复事件
+        # refineevent
         refined_event = refiner.refine_event(self.test_events[0], self.test_context)
         
-        # 验证返回原事件（因为修复失败）
+        # TODO: Translate - VerifyReturn原event（因为refineFailed）
         self.assertEqual(refined_event.event_id, self.test_events[0].event_id)
         self.assertEqual(refined_event.description, self.test_events[0].description)
         
     def test_provider_integration(self):
         """测试依赖注入提供器"""
-        # 设置环境变量
+        # Setenvironment variables
         os.environ["OPENAI_API_KEY"] = "fake-key"
         os.environ["LLM_PROVIDER"] = "openai"
         
-        # 获取修复器实例
+        # TODO: Translate - Getrefine器实例
         refiner = provide_refiner()
         
-        # 验证实例类型
+        # TODO: Translate - Verify实例类型
         self.assertIsInstance(refiner, HallucinationRefiner)
         
-        # 清理环境变量
+        # TODO: Translate - 清理environment variables
         if "OPENAI_API_KEY" in os.environ:
             del os.environ["OPENAI_API_KEY"]
         if "LLM_PROVIDER" in os.environ:
@@ -308,7 +308,7 @@ class TestHARResponseParsing(unittest.TestCase):
         
         refined_event = self.refiner.parse_response(response, self.original_event)
         
-        # 应该返回原事件
+        # TODO: Translate - 应该Return原event
         self.assertEqual(refined_event.event_id, self.original_event.event_id)
         self.assertEqual(refined_event.description, self.original_event.description)
         
@@ -319,17 +319,17 @@ class TestHARResponseParsing(unittest.TestCase):
             "refined_event": {
                 "event_id": "E1",
                 "description": "修复后的事件"
-                # 缺少其他字段：characters, treasures, location, chapter_id, result
+                # TODO: Translate - 缺少其他字段：characters, treasures, location, chapter_id, result
             }
         }
         
         refined_event = self.refiner.parse_response(response, self.original_event)
         
-        # 验证修复后的字段
+        # TODO: Translate - Verifyrefine后的字段
         self.assertEqual(refined_event.event_id, self.original_event.event_id)
-        self.assertEqual(refined_event.description, "修复后的事件")  # 使用响应中的描述
+        self.assertEqual(refined_event.description, "修复后的事件")  # TODO: Translate - Use响应中的描述
         
-        # 验证缺失的字段应该从原始事件中继承
+        # TODO: Translate - Verify缺失的字段应该从原始event中继承
         self.assertEqual(refined_event.characters, self.original_event.characters)
         self.assertEqual(refined_event.treasures, self.original_event.treasures) 
         self.assertEqual(refined_event.location, self.original_event.location)
@@ -340,12 +340,12 @@ class TestHARResponseParsing(unittest.TestCase):
         """测试解析完全无效的响应"""
         response = {
             "has_hallucination": True,
-            "refined_event": None  # 无效的refined_event
+            "refined_event": None  # TODO: Translate - 无效的refined_event
         }
         
         refined_event = self.refiner.parse_response(response, self.original_event)
         
-        # 应该返回原始事件
+        # TODO: Translate - 应该Return原始event
         self.assertEqual(refined_event.event_id, self.original_event.event_id)
         self.assertEqual(refined_event.description, self.original_event.description)
         self.assertEqual(refined_event.characters, self.original_event.characters)
@@ -368,10 +368,10 @@ class TestHARResponseParsing(unittest.TestCase):
         
         refined_event = self.refiner.parse_response(response, self.original_event)
         
-        # 验证只修正了指定的字段
+        # TODO: Translate - Verify只修正了指定的字段
         self.assertEqual(refined_event.description, "修正后的描述")
         self.assertEqual(refined_event.treasures, ["修正后的宝物"])
-        # 其他字段应该保持不变
+        # TODO: Translate - 其他字段应该保持不变
         self.assertEqual(refined_event.characters, self.original_event.characters)
         self.assertEqual(refined_event.location, self.original_event.location)
 

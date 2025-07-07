@@ -10,7 +10,7 @@ import json
 import time
 from datetime import datetime
 
-# 添加项目根目录到Python路径
+# TODO: Translate - Add project root directory toPython路径
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.insert(0, project_root)
@@ -23,7 +23,7 @@ def test_candidate_generation():
     """测试优化后的候选事件对生成算法"""
     print("=== 智能连接生成优化测试 ===")
     
-    # 加载测试事件数据
+    # TODO: Translate - LoadTestevent数据
     try:
         event_file = os.path.join(project_root, 'debug/extracted_events.json')
         with open(event_file, 'r', encoding='utf-8') as f:
@@ -34,12 +34,12 @@ def test_candidate_generation():
         print(f"加载事件失败: {e}")
         return
     
-    # 计算全配对的总数，用于比较
+    # TODO: Translate - 计算全配对的总数，用于比较
     total_events = len(events)
     all_possible_pairs = (total_events * (total_events - 1)) // 2
     print(f"全组合配对数量: {all_possible_pairs} 对")
     
-    # 使用不同的配置测试
+    # TODO: Translate - Use不同的ConfigureTest
     configurations = [
         {
             "name": "平衡模式",
@@ -86,7 +86,7 @@ def test_candidate_generation():
         candidate_pairs = generator.generate_candidates(events)
         elapsed = time.time() - start_time
         
-        # 计算相对于全配对的比例
+        # TODO: Translate - 计算相对于全配对的比例
         percentage = (len(candidate_pairs) / all_possible_pairs) * 100 if all_possible_pairs > 0 else 0
         
         result = {
@@ -104,7 +104,7 @@ def test_candidate_generation():
         print(f"相对于全配对 ({all_possible_pairs}) 的比例: {percentage:.2f}%")
         print(f"耗时: {elapsed:.2f} 秒")
     
-    # 保存测试结果到日志
+    # TODO: Translate - SaveTest结果到日志
     log_file = os.path.join(project_root, 'logs', f'candidate_smart_test_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log')
     with open(log_file, 'w', encoding='utf-8') as f:
         f.write(f"智能连接生成优化测试 - {datetime.now()}\n")

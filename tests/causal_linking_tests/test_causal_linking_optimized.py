@@ -10,7 +10,7 @@ import json
 import time
 from datetime import datetime
 
-# 添加项目根目录到Python路径
+# TODO: Translate - Add project root directory toPython路径
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.insert(0, project_root)
@@ -24,12 +24,12 @@ def test_causal_linking():
     print("=== 优化后因果链接测试 ===")
     start_time = time.time()
     
-    # 设置测试参数
+    # TODO: Translate - SetTest参数
     os.environ["MAX_EVENTS_PER_CHAPTER"] = "15"
     os.environ["MIN_ENTITY_SUPPORT"] = "3"
     os.environ["MAX_CANDIDATE_PAIRS"] = "100"
     
-    # 加载事件数据
+    # TODO: Translate - Loadevent数据
     try:
         event_file = os.path.join(project_root, 'debug/extracted_events.json')
         with open(event_file, 'r', encoding='utf-8') as f:
@@ -40,7 +40,7 @@ def test_causal_linking():
         print(f"加载事件失败: {e}")
         return
     
-    # 创建因果链接器
+    # TODO: Translate - Createcausallinking器
     try:
         linker = provide_linker(use_optimized=True)
         print("成功创建因果链接器")
@@ -48,7 +48,7 @@ def test_causal_linking():
         print(f"创建链接器失败: {e}")
         return
     
-    # 执行因果链接
+    # Executecausallinking
     try:
         print("开始执行因果链接...")
         edges = linker.link_events(events)
@@ -59,7 +59,7 @@ def test_causal_linking():
         traceback.print_exc()
         return
     
-    # 构建有向无环图
+    # TODO: Translate - Build有向无环图
     try:
         print("构建有向无环图...")
         events, dag_edges = linker.build_dag(events, edges)
@@ -70,16 +70,16 @@ def test_causal_linking():
         traceback.print_exc()
         return
     
-    # 计算总执行时间
+    # TODO: Translate - 计算总Execute时间
     elapsed = time.time() - start_time
     print(f"总耗时: {elapsed:.2f} 秒")
     
-    # 保存输出
+    # SaveOutput
     try:
         output_dir = os.path.join(project_root, 'output', f'optimized_test_{datetime.now().strftime("%Y%m%d_%H%M%S")}')
         os.makedirs(output_dir, exist_ok=True)
         
-        # 保存因果关系
+        # TODO: Translate - Savecausal关系
         output_file = os.path.join(output_dir, 'causal_relations.json')
         output_data = {
             "nodes": [event.to_dict() for event in events],
@@ -91,7 +91,7 @@ def test_causal_linking():
             
         print(f"结果已保存到: {output_file}")
         
-        # 保存测试信息
+        # TODO: Translate - SaveTest信息
         info_file = os.path.join(output_dir, 'test_info.txt')
         with open(info_file, 'w', encoding='utf-8') as f:
             f.write(f"优化后因果链接测试结果 - {datetime.now()}\n")

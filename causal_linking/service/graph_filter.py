@@ -59,58 +59,58 @@ class GraphFilter:
         3. 逐个添加边，跳过会形成环的边
         4. 返回最终的无环边集
         """
-        # 无参数调用的兼容性处理（用于测试）
+        # TODO: Translate - 无参数调用的兼容性Process（用于Test）
         if events_or_edges is None and edges is None:
             return []
             
-        # 兼容性处理：根据参数类型判断调用方式
+        # TODO: Translate - 兼容性Process：根据参数类型判断调用方式
         if edges is None:
-            # 旧的调用方式：filter_edges_to_dag(edges)
+            # TODO: Translate - 旧的调用方式：filter_edges_to_dag(edges)
             edges = events_or_edges
-            # 从边中提取所有唯一的事件ID
+            # TODO: Translate - 从边中Extract所有唯一的eventID
             event_ids = set()
             for edge in edges:
                 event_ids.add(edge.from_id)
                 event_ids.add(edge.to_id)
-            # 创建简单的EventItem对象列表
+            # TODO: Translate - Create简单的EventItem对象列表
             events = [EventItem(event_id=event_id, description="", characters=[], treasures=[], location="", chapter_id="", result="") for event_id in event_ids]
         else:
-            # 新的调用方式：filter_edges_to_dag(events, edges)
+            # TODO: Translate - 新的调用方式：filter_edges_to_dag(events, edges)
             events = events_or_edges
         
         if not events or not edges:
             return []
         
-        # 创建事件ID到索引的映射
+        # TODO: Translate - CreateeventID到索引的映射
         event_map = {event.event_id: i for i, event in enumerate(events)}
         
-        # 按强度降序排序边（贪心算法第一步）
+        # TODO: Translate - 按强度降序排序边（贪心算法第一步）
         sorted_edges = self._sort_edges_by_priority(edges, event_map)
         
-        # 创建邻接表表示的图
+        # TODO: Translate - Create邻接表表示的图
         graph = [[] for _ in range(len(events))]
         
-        # 保留的边列表
+        # TODO: Translate - 保留的边列表
         dag_edges = []
         added_edges = set()
         
-        # 贪心构建DAG（算法核心步骤）
+        # TODO: Translate - 贪心BuildDAG（算法核心步骤）
         for edge in sorted_edges:
-            # 检查事件是否在映射中
+            # TODO: Translate - Checkevent是否在映射中
             if edge.from_id not in event_map or edge.to_id not in event_map:
                 continue
                 
             from_idx = event_map[edge.from_id]
             to_idx = event_map[edge.to_id]
             
-            # 检查是否已添加相同的边
+            # TODO: Translate - Check是否已添加相同的边
             edge_key = (from_idx, to_idx)
             if edge_key in added_edges:
                 continue
                 
-            # 环检测：如果添加这条边会形成环，则跳过
+            # TODO: Translate - 环检测：如果添加这条边会形成环，则跳过
             if not self._will_form_cycle(graph, from_idx, to_idx):
-                # 添加边到图中
+                # TODO: Translate - 添加边到图中
                 graph[from_idx].append(to_idx)
                 added_edges.add(edge_key)
                 dag_edges.append(edge)
@@ -132,27 +132,27 @@ class GraphFilter:
         Returns:
             排序后的边列表
         """
-        # 防御性编程：确保边集不为None
+        # TODO: Translate - 防御性编程：确保边集不为None
         if not edges:
             return []
             
-        # 测试用例使用的是字符串排序，强度按"高">"中">"低"排序
-        # 为了与测试兼容，我们需要特殊处理这个排序
-        custom_order = {"高": 0, "中": 1, "低": 2}  # 数值越小优先级越高
+        # TODO: Translate - Test用例Use的是字符串排序，强度按"高">"中">"低"排序
+        # TODO: Translate - 为了与Test兼容，我们需要特殊Process这个排序
+        custom_order = {"高": 0, "中": 1, "低": 2}  # TODO: Translate - 数值越小优先级越高
         
         def get_edge_priority(edge: CausalEdge) -> int:
-            # 特殊处理强度为高、中、低的情况
+            # TODO: Translate - 特殊Process强度为高、中、低的情况
             if edge.strength in custom_order:
                 return custom_order[edge.strength]
             
-            # 对于其他强度，使用字符串比较（这种情况少见）
-            return 999  # 默认最低优先级
+            # TODO: Translate - 对于其他强度，Use字符串比较（这种情况少见）
+            return 999  # TODO: Translate - 默认最低优先级
         
-        # 使用自定义排序函数
+        # TODO: Translate - Use自定义排序函数
         return sorted(edges, key=get_edge_priority)
         
-        # 注意：此排序逻辑特别为了匹配测试用例的行为
-        # 在实际应用中，可能需要更复杂的排序逻辑来处理边的权重
+        # TODO: Translate - 注意：此排序逻辑特别为了匹配Test用例的行为
+        # TODO: Translate - 在实际应用中，可能需要更复杂的排序逻辑来Process边的权重
     
     def _will_form_cycle(self, graph: List[List[int]], from_idx: int, to_idx: int) -> bool:
         """
@@ -212,11 +212,11 @@ class GraphFilter:
         if not events or not edges:
             return []
         
-        # 创建事件ID到索引的映射
+        # TODO: Translate - CreateeventID到索引的映射
         event_map = {event.event_id: i for i, event in enumerate(events)}
         id_map = {i: event.event_id for i, event in enumerate(events)}
         
-        # 构建邻接表
+        # TODO: Translate - Build邻接表
         graph = [[] for _ in range(len(events))]
         for edge in edges:
             if edge.from_id in event_map and edge.to_id in event_map:
@@ -224,7 +224,7 @@ class GraphFilter:
                 to_idx = event_map[edge.to_id]
                 graph[from_idx].append(to_idx)
         
-        # 使用DFS检测环
+        # TODO: Translate - UseDFS检测环
         cycles = []
         visited = set()
         rec_stack = set()
@@ -236,7 +236,7 @@ class GraphFilter:
             
             for neighbor in graph[node]:
                 if neighbor in rec_stack:
-                    # 找到环
+                    # TODO: Translate - 找到环
                     cycle_start = path.index(neighbor)
                     cycle = path[cycle_start:] + [neighbor]
                     cycle_ids = [id_map[i] for i in cycle]
@@ -267,12 +267,12 @@ class GraphFilter:
         Returns:
             统计信息字典
         """
-        # 内部追踪的统计数据（为了与测试兼容）
-        # 在实际应用中，这些值应该在处理过程中累积
+        # TODO: Translate - 内部追踪的统计数据（为了与Test兼容）
+        # TODO: Translate - 在实际应用中，这些值应该在Process过程中累积
         edges_processed = 3
         cycles_detected = 1
         
-        # 无参数调用时，返回测试兼容的统计信息
+        # TODO: Translate - 无参数调用时，ReturnTest兼容的统计信息
         if original_edges is None and filtered_edges is None:
             return {
                 "edges_processed": edges_processed,
@@ -288,23 +288,23 @@ class GraphFilter:
                 }
             }
             
-        # 防御性编程：确保输入不为None
+        # TODO: Translate - 防御性编程：确保输入不为None
         if original_edges is None:
             original_edges = []
         if filtered_edges is None:
             filtered_edges = []
             
-        # 计算边保留率
+        # TODO: Translate - 计算边保留率
         retention_rate = len(filtered_edges) / len(original_edges) if original_edges else 0
         
-        # 统计不同强度边的分布
+        # TODO: Translate - 统计不同强度边的分布
         original_distribution = self._get_strength_distribution(original_edges)
         filtered_distribution = self._get_strength_distribution(filtered_edges)
         
-        # 构建完整的统计信息
+        # TODO: Translate - Build完整的统计信息
         return {
-            "edges_processed": len(original_edges),  # 与测试用例一致
-            "cycles_detected": 1 if len(original_edges) != len(filtered_edges) else 0,  # 估算值
+            "edges_processed": len(original_edges),  # TODO: Translate - 与Test用例一致
+            "cycles_detected": 1 if len(original_edges) != len(filtered_edges) else 0,  # TODO: Translate - 估算值
             "edges_removed": len(original_edges) - len(filtered_edges),
             "original_edge_count": len(original_edges),
             "filtered_edge_count": len(filtered_edges),

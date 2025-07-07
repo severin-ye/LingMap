@@ -6,10 +6,10 @@ from typing import List, Optional
 class Chapter:
     """章节数据模型，表示一个章节的信息"""
     
-    chapter_id: str  # 章节ID，如 "第十五章"
-    title: str  # 章节标题，如 "聚灵丹"
-    content: str  # 章节完整内容
-    segments: List[dict] = field(default_factory=list)  # 章节分段，按段落/事件切分
+    chapter_id: str  # TODO: Translate - chapterID，如 "第十五章"
+    title: str  # TODO: Translate - chapter标题，如 "聚灵丹"
+    content: str  # TODO: Translate - chapter完整内容
+    segments: List[dict] = field(default_factory=list)  # TODO: Translate - chapterSegment text，按段落/event切分
     
     def to_dict(self):
         """转换为字典表示"""

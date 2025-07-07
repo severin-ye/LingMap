@@ -11,12 +11,12 @@
 5. 链接器综合测试
 
 使用方式:
-    python unified_causal_tests.py --test all              # 运行所有测试
-    python unified_causal_tests.py --test candidate        # 运行候选生成器测试
-    python unified_causal_tests.py --test smart-candidate  # 运行智能候选生成器测试
-    python unified_causal_tests.py --test linking          # 运行优化的因果链接测试
-    python unified_causal_tests.py --test entity-weights   # 运行实体权重测试
-    python unified_causal_tests.py --test linker           # 运行链接器综合测试
+    python unified_causal_tests.py --test all              # TODO: Translate - Run所有Test
+    python unified_causal_tests.py --test candidate        # TODO: Translate - Run候选Generate器Test
+    python unified_causal_tests.py --test smart-candidate  # TODO: Translate - Run智能候选Generate器Test
+    python unified_causal_tests.py --test linking          # TODO: Translate - Run优化的causallinkingTest
+    python unified_causal_tests.py --test entity-weights   # TODO: Translate - Run实体权重Test
+    python unified_causal_tests.py --test linker           # TODO: Translate - Runlinking器综合Test
 """
 
 import os
@@ -28,17 +28,17 @@ import logging
 from pathlib import Path
 from datetime import datetime
 
-# 添加项目根目录到Python路径
+# TODO: Translate - Add project root directory toPython路径
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.insert(0, project_root)
 
-# 导入相关模块
+# TODO: Translate - Import相关模块
 from common.models.event import EventItem
 from causal_linking.di.provider import provide_linker
 from causal_linking.service.candidate_generator import CandidateGenerator
 
-# 设置日志
+# TODO: Translate - Set日志
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -72,12 +72,12 @@ def test_candidate_generator():
     """测试候选事件对生成器"""
     logger.info("=== 候选事件对生成器测试 ===")
     
-    # 加载事件数据
+    # TODO: Translate - Loadevent数据
     events = load_test_events()
     if not events:
         return
     
-    # 设置测试配置
+    # SetTestConfigure
     test_configs = [
         {"name": "默认配置", "params": {"min_entity_support": 3, "entity_weight": 1.0, "time_weight": 1.0}},
         {"name": "较高实体支持", "params": {"min_entity_support": 5, "entity_weight": 1.0, "time_weight": 1.0}},
@@ -86,13 +86,13 @@ def test_candidate_generator():
         {"name": "高时间权重", "params": {"min_entity_support": 3, "entity_weight": 0.5, "time_weight": 2.0}}
     ]
     
-    # 创建结果目录
+    # TODO: Translate - Create结果目录
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     result_dir = os.path.join(project_root, 'output', f'candidate_test_{timestamp}')
     os.makedirs(result_dir, exist_ok=True)
     result_file = os.path.join(result_dir, 'candidate_generator_results.txt')
     
-    # 运行测试
+    # RunTest
     logger.info(f"开始测试各种配置下的候选生成器性能...")
     
     with open(result_file, 'w', encoding='utf-8') as log:
@@ -104,11 +104,11 @@ def test_candidate_generator():
             try:
                 logger.info(f"测试配置: {config['name']}")
                 
-                # 创建生成器并运行
+                # TODO: Translate - CreateGenerate器并Run
                 generator = CandidateGenerator(**config['params'])
                 candidate_pairs = generator.generate_candidate_pairs(events)
                 
-                # 记录结果
+                # TODO: Translate - 记录结果
                 result = (
                     f"配置: {config['name']}\n"
                     f"参数: {config['params']}\n"
@@ -131,12 +131,12 @@ def test_smart_candidate_generator():
     """测试智能候选事件对生成器"""
     logger.info("=== 智能候选事件对生成器测试 ===")
     
-    # 加载事件数据
+    # TODO: Translate - Loadevent数据
     events = load_test_events()
     if not events:
         return
     
-    # 设置测试配置
+    # SetTestConfigure
     test_configs = [
         {
             "name": "基础配置",
@@ -186,13 +186,13 @@ def test_smart_candidate_generator():
         }
     ]
     
-    # 创建结果目录
+    # TODO: Translate - Create结果目录
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     result_dir = os.path.join(project_root, 'output', f'smart_candidate_test_{timestamp}')
     os.makedirs(result_dir, exist_ok=True)
     log_file = os.path.join(result_dir, 'smart_candidate_results.txt')
     
-    # 运行测试并收集结果
+    # TODO: Translate - RunTest并收集结果
     all_possible_pairs = len(events) * (len(events) - 1) // 2
     results = []
     
@@ -200,15 +200,15 @@ def test_smart_candidate_generator():
         logger.info(f"测试配置: {config['name']}")
         
         try:
-            # 创建生成器
+            # TODO: Translate - CreateGenerate器
             start_time = time.time()
             generator = CandidateGenerator(**config["params"])
             
-            # 生成候选对
+            # TODO: Translate - Generate候选对
             candidate_pairs = generator.generate_candidate_pairs(events)
             elapsed_time = time.time() - start_time
             
-            # 收集结果
+            # TODO: Translate - 收集结果
             result = {
                 "config_name": config["name"],
                 "params": config["params"],
@@ -226,7 +226,7 @@ def test_smart_candidate_generator():
         except Exception as e:
             logger.error(f"配置 '{config['name']}' 测试失败: {e}")
     
-    # 保存结果
+    # TODO: Translate - Save结果
     with open(log_file, 'w', encoding='utf-8') as f:
         f.write(f"智能候选事件对生成器测试 - {datetime.now()}\n")
         f.write(f"事件总数: {len(events)}\n")
@@ -247,17 +247,17 @@ def test_causal_linking():
     logger.info("=== 优化后因果链接测试 ===")
     start_time = time.time()
     
-    # 设置测试参数
+    # TODO: Translate - SetTest参数
     os.environ["MAX_EVENTS_PER_CHAPTER"] = "15"
     os.environ["MIN_ENTITY_SUPPORT"] = "3"
     os.environ["MAX_CANDIDATE_PAIRS"] = "100"
     
-    # 加载事件数据
+    # TODO: Translate - Loadevent数据
     events = load_test_events()
     if not events:
         return
     
-    # 创建因果链接器
+    # TODO: Translate - Createcausallinking器
     try:
         linker = provide_linker(use_optimized=True)
         logger.info("成功创建因果链接器")
@@ -265,7 +265,7 @@ def test_causal_linking():
         logger.error(f"创建链接器失败: {e}")
         return
     
-    # 执行因果链接
+    # Executecausallinking
     try:
         logger.info("开始执行因果链接...")
         edges = linker.link_events(events)
@@ -276,7 +276,7 @@ def test_causal_linking():
         traceback.print_exc()
         return
     
-    # 构建有向无环图
+    # TODO: Translate - Build有向无环图
     try:
         logger.info("构建有向无环图...")
         events, dag_edges = linker.build_dag(events, edges)
@@ -287,16 +287,16 @@ def test_causal_linking():
         traceback.print_exc()
         return
     
-    # 计算总执行时间
+    # TODO: Translate - 计算总Execute时间
     elapsed = time.time() - start_time
     logger.info(f"总耗时: {elapsed:.2f} 秒")
     
-    # 保存输出
+    # SaveOutput
     try:
         output_dir = os.path.join(project_root, 'output', f'optimized_test_{datetime.now().strftime("%Y%m%d_%H%M%S")}')
         os.makedirs(output_dir, exist_ok=True)
         
-        # 保存因果关系
+        # TODO: Translate - Savecausal关系
         output_file = os.path.join(output_dir, 'causal_relations.json')
         output_data = {
             "nodes": [event.to_dict() for event in events],
@@ -308,7 +308,7 @@ def test_causal_linking():
             
         logger.info(f"结果已保存到: {output_file}")
         
-        # 保存测试信息
+        # TODO: Translate - SaveTest信息
         info_file = os.path.join(output_dir, 'test_info.txt')
         with open(info_file, 'w', encoding='utf-8') as f:
             f.write(f"优化后因果链接测试结果 - {datetime.now()}\n")
@@ -326,16 +326,16 @@ def test_entity_weights():
     """测试实体频率权重调整功能"""
     logger.info("=== 实体频率权重调整测试 ===")
     
-    # 加载事件数据
+    # TODO: Translate - Loadevent数据
     events = load_test_events()
     if not events:
         return
     
-    # 测试配置
+    # TestConfigure
     entity_weight_configs = [0.5, 1.0, 1.5, 2.0, 2.5]
     reverse_weight_configs = [True, False]
     
-    # 创建结果目录
+    # TODO: Translate - Create结果目录
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     result_dir = os.path.join(project_root, 'output', f'entity_weights_test_{timestamp}')
     os.makedirs(result_dir, exist_ok=True)
@@ -353,7 +353,7 @@ def test_entity_weights():
                 try:
                     logger.info(f"测试 {'反向' if reverse else '正向'}权重，权重值: {weight}")
                     
-                    # 配置生成器
+                    # TODO: Translate - ConfigureGenerate器
                     generator = CandidateGenerator(
                         min_entity_support=2,
                         entity_weight=weight,
@@ -361,12 +361,12 @@ def test_entity_weights():
                         reverse_entity_weight=reverse
                     )
                     
-                    # 生成候选对
+                    # TODO: Translate - Generate候选对
                     start_time = time.time()
                     candidate_pairs = generator.generate_candidate_pairs(events)
                     elapsed_time = time.time() - start_time
                     
-                    # 分析实体分布
+                    # TODO: Translate - 分析实体分布
                     entity_counts = {}
                     for pair in candidate_pairs:
                         for entity in pair.shared_entities:
@@ -374,10 +374,10 @@ def test_entity_weights():
                                 entity_counts[entity] = 0
                             entity_counts[entity] += 1
                     
-                    # 统计分布情况
+                    # TODO: Translate - 统计分布情况
                     top_entities = sorted(entity_counts.items(), key=lambda x: x[1], reverse=True)[:10]
                     
-                    # 记录结果
+                    # TODO: Translate - 记录结果
                     f.write(f"权重值: {weight}\n")
                     f.write(f"候选对数量: {len(candidate_pairs)}\n")
                     f.write(f"处理时间: {elapsed_time:.2f}秒\n")
@@ -403,17 +403,17 @@ def test_linker_comprehensive():
     """链接器综合测试"""
     logger.info("=== 链接器综合测试 ===")
     
-    # 加载测试事件
+    # LoadTestevent
     events = load_test_events()
     if not events:
         return
     
-    # 创建输出目录
+    # TODO: Translate - CreateOutput目录
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_dir = os.path.join(project_root, 'output', f'linker_test_{timestamp}')
     os.makedirs(output_dir, exist_ok=True)
     
-    # 测试不同的链接器配置
+    # TODO: Translate - Test不同的linking器Configure
     configs = [
         {"name": "优化版 (默认)", "params": {"use_optimized": True}},
         {"name": "基础版", "params": {"use_optimized": False}},
@@ -421,24 +421,24 @@ def test_linker_comprehensive():
         {"name": "优化版 (高时间权重)", "params": {"use_optimized": True, "entity_weight": 0.8, "time_weight": 2.0}},
     ]
     
-    # 比较结果
+    # TODO: Translate - 比较结果
     results = []
     for config in configs:
         logger.info(f"测试配置: {config['name']}")
         
         try:
-            # 创建链接器
+            # TODO: Translate - Createlinking器
             start_time = time.time()
             linker = provide_linker(**config['params'])
             
-            # 执行链接
+            # Executelinking
             edges = linker.link_events(events)
             
-            # 构建DAG
+            # BuildDAG
             _, dag_edges = linker.build_dag(events, edges)
             elapsed_time = time.time() - start_time
             
-            # 记录结果
+            # TODO: Translate - 记录结果
             result = {
                 "config_name": config["name"],
                 "params": config["params"],
@@ -448,13 +448,13 @@ def test_linker_comprehensive():
             }
             results.append(result)
             
-            # 输出结果
+            # TODO: Translate - Output结果
             logger.info(
                 f"配置 '{config['name']}' - 发现 {len(edges)} 条边，"
                 f"DAG保留 {len(dag_edges)} 条边，耗时: {elapsed_time:.2f}秒"
             )
             
-            # 保存此配置的图谱结果
+            # TODO: Translate - Save此Configure的图谱结果
             result_file = os.path.join(output_dir, f"result_{config['name'].replace(' ', '_')}.json")
             result_data = {
                 "nodes": [event.to_dict() for event in events],
@@ -468,7 +468,7 @@ def test_linker_comprehensive():
             import traceback
             traceback.print_exc()
     
-    # 保存比较结果
+    # TODO: Translate - Save比较结果
     compare_file = os.path.join(output_dir, "comparison_results.txt")
     with open(compare_file, 'w', encoding='utf-8') as f:
         f.write(f"链接器综合测试结果比较 - {datetime.now()}\n")

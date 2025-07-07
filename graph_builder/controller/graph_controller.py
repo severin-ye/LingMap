@@ -23,20 +23,20 @@ def render_graph(input_path: str, output_path: str, options: Dict[str, Any] = {}
     Returns:
         Mermaid格式的图谱字符串
     """
-    # 创建日志记录器
+    # TODO: Translate - Create日志记录器
     logger = EnhancedLogger("graph_controller", log_level="INFO")
     
-    # 加载数据
+    # TODO: Translate - Load数据
     with open(input_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
     
-    # 解析数据
+    # TODO: Translate - 解析数据
     events = [EventItem.from_dict(node_data) for node_data in data.get("nodes", [])]
     edges = [CausalEdge.from_dict(edge_data) for edge_data in data.get("edges", [])]
     
     print(f"加载了 {len(events)} 个事件和 {len(edges)} 条因果边")
     
-    # 检查是否有重复ID
+    # TODO: Translate - Check是否有重复ID
     duplicate_ids = _check_duplicate_ids(events)
     if duplicate_ids:
         logger.error(f"严重错误：检测到重复的事件ID: {len(duplicate_ids)}个。上游的ID处理器未正确工作。")
@@ -44,8 +44,8 @@ def render_graph(input_path: str, output_path: str, options: Dict[str, Any] = {}
             count = sum(1 for e in events if e.event_id == dup_id)
             logger.error(f"重复ID '{dup_id}' 出现了 {count} 次")
         
-        # 由于上游应该已经处理ID唯一性，这里发现重复很可能是流程错误
-        # 但为了保证图谱能正常生成，仍进行一次应急处理
+        # TODO: Translate - 由于上游应该已经ProcessID唯一性，这里发现重复很可能是流程Error
+        # TODO: Translate - 但为了保证图谱能正常Generate，仍进行一次应急Process
         logger.warning("执行应急ID处理以保证图谱生成，但这不应成为常规流程")
         unique_events, updated_edges = UnifiedIdProcessor.ensure_unique_node_ids(events, edges)
         logger.info(f"应急处理后：{len(unique_events)} 个唯一事件和 {len(updated_edges)} 条更新边")
@@ -53,13 +53,13 @@ def render_graph(input_path: str, output_path: str, options: Dict[str, Any] = {}
         logger.info("ID检查通过：所有事件ID均唯一，上游ID处理器工作正常")
         unique_events, updated_edges = events, edges
     
-    # 创建渲染器
+    # TODO: Translate - Create渲染器
     renderer = MermaidRenderer()
     
-    # 渲染图谱
+    # TODO: Translate - 渲染图谱
     mermaid_text = renderer.render(unique_events, updated_edges, options)
     
-    # 保存结果
+    # TODO: Translate - Save结果
     output_dir = os.path.dirname(output_path)
     if output_dir and not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -103,7 +103,7 @@ def main():
     
     args = parser.parse_args()
     
-    # 渲染选项
+    # TODO: Translate - 渲染选项
     options = {
         "show_legend": args.show_legend,
         "show_edge_labels": args.show_labels,

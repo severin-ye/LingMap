@@ -12,7 +12,7 @@ import json
 import tempfile
 import shutil
 
-# 添加项目根目录到 Python 路径
+# TODO: Translate - Add project root directory to Python 路径
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
@@ -27,10 +27,10 @@ class TestGraphBuilderIntegration(unittest.TestCase):
     
     def setUp(self):
         """设置测试环境和测试数据"""
-        # 创建临时目录
+        # TODO: Translate - Create临时目录
         self.temp_dir = tempfile.mkdtemp()
         
-        # 准备测试数据，包括重复ID的节点
+        # TODO: Translate - 准备Test数据，包括重复ID的节点
         self.test_data = {
             "nodes": [
                 {
@@ -44,7 +44,7 @@ class TestGraphBuilderIntegration(unittest.TestCase):
                     "chapter_id": "第一章"
                 },
                 {
-                    "event_id": "E01-1",  # 重复ID
+                    "event_id": "E01-1",  # TODO: Translate - 重复ID
                     "description": "墨大夫进入大屋子，韩立疲惫入睡",
                     "characters": ["韩立", "墨大夫"],
                     "treasures": [],
@@ -74,12 +74,12 @@ class TestGraphBuilderIntegration(unittest.TestCase):
             ]
         }
         
-        # 保存测试数据到JSON文件
+        # TODO: Translate - SaveTest数据到JSON文件
         self.input_json_path = os.path.join(self.temp_dir, "test_input.json")
         with open(self.input_json_path, 'w', encoding='utf-8') as f:
             json.dump(self.test_data, f, ensure_ascii=False, indent=2)
             
-        # 设置输出路径
+        # TODO: Translate - SetOutput路径
         self.output_mermaid_path = os.path.join(self.temp_dir, "test_output.mmd")
     
     def tearDown(self):
@@ -88,56 +88,56 @@ class TestGraphBuilderIntegration(unittest.TestCase):
     
     def test_end_to_end_rendering(self):
         """测试从JSON文件到Mermaid文件的端到端渲染流程"""
-        # 执行渲染
+        # TODO: Translate - Execute渲染
         options = {"show_legend": True, "show_edge_labels": True}
         mermaid_text = render_graph(self.input_json_path, self.output_mermaid_path, options)
         
-        # 验证输出文件存在
+        # TODO: Translate - VerifyOutput文件存在
         self.assertTrue(os.path.exists(self.output_mermaid_path))
         
-        # 验证输出内容
+        # TODO: Translate - VerifyOutput内容
         with open(self.output_mermaid_path, 'r', encoding='utf-8') as f:
             content = f.read()
             
-        # 检查基本结构
+        # TODO: Translate - Check基本结构
         self.assertIn("```mermaid", content)
         self.assertIn("graph TD", content)
         
-        # 检查重复ID已被处理
+        # TODO: Translate - Check重复ID已被Process
         self.assertIn("E01-1_1", content) 
         self.assertIn("E01-1_2", content)
         
-        # 检查节点描述
+        # TODO: Translate - Check节点描述
         self.assertIn("韩立在爬坡过程中感到害怕", content)
         self.assertIn("墨大夫进入大屋子", content)
         
-        # 检查边连接
-        # 由于ID重新映射，无法确定具体的连接模式，但应该包含E01-2
+        # TODO: Translate - Check边连接
+        # TODO: Translate - 由于ID重新映射，无法确定具体的连接模式，但应该包含E01-2
         self.assertIn("E01-2", content)
         
-        # 检查图例
+        # TODO: Translate - Check图例
         self.assertIn("subgraph 图例", content)
         
     def test_empty_graph(self):
         """测试处理空图的情况"""
-        # 创建空图数据
+        # TODO: Translate - Create空图数据
         empty_data = {"nodes": [], "edges": []}
         empty_input_path = os.path.join(self.temp_dir, "empty_input.json")
         empty_output_path = os.path.join(self.temp_dir, "empty_output.mmd")
         
-        # 保存空数据
+        # TODO: Translate - Save空数据
         with open(empty_input_path, 'w', encoding='utf-8') as f:
             json.dump(empty_data, f)
             
-        # 执行渲染
+        # TODO: Translate - Execute渲染
         mermaid_text = render_graph(empty_input_path, empty_output_path)
         
-        # 验证输出
+        # VerifyOutput
         self.assertTrue(os.path.exists(empty_output_path))
         with open(empty_output_path, 'r', encoding='utf-8') as f:
             content = f.read()
             
-        # 空图应至少包含基本结构
+        # TODO: Translate - 空图应至少包含基本结构
         self.assertIn("```mermaid", content)
         self.assertIn("graph TD", content)
 

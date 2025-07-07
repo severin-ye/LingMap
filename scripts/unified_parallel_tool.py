@@ -20,7 +20,7 @@ from pathlib import Path
 from datetime import datetime
 from typing import Dict, Any, Optional, List, Tuple
 
-# 将项目根目录添加到系统路径
+# TODO: Translate - Add project root directory to系统路径
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(current_dir)
 sys.path.insert(0, project_root)
@@ -33,10 +33,10 @@ from common.utils.json_loader import JsonLoader
 
 class ParallelToolMode(Enum):
     """并行工具运行模式"""
-    TEST = "test"         # 测试模式：验证配置
-    BENCHMARK = "bench"   # 基准测试模式：比较性能
-    REPORT = "report"     # 报告模式：生成配置报告
-    ALL = "all"           # 全部运行
+    TEST = "test"         # TODO: Translate - Test模式：VerifyConfigure
+    BENCHMARK = "bench"   # TODO: Translate - 基准Test模式：比较性能
+    REPORT = "report"     # TODO: Translate - 报告模式：GenerateConfigure报告
+    ALL = "all"           # TODO: Translate - 全部Run
 
 
 def setup_logging(log_filename=None):
@@ -117,7 +117,7 @@ def run_module_test(module_name, test_func, *args, **kwargs):
 
 
 #--------------------------------------------------------------------
-# 配置测试相关功能
+# TODO: Translate - ConfigureTest相关功能
 #--------------------------------------------------------------------
 def test_parallel_config_consistency(logger=None):
     """
@@ -129,39 +129,39 @@ def test_parallel_config_consistency(logger=None):
     if logger is None:
         logger = logging.getLogger()
 
-    # 初始化ParallelConfig
+    # InitializeParallelConfig
     ParallelConfig.initialize()
     
-    # 记录配置信息
+    # TODO: Translate - 记录Configure信息
     logger.info("====== 并行配置测试 ======")
     logger.info(f"并行处理启用状态: {ParallelConfig.is_enabled()}")
     logger.info(f"全局最大线程数: {ParallelConfig._config['max_workers']}")
     
-    # 记录各模块配置
+    # TODO: Translate - 记录各模块Configure
     logger.info("模块特定配置:")
     for module, workers in ParallelConfig._config["default_workers"].items():
         logger.info(f"  - {module}: {workers}")
     
-    # 测试各模块实例
+    # TODO: Translate - Test各模块实例
     logger.info("\n测试各模块实例化:")
     
     try:
-        # 事件抽取
+        # eventExtract
         logger.info("创建事件抽取器...")
         from event_extraction.di.provider import provide_extractor
         extractor = provide_extractor()
         
-        # 幻觉修复
+        # hallucinationrefine
         logger.info("创建幻觉修复器...")
         from hallucination_refine.di.provider import provide_refiner
         refiner = provide_refiner()
         
-        # 因果链接
+        # causallinking
         logger.info("创建因果链接器...")
         from causal_linking.di.provider import provide_linker
         linker = provide_linker()
         
-        # 图形构建
+        # TODO: Translate - 图形Build
         logger.info("创建图形渲染器...")
         from graph_builder.service.mermaid_renderer import MermaidRenderer
         renderer = MermaidRenderer()
@@ -191,12 +191,12 @@ def test_config_updates(logger=None):
     try:
         logger.info("\n====== 配置更新测试 ======")
         
-        # 记录原始配置
+        # TODO: Translate - 记录原始Configure
         original_max = ParallelConfig._config["max_workers"]
         original_graph = ParallelConfig._config["default_workers"]["graph_builder"]
         logger.info(f"原始线程配置: 全局={original_max}, 图形构建={original_graph}")
         
-        # 更新配置
+        # TODO: Translate - 更新Configure
         test_updates = {
             "max_workers": original_max + 2,
             "default_workers": {
@@ -205,14 +205,14 @@ def test_config_updates(logger=None):
         }
         logger.info(f"更新配置: {test_updates}")
         
-        # 应用更新
+        # TODO: Translate - 应用更新
         ConfigWriter.update_parallel_config(test_updates)
         
-        # 验证更新后的配置
+        # TODO: Translate - Verify更新后的Configure
         logger.info(f"更新后配置: 全局={ParallelConfig._config['max_workers']}, " +
                    f"图形构建={ParallelConfig._config['default_workers']['graph_builder']}")
         
-        # 恢复原始配置
+        # TODO: Translate - 恢复原始Configure
         restore_updates = {
             "max_workers": original_max,
             "default_workers": {
@@ -222,7 +222,7 @@ def test_config_updates(logger=None):
         logger.info(f"恢复原始配置: {restore_updates}")
         ConfigWriter.update_parallel_config(restore_updates)
         
-        # 确认恢复成功
+        # TODO: Translate - 确认恢复Successfully
         logger.info(f"恢复后配置: 全局={ParallelConfig._config['max_workers']}, " +
                    f"图形构建={ParallelConfig._config['default_workers']['graph_builder']}")
         return True
@@ -234,7 +234,7 @@ def test_config_updates(logger=None):
 
 
 #--------------------------------------------------------------------
-# 报告生成相关功能
+# TODO: Translate - 报告Generate相关功能
 #--------------------------------------------------------------------
 def generate_parallel_report():
     """
@@ -243,19 +243,19 @@ def generate_parallel_report():
     Returns:
         报告文件路径
     """
-    # 初始化并行配置
+    # InitializeparallelConfigure
     ParallelConfig.initialize()
     
-    # 初始化线程监控
+    # TODO: Translate - Initializethread监控
     thread_monitor = ThreadUsageMonitor.get_instance()
     
-    # 创建报告目录
+    # TODO: Translate - Create报告目录
     report_dir = Path("reports")
     report_dir.mkdir(exist_ok=True)
     
     report_file = report_dir / f"parallel_config_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
     
-    # 收集配置信息
+    # TODO: Translate - 收集Configure信息
     config_info = {
         "enabled": ParallelConfig.is_enabled(),
         "max_workers": ParallelConfig._config["max_workers"],
@@ -263,20 +263,20 @@ def generate_parallel_report():
         "default_workers": ParallelConfig._config["default_workers"]
     }
     
-    # 生成并行配置报告
+    # TODO: Translate - GenerateparallelConfigure报告
     logging.info("生成并行配置报告...")
     
     with open(report_file, 'w', encoding='utf-8') as f:
-        f.write("# 系统并行处理配置报告\n\n")
+        f.write("# TODO: Translate - 系统parallelProcessConfigure报告\n\n")
         f.write(f"生成时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
         
-        # 基本配置
-        f.write("## 基本配置\n\n")
+        # TODO: Translate - 基本Configure
+        f.write("# TODO: Translate - 基本Configure\n\n")
         f.write(f"- 并行处理状态: {'启用' if config_info['enabled'] else '禁用'}\n")
         f.write(f"- 全局最大线程数: {config_info['max_workers']}\n")
         
-        # 自适应配置
-        f.write("\n## 自适应线程配置\n\n")
+        # TODO: Translate - 自适应Configure
+        f.write("\n# TODO: Translate - 自适应threadConfigure\n\n")
         adaptive = config_info['adaptive']
         f.write(f"- 自适应模式: {'启用' if adaptive['enabled'] else '禁用'}\n")
         if adaptive['enabled']:
@@ -289,21 +289,21 @@ def generate_parallel_report():
             f.write(f"- IO密集型任务线程数: {io_threads}\n")
             f.write(f"- CPU密集型任务线程数: {cpu_threads}\n")
         
-        # 模块特定配置
-        f.write("\n## 模块特定配置\n\n")
+        # TODO: Translate - 模块特定Configure
+        f.write("\n# TODO: Translate - 模块特定Configure\n\n")
         f.write("| 模块 | 配置线程数 |\n")
         f.write("|------|----------|\n")
         
         for module, workers in config_info['default_workers'].items():
             f.write(f"| {module} | {workers} |\n")
         
-        # 初始化各模块并记录线程使用
-        f.write("\n## 实际线程使用情况\n\n")
+        # TODO: Translate - Initialize各模块并记录threadUse
+        f.write("\n# TODO: Translate - 实际threadUse情况\n\n")
         f.write("现在开始测试各模块实际使用的线程数...\n\n")
         
-        # 事件抽取
+        # eventExtract
         logging.info("测试事件抽取模块...")
-        f.write("### 事件抽取模块\n\n")
+        f.write("# TODO: Translate - eventExtract模块\n\n")
         try:
             from event_extraction.di.provider import provide_extractor
             extractor = provide_extractor()
@@ -311,9 +311,9 @@ def generate_parallel_report():
         except Exception as e:
             f.write(f"❌ 事件抽取模块初始化失败: {e}\n\n")
         
-        # 幻觉修复
+        # hallucinationrefine
         logging.info("测试幻觉修复模块...")
-        f.write("\n### 幻觉修复模块\n\n")
+        f.write("\n# TODO: Translate - hallucinationrefine模块\n\n")
         try:
             from hallucination_refine.di.provider import provide_refiner
             refiner = provide_refiner()
@@ -321,9 +321,9 @@ def generate_parallel_report():
         except Exception as e:
             f.write(f"❌ 幻觉修复模块初始化失败: {e}\n\n")
         
-        # 因果链接
+        # causallinking
         logging.info("测试因果链接模块...")
-        f.write("\n### 因果链接模块\n\n")
+        f.write("\n# TODO: Translate - causallinking模块\n\n")
         try:
             from causal_linking.di.provider import provide_linker
             linker = provide_linker()
@@ -331,9 +331,9 @@ def generate_parallel_report():
         except Exception as e:
             f.write(f"❌ 因果链接模块初始化失败: {e}\n\n")
         
-        # 图形构建
+        # TODO: Translate - 图形Build
         logging.info("测试图形构建模块...")
-        f.write("\n### 图形构建模块\n\n")
+        f.write("\n# TODO: Translate - 图形Build模块\n\n")
         try:
             from graph_builder.service.mermaid_renderer import MermaidRenderer
             renderer = MermaidRenderer()
@@ -341,10 +341,10 @@ def generate_parallel_report():
         except Exception as e:
             f.write(f"❌ 图形构建模块初始化失败: {e}\n\n")
         
-        # 获取并记录线程监控信息
+        # TODO: Translate - Get并记录thread监控信息
         usage_info = thread_monitor.thread_usage
         
-        f.write("\n## 线程使用摘要\n\n")
+        f.write("\n# TODO: Translate - threadUse摘要\n\n")
         f.write("| 模块 | 配置线程数 | 实际使用线程数 | 任务类型 |\n")
         f.write("|------|------------|--------------|--------|\n")
         
@@ -353,10 +353,10 @@ def generate_parallel_report():
             task_type = usage_info.get(module, {}).get("task_type", "未知")
             f.write(f"| {module} | {workers} | {actual_workers} | {task_type} |\n")
         
-        # 结论和建议
-        f.write("\n## 结论和建议\n\n")
+        # TODO: Translate - 结论和建议
+        f.write("\n# TODO: Translate - 结论和建议\n\n")
         
-        # 检查是否有模块未使用集中配置
+        # TODO: Translate - Check是否有模块未Use集中Configure
         unconfigured_modules = set(usage_info.keys()) - set(config_info['default_workers'].keys())
         if unconfigured_modules:
             f.write("⚠️ 以下模块未使用中央配置:\n\n")
@@ -364,7 +364,7 @@ def generate_parallel_report():
                 f.write(f"- {module}\n")
             f.write("\n建议将这些模块添加到中央配置中。\n\n")
         
-        # 检查配置与使用是否一致
+        # TODO: Translate - CheckConfigure与Use是否一致
         inconsistent_modules = []
         for module, info in usage_info.items():
             if module in config_info['default_workers']:
@@ -379,8 +379,8 @@ def generate_parallel_report():
                 f.write(f"- {module}: 期望 {expected}，实际 {actual}\n")
             f.write("\n建议检查这些模块的并行实现是否正确使用了ParallelConfig。\n\n")
         
-        # 适应性建议
-        f.write("### 优化建议\n\n")
+        # TODO: Translate - 适应性建议
+        f.write("# TODO: Translate - 优化建议\n\n")
         f.write("根据模块任务特性的不同，建议以下线程配置：\n\n")
         f.write("- IO密集型任务 (如API调用): 核心数 x 1.5\n")
         f.write("- CPU密集型任务 (如图形渲染): 核心数 x 0.8\n")
@@ -398,7 +398,7 @@ def generate_parallel_report():
 
 
 #--------------------------------------------------------------------
-# 基准测试相关功能
+# TODO: Translate - 基准Test相关功能
 #--------------------------------------------------------------------
 def test_event_extraction(chapter_file):
     """
@@ -413,14 +413,14 @@ def test_event_extraction(chapter_file):
     from text_ingestion.chapter_loader import ChapterLoader
     from event_extraction.di.provider import provide_extractor
     
-    # 加载章节
+    # Loadchapter
     loader = ChapterLoader(segment_size=800)
     chapter = loader.load_from_json(chapter_file)
     
     if not chapter:
         raise ValueError("加载章节失败")
     
-    # 提取事件
+    # Extractevent
     extractor = provide_extractor()
     print(f"从章节 {chapter.chapter_id} 提取事件...")
     events = extractor.extract(chapter)
@@ -467,7 +467,7 @@ def test_causal_linking(events):
     edges = linker.link_events(events)
     print(f"发现 {len(edges)} 个因果关系")
     
-    # 构建DAG
+    # BuildDAG
     print("构建有向无环图（DAG）...")
     events, dag_edges = linker.build_dag(events, edges)
     print(f"DAG构建完成，保留 {len(dag_edges)} 条边")
@@ -511,27 +511,27 @@ def run_benchmark(args):
     Returns:
         测试报告文件路径
     """
-    # 设置输入文件路径
+    # TODO: Translate - Set输入文件路径
     if args.input:
         chapter_file = args.input
     else:
-        # 查找测试数据
+        # TODO: Translate - 查找Test数据
         temp_dir = os.path.join(project_root, "temp")
         output_dirs = [d for d in os.listdir(os.path.join(project_root, "output")) 
                        if os.path.isdir(os.path.join(project_root, "output", d))]
         
         if output_dirs:
-            # 使用最新的输出目录
+            # TODO: Translate - Use最新的Output目录
             latest_dir = sorted(output_dirs)[-1]
             temp_dir = os.path.join(project_root, "output", latest_dir, "temp")
             
-        # 查找章节JSON文件
+        # TODO: Translate - 查找chapterJSON文件
         json_files = [f for f in os.listdir(temp_dir) 
                      if os.path.isfile(os.path.join(temp_dir, f))
                      and f.endswith('.json') and 'chapter' in f.lower()]
         
         if not json_files:
-            # 尝试查找任意JSON文件
+            # TODO: Translate - 尝试查找任意JSON文件
             json_files = [f for f in os.listdir(temp_dir) 
                          if os.path.isfile(os.path.join(temp_dir, f))
                          and f.endswith('.json')]
@@ -539,22 +539,22 @@ def run_benchmark(args):
         if not json_files:
             raise FileNotFoundError("找不到测试用的章节JSON文件")
             
-        # 使用第一个找到的JSON文件
+        # TODO: Translate - Use第一个找到的JSON文件
         chapter_file = os.path.join(temp_dir, json_files[0])
         
     print(f"使用测试数据: {chapter_file}")
     
-    # 运行并行模式测试
+    # TODO: Translate - Runparallel模式Test
     print("===== 并行模式测试 =====")
     
-    # 确保并行模式已启用
+    # TODO: Translate - 确保parallel模式已启用
     ParallelConfig.initialize({"enabled": True})
     print(f"并行模式: 启用，最大线程数: {ParallelConfig._config['max_workers']}")
     
-    # 保存各测试阶段的执行时间
+    # TODO: Translate - Save各Test阶段的Execute时间
     parallel_results = {}
     
-    # 事件抽取阶段
+    # TODO: Translate - eventExtract阶段
     events, duration = run_module_test("事件抽取", test_event_extraction, chapter_file)
     parallel_results["事件抽取"] = duration
     
@@ -562,7 +562,7 @@ def run_benchmark(args):
         print("事件抽取失败，无法继续测试")
         return
     
-    # 提取章节上下文用于幻觉检测
+    # TODO: Translate - Extractchapter上下文用于hallucination检测
     context = "测试上下文"
     try:
         with open(chapter_file, 'r', encoding='utf-8') as f:
@@ -572,14 +572,14 @@ def run_benchmark(args):
     except:
         print("提取上下文失败，使用默认上下文")
     
-    # 幻觉修复阶段
+    # TODO: Translate - hallucinationrefine阶段
     refined_events, duration = run_module_test("幻觉修复", test_hallucination_refine, events, context)
     parallel_results["幻觉修复"] = duration
     
     if not refined_events:
         refined_events = events
     
-    # 因果链接阶段
+    # TODO: Translate - causallinking阶段
     linking_result, duration = run_module_test("因果链接", test_causal_linking, refined_events)
     parallel_results["因果链接"] = duration
     
@@ -589,20 +589,20 @@ def run_benchmark(args):
         
     events, edges = linking_result
     
-    # 图谱渲染阶段
+    # TODO: Translate - 图谱渲染阶段
     mermaid_text, duration = run_module_test("图谱渲染", test_graph_rendering, events, edges)
     parallel_results["图谱渲染"] = duration
     
-    # 如果不跳过顺序测试，则进行顺序模式测试
+    # TODO: Translate - 如果不跳过顺序Test，则进行顺序模式Test
     sequential_results = {}
     if not args.skip_sequential:
         print("\n===== 顺序模式测试 =====")
         
-        # 切换到顺序模式
+        # TODO: Translate - 切换到顺序模式
         ParallelConfig.initialize({"enabled": False})
         print("顺序模式: 启用")
         
-        # 同样的测试流程
+        # TODO: Translate - 同样的Test流程
         events, duration = run_module_test("事件抽取(顺序)", test_event_extraction, chapter_file)
         sequential_results["事件抽取"] = duration
         
@@ -610,14 +610,14 @@ def run_benchmark(args):
             print("事件抽取失败，无法继续测试")
             return
         
-        # 幻觉修复阶段
+        # TODO: Translate - hallucinationrefine阶段
         refined_events, duration = run_module_test("幻觉修复(顺序)", test_hallucination_refine, events, context)
         sequential_results["幻觉修复"] = duration
         
         if not refined_events:
             refined_events = events
         
-        # 因果链接阶段
+        # TODO: Translate - causallinking阶段
         linking_result, duration = run_module_test("因果链接(顺序)", test_causal_linking, refined_events)
         sequential_results["因果链接"] = duration
         
@@ -627,21 +627,21 @@ def run_benchmark(args):
             
         events, edges = linking_result
         
-        # 图谱渲染阶段
+        # TODO: Translate - 图谱渲染阶段
         mermaid_text, duration = run_module_test("图谱渲染(顺序)", test_graph_rendering, events, edges)
         sequential_results["图谱渲染"] = duration
     
-    # 重新启用并行模式
+    # TODO: Translate - 重新启用parallel模式
     ParallelConfig.initialize({"enabled": True})
     
-    # 生成报告
+    # TODO: Translate - Generate报告
     report_content = generate_benchmark_report(parallel_results, sequential_results)
     
-    # 创建报告目录
+    # TODO: Translate - Create报告目录
     report_dir = Path("reports")
     report_dir.mkdir(exist_ok=True)
     
-    # 写入报告
+    # TODO: Translate - Write报告
     report_file = None
     if args.output:
         report_file = args.output
@@ -667,12 +667,12 @@ def generate_benchmark_report(parallel_results, sequential_results):
         报告文本内容
     """
     report = []
-    report.append("# 并行处理性能基准测试报告")
+    report.append("# TODO: Translate - parallelProcess性能基准Test报告")
     report.append(f"测试时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     report.append("")
     
-    # 性能摘要
-    report.append("## 性能摘要")
+    # TODO: Translate - 性能摘要
+    report.append("# TODO: Translate - 性能摘要")
     total_parallel = sum(parallel_results.values())
     total_sequential = sum(sequential_results.values()) if sequential_results else 0
     
@@ -686,9 +686,9 @@ def generate_benchmark_report(parallel_results, sequential_results):
         report.append("- 顺序处理测试已跳过")
     report.append("")
     
-    # 模块性能比较
+    # TODO: Translate - 模块性能比较
     if sequential_results:
-        report.append("## 各模块性能比较")
+        report.append("# TODO: Translate - 各模块性能比较")
         report.append("| 模块 | 并行处理耗时 | 顺序处理耗时 | 加速比 | 提升百分比 |")
         report.append("| --- | ------- | ------- | ----- | ------- |")
         
@@ -700,14 +700,14 @@ def generate_benchmark_report(parallel_results, sequential_results):
                 improvement = (mod_speedup - 1) * 100
                 report.append(f"| {module} | {format_duration(par_time)} | {format_duration(seq_time)} | {mod_speedup:.2f}x | {improvement:.2f}% |")
     else:
-        report.append("## 并行模式执行时间")
+        report.append("# TODO: Translate - parallel模式Execute时间")
         report.append("| 模块 | 并行处理耗时 |")
         report.append("| --- | ------- |")
         for module, time in parallel_results.items():
             report.append(f"| {module} | {format_duration(time)} |")
     
     report.append("")
-    report.append("## 测试配置")
+    report.append("# TestConfigure")
     report.append(f"- CPU核心数: {os.cpu_count()}")
     report.append(f"- 并行模式工作线程数:")
     report.append(f"  - 事件提取: {ParallelConfig.get_max_workers('io_bound')}")
@@ -720,7 +720,7 @@ def generate_benchmark_report(parallel_results, sequential_results):
 
 def main():
     """程序主入口"""
-    # 解析命令行参数
+    # TODO: Translate - 解析命令行参数
     parser = argparse.ArgumentParser(description="并行处理工具")
     parser.add_argument("mode", choices=["test", "bench", "report", "all"], default="all", 
                         nargs="?", help="运行模式：test-配置测试，bench-性能测试，report-生成报告，all-全部运行")
@@ -729,14 +729,14 @@ def main():
     parser.add_argument("--skip-sequential", action="store_true", help="跳过顺序处理测试")
     args = parser.parse_args()
     
-    # 设置日志
+    # TODO: Translate - Set日志
     logger = setup_logging()
     logger.info(f"运行并行处理工具，模式: {args.mode}")
     
-    # 记录启动时间
+    # TODO: Translate - 记录启动时间
     start_time = time.time()
     
-    # 根据模式运行不同功能
+    # TODO: Translate - 根据模式Run不同功能
     try:
         mode = ParallelToolMode(args.mode)
         
@@ -768,7 +768,7 @@ def main():
         logger.error(traceback.format_exc())
         print(f"❌ 运行失败: {e}")
         
-    # 记录总执行时间
+    # TODO: Translate - 记录总Execute时间
     end_time = time.time()
     duration = end_time - start_time
     logger.info(f"总执行时间: {format_duration(duration)}")

@@ -17,7 +17,7 @@ class TextSplitter:
             段落列表
         """
         paragraphs = [p.strip() for p in text.split('\n\n')]
-        return [p for p in paragraphs if p]  # 过滤空段落
+        return [p for p in paragraphs if p]  # TODO: Translate - 过滤空段落
     
     @staticmethod
     def split_by_sentences(text: str) -> List[str]:
@@ -30,10 +30,10 @@ class TextSplitter:
         Returns:
             句子列表
         """
-        # 中文分句正则
+        # TODO: Translate - 中文分句正则
         pattern = r'([^。！？]+[。！？])'
         sentences = re.findall(pattern, text)
-        # 处理末尾可能没有标点的句子
+        # TODO: Translate - Process末尾可能没有标点的句子
         if text and not text.endswith(('。', '！', '？')):
             last_sentence = text.split('。')[-1].split('！')[-1].split('？')[-1].strip()
             if last_sentence:
@@ -62,7 +62,7 @@ class TextSplitter:
         for para in paragraphs:
             para_length = len(para)
             
-            # 如果当前段落加上已有内容会超出目标长度且当前段不为空，则保存当前段并开始新段
+            # TODO: Translate - 如果当前段落加上已有内容会超出目标长度且当前段不为空，则Save当前段并Start新段
             if current_length + para_length > seg_size and current_segment:
                 segment_text = '\n\n'.join(current_segment)
                 segments.append({
@@ -76,7 +76,7 @@ class TextSplitter:
                 current_segment.append(para)
                 current_length += para_length
         
-        # 处理剩余内容
+        # TODO: Translate - Process剩余内容
         if current_segment:
             segment_text = '\n\n'.join(current_segment)
             segments.append({
