@@ -1,9 +1,9 @@
 .
 ├── FINAL_SYSTEM_REPORT.md      # 系统最终报告，总结项目成果、指标和完成情况
 ├── README.md                   # 项目说明文档，包含项目概述、安装指南和使用方法
-├── api_gateway                 # API网关模块，提供统一的HTTP API接口
+├── 6_api_gateway               # API网关模块，提供统一的HTTP API接口
 │   └── main.py                 # API网关主文件，处理外部请求和各模块间通信
-├── causal_linking              # 因果关系链接模块，识别事件之间的因果关系
+├── 4_causal_linking            # 因果关系链接模块，识别事件之间的因果关系
 │   ├── app.py                  # 模块入口文件，提供因果链接服务接口
 │   ├── controller              # 控制器目录，处理因果链接相关请求
 │   │   └── linker_controller.py  # 因果链接控制器，管理链接请求的处理流程
@@ -72,7 +72,19 @@
 │   ├── 开发方案.md             # 项目开发方案和计划
 │   ├── 理论支持.md             # 项目的理论基础和研究背景
 │   └── 项目逻辑设计.md         # 详细描述项目的总体设计和逻辑流程
-├── graph_builder               # 图谱构建模块，将因果关系转换为可视化图谱
+├── 2_event_extraction          # 事件提取模块，从文本中抽取事件信息
+│   ├── app.py                  # 模块入口文件
+│   ├── controller              # 控制器目录
+│   │   └── extractor_controller.py  # 事件提取控制器
+│   ├── di                      # 依赖注入目录
+│   │   └── provider.py         # 依赖注入提供者
+│   ├── domain                  # 领域模型目录
+│   │   └── base_extractor.py   # 提取器基类
+│   ├── repository              # 数据仓库目录
+│   │   └── llm_client.py       # LLM客户端，负责与AI模型通信
+│   └── service                 # 服务目录
+│       └── event_extractor.py  # 事件提取器实现
+├── 5_graph_builder             # 图谱构建模块，将因果关系转换为可视化图谱
 │   ├── app.py                  # 模块入口文件
 │   ├── controller              # 控制器目录
 │   │   └── graph_controller.py # 图谱控制器，处理图谱生成请求
@@ -82,7 +94,7 @@
 │   │   └── mermaid_renderer.py # Mermaid格式图表渲染服务
 │   └── utils                   # 工具函数目录
 │       └── color_map.py        # 色彩映射工具，为节点和边分配颜色
-├── hallucination_refine        # 幻觉修复模块，检测和修复AI提取的幻觉
+├── 3_hallucination_refine      # 幻觉修复模块，检测和修复AI提取的幻觉
 │   ├── app.py                  # 模块入口文件
 │   ├── controller              # 控制器目录
 │   │   └── har_controller.py   # 幻觉修复控制器
@@ -99,8 +111,8 @@
 │   ├── 1.txt                   # 小说章节文件1
 │   ├── 2.txt                   # 小说章节文件2
 │   └── test.txt                # 测试用小说文本
-├── output_2025-06-10_23-06-58  # 输出结果目录，按时间命名
-├── pytest.ini                  # pytest测试框架配置文件
+├── output                      # 输出结果目录
+├── pytest.ini                 # pytest测试框架配置文件
 ├── reports                     # 报告目录
 │   ├── parallel_config_report_20250611_001707.md  # 并行配置报告
 │   ├── parallel_config_report_20250611_001915.md  # 并行配置报告
@@ -109,16 +121,9 @@
 ├── requirements.txt            # 项目依赖库清单
 ├── scripts                     # 实用脚本目录
 │   ├── check_env.py            # 环境检查脚本
-│   ├── complete_test.py        # 完整测试脚本
 │   ├── fix_ids.py              # ID修复脚本
 │   ├── refactor_demo.py        # 重构演示脚本
 │   ├── run_demo.py             # 运行演示脚本
-│   ├── test_api_integration.py # API集成测试脚本
-│   ├── test_candidate_generator.py  # 候选生成器测试脚本
-│   ├── test_causal_linking_optimized.py  # 优化的因果链接测试脚本
-│   ├── test_event_extraction.py  # 事件提取测试脚本
-│   ├── test_linker.py          # 链接器测试脚本
-│   ├── test_smart_candidate_generator.py  # 智能候选生成器测试脚本
 │   └── unified_parallel_tool.py  # 统一并行工具脚本
 ├── temp                        # 临时文件目录
 │   ├── duplicate_events_test.json  # 重复事件测试数据
@@ -130,18 +135,20 @@
 │   ├── api_tests               # API测试目录
 │   │   ├── README.md           # API测试说明
 │   │   ├── fix_api_tests.py    # API测试修复脚本
+│   │   ├── test_api_integration.py  # API集成测试（从scripts移入）
 │   │   ├── test_api_integration.new.py  # 新版API集成测试
-│   │   ├── test_api_integration.py  # API集成测试
 │   │   └── test_api_integration_improved.py  # 改进的API集成测试
 │   ├── causal_linking_tests    # 因果链接测试目录
-│   │   ├── test_candidate_generator.py  # 候选生成器测试
-│   │   ├── test_causal_linking_optimized.py  # 优化的因果链接测试
-│   │   ├── test_linker.py      # 链接器测试
-│   │   └── test_smart_candidate_generator.py  # 智能候选生成器测试
+│   │   ├── test_candidate_generator.py  # 候选生成器测试（从scripts移入）
+│   │   ├── test_causal_linking_optimized.py  # 优化的因果链接测试（从scripts移入）
+│   │   ├── test_linker.py      # 链接器测试（从scripts移入）
+│   │   └── test_smart_candidate_generator.py  # 智能候选生成器测试（从scripts移入）
 │   ├── event_extraction_tests  # 事件提取测试目录
-│   │   └── test_event_extraction.py  # 事件提取测试
+│   │   ├── test_event_extraction.py  # 事件提取测试
+│   │   └── test_event_extraction_scripts.py  # 事件提取测试（从scripts移入）
 │   ├── integration_tests       # 集成测试目录
-│   │   └── complete_test.py    # 完整集成测试
+│   │   ├── complete_test.py    # 完整集成测试
+│   │   └── complete_test_scripts.py  # 完整测试脚本（从scripts移入）
 │   ├── run_all_tests.new.py    # 新版运行所有测试脚本
 │   ├── run_all_tests.py        # 运行所有测试脚本
 │   ├── stage_1                 # 第1阶段测试（接口与模型）
@@ -186,8 +193,7 @@
 │   │   └── test_end_to_end_integration.py  # 端到端集成测试
 │   └── utils_tests             # 工具测试目录
 │       └── test_check_env.py   # 环境检查测试
-├── text_ingestion             # 文本摄取模块，负责读取和处理原始文本
+├── 1_text_ingestion           # 文本摄取模块，负责读取和处理原始文本
 │   ├── app.py                 # 模块入口文件
 │   └── chapter_loader.py      # 章节加载器，处理小说章节的加载和预处理
 ├── tree                       # 文件树生成工具
-# 以下文件已调整位置
