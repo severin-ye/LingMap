@@ -1,34 +1,43 @@
 #!/usr/bin/env python3
 """
-阶段一测试：数据模型与工具类测试
+# [CN] 阶段一测试：数据模型与工具类测试
+# [EN] Phase 1 Testing: Data Model and Utility Class Testing
 
-本文件包含针对《凡人修仙传》因果事件图谱系统数据模型和工具类的单元测试。
+# [CN] 本文件包含针对《凡人修仙传》因果事件图谱系统数据模型和工具类的单元测试。
+# [EN] This file contains unit tests for data models and utility classes of the A Record of a Mortal's Journey to Immortality causal event graph system.
 
-测试内容：
-1. EventItem 模型：测试事件项的创建、属性设置和字典转换功能
-   - test_event_creation: 测试创建事件对象及其属性
-   - test_event_to_dict: 测试事件对象转换为字典格式
-   - test_event_from_dict: 测试从字典创建事件对象
+# [CN] 测试内容：
+# [EN] Test content:
+# [CN] 1. EventItem 模型：测试事件项的创建、属性设置和字典转换功能
+# [EN] 1. EventItem model: Test event item creation, attribute setting and dictionary conversion functionality
+   - test_event_creation: # [CN] 测试创建事件对象及其属性 # [EN] Test creating event objects and their attributes
+   - test_event_to_dict: # [CN] 测试事件对象转换为字典格式 # [EN] Test converting event objects to dictionary format
+   - test_event_from_dict: # [CN] 测试从字典创建事件对象 # [EN] Test creating event objects from dictionary
 
-2. Chapter 模型：测试章节数据模型的功能
-   - test_chapter_creation: 测试创建章节对象
-   - test_chapter_with_segments: 测试带有段落的章节对象
-   - test_chapter_to_dict: 测试章节对象转换为字典格式
+# [CN] 2. Chapter 模型：测试章节数据模型的功能
+# [EN] 2. Chapter model: Test chapter data model functionality
+   - test_chapter_creation: # [CN] 测试创建章节对象 # [EN] Test creating chapter objects
+   - test_chapter_with_segments: # [CN] 测试带有段落的章节对象 # [EN] Test chapter objects with segments
+   - test_chapter_to_dict: # [CN] 测试章节对象转换为字典格式 # [EN] Test converting chapter objects to dictionary format
 
-3. CausalEdge 模型：测试因果边的功能
-   - test_causal_edge_creation: 测试创建因果关系边对象
-   - test_causal_edge_to_dict: 测试因果边转换为字典格式
+# [CN] 3. CausalEdge 模型：测试因果边的功能
+# [EN] 3. CausalEdge model: Test causal edge functionality
+   - test_causal_edge_creation: # [CN] 测试创建因果关系边对象 # [EN] Test creating causal relationship edge objects
+   - test_causal_edge_to_dict: # [CN] 测试因果边转换为字典格式 # [EN] Test converting causal edges to dictionary format
 
-4. Treasure 模型：测试法宝/物品模型的功能
-   - test_treasure_creation: 测试创建法宝对象
-   - test_treasure_to_dict: 测试法宝对象转换为字典格式
+# [CN] 4. Treasure 模型：测试法宝/物品模型的功能
+# [EN] 4. Treasure model: Test treasure/item model functionality
+   - test_treasure_creation: # [CN] 测试创建法宝对象 # [EN] Test creating treasure objects
+   - test_treasure_to_dict: # [CN] 测试法宝对象转换为字典格式 # [EN] Test converting treasure objects to dictionary format
 
-5. JsonLoader 工具类：测试JSON数据加载和保存功能
-   - test_load_json: 测试加载JSON文件功能
-   - test_save_json: 测试保存JSON文件功能
+# [CN] 5. JsonLoader 工具类：测试JSON数据加载和保存功能
+# [EN] 5. JsonLoader utility class: Test JSON data loading and saving functionality
+   - test_load_json: # [CN] 测试加载JSON文件功能 # [EN] Test loading JSON file functionality
+   - test_save_json: # [CN] 测试保存JSON文件功能 # [EN] Test saving JSON file functionality
 
-6. TextSplitter 工具类：测试文本分段功能
-   - test_split_chapter: 测试章节文本分段功能
+# [CN] 6. TextSplitter 工具类：测试文本分段功能
+# [EN] 6. TextSplitter utility class: Test text segmentation functionality
+   - test_split_chapter: # [CN] 测试章节文本分段功能 # [EN] Test chapter text segmentation functionality
 """
 
 import unittest

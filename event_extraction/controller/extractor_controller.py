@@ -12,49 +12,66 @@ from event_extraction.di.provider import provide_extractor
 
 def extract_events_from_chapter(chapter_path: str, output_path: str) -> List[EventItem]:
     """
-    从章节JSON文件中抽取事件并保存结果
+    # [CN] 从章节JSON文件中抽取事件并保存结果
+    # [EN] Extract events from chapter JSON file and save results
     
     Args:
-        chapter_path: 章节JSON文件路径
-        output_path: 输出JSON文件路径
+        # [CN] chapter_path: 章节JSON文件路径
+        # [EN] chapter_path: Chapter JSON file path
+        # [CN] output_path: 输出JSON文件路径
+        # [EN] output_path: Output JSON file path
         
     Returns:
-        抽取的事件列表
+        # [CN] 抽取的事件列表
+        # [EN] List of extracted events
     """
-    # 加载章节
+    # [CN] 加载章节
+    # [EN] Load chapter
     chapter = JsonLoader.load_chapter_json(chapter_path)
     
-    # 获取抽取器
+    # [CN] 获取抽取器
+    # [EN] Get extractor
     extractor = provide_extractor()
     
-    # 抽取事件
-    print(f"从章节 {chapter.chapter_id} 抽取事件...")
+    # [CN] 抽取事件
+    # [EN] Extract events
+    print(f"# [CN] 从章节 {chapter.chapter_id} 抽取事件...")
+    print(f"# [EN] Extracting events from chapter {chapter.chapter_id}...")
     events = extractor.extract(chapter)
-    print(f"成功抽取 {len(events)} 个事件")
+    print(f"# [CN] 成功抽取 {len(events)} 个事件")
+    print(f"# [EN] Successfully extracted {len(events)} events")
     
-    # 注意：事件ID唯一性已在抽取服务中处理，这里不再重复处理
-    # 检查事件ID是否唯一（仅作验证）
+    # [CN] 注意：事件ID唯一性已在抽取服务中处理，这里不再重复处理
+    # [EN] Note: Event ID uniqueness is already handled in extraction service, no need to process again here
+    # [CN] 检查事件ID是否唯一（仅作验证）
+    # [EN] Check if event IDs are unique (for verification only)
     event_ids = [e.event_id for e in events]
     unique_ids = set(event_ids)
     if len(event_ids) != len(unique_ids):
-        print(f"警告：抽取的事件中存在重复ID，原有 {len(events)} 个事件，唯一ID仅有 {len(unique_ids)} 个")
+        print(f"# [CN] 警告：抽取的事件中存在重复ID，原有 {len(events)} 个事件，唯一ID仅有 {len(unique_ids)} 个")
+        print(f"# [EN] Warning: Duplicate IDs found in extracted events, original {len(events)} events, only {len(unique_ids)} unique IDs")
     
-    # 保存结果
+    # [CN] 保存结果
+    # [EN] Save results
     output_dir = os.path.dirname(output_path)
     if output_dir and not os.path.exists(output_dir):
         os.makedirs(output_dir)
         
     events_dict = [event.to_dict() for event in events]
     JsonLoader.save_json(events_dict, output_path)
-    print(f"事件已保存到: {output_path}")
+    print(f"# [CN] 事件已保存到: {output_path}")
+    print(f"# [EN] Events saved to: {output_path}")
     
     return events
 
 
 def main():
-    """EVENT_EXTRACTION 模块执行入口"""
-    parser = argparse.ArgumentParser(description="从章节中抽取事件")
-    parser.add_argument("--input", "-i", required=True, help="输入章节JSON文件或目录")
+    """
+    # [CN] EVENT_EXTRACTION 模块执行入口
+    # [EN] EVENT_EXTRACTION module execution entry point
+    """
+    parser = argparse.ArgumentParser(description="# [CN] 从章节中抽取事件 # [EN] Extract events from chapters")
+    parser.add_argument("--input", "-i", required=True, help="# [CN] 输入章节JSON文件或目录 # [EN] Input chapter JSON file or directory")
     parser.add_argument("--output", "-o", required=True, help="输出事件JSON文件或目录")
     parser.add_argument("--batch", "-b", action="store_true", help="批处理模式")
     

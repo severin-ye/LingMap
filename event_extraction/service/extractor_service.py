@@ -11,7 +11,10 @@ from event_extraction.repository.llm_client import LLMClient
 
 
 class EventExtractor(BaseExtractor):
-    """事件抽取器实现类，使用LLM抽取事件"""
+    """
+    # [CN] 事件抽取器实现类，使用LLM抽取事件
+    # [EN] Event extractor implementation class using LLM to extract events
+    """
     
     def __init__(
         self, 
@@ -23,18 +26,20 @@ class EventExtractor(BaseExtractor):
         provider: str = "openai"
     ):
         """
-        初始化事件抽取器
+        # [CN] 初始化事件抽取器
+        # [EN] Initialize event extractor
         
         Args:
-            model: 使用的LLM模型
-            prompt_path: 提示词模板路径
-            api_key: API密钥
-            base_url: 自定义API基础URL
-            max_workers: 并行处理的最大工作线程数
-            provider: API提供商，"openai"或"deepseek"
+            model: # [CN] 使用的LLM模型 [EN] LLM model to use
+            prompt_path: # [CN] 提示词模板路径 [EN] Prompt template path
+            api_key: # [CN] API密钥 [EN] API key
+            base_url: # [CN] 自定义API基础URL [EN] Custom API base URL
+            max_workers: # [CN] 并行处理的最大工作线程数 [EN] Maximum number of worker threads for parallel processing
+            provider: # [CN] API提供商，"openai"或"deepseek" [EN] API provider, "openai" or "deepseek"
         """
         if not prompt_path:
-            # 导入path_utils获取配置文件路径
+            # [CN] 导入path_utils获取配置文件路径
+            # [EN] Import path_utils to get configuration file path
             from common.utils.path_utils import get_config_path
             prompt_path = get_config_path("prompt_event_extraction.json")
             
@@ -42,16 +47,17 @@ class EventExtractor(BaseExtractor):
         
         self.provider = provider
         
-        # 如果未提供API密钥，尝试从环境变量获取
+        # [CN] 如果未提供API密钥，尝试从环境变量获取
+        # [EN] If no API key provided, try to get from environment variables
         if not api_key:
             if provider == "openai":
                 self.api_key = os.environ.get("OPENAI_API_KEY")
                 if not self.api_key:
-                    raise ValueError("请提供 OpenAI API 密钥")
+                    raise ValueError("请提供 OpenAI API 密钥")  # [CN] 请提供 OpenAI API 密钥 [EN] Please provide OpenAI API key
             else:  # deepseek
                 self.api_key = os.environ.get("DEEPSEEK_API_KEY")
                 if not self.api_key:
-                    raise ValueError("请提供 DeepSeek API 密钥")
+                    raise ValueError("请提供 DeepSeek API 密钥")  # [CN] 请提供 DeepSeek API 密钥 [EN] Please provide DeepSeek API key
         else:
             self.api_key = api_key
             
@@ -59,7 +65,8 @@ class EventExtractor(BaseExtractor):
         self.base_url = base_url
         self.max_workers = max_workers
         
-        # 初始化LLM客户端
+        # [CN] 初始化LLM客户端
+        # [EN] Initialize LLM client
         self.llm_client = LLMClient(
             api_key=self.api_key,
             model=self.model,
@@ -69,22 +76,26 @@ class EventExtractor(BaseExtractor):
         
     def extract(self, chapter: Chapter) -> List[EventItem]:
         """
-        从章节中抽取事件
+        # [CN] 从章节中抽取事件
+        # [EN] Extract events from chapter
         
         Args:
-            chapter: 章节数据
+            chapter: # [CN] 章节数据 [EN] Chapter data
             
         Returns:
-            抽取的事件列表
+            # [CN] 抽取的事件列表
+            # [EN] List of extracted events
         """
         if not chapter.segments:
-            # 如果章节没有预定义的分段，创建分段
+            # [CN] 如果章节没有预定义的分段，创建分段
+            # [EN] If chapter has no predefined segments, create segments
             from common.utils.text_splitter import TextSplitter
             chapter.segments = TextSplitter.split_chapter(chapter.content)
             
         all_events = []
         
-        # 使用线程池并行处理每个段落
+        # [CN] 使用线程池并行处理每个段落
+        # [EN] Use thread pool to process each segment in parallel
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             futures = []
             

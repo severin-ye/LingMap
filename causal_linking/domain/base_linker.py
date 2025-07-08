@@ -9,27 +9,35 @@ from common.utils.json_loader import JsonLoader
 
 
 class BaseLinker(AbstractLinker, ABC):
-    """因果链接器基类"""
+    """
+    # [CN] 因果链接器基类
+    # [EN] Base class for causal linkers
+    """
     
     def __init__(self, prompt_path: str):
         """
-        初始化链接器
+        # [CN] 初始化链接器
+        # [EN] Initialize linker
         
         Args:
-            prompt_path: 提示词模板路径
+            # [CN] prompt_path: 提示词模板路径
+            # [EN] prompt_path: Path to prompt template
         """
         self.prompt_template = JsonLoader.load_json(prompt_path)
     
     def format_prompt(self, event1: EventItem, event2: EventItem) -> Dict[str, Any]:
         """
-        格式化提示模板
+        # [CN] 格式化提示模板
+        # [EN] Format prompt template
         
         Args:
-            event1: 第一个事件
-            event2: 第二个事件
-            
+            # [CN] event1: 第一个事件
+            # [EN] event1: First event
+            # [CN] event2: 第二个事件
+            # [EN] event2: Second event
         Returns:
-            格式化后的提示词字典
+            # [CN] 格式化后的提示词字典
+            # [EN] Formatted prompt dictionary
         """
         system_prompt = self.prompt_template.get('system', '')
         instruction = self.prompt_template.get('instruction', '').format(
@@ -44,14 +52,18 @@ class BaseLinker(AbstractLinker, ABC):
     
     def parse_response(self, response: Dict[str, Any], event1_id: str, event2_id: str) -> Optional[CausalEdge]:
         """
-        解析LLM响应，提取因果关系
+        # [CN] 解析LLM响应，提取因果关系
+        # [EN] Parse LLM response and extract causal relationship
         
         Args:
-            response: LLM响应
-            event1_id: 第一个事件ID
-            event2_id: 第二个事件ID
-            
+            # [CN] response: LLM响应
+            # [EN] response: LLM response
+            # [CN] event1_id: 第一个事件ID
+            # [EN] event1_id: First event ID
+            # [CN] event2_id: 第二个事件ID
+            # [EN] event2_id: Second event ID
         Returns:
-            因果边对象，如果不存在因果关系则返回None
+            # [CN] 因果边对象，如果不存在因果关系则返回None
+            # [EN] CausalEdge object, or None if no causal relationship exists
         """
-        raise NotImplementedError("子类必须实现该方法")
+        raise NotImplementedError("# [CN] 子类必须实现该方法 # [EN] Subclasses must implement this method")

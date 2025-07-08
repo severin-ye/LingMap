@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-候选事件对生成器
-实现不同的候选事件对生成策略：
-1. 同章节事件配对
-2. 实体共现事件配对
-3. 合并策略结果
+# [CN] 候选事件对生成器
+# [EN] Candidate event pair generator
+# [CN] 实现不同的候选事件对生成策略：
+# [EN] Implements different candidate event pair generation strategies:
+# [CN] 1. 同章节事件配对
+# [EN] 1. Same chapter event pairing
+# [CN] 2. 实体共现事件配对
+# [EN] 2. Entity co-occurrence event pairing
+# [CN] 3. 合并策略结果
+# [EN] 3. Merge strategy results
 """
 
 import math
@@ -18,31 +23,41 @@ from common.models.event import EventItem
 
 class CandidateGenerator:
     """
-    候选事件对生成器
-    实现多种不同的候选事件对生成策略
+    # [CN] 候选事件对生成器
+    # [EN] Candidate event pair generator
+    # [CN] 实现多种不同的候选事件对生成策略
+    # [EN] Implements multiple different candidate event pair generation strategies
     """
     
     def __init__(
         self,
-        max_events_per_chapter: int = 50,  # 大幅提高单章事件数量限制
+        max_events_per_chapter: int = 50,  # [CN] 大幅提高单章事件数量限制 # [EN] Significantly increase single chapter event count limit
         min_entity_support: int = 3,
         max_chapter_span: int = 10,
-        max_candidate_pairs: int = 150,  # 适当增加最大候选对上限
+        max_candidate_pairs: int = 150,  # [CN] 适当增加最大候选对上限 # [EN] Appropriately increase maximum candidate pairs limit
         use_entity_weights: bool = True,
-        max_pairs_per_entity: int = 15,  # 增加每个实体最多生成的事件对数量
-        connection_density: float = 0.2  # 新参数：控制连接密度的系数(0-1之间)
+        max_pairs_per_entity: int = 15,  # [CN] 增加每个实体最多生成的事件对数量 # [EN] Increase maximum event pairs generated per entity
+        connection_density: float = 0.2  # [CN] 新参数：控制连接密度的系数(0-1之间) # [EN] New parameter: coefficient to control connection density (0-1)
     ):
         """
-        初始化事件对生成器
+        # [CN] 初始化事件对生成器
+        # [EN] Initialize event pair generator
         
         Args:
-            max_events_per_chapter: 每章节最多处理的事件数
-            min_entity_support: 实体最小支持度，低于此值不考虑实体配对
-            max_chapter_span: 跨章节配对的最大章节跨度
-            max_candidate_pairs: 最大候选事件对数量
-            use_entity_weights: 是否使用实体频率反向权重
-            max_pairs_per_entity: 每个实体最多生成的事件对数量
-            connection_density: 连接密度系数，控制生成事件对的稠密度
+            # [CN] max_events_per_chapter: 每章节最多处理的事件数
+            # [EN] max_events_per_chapter: Maximum number of events to process per chapter
+            # [CN] min_entity_support: 实体最小支持度，低于此值不考虑实体配对
+            # [EN] min_entity_support: Minimum entity support, below this value entity pairing is not considered
+            # [CN] max_chapter_span: 跨章节配对的最大章节跨度
+            # [EN] max_chapter_span: Maximum chapter span for cross-chapter pairing
+            # [CN] max_candidate_pairs: 最大候选事件对数量
+            # [EN] max_candidate_pairs: Maximum number of candidate event pairs
+            # [CN] use_entity_weights: 是否使用实体频率反向权重
+            # [EN] use_entity_weights: Whether to use entity frequency inverse weights
+            # [CN] max_pairs_per_entity: 每个实体最多生成的事件对数量
+            # [EN] max_pairs_per_entity: Maximum number of event pairs generated per entity
+            # [CN] connection_density: 连接密度系数，控制生成事件对的稠密度
+            # [EN] connection_density: Connection density coefficient, controls the density of generated event pairs
         """
         self.max_events_per_chapter = max_events_per_chapter
         self.min_entity_support = min_entity_support
@@ -50,63 +65,85 @@ class CandidateGenerator:
         self.max_candidate_pairs = max_candidate_pairs
         self.use_entity_weights = use_entity_weights
         self.max_pairs_per_entity = max_pairs_per_entity
-        self.connection_density = min(1.0, max(0.1, connection_density))  # 确保在0.1-1之间
+        self.connection_density = min(1.0, max(0.1, connection_density))  # [CN] 确保在0.1-1之间 # [EN] Ensure between 0.1-1
     
     def generate_candidates(self, events: List[EventItem]) -> List[Tuple[str, str]]:
         """
-        生成候选事件对
+        # [CN] 生成候选事件对
+        # [EN] Generate candidate event pairs
         
         Args:
-            events: 事件列表
+            # [CN] events: 事件列表
+            # [EN] events: List of events
             
         Returns:
-            事件ID对列表 [(event_id1, event_id2), ...]
+            # [CN] 事件ID对列表 [(event_id1, event_id2), ...]
+            # [EN] List of event ID pairs [(event_id1, event_id2), ...]
         """
-        # 显示当前配置参数
-        print(f"候选生成器配置: 单章最大事件数={self.max_events_per_chapter}, 最小实体支持度={self.min_entity_support}, "
+        # [CN] 显示当前配置参数
+        # [EN] Display current configuration parameters
+        print(f"# [CN] 候选生成器配置: 单章最大事件数={self.max_events_per_chapter}, 最小实体支持度={self.min_entity_support}, "
               f"最大章节跨度={self.max_chapter_span}, 最大候选对数={self.max_candidate_pairs}, "
               f"每实体最大对数={self.max_pairs_per_entity}")
+        print(f"# [EN] Candidate generator config: max events per chapter={self.max_events_per_chapter}, min entity support={self.min_entity_support}, "
+              f"max chapter span={self.max_chapter_span}, max candidate pairs={self.max_candidate_pairs}, "
+              f"max pairs per entity={self.max_pairs_per_entity}")
         
-        # 1. 同章节事件配对
-        print("正在执行策略1: 同章节事件配对...")
+        # [CN] 1. 同章节事件配对
+        # [EN] 1. Same chapter event pairing
+        print("# [CN] 正在执行策略1: 同章节事件配对...")
+        print("# [EN] Executing strategy 1: Same chapter event pairing...")
         chapter_pairs = self._generate_same_chapter_pairs(events)
-        print(f"同章节事件配对完成，共生成 {len(chapter_pairs)} 对候选")
+        print(f"# [CN] 同章节事件配对完成，共生成 {len(chapter_pairs)} 对候选")
+        print(f"# [EN] Same chapter event pairing completed, generated {len(chapter_pairs)} candidate pairs")
         
-        # 2. 实体共现跨章配对
-        print("正在执行策略2: 实体共现跨章配对...")
+        # [CN] 2. 实体共现跨章配对
+        # [EN] 2. Entity co-occurrence cross-chapter pairing
+        print("# [CN] 正在执行策略2: 实体共现跨章配对...")
+        print("# [EN] Executing strategy 2: Entity co-occurrence cross-chapter pairing...")
         entity_pairs = self._generate_entity_co_occurrence_pairs(events)
-        print(f"实体共现跨章配对完成，共生成 {len(entity_pairs)} 对候选")
+        print(f"# [CN] 实体共现跨章配对完成，共生成 {len(entity_pairs)} 对候选")
+        print(f"# [EN] Entity co-occurrence cross-chapter pairing completed, generated {len(entity_pairs)} candidate pairs")
         
-        # 3. 合并候选事件对，去重
+        # [CN] 3. 合并候选事件对，去重
+        # [EN] 3. Merge candidate event pairs, deduplicate
         candidate_pairs = self._merge_candidate_pairs(chapter_pairs, entity_pairs)
-        print(f"合并去重后的候选事件对: {len(candidate_pairs)} 对")
+        print(f"# [CN] 合并去重后的候选事件对: {len(candidate_pairs)} 对")
+        print(f"# [EN] Merged and deduplicated candidate event pairs: {len(candidate_pairs)} pairs")
         
         return candidate_pairs
     
     def _generate_same_chapter_pairs(self, events: List[EventItem]) -> List[Tuple[str, str]]:
         """
-        生成同章节事件配对
+        # [CN] 生成同章节事件配对
+        # [EN] Generate same chapter event pairs
         
         Args:
-            events: 事件列表
+            # [CN] events: 事件列表
+            # [EN] events: List of events
             
         Returns:
-            事件ID对列表 [(event_id1, event_id2), ...]
+            # [CN] 事件ID对列表 [(event_id1, event_id2), ...]
+            # [EN] List of event ID pairs [(event_id1, event_id2), ...]
         """
-        # 按章节分组事件
+        # [CN] 按章节分组事件
+        # [EN] Group events by chapter
         chapter_events: Dict[str, List[EventItem]] = defaultdict(list)
         for event in events:
             if event.chapter_id:
                 chapter_events[event.chapter_id].append(event)
         
-        # 生成同章节事件对
+        # [CN] 生成同章节事件对
+        # [EN] Generate same chapter event pairs
         pairs = []
         for chapter_id, chapter_event_list in chapter_events.items():
             chapter_size = len(chapter_event_list)
             
-            # 限制每章处理的事件数，但保持较高的阈值
+            # [CN] 限制每章处理的事件数，但保持较高的阈值
+            # [EN] Limit the number of events processed per chapter, but maintain a high threshold
             if chapter_size > self.max_events_per_chapter:
-                print(f"警告: 章节 {chapter_id} 的事件数量 {chapter_size} 超过限制 {self.max_events_per_chapter}，将被截断")
+                print(f"# [CN] 警告: 章节 {chapter_id} 的事件数量 {chapter_size} 超过限制 {self.max_events_per_chapter}，将被截断")
+                print(f"# [EN] Warning: Chapter {chapter_id} has {chapter_size} events exceeding limit {self.max_events_per_chapter}, will be truncated")
                 chapter_event_list = chapter_event_list[:self.max_events_per_chapter]
                 chapter_size = len(chapter_event_list)
             
@@ -154,7 +191,8 @@ class CandidateGenerator:
                     chapter_pairs.extend(random_pairs)
             
             pairs.extend(chapter_pairs)
-            print(f"章节 {chapter_id}: {chapter_size} 个事件，生成 {len(chapter_pairs)} 对连接 (目标: {target_pairs_count}, 最大可能: {all_possible_pairs})")
+            print(f"# [CN] 章节 {chapter_id}: {chapter_size} 个事件，生成 {len(chapter_pairs)} 对连接 (目标: {target_pairs_count}, 最大可能: {all_possible_pairs})")
+            print(f"# [EN] Chapter {chapter_id}: {chapter_size} events, generated {len(chapter_pairs)} pairs (target: {target_pairs_count}, max possible: {all_possible_pairs})")
         
         return list(set(pairs))  # 去重
     
