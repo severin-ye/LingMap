@@ -129,70 +129,35 @@
 │   ├── duplicate_events_test.json  # 重复事件测试数据
 │   ├── fixed_events_test.json  # 修复后的事件测试数据
 │   └── fixed_ids.json          # 修复后的ID数据
-├── tests                       # 测试目录
+├── tests                       # 测试目录（原结构，保留用于参考）
 │   ├── PROJECT_COMPLETION_SUMMARY.md  # 项目完成摘要
 │   ├── README.md               # 测试说明文档
-│   ├── api_tests               # API测试目录
-│   │   ├── README.md           # API测试说明
-│   │   ├── fix_api_tests.py    # API测试修复脚本
-│   │   ├── test_api_integration.py  # API集成测试（从scripts移入）
-│   │   ├── test_api_integration.new.py  # 新版API集成测试
-│   │   └── test_api_integration_improved.py  # 改进的API集成测试
-│   ├── causal_linking_tests    # 因果链接测试目录
-│   │   ├── test_candidate_generator.py  # 候选生成器测试（从scripts移入）
-│   │   ├── test_causal_linking_optimized.py  # 优化的因果链接测试（从scripts移入）
-│   │   ├── test_linker.py      # 链接器测试（从scripts移入）
-│   │   └── test_smart_candidate_generator.py  # 智能候选生成器测试（从scripts移入）
-│   ├── event_extraction_tests  # 事件提取测试目录
-│   │   ├── test_event_extraction.py  # 事件提取测试
-│   │   └── test_event_extraction_scripts.py  # 事件提取测试（从scripts移入）
-│   ├── integration_tests       # 集成测试目录
-│   │   ├── complete_test.py    # 完整集成测试
-│   │   └── complete_test_scripts.py  # 完整测试脚本（从scripts移入）
+│   ├── api_tests               # API测试目录（已合并到tests_new）
+│   ├── causal_linking_tests    # 因果链接测试目录（已合并到tests_new）
+│   ├── event_extraction_tests  # 事件提取测试目录（已合并到tests_new）
+│   ├── integration_tests       # 集成测试目录（已合并到tests_new）
 │   ├── run_all_tests.new.py    # 新版运行所有测试脚本
 │   ├── run_all_tests.py        # 运行所有测试脚本
 │   ├── stage_1                 # 第1阶段测试（接口与模型）
-│   │   ├── Stage_1_Test_Report.md  # 第1阶段测试报告
-│   │   ├── __init__.py         # 包初始化文件
-│   │   ├── run_tests.py        # 运行测试脚本
-│   │   ├── test_interfaces.py  # 接口测试
-│   │   └── test_models.py      # 模型测试
 │   ├── stage_2                 # 第2阶段测试（文本摄取与事件提取）
-│   │   ├── Stage_2_Test_Report.md  # 第2阶段测试报告
-│   │   ├── __init__.py         # 包初始化文件
-│   │   ├── run_tests.py        # 运行测试脚本
-│   │   ├── test_event_extraction.py  # 事件提取测试
-│   │   └── test_text_ingestion.py  # 文本摄取测试
 │   ├── stage_3                 # 第3阶段测试（幻觉修复测试）
-│   │   ├── STAGE3_COMPREHENSIVE_TEST_REPORT.md  # 第3阶段综合测试报告
-│   │   ├── Stage_3_Test_Report.md  # 第3阶段测试报告
-│   │   ├── __init__.py         # 包初始化文件
-│   │   ├── run_tests.py        # 运行测试脚本
-│   │   └── test_hallucination_refine.py  # 幻觉修复测试
 │   ├── stage_4                 # 第4阶段测试（因果关系链接测试）
-│   │   ├── Stage_4_Test_Report.md  # 第4阶段测试报告
-│   │   ├── __init__.py         # 包初始化文件
-│   │   ├── run_tests.py        # 运行测试脚本
-│   │   ├── test_causal_linking.py.bak  # 因果链接测试备份
-│   │   ├── test_cpc_module.py.bak  # CPC模块测试备份
-│   │   └── test_unified_cpc.py  # 统一CPC测试
 │   ├── stage_5                 # 第5阶段测试（图形构建测试）
-│   │   ├── Stage_5_Test_Report.md  # 第5阶段测试报告
-│   │   ├── __init__.py         # 包初始化文件
-│   │   ├── run_tests.py        # 运行测试脚本
-│   │   ├── test_color_map.py   # 色彩映射测试
-│   │   ├── test_graph_builder_integration.py  # 图形构建集成测试
-│   │   ├── test_graph_controller.py  # 图形控制器测试
-│   │   ├── test_mermaid_renderer.py  # Mermaid渲染器测试
-│   │   └── {__pycache__}       # Python缓存目录
 │   ├── stage_6                 # 第6阶段测试（API网关和端到端集成测试）
-│   │   ├── Stage_6_Test_Report.md  # 第6阶段测试报告
-│   │   ├── __init__.py         # 包初始化文件
-│   │   ├── run_tests.py        # 运行测试脚本
-│   │   ├── test_api_gateway_cli.py  # API网关CLI测试
-│   │   └── test_end_to_end_integration.py  # 端到端集成测试
 │   └── utils_tests             # 工具测试目录
-│       └── test_check_env.py   # 环境检查测试
+├── tests_new                   # 新的优化测试结构⭐
+│   ├── README.md               # 新测试结构说明文档
+│   ├── run_tests.py            # 统一测试运行器
+│   ├── unit/                   # 单元测试目录
+│   │   └── test_models.py      # 数据模型单元测试（13个测试用例）
+│   ├── integration/            # 集成测试目录
+│   │   ├── test_api_integration.py     # 统一API集成测试（合并5个文件）
+│   │   ├── test_event_extraction.py   # 统一事件抽取测试（合并2个文件）
+│   │   └── test_causal_linking.py     # 统一因果链接测试（合并4个文件）
+│   ├── e2e/                    # 端到端测试目录
+│   │   └── test_complete_pipeline.py  # 完整流程测试（合并3个文件）
+│   └── utils/                  # 工具测试目录
+│       └── test_common_utils.py       # 通用工具测试
 ├── 1_text_ingestion           # 文本摄取模块，负责读取和处理原始文本
 │   ├── app.py                 # 模块入口文件
 │   └── chapter_loader.py      # 章节加载器，处理小说章节的加载和预处理
