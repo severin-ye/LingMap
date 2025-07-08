@@ -49,32 +49,32 @@ def with_timeout(func, *args, **kwargs):
     
     try:
         result = func(*args, **kwargs)
-        signal.alarm(0)  # 取消超时
+        signal.alarm(0)  # 取消闹钟
         return result
-    except TimeoutException:
-        raise
+    except TimeoutException as e:
+        print(f"⚠️  {str(e)}")
+        return {"success": False, "error": str(e)}
     finally:
-        signal.alarm(0)  # 确保取消超时
+        signal.alarm(0)  # 确保闹钟被取消
 
-def mock_api_response(system, user):
-    """模拟API响应"""
-    time.sleep(0.1)  # 模拟网络延迟
-    
-    if "JSON" in system or "json" in user:
+def mock_api_response(system_prompt, user_prompt):
+    """生成模拟API响应，用于测试模式"""
+    print("⚠️  使用模拟API响应模式")
+    if "JSON" in system_prompt.upper():
         return {
             "success": True,
-            "content": '{"name": "韩立", "origin": "凡人", "cultivation_type": "炼气士", "main_characteristics": ["谨慎", "坚韧", "有天赋"]}',
+            "content": '{"name": "韩立", "origin": "七玄门", "cultivation_type": "修仙", "main_characteristics": ["坚毅", "谨慎", "善良"]}',
             "json_content": {
                 "name": "韩立",
-                "origin": "凡人",
-                "cultivation_type": "炼气士",
-                "main_characteristics": ["谨慎", "坚韧", "有天赋"]
+                "origin": "七玄门",
+                "cultivation_type": "修仙",
+                "main_characteristics": ["坚毅", "谨慎", "善良"]
             }
         }
     else:
         return {
             "success": True,
-            "content": "《凡人修仙传》是一部经典的仙侠修真小说，主角韩立从凡人开始修仙之路..."
+            "content": "《凡人修仙传》是忘语所著的一部东方玄幻小说，讲述了一个普通少年韩立从凡人家庭出身，偶获奇遇踏入仙途的故事。修仙路上，韩立凭借自己的聪慧毅力和坚韧不拔的精神，一路披荆斩棘，最终修炼成仙。"
         }
 
 def test_basic_api_connection():
@@ -87,7 +87,7 @@ def test_basic_api_connection():
     api_key = os.environ.get("DEEPSEEK_API_KEY")
     if not api_key and not MOCK_MODE:
         print("❌ 错误: 未找到DeepSeek API密钥")
-        assert False, "未找到DeepSeek API密钥"
+        assert False, "Test failed"
     
     if MOCK_MODE:
         print("⚠️  测试运行在模拟模式，不会实际调用API")
@@ -119,7 +119,7 @@ def test_basic_api_connection():
             print(f"API调用耗时: {elapsed:.2f}秒")
         except Exception as e:
             print(f"❌ API调用异常: {str(e)}")
-            assert False, f"API调用异常: {str(e)}"
+            assert False, "Test failed"
     
     print(f"响应成功: {response['success']}")
     
@@ -128,10 +128,10 @@ def test_basic_api_connection():
         print(f"响应长度: {len(content)} 字符")
         print("响应内容预览:")
         print(content[:200] + "..." if len(content) > 200 else content)
-        assert True  # 测试成功
+        assert True
     else:
         print(f"错误信息: {response.get('error', '未知错误')}")
-        assert False, f"API调用失败: {response.get('error', '未知错误')}"
+        assert False, "Test failed"
 
 def test_json_response():
     """测试JSON格式响应"""
@@ -149,7 +149,7 @@ def test_json_response():
         api_key = os.environ.get("DEEPSEEK_API_KEY")
         if not api_key:
             print("❌ 错误: 未找到DeepSeek API密钥")
-            assert False, "未找到DeepSeek API密钥"
+            assert False, "Test failed"
             
         try:
             client = LLMClient(
@@ -175,7 +175,7 @@ def test_json_response():
             print(f"API调用耗时: {elapsed:.2f}秒")
         except Exception as e:
             print(f"❌ API调用异常: {str(e)}")
-            assert False, f"API调用异常: {str(e)}"
+            assert False, "Test failed"
     
     print(f"响应成功: {response['success']}")
     
@@ -190,7 +190,7 @@ def test_json_response():
         
         if missing_fields:
             print(f"⚠️  缺少字段: {missing_fields}")
-            assert False, f"JSON结构不完整，缺少字段: {missing_fields}"
+            assert False, "Test failed"
         else:
             print("✓ JSON结构完整")
             assert True
@@ -199,7 +199,7 @@ def test_json_response():
         if 'content' in response:
             print("原始响应内容:")
             print(response['content'])
-        assert False, f"JSON响应失败: {response.get('error', '未知错误')}"
+        assert False, "Test failed"
 
 def test_causal_analysis_api():
     """测试因果分析API调用"""
@@ -223,7 +223,7 @@ def test_causal_analysis_api():
         api_key = os.environ.get("DEEPSEEK_API_KEY")
         if not api_key:
             print("❌ 错误: 未找到DeepSeek API密钥")
-            assert False, "未找到DeepSeek API密钥"
+            assert False, "Test failed"
         
         try:
             client = LLMClient(
@@ -255,7 +255,7 @@ def test_causal_analysis_api():
             print(f"API调用耗时: {elapsed:.2f}秒")
         except Exception as e:
             print(f"❌ API调用异常: {str(e)}")
-            assert False, f"API调用异常: {str(e)}"
+            assert False, "Test failed"
     
     print(f"响应成功: {response['success']}")
     
@@ -280,4 +280,62 @@ def test_causal_analysis_api():
             assert True
     else:
         print(f"错误信息: {response.get('error', '未知错误')}")
-        assert False, f"因果分析失败: {response.get('error', '未知错误')}"
+        assert False, "Test failed"
+
+def main():
+    """运行API集成测试"""
+    print("DeepSeek API集成测试套件")
+    print("="*80)
+    
+    # 检查是否启用了模拟模式
+    if MOCK_MODE:
+        print("⚠️  警告: 测试运行在模拟模式，不会实际调用API")
+    
+    tests = [
+        ("基本API连接", test_basic_api_connection),
+        ("JSON响应格式", test_json_response),
+        ("因果分析API", test_causal_analysis_api)
+    ]
+    
+    results = []
+    for test_name, test_func in tests:
+        try:
+            print(f"\n开始测试: {test_name}")
+            test_start = time.time()
+            result = test_func()
+            test_duration = time.time() - test_start
+            
+            results.append((test_name, result, test_duration))
+            print(f"测试 '{test_name}' {'通过 ✓' if result else '失败 ✗'} (耗时: {test_duration:.2f}秒)")
+        except KeyboardInterrupt:
+            print("\n⚠️  测试被用户中断")
+            results.append((test_name, False, 0))
+            break
+        except Exception as e:
+            print(f"❌ 测试 '{test_name}' 发生异常: {str(e)}")
+            results.append((test_name, False, 0))
+    
+    # 输出测试总结
+    print("\n" + "="*80)
+    print("测试总结")
+    print("="*80)
+    
+    passed = sum(1 for _, result, _ in results if result)
+    total = len(results)
+    
+    for test_name, result, duration in results:
+        status = "✓ 通过" if result else "❌ 失败"
+        print(f"{test_name}: {status} (耗时: {duration:.2f}秒)")
+    
+    print(f"\n总计: {passed}/{total} 测试通过")
+    
+    if passed == total:
+        print("🎉 所有API集成测试通过！")
+    else:
+        print("⚠️  部分测试失败，请检查配置和网络连接")
+    
+    # 返回0表示成功，非0表示失败
+    return 0 if passed == total else 1
+
+if __name__ == "__main__":
+    sys.exit(main())

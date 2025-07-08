@@ -156,7 +156,7 @@ def test_basic_api_connection():
     api_key = os.environ.get("DEEPSEEK_API_KEY")
     if not api_key and not MOCK_MODE:
         logger.error("未找到DeepSeek API密钥")
-        return False
+        assert False, "Test failed"
     
     if MOCK_MODE:
         logger.warning("测试运行在模拟模式，不会实际调用API")
@@ -165,7 +165,7 @@ def test_basic_api_connection():
             "请简单介绍一下《凡人修仙传》这部小说。"
         )
     else:
-        logger.info(f"找到API密钥: {api_key[:5]}...")
+        logger.info(f"找到API密钥: {api_key[:5] if api_key else 'N/A'}...")
         
         try:
             # 初始化客户端
@@ -190,7 +190,7 @@ def test_basic_api_connection():
             logger.error(f"API调用异常: {str(e)}")
             if DEBUG_MODE:
                 logger.debug(f"异常详情:\n{traceback.format_exc()}")
-            return False
+            assert False, "Test failed"
     
     logger.info(f"响应成功: {response['success']}")
     
@@ -199,10 +199,10 @@ def test_basic_api_connection():
         logger.info(f"响应长度: {len(content)} 字符")
         logger.info("响应内容预览:")
         logger.info(content[:200] + "..." if len(content) > 200 else content)
-        return True
+        assert True
     else:
         logger.error(f"错误信息: {response.get('error', '未知错误')}")
-        return False
+        assert False, "Test failed"
 
 def test_json_response():
     """测试JSON格式响应"""
@@ -220,7 +220,7 @@ def test_json_response():
         api_key = os.environ.get("DEEPSEEK_API_KEY")
         if not api_key:
             logger.error("未找到DeepSeek API密钥")
-            return False
+            assert False, "Test failed"
             
         try:
             client = LLMClient(
@@ -248,7 +248,7 @@ def test_json_response():
             logger.error(f"API调用异常: {str(e)}")
             if DEBUG_MODE:
                 logger.debug(f"异常详情:\n{traceback.format_exc()}")
-            return False
+            assert False, "Test failed"
     
     logger.info(f"响应成功: {response['success']}")
     
@@ -263,16 +263,16 @@ def test_json_response():
         
         if missing_fields:
             logger.warning(f"缺少字段: {missing_fields}")
-            return False
+            assert False, "Test failed"
         else:
             logger.info("JSON结构完整")
-            return True
+            assert True
     else:
         logger.error(f"错误信息: {response.get('error', '未知错误')}")
         if 'content' in response:
             logger.warning("原始响应内容:")
             logger.warning(response['content'])
-        return False
+        assert False, "Test failed"
 
 def test_causal_analysis_api():
     """测试因果分析API调用"""
@@ -291,7 +291,7 @@ def test_causal_analysis_api():
         api_key = os.environ.get("DEEPSEEK_API_KEY")
         if not api_key:
             logger.error("未找到DeepSeek API密钥")
-            return False
+            assert False, "Test failed"
         
         try:
             client = LLMClient(
@@ -325,7 +325,7 @@ def test_causal_analysis_api():
             logger.error(f"API调用异常: {str(e)}")
             if DEBUG_MODE:
                 logger.debug(f"异常详情:\n{traceback.format_exc()}")
-            return False
+            assert False, "Test failed"
     
     logger.info(f"响应成功: {response['success']}")
     
@@ -344,13 +344,13 @@ def test_causal_analysis_api():
             logger.info(f"\n发现因果关系: {direction}")
             logger.info(f"  强度: {strength}")
             logger.info(f"  理由: {reason}")
-            return True
+            assert True
         else:
             logger.info("\n未发现因果关系")
-            return True
+            assert True
     else:
         logger.error(f"错误信息: {response.get('error', '未知错误')}")
-        return False
+        assert False, "Test failed"
 
 def main():
     """运行API集成测试"""

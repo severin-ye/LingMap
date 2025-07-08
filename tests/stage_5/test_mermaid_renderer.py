@@ -111,7 +111,8 @@ class TestMermaidRenderer(unittest.TestCase):
         
         # 验证边有标签
         for edge in self.test_edges:
-            short_reason = self.renderer._truncate_text(edge.reason, 20)
+            reason_text = edge.reason or "未知原因"  # 处理 None 的情况
+            short_reason = self.renderer._truncate_text(reason_text, 20)
             # 使用更宽松的验证，只检查是否包含标签文本
             self.assertIn(edge.from_id, result)
             self.assertIn(edge.to_id, result)

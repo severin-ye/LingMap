@@ -79,11 +79,11 @@ def test_candidate_generator():
     
     # 设置测试配置
     test_configs = [
-        {"name": "默认配置", "params": {"min_entity_support": 3, "entity_weight": 1.0, "time_weight": 1.0}},
-        {"name": "较高实体支持", "params": {"min_entity_support": 5, "entity_weight": 1.0, "time_weight": 1.0}},
-        {"name": "较低实体支持", "params": {"min_entity_support": 2, "entity_weight": 1.0, "time_weight": 1.0}},
-        {"name": "高实体权重", "params": {"min_entity_support": 3, "entity_weight": 2.0, "time_weight": 0.5}},
-        {"name": "高时间权重", "params": {"min_entity_support": 3, "entity_weight": 0.5, "time_weight": 2.0}}
+        {"name": "默认配置", "params": {"min_entity_support": 3}},
+        {"name": "较高实体支持", "params": {"min_entity_support": 5}},
+        {"name": "较低实体支持", "params": {"min_entity_support": 2}},
+        {"name": "使用实体权重", "params": {"min_entity_support": 3, "use_entity_weights": True}},
+        {"name": "不使用实体权重", "params": {"min_entity_support": 3, "use_entity_weights": False}}
     ]
     
     # 创建结果目录
@@ -106,7 +106,7 @@ def test_candidate_generator():
                 
                 # 创建生成器并运行
                 generator = CandidateGenerator(**config['params'])
-                candidate_pairs = generator.generate_candidate_pairs(events)
+                candidate_pairs = generator.generate_candidates(events)
                 
                 # 记录结果
                 result = (
@@ -142,46 +142,36 @@ def test_smart_candidate_generator():
             "name": "基础配置",
             "params": {
                 "min_entity_support": 3,
-                "entity_weight": 1.0,
-                "time_weight": 1.0,
-                "smart_filter": True
+                "use_entity_weights": True
             }
         },
         {
-            "name": "实体聚焦",
+            "name": "实体权重关闭",
             "params": {
                 "min_entity_support": 3,
-                "entity_weight": 2.0,
-                "time_weight": 0.5,
-                "smart_filter": True
+                "use_entity_weights": False
             }
         },
         {
-            "name": "时间优先",
+            "name": "低实体支持",
             "params": {
                 "min_entity_support": 2,
-                "entity_weight": 0.5,
-                "time_weight": 1.5,
-                "smart_filter": True
+                "use_entity_weights": True
             }
         },
         {
-            "name": "平衡配置",
+            "name": "高实体支持",
+            "params": {
+                "min_entity_support": 5,
+                "use_entity_weights": True
+            }
+        },
+        {
+            "name": "高密度连接",
             "params": {
                 "min_entity_support": 2,
-                "entity_weight": 1.0,
-                "time_weight": 1.0,
-                "smart_filter": True,
-                "max_distance": 10
-            }
-        },
-        {
-            "name": "非智能对照组",
-            "params": {
-                "min_entity_support": 3,
-                "entity_weight": 1.0,
-                "time_weight": 1.0,
-                "smart_filter": False
+                "use_entity_weights": True,
+                "connection_density": 0.8
             }
         }
     ]
@@ -205,7 +195,7 @@ def test_smart_candidate_generator():
             generator = CandidateGenerator(**config["params"])
             
             # 生成候选对
-            candidate_pairs = generator.generate_candidate_pairs(events)
+            candidate_pairs = generator.generate_candidates(events)
             elapsed_time = time.time() - start_time
             
             # 收集结果
@@ -332,8 +322,7 @@ def test_entity_weights():
         return
     
     # 测试配置
-    entity_weight_configs = [0.5, 1.0, 1.5, 2.0, 2.5]
-    reverse_weight_configs = [True, False]
+    weight_configs = [True, False]  # 是否使用实体权重
     
     # 创建结果目录
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -345,56 +334,53 @@ def test_entity_weights():
         f.write(f"实体频率权重调整测试 - {datetime.now()}\n")
         f.write(f"事件总数: {len(events)}\n\n")
         
-        for reverse in reverse_weight_configs:
-            f.write(f"{'反向权重' if reverse else '正向权重'} 测试:\n")
+        for use_weights in weight_configs:
+            f.write(f"{'使用实体权重' if use_weights else '不使用实体权重'} 测试:\n")
             f.write("-" * 50 + "\n")
             
-            for weight in entity_weight_configs:
-                try:
-                    logger.info(f"测试 {'反向' if reverse else '正向'}权重，权重值: {weight}")
-                    
-                    # 配置生成器
-                    generator = CandidateGenerator(
-                        min_entity_support=2,
-                        entity_weight=weight,
-                        time_weight=1.0,
-                        reverse_entity_weight=reverse
-                    )
-                    
-                    # 生成候选对
-                    start_time = time.time()
-                    candidate_pairs = generator.generate_candidate_pairs(events)
-                    elapsed_time = time.time() - start_time
-                    
-                    # 分析实体分布
-                    entity_counts = {}
-                    for pair in candidate_pairs:
-                        for entity in pair.shared_entities:
-                            if entity not in entity_counts:
-                                entity_counts[entity] = 0
-                            entity_counts[entity] += 1
-                    
-                    # 统计分布情况
-                    top_entities = sorted(entity_counts.items(), key=lambda x: x[1], reverse=True)[:10]
-                    
-                    # 记录结果
-                    f.write(f"权重值: {weight}\n")
-                    f.write(f"候选对数量: {len(candidate_pairs)}\n")
-                    f.write(f"处理时间: {elapsed_time:.2f}秒\n")
-                    f.write(f"Top 10实体分布:\n")
-                    for entity, count in top_entities:
-                        f.write(f"  {entity}: {count}次\n")
-                    f.write("\n")
-                    
-                    logger.info(
-                        f"{'反向' if reverse else '正向'}权重 {weight}: "
-                        f"生成 {len(candidate_pairs)} 个候选对，耗时: {elapsed_time:.2f}秒"
-                    )
-                    
-                except Exception as e:
-                    error_msg = f"测试失败 (权重={weight}, 反向={reverse}): {e}"
-                    logger.error(error_msg)
-                    f.write(f"{error_msg}\n\n")
+            try:
+                logger.info(f"测试配置: {'使用' if use_weights else '不使用'}实体权重")
+                
+                # 配置生成器（使用正确的参数名）
+                generator = CandidateGenerator(
+                    min_entity_support=2,
+                    use_entity_weights=use_weights,
+                    max_candidate_pairs=1000
+                )
+                
+                # 生成候选对
+                start_time = time.time()
+                candidate_pairs = generator.generate_candidates(events)
+                elapsed_time = time.time() - start_time
+                
+                # 分析事件对分布（简化版本，因为candidate_pairs是(str, str)元组）
+                event_id_counts = {}
+                for event_id1, event_id2 in candidate_pairs:
+                    # 统计每个事件ID出现的频率
+                    event_id_counts[event_id1] = event_id_counts.get(event_id1, 0) + 1
+                    event_id_counts[event_id2] = event_id_counts.get(event_id2, 0) + 1
+                
+                # 统计分布情况
+                top_events = sorted(event_id_counts.items(), key=lambda x: x[1], reverse=True)[:10]
+                
+                # 记录结果
+                f.write(f"权重配置: {'使用实体权重' if use_weights else '不使用实体权重'}\n")
+                f.write(f"候选对数量: {len(candidate_pairs)}\n")
+                f.write(f"处理时间: {elapsed_time:.2f}秒\n")
+                f.write(f"Top 10高频事件:\n")
+                for event_id, count in top_events:
+                    f.write(f"  {event_id}: {count}次\n")
+                f.write("\n")
+                
+                logger.info(
+                    f"{'使用权重' if use_weights else '不使用权重'}: "
+                    f"生成 {len(candidate_pairs)} 个候选对，耗时: {elapsed_time:.2f}秒"
+                )
+                
+            except Exception as e:
+                error_msg = f"测试失败 (权重配置={'使用' if use_weights else '不使用'}): {e}"
+                logger.error(error_msg)
+                f.write(f"{error_msg}\n\n")
     
     logger.info(f"测试结果已保存到: {result_file}")
 

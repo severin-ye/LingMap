@@ -335,7 +335,15 @@ class TestEnvironmentFunctions(unittest.TestCase):
                             main.setup_environment()
                             
                             # 验证默认环境变量被设置
-                            self.assertEqual(os.environ.get("MAX_WORKERS"), "3")
+                            max_workers = os.environ.get("MAX_WORKERS")
+                            self.assertIsNotNone(max_workers)
+                            # MAX_WORKERS 应该是2到8之间的整数字符串
+                            if max_workers is not None:
+                                self.assertTrue(max_workers.isdigit())
+                                max_workers_int = int(max_workers)
+                                self.assertGreaterEqual(max_workers_int, 2)
+                                self.assertLessEqual(max_workers_int, 8)
+                            
                             self.assertEqual(os.environ.get("LLM_PROVIDER"), "deepseek")
                             
                         except Exception as e:

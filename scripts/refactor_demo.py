@@ -64,7 +64,7 @@ def generate_test_data():
         CausalEdge(
             from_id="E01-01",
             to_id="E01-03",
-            strength=0.8,
+            strength="高",
             reason="原因1"
         )
     ]

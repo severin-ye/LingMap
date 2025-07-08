@@ -187,6 +187,10 @@ class ParallelConfig:
             
         max_workers = cls._config["max_workers"]
         
+        # 确保 max_workers 不为 None
+        if max_workers is None:
+            max_workers = 4  # 默认值
+        
         # 针对特定任务类型的调整
         if cls._config["adaptive"]:
             if task_type == "io_bound":

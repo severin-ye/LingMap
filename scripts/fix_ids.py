@@ -42,7 +42,7 @@ def main():
         if not output_path:
             # 如果未指定输出路径，则基于输入路径生成
             input_path = Path(args.input)
-            output_path = input_path.parent / f"{input_path.stem}_fixed{input_path.suffix}"
+            output_path = str(input_path.parent / f"{input_path.stem}_fixed{input_path.suffix}")
         
         # 使用统一ID处理器修复ID
         UnifiedIdProcessor.fix_duplicate_event_ids(args.input, output_path)
