@@ -215,11 +215,18 @@ def main():
             print(f"# [EN] ❌ Error: Improved script does not exist: {improved_script}")
             return 1
             
-        print("🚀 使用改进版API测试脚本...")
+        # [CN] 使用改进版API测试脚本...
+        # [EN] Using improved API test script...
+        print("# [CN] 🚀 使用改进版API测试脚本...")
+        print("# [EN] 🚀 Using improved API test script...")
         run_test_script(improved_script, args.mock, args.timeout, args.debug)
     else:
-        # 使用原始脚本
-        print("🔄 使用原始API测试脚本...")
+        # [CN] 使用原始脚本
+        # [EN] Use original script
+        # [CN] 使用原始API测试脚本...
+        # [EN] Using original API test script...
+        print("# [CN] 🔄 使用原始API测试脚本...")
+        print("# [EN] 🔄 Using original API test script...")
         run_test_script(original_script, args.mock, args.timeout, args.debug)
     
     return 0

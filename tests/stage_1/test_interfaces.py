@@ -1,34 +1,57 @@
 #!/usr/bin/env python3
 """
-阶段一测试：抽象接口定义测试
+# [CN] 阶段一测试：抽象接口定义测试
+# [EN] Stage 1 Test: Abstract Interface Definition Testing
 
-本文件包含针对《凡人修仙传》因果事件图谱系统基础接口的单元测试。
-测试采用模拟类（Mock）实现各个接口，验证接口定义的正确性和功能的完整性。
+# [CN] 本文件包含针对《凡人修仙传》因果事件图谱系统基础接口的单元测试。
+# [CN] 测试采用模拟类（Mock）实现各个接口，验证接口定义的正确性和功能的完整性。
+# [EN] This file contains unit tests for the basic interfaces of the "A Record of Mortal's Journey to Immortality" causal event graph system.
+# [EN] Tests use mock class implementations for each interface to verify the correctness of interface definitions and completeness of functionality.
 
-测试内容：
-1. AbstractExtractor 抽象提取器接口：
-   - test_extractor_interface: 测试事件提取接口的功能实现
-   - 验证接口能够从章节内容中提取事件信息
-   - 确认返回的事件数据结构符合 EventItem 模型
+# [CN] 测试内容：
+# [EN] Test Content:
+# [CN] 1. AbstractExtractor 抽象提取器接口：
+# [EN] 1. AbstractExtractor abstract extractor interface:
+#    # [CN] - test_extractor_interface: 测试事件提取接口的功能实现
+#    # [EN] - test_extractor_interface: Test the functional implementation of event extraction interface
+#    # [CN] - 验证接口能够从章节内容中提取事件信息
+#    # [EN] - Verify that the interface can extract event information from chapter content
+#    # [CN] - 确认返回的事件数据结构符合 EventItem 模型
+#    # [EN] - Confirm that returned event data structure conforms to EventItem model
 
-2. AbstractRefiner 抽象优化器接口：
-   - test_refiner_interface: 测试事件优化接口的功能实现
-   - 验证接口能够优化和过滤事件列表
-   - 确认返回的优化后事件仍符合 EventItem 模型要求
+# [CN] 2. AbstractRefiner 抽象优化器接口：
+# [EN] 2. AbstractRefiner abstract refiner interface:
+#    # [CN] - test_refiner_interface: 测试事件优化接口的功能实现
+#    # [EN] - test_refiner_interface: Test the functional implementation of event refinement interface
+#    # [CN] - 验证接口能够优化和过滤事件列表
+#    # [EN] - Verify that the interface can optimize and filter event lists
+#    # [CN] - 确认返回的优化后事件仍符合 EventItem 模型要求
+#    # [EN] - Confirm that returned optimized events still conform to EventItem model requirements
 
-3. AbstractLinker 抽象链接器接口：
-   - test_linker_interface: 测试事件链接功能实现
-   - 验证接口能够在事件之间建立因果关系
-   - 确认返回的边数据结构符合 CausalEdge 模型
+# [CN] 3. AbstractLinker 抽象链接器接口：
+# [EN] 3. AbstractLinker abstract linker interface:
+#    # [CN] - test_linker_interface: 测试事件链接功能实现
+#    # [EN] - test_linker_interface: Test event linking functionality implementation
+#    # [CN] - 验证接口能够在事件之间建立因果关系
+#    # [EN] - Verify that the interface can establish causal relationships between events
+#    # [CN] - 确认返回的边数据结构符合 CausalEdge 模型
+#    # [EN] - Confirm that returned edge data structure conforms to CausalEdge model
    
-   - test_build_dag_interface: 测试构建有向无环图(DAG)功能
-   - 验证接口能够处理事件和边，构建有效的图结构
-   - 确认返回的数据结构符合预期格式
+#    # [CN] - test_build_dag_interface: 测试构建有向无环图(DAG)功能
+#    # [EN] - test_build_dag_interface: Test directed acyclic graph (DAG) construction functionality
+#    # [CN] - 验证接口能够处理事件和边，构建有效的图结构
+#    # [EN] - Verify that the interface can process events and edges to build valid graph structures
+#    # [CN] - 确认返回的数据结构符合预期格式
+#    # [EN] - Confirm that returned data structures conform to expected formats
 
-4. AbstractGraphRenderer 抽象图渲染器接口：
-   - test_graph_renderer_interface: 测试图形渲染接口的功能实现
-   - 验证接口能够将事件和边渲染为有效的图表表示（如Mermaid格式）
-   - 确认返回的字符串格式符合渲染要求
+# [CN] 4. AbstractGraphRenderer 抽象图渲染器接口：
+# [EN] 4. AbstractGraphRenderer abstract graph renderer interface:
+#    # [CN] - test_graph_renderer_interface: 测试图形渲染接口的功能实现
+#    # [EN] - test_graph_renderer_interface: Test the functional implementation of graph rendering interface
+#    # [CN] - 验证接口能够将事件和边渲染为有效的图表表示（如Mermaid格式）
+#    # [EN] - Verify that the interface can render events and edges into valid chart representations (such as Mermaid format)
+#    # [CN] - 确认返回的字符串格式符合渲染要求
+#    # [EN] - Confirm that returned string format meets rendering requirements
 """
 
 import unittest
@@ -37,7 +60,8 @@ import sys
 from typing import List, Dict, Any, Tuple
 from unittest.mock import MagicMock
 
-# 将项目根目录添加到路径
+# [CN] 将项目根目录添加到路径
+# [EN] Add project root directory to path
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.append(project_root)
@@ -53,21 +77,32 @@ from common.models.causal_edge import CausalEdge
 
 
 class MockExtractor(AbstractExtractor):
-    """AbstractExtractor接口的模拟实现"""
+    """
+    # [CN] AbstractExtractor接口的模拟实现
+    # [EN] Mock implementation of AbstractExtractor interface
+    """
     
     def __init__(self):
-        """初始化"""
+        """
+        # [CN] 初始化
+        # [EN] Initialize
+        """
         self.mock_extract = MagicMock()
-        # 加载小说数据
+        # [CN] 加载小说数据
+        # [EN] Load novel data
         novel_path = os.path.join(project_root, "novel", "test.txt")
         with open(novel_path, 'r', encoding='utf-8') as f:
             novel_text = f.read()
         self.novel_text = novel_text
         
     def extract(self, chapter: Chapter) -> List[EventItem]:
-        """模拟提取事件：使用小说真实内容"""
+        """
+        # [CN] 模拟提取事件：使用小说真实内容
+        # [EN] Mock event extraction: using real novel content
+        """
         self.mock_extract(chapter)
-        # 返回基于小说内容的测试事件
+        # [CN] 返回基于小说内容的测试事件
+        # [EN] Return test events based on novel content
         return [
             EventItem(
                 event_id="event-001",
@@ -89,31 +124,51 @@ class MockExtractor(AbstractExtractor):
 
 
 class MockRefiner(AbstractRefiner):
-    """AbstractRefiner接口的模拟实现"""
+    """
+    # [CN] AbstractRefiner接口的模拟实现
+    # [EN] Mock implementation of AbstractRefiner interface
+    """
     
     def __init__(self):
-        """初始化"""
+        """
+        # [CN] 初始化
+        # [EN] Initialize
+        """
         self.mock_refine = MagicMock()
         
     def refine(self, events: List[EventItem], chapter: Chapter) -> List[EventItem]:
-        """模拟优化事件"""
+        """
+        # [CN] 模拟优化事件
+        # [EN] Mock event optimization
+        """
         self.mock_refine(events, chapter)
-        # 简单返回输入的事件
+        # [CN] 简单返回输入的事件
+        # [EN] Simply return input events
         return events
 
 
 class MockLinker(AbstractLinker):
-    """AbstractLinker接口的模拟实现"""
+    """
+    # [CN] AbstractLinker接口的模拟实现
+    # [EN] Mock implementation of AbstractLinker interface
+    """
     
     def __init__(self):
-        """初始化"""
+        """
+        # [CN] 初始化
+        # [EN] Initialize
+        """
         self.mock_link_events = MagicMock()
         self.mock_build_dag = MagicMock()
         
     def link_events(self, events: List[EventItem]) -> List[CausalEdge]:
-        """模拟链接事件：使用小说中的真实因果关系"""
+        """
+        # [CN] 模拟链接事件：使用小说中的真实因果关系
+        # [EN] Mock event linking: using real causal relationships from the novel
+        """
         self.mock_link_events(events)
-        # 返回基于小说内容的因果关系
+        # [CN] 返回基于小说内容的因果关系
+        # [EN] Return causal relationships based on novel content
         if len(events) >= 2:
             return [
                 CausalEdge(
@@ -126,21 +181,34 @@ class MockLinker(AbstractLinker):
         return []
         
     def build_dag(self, events: List[EventItem], edges: List[CausalEdge]) -> Tuple[List[EventItem], List[CausalEdge]]:
-        """模拟构建DAG"""
+        """
+        # [CN] 模拟构建DAG
+        # [EN] Mock DAG construction
+        """
         self.mock_build_dag(events, edges)
-        # 简单返回输入
+        # [CN] 简单返回输入
+        # [EN] Simply return input
         return events, edges
 
 
 class MockGraphRenderer(AbstractGraphRenderer):
-    """AbstractGraphRenderer接口的模拟实现"""
+    """
+    # [CN] AbstractGraphRenderer接口的模拟实现
+    # [EN] Mock implementation of AbstractGraphRenderer interface
+    """
     
     def __init__(self):
-        """初始化"""
+        """
+        # [CN] 初始化
+        # [EN] Initialize
+        """
         self.mock_render = MagicMock()
         
     def render(self, events: List[EventItem], edges: List[CausalEdge]) -> str:
-        """模拟渲染图谱"""
+        """
+        # [CN] 模拟渲染图谱
+        # [EN] Mock graph rendering
+        """
         self.mock_render(events, edges)
         # 返回简单的Mermaid字符串
         return "graph TD;\n  event-001-->event-002;"

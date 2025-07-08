@@ -20,8 +20,11 @@
 
 import os
 import time
-from typing import List, Dict, Any, Optional, Tuple, Set
+import math
+from typing import List, Dict, Any, Optional, Tuple, Set, DefaultDict
 import itertools
+from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
 
 from common.models.causal_edge import CausalEdge
 from common.models.event import EventItem
@@ -102,6 +105,14 @@ class UnifiedCausalLinker(BaseLinker):
         self.provider = provider
         self.use_optimization = use_optimization
         
+        # [CN] 添加优化参数
+        # [EN] Add optimization parameters
+        self.max_events_per_chapter = max_events_per_chapter
+        self.min_entity_support = min_entity_support
+        self.max_chapter_span = max_chapter_span
+        self.max_candidate_pairs = max_candidate_pairs
+        self.use_entity_weights = use_entity_weights
+        
         # [CN] 设置强度映射
         # [EN] Set strength mapping
         self.strength_mapping = strength_mapping or {
@@ -109,6 +120,16 @@ class UnifiedCausalLinker(BaseLinker):
             "中": 2,
             "低": 1
         }
+        
+        # [CN] 初始化LLM客户端
+        # [EN] Initialize LLM client
+        from event_extraction.repository.llm_client import LLMClient
+        self.llm_client = LLMClient(
+            model=model,
+            api_key=api_key,
+            base_url=base_url,
+            provider=provider
+        )
         
         # [CN] 初始化候选生成器
         # [EN] Initialize candidate generator
