@@ -9,7 +9,7 @@
 import os
 import sys
 import logging
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from pathlib import Path
 
 from common.utils.parallel_config import ParallelConfig
@@ -22,8 +22,8 @@ class ThreadUsageMonitor:
     负责记录和监控系统中各模块使用的线程数，以及系统整体线程使用情况。
     """
     
-    _logger = None
-    _instance = None
+    _logger: Optional[logging.Logger] = None
+    _instance: Optional['ThreadUsageMonitor'] = None
     
     @classmethod
     def get_instance(cls):
@@ -77,12 +77,16 @@ class ThreadUsageMonitor:
         }
         
         # 记录到日志
-        ThreadUsageMonitor._logger.info(
-            f"模块 '{module_name}' 使用 {thread_count} 个线程执行 {task_type} 类型任务"
-        )
+        if ThreadUsageMonitor._logger:
+            ThreadUsageMonitor._logger.info(
+                f"模块 '{module_name}' 使用 {thread_count} 个线程执行 {task_type} 类型任务"
+            )
     
     def log_system_thread_usage(self):
         """记录系统整体线程使用情况"""
+        if not ThreadUsageMonitor._logger:
+            return
+            
         # 获取配置
         enabled = ParallelConfig.is_enabled()
         max_workers = ParallelConfig._config["max_workers"]

@@ -50,7 +50,7 @@ class ParallelConfig:
     }
     
     @classmethod
-    def initialize(cls, options: Dict[str, Any] = None) -> None:
+    def initialize(cls, options: Optional[Dict[str, Any]] = None) -> None:
         """
         初始化并行处理配置
         
