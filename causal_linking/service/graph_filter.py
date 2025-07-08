@@ -8,7 +8,7 @@
 专门负责DAG构建中的环检测和移除算法。
 """
 
-from typing import List, Dict, Set, Tuple, Optional
+from typing import List, Dict, Set, Tuple, Optional, Any
 from common.models.event import EventItem
 from common.models.causal_edge import CausalEdge
 
@@ -21,7 +21,7 @@ class GraphFilter:
     按照理论支持文档中描述的算法进行DAG构建。
     """
     
-    def __init__(self, strength_mapping: Dict[str, int] = None):
+    def __init__(self, strength_mapping: Optional[Dict[str, int]] = None):
         """
         初始化图过滤器
         
@@ -69,9 +69,10 @@ class GraphFilter:
             edges = events_or_edges
             # 从边中提取所有唯一的事件ID
             event_ids = set()
-            for edge in edges:
-                event_ids.add(edge.from_id)
-                event_ids.add(edge.to_id)
+            if edges:  # 确保edges不为None
+                for edge in edges:
+                    event_ids.add(edge.from_id)
+                    event_ids.add(edge.to_id)
             # 创建简单的EventItem对象列表
             events = [EventItem(event_id=event_id, description="", characters=[], treasures=[], location="", chapter_id="", result="") for event_id in event_ids]
         else:
@@ -117,7 +118,7 @@ class GraphFilter:
         
         return dag_edges
     
-    def _sort_edges_by_priority(self, edges: List[CausalEdge], event_map: Dict[str, int] = None) -> List[CausalEdge]:
+    def _sort_edges_by_priority(self, edges: List[CausalEdge], event_map: Optional[Dict[str, int]] = None) -> List[CausalEdge]:
         """
         按优先级排序边
         
@@ -252,7 +253,7 @@ class GraphFilter:
         
         return cycles
     
-    def get_filter_statistics(self, original_edges: List[CausalEdge] = None, filtered_edges: List[CausalEdge] = None) -> Dict[str, any]:
+    def get_filter_statistics(self, original_edges: Optional[List[CausalEdge]] = None, filtered_edges: Optional[List[CausalEdge]] = None) -> Dict[str, Any]:
         """
         获取过滤统计信息
         

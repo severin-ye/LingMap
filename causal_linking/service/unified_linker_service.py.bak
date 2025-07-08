@@ -13,8 +13,11 @@
 
 import os
 import time
-from typing import List, Dict, Any, Optional, Tuple, Set
+import math
+from typing import List, Dict, Any, Optional, Tuple, Set, DefaultDict
 import itertools
+from concurrent.futures import ThreadPoolExecutor
+from collections import defaultdict
 
 from common.models.causal_edge import CausalEdge
 from common.models.event import EventItem
@@ -77,6 +80,13 @@ class UnifiedCausalLinker(BaseLinker):
         self.provider = provider
         self.use_optimization = use_optimization
         
+        # 添加优化相关的实例属性
+        self.max_events_per_chapter = max_events_per_chapter
+        self.min_entity_support = min_entity_support
+        self.max_chapter_span = max_chapter_span
+        self.max_candidate_pairs = max_candidate_pairs
+        self.use_entity_weights = use_entity_weights
+        
         # 设置强度映射
         self.strength_mapping = strength_mapping or {
             "高": 3,
@@ -102,6 +112,9 @@ class UnifiedCausalLinker(BaseLinker):
             max_workers=max_workers,
             provider=provider
         )
+        
+        # 从PairAnalyzer获取llm_client以保持兼容性
+        self.llm_client = self.pair_analyzer.llm_client
         
         # 初始化图过滤器
         self.graph_filter = GraphFilter(strength_mapping=self.strength_mapping)
