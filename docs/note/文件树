@@ -122,6 +122,7 @@
 ├── scripts                     # 实用脚本目录
 │   ├── check_env.py            # 环境检查脚本
 │   ├── fix_ids.py              # ID修复脚本
+│   ├── generate_test_optimization_report.py  # 测试优化报告生成器
 │   ├── refactor_demo.py        # 重构演示脚本
 │   ├── run_demo.py             # 运行演示脚本
 │   └── unified_parallel_tool.py  # 统一并行工具脚本
