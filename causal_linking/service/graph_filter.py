@@ -72,9 +72,10 @@ class GraphFilter:
                 return []
             # 从边中提取所有唯一的事件ID
             event_ids = set()
-            for edge in edges:
-                event_ids.add(edge.from_id)
-                event_ids.add(edge.to_id)
+            if edges:  # 确保edges不为None
+                for edge in edges:
+                    event_ids.add(edge.from_id)
+                    event_ids.add(edge.to_id)
             # 创建简单的EventItem对象列表
             events = [EventItem(event_id=event_id, description="", characters=[], treasures=[], location="", chapter_id="", result="") for event_id in event_ids]
         else:

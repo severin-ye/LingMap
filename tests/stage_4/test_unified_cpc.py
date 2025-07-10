@@ -468,13 +468,20 @@ class TestGraphFilter(unittest.TestCase):
             CausalEdge(from_id="C", to_id="A", strength="中", reason="C到A形成环")
         ]
         
-        # 构建临时图用于测试
-        graph = defaultdict(list)
-        graph["A"].append("B")
-        graph["B"].append("C")
+        # 创建事件映射（A=0, B=1, C=2）
+        events = [
+            EventItem(event_id="A", description="事件A", characters=[], treasures=[], location="", chapter_id="", result=""),
+            EventItem(event_id="B", description="事件B", characters=[], treasures=[], location="", chapter_id="", result=""),
+            EventItem(event_id="C", description="事件C", characters=[], treasures=[], location="", chapter_id="", result="")
+        ]
         
-        # 验证添加C->A会形成环
-        self.assertTrue(self.graph_filter._will_form_cycle(graph, "C", "A"))
+        # 构建邻接表（A->B, B->C）
+        graph = [[] for _ in range(3)]  # 3个节点
+        graph[0].append(1)  # A(0) -> B(1)
+        graph[1].append(2)  # B(1) -> C(2)
+        
+        # 验证添加C->A会形成环（C=2, A=0）
+        self.assertTrue(self.graph_filter._will_form_cycle(graph, 2, 0))
         
     def test_cycle_breaking_algorithm(self):
         """测试环路打破算法"""
@@ -936,7 +943,8 @@ class TestCPCModuleCompletion(unittest.TestCase):
                 break
                 
         self.assertIsNotNone(high_priority_edge)
-        self.assertEqual(high_priority_edge.strength, "高")
+        if high_priority_edge is not None:  # 类型安全检查
+            self.assertEqual(high_priority_edge.strength, "高")
         
         # 确认移除了低优先级的边
         low_priority_edge_removed = True

@@ -91,10 +91,10 @@ def test_extractor_initialization():
         print(f"  - 最大工作线程: {getattr(extractor, 'max_workers', '未知')}")
         print(f"  - 调试模式: {getattr(extractor, 'debug_mode', False)}")
         
-        return True, extractor
+        assert True  # 测试成功
     except Exception as e:
         print(f"❌ 事件抽取器初始化失败: {str(e)}")
-        return False, None
+        assert False, f"事件抽取器初始化失败: {str(e)}"
 
 def test_prompt_template():
     """测试事件抽取提示词模板"""
@@ -116,7 +116,7 @@ def test_prompt_template():
         
         if missing_fields:
             print(f"❌ 缺少必要字段: {missing_fields}")
-            return False
+            assert False, "测试失败"
         
         print(f"✓ 包含所有必要字段: {required_fields}")
         
@@ -126,7 +126,7 @@ def test_prompt_template():
             print(f"✓ 指令模板包含文本占位符")
         else:
             print(f"❌ 指令模板缺少{{text}}占位符")
-            return False
+            assert False, "测试失败"
         
         # 检查输出格式
         output_format = template.get("output_format", {})
@@ -135,7 +135,7 @@ def test_prompt_template():
             print(f"  输出格式字段: {list(output_format.keys())}")
         else:
             print(f"❌ 输出格式定义不完整")
-            return False
+            assert False, "测试失败"
         
         # 测试格式化功能
         sample_text = "韩立从储物袋中取出一颗灵乳，小心翼翼地服下..."
@@ -144,12 +144,12 @@ def test_prompt_template():
             print(f"✓ 模板格式化功能正常")
         except Exception as e:
             print(f"❌ 模板格式化失败: {e}")
-            return False
+            assert False, "测试失败"
         
-        return True
+        assert True
     except Exception as e:
         print(f"❌ 提示词模板测试失败: {e}")
-        return False
+        assert False, "测试失败"
 
 def test_direct_extraction():
     """测试直接事件抽取功能"""
@@ -160,12 +160,13 @@ def test_direct_extraction():
     # 获取测试章节
     chapter, source = load_test_chapter()
     if not chapter:
-        return False
+        assert False, "无法获取测试章节"
     
     # 初始化抽取器
-    success, extractor = test_extractor_initialization()
-    if not success:
-        return False
+    try:
+        extractor = provide_extractor()
+    except Exception as e:
+        assert False, f"抽取器初始化失败: {str(e)}"
     
     print(f"\n开始事件抽取...")
     print(f"输入文本长度: {len(chapter.content)} 字符")
@@ -174,7 +175,7 @@ def test_direct_extraction():
         # 检查extractor是否为None
         if not extractor:
             print(f"\n❌ 抽取器初始化失败")
-            return False
+            assert False, "抽取器初始化失败"
             
         events = extractor.extract(chapter)
         
@@ -205,16 +206,16 @@ def test_direct_extraction():
             
             print(f"\n✓ 事件已保存到: {events_file}")
             
-            return True
+            assert True
         else:
             print(f"\n❌ 未能抽取任何事件")
-            return False
+            assert False, "测试失败"
             
     except Exception as e:
         print(f"\n❌ 事件抽取失败: {str(e)}")
         import traceback
         traceback.print_exc()
-        return False
+        assert False, "测试失败"
 
 def test_extraction_quality():
     """测试事件抽取质量"""
@@ -228,7 +229,7 @@ def test_extraction_quality():
     
     if not events_file.exists():
         print("❌ 未找到事件数据文件，请先运行事件抽取测试")
-        return False
+        assert False, "测试失败"
     
     try:
         with open(events_file, 'r', encoding='utf-8') as f:
@@ -273,16 +274,17 @@ def test_extraction_quality():
         
         if quality_score >= 80:
             print("✓ 抽取质量优秀")
+            assert True
         elif quality_score >= 60:
             print("⚠️  抽取质量良好")
+            assert True
         else:
             print("❌ 抽取质量需要改进")
-        
-        return quality_score >= 60
+            assert False, f"抽取质量不达标: {quality_score:.1f}/100"
         
     except Exception as e:
         print(f"❌ 质量评估失败: {e}")
-        return False
+        assert False, "测试失败"
 
 def main():
     """运行事件抽取模块测试"""
@@ -291,7 +293,7 @@ def main():
     
     tests = [
         ("加载测试章节", lambda: load_test_chapter()[0] is not None),
-        ("抽取器初始化", lambda: test_extractor_initialization()[0]),
+        ("抽取器初始化", lambda: provide_extractor() is not None),
         ("提示词模板", test_prompt_template),
         ("直接事件抽取", test_direct_extraction),
         ("抽取质量评估", test_extraction_quality)

@@ -1,21 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-# [CN] 统一因果链接器实现
-# [EN] Unified causal linker implementation
-# [CN] 融合基础版和优化版因果链接器功能：
-# [EN] Integrates basic and optimized causal linker functionality:
-# [CN] 1. 使用CandidateGenerator生成候选事件对
-# [EN] 1. Use CandidateGenerator to generate candidate event pairs
-# [CN] 2. 使用PairAnalyzer分析事件对因果关系
-# [EN] 2. Use PairAnalyzer to analyze causal relationships between event pairs
-# [CN] 3. 实现BaseLinker接口提供链接器功能
-# [EN] 3. Implement BaseLinker interface to provide linker functionality
-# [CN] 4. 构建有向无环图（DAG）
-# [EN] 4. Build directed acyclic graph (DAG)
+统一因果链接器实现
+融合基础版和优化版因果链接器功能：
+1. 使用CandidateGenerator生成候选事件对
+2. 使用PairAnalyzer分析事件对因果关系
+3. 实现BaseLinker接口提供链接器功能
+4. 构建有向无环图（DAG）
 
-# [CN] 降低整体时间复杂度，从O(N²)降低到O(N·avg_m²) + O(E × k²)
-# [EN] Reduce overall time complexity from O(N²) to O(N·avg_m²) + O(E × k²)
+降低整体时间复杂度，从O(N²)降低到O(N·avg_m²) + O(E × k²)
 """
 
 import os
@@ -23,8 +16,8 @@ import time
 import math
 from typing import List, Dict, Any, Optional, Tuple, Set, DefaultDict
 import itertools
-from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
+from collections import defaultdict
 
 from common.models.causal_edge import CausalEdge
 from common.models.event import EventItem
@@ -36,10 +29,8 @@ from causal_linking.service.graph_filter import GraphFilter
 
 class UnifiedCausalLinker(BaseLinker):
     """
-    # [CN] 统一版因果链接器，结合原始版和优化版的功能
-    # [EN] Unified causal linker, combining original and optimized functionality
-    # [CN] 支持完整的旧版功能，同时提供优化策略选项
-    # [EN] Supports complete legacy functionality while providing optimization strategy options
+    统一版因果链接器，结合原始版和优化版的功能
+    支持完整的旧版功能，同时提供优化策略选项
     """
     
     def __init__(
@@ -51,8 +42,7 @@ class UnifiedCausalLinker(BaseLinker):
         max_workers: int = 3,
         strength_mapping: Dict[str, int] = {},
         provider: str = "openai",
-        # [CN] 优化参数，默认启用优化
-        # [EN] Optimization parameters, optimization enabled by default
+        # 优化参数，默认启用优化
         use_optimization: bool = True,
         max_events_per_chapter: int = 20,
         min_entity_support: int = 2,
@@ -61,40 +51,25 @@ class UnifiedCausalLinker(BaseLinker):
         use_entity_weights: bool = True
     ):
         """
-        # [CN] 初始化统一因果链接器
-        # [EN] Initialize unified causal linker
+        初始化统一因果链接器
         
         Args:
-            # [CN] model: 使用的LLM模型
-            # [EN] model: LLM model to use
-            # [CN] prompt_path: 提示词模板路径
-            # [EN] prompt_path: Path to prompt template
-            # [CN] api_key: API密钥
-            # [EN] api_key: API key
-            # [CN] base_url: 自定义API基础URL
-            # [EN] base_url: Custom API base URL
-            # [CN] max_workers: 并行处理的最大工作线程数
-            # [EN] max_workers: Maximum number of worker threads for parallel processing
-            # [CN] strength_mapping: 因果强度映射，用于权重比较
-            # [EN] strength_mapping: Causal strength mapping for weight comparison
-            # [CN] provider: API提供商，如"openai"或"deepseek"
-            # [EN] provider: API provider, such as "openai" or "deepseek"
-            # [CN] use_optimization: 是否使用优化策略，禁用则回退到原始全配对方法
-            # [EN] use_optimization: Whether to use optimization strategy, if disabled fallback to original full pairing method
-            # [CN] max_events_per_chapter: 每章节最多处理的事件数
-            # [EN] max_events_per_chapter: Maximum number of events to process per chapter
-            # [CN] min_entity_support: 实体最小支持度，低于此值不考虑实体配对
-            # [EN] min_entity_support: Minimum entity support, below this value entity pairing is not considered
-            # [CN] max_chapter_span: 跨章节配对的最大章节跨度
-            # [EN] max_chapter_span: Maximum chapter span for cross-chapter pairing
-            # [CN] max_candidate_pairs: 最大候选事件对数量
-            # [EN] max_candidate_pairs: Maximum number of candidate event pairs
-            # [CN] use_entity_weights: 是否使用实体频率反向权重（频率越高权重越低）
-            # [EN] use_entity_weights: Whether to use entity frequency inverse weights (higher frequency means lower weight)
+            model: 使用的LLM模型
+            prompt_path: 提示词模板路径
+            api_key: API密钥
+            base_url: 自定义API基础URL
+            max_workers: 并行处理的最大工作线程数
+            strength_mapping: 因果强度映射，用于权重比较
+            provider: API提供商，如"openai"或"deepseek"
+            use_optimization: 是否使用优化策略，禁用则回退到原始全配对方法
+            max_events_per_chapter: 每章节最多处理的事件数
+            min_entity_support: 实体最小支持度，低于此值不考虑实体配对
+            max_chapter_span: 跨章节配对的最大章节跨度
+            max_candidate_pairs: 最大候选事件对数量
+            use_entity_weights: 是否使用实体频率反向权重（频率越高权重越低）
         """
         if not prompt_path:
-            # [CN] 导入path_utils获取配置文件路径
-            # [EN] Import path_utils to get configuration file path
+            # 导入path_utils获取配置文件路径
             from common.utils.path_utils import get_config_path
             prompt_path = get_config_path("prompt_causal_linking.json")
             
@@ -105,34 +80,21 @@ class UnifiedCausalLinker(BaseLinker):
         self.provider = provider
         self.use_optimization = use_optimization
         
-        # [CN] 添加优化参数
-        # [EN] Add optimization parameters
+        # 添加优化相关的实例属性
         self.max_events_per_chapter = max_events_per_chapter
         self.min_entity_support = min_entity_support
         self.max_chapter_span = max_chapter_span
         self.max_candidate_pairs = max_candidate_pairs
         self.use_entity_weights = use_entity_weights
         
-        # [CN] 设置强度映射
-        # [EN] Set strength mapping
+        # 设置强度映射
         self.strength_mapping = strength_mapping or {
             "高": 3,
             "中": 2,
             "低": 1
         }
         
-        # [CN] 初始化LLM客户端
-        # [EN] Initialize LLM client
-        from event_extraction.repository.llm_client import LLMClient
-        self.llm_client = LLMClient(
-            model=model,
-            api_key=api_key,
-            base_url=base_url,
-            provider=provider
-        )
-        
-        # [CN] 初始化候选生成器
-        # [EN] Initialize candidate generator
+        # 初始化候选生成器
         self.candidate_generator = CandidateGenerator(
             max_events_per_chapter=max_events_per_chapter,
             min_entity_support=min_entity_support,
@@ -141,8 +103,7 @@ class UnifiedCausalLinker(BaseLinker):
             use_entity_weights=use_entity_weights
         )
         
-        # [CN] 初始化对分析器
-        # [EN] Initialize pair analyzer
+        # 初始化对分析器
         self.pair_analyzer = PairAnalyzer(
             model=model,
             prompt_path=prompt_path,
@@ -152,84 +113,63 @@ class UnifiedCausalLinker(BaseLinker):
             provider=provider
         )
         
-        # [CN] 初始化图过滤器
-        # [EN] Initialize graph filter
+        # 从PairAnalyzer获取llm_client以保持兼容性
+        self.llm_client = self.pair_analyzer.llm_client
+        
+        # 初始化图过滤器
         self.graph_filter = GraphFilter(strength_mapping=self.strength_mapping)
     
     def link_events(self, events: List[EventItem]) -> List[CausalEdge]:
         """
-        # [CN] 识别事件之间的因果关系
-        # [EN] Identify causal relationships between events
+        识别事件之间的因果关系
         
         Args:
-            # [CN] events: 事件列表
-            # [EN] events: List of events
+            events: 事件列表
             
         Returns:
-            # [CN] 事件因果边列表
-            # [EN] List of causal edges between events
+            事件因果边列表
         """
         start_time = time.time()
         
         if self.use_optimization:
-            # [CN] 使用优化版策略
-            # [EN] Use optimized strategy
+            # 使用优化版策略
             
-            # [CN] 1. 同章节事件配对
-            # [EN] 1. Same chapter event pairing
-            print("# [CN] 正在执行策略1: 同章节事件配对...")
-            print("# [EN] Executing strategy 1: Same chapter event pairing...")
+            # 1. 同章节事件配对
+            print("正在执行策略1: 同章节事件配对...")
             chapter_pairs = self._generate_same_chapter_pairs(events)
-            print(f"# [CN] 同章节事件配对完成，共生成 {len(chapter_pairs)} 对候选")
-            print(f"# [EN] Same chapter event pairing completed, generated {len(chapter_pairs)} candidate pairs")
+            print(f"同章节事件配对完成，共生成 {len(chapter_pairs)} 对候选")
             
-            # [CN] 2. 实体共现跨章配对（带权重）
-            # [EN] 2. Entity co-occurrence cross-chapter pairing (with weights)
-            print("# [CN] 正在执行策略2: 实体共现跨章配对...")
-            print("# [EN] Executing strategy 2: Entity co-occurrence cross-chapter pairing...")
+            # 2. 实体共现跨章配对（带权重）
+            print("正在执行策略2: 实体共现跨章配对...")
             entity_pairs = self._generate_entity_co_occurrence_pairs(events)
-            print(f"# [CN] 实体共现跨章配对完成，共生成 {len(entity_pairs)} 对候选")
-            print(f"# [EN] Entity co-occurrence cross-chapter pairing completed, generated {len(entity_pairs)} candidate pairs")
+            print(f"实体共现跨章配对完成，共生成 {len(entity_pairs)} 对候选")
             
-            # [CN] 3. 合并候选事件对，去重
-            # [EN] 3. Merge candidate event pairs, deduplicate
+            # 3. 合并候选事件对，去重
             candidate_pairs = self._merge_candidate_pairs(chapter_pairs, entity_pairs)
-            print(f"# [CN] 合并去重后的候选事件对: {len(candidate_pairs)} 对")
-            print(f"# [EN] Merged and deduplicated candidate event pairs: {len(candidate_pairs)} pairs")
+            print(f"合并去重后的候选事件对: {len(candidate_pairs)} 对")
             
-            # [CN] 如果候选对数量超过上限，进行截断
-            # [EN] If candidate pairs exceed limit, truncate
+            # 如果候选对数量超过上限，进行截断
             if len(candidate_pairs) > self.max_candidate_pairs:
-                print(f"# [CN] 候选对数量 {len(candidate_pairs)} 超过上限 {self.max_candidate_pairs}，进行截断")
-                print(f"# [EN] Candidate pairs count {len(candidate_pairs)} exceeds limit {self.max_candidate_pairs}, truncating")
+                print(f"候选对数量 {len(candidate_pairs)} 超过上限 {self.max_candidate_pairs}，进行截断")
                 candidate_pairs = candidate_pairs[:self.max_candidate_pairs]
             
-            # [CN] 4. 分析因果关系
-            # [EN] 4. Analyze causal relationships
-            print(f"# [CN] 开始分析 {len(candidate_pairs)} 对事件的因果关系...")
-            print(f"# [EN] Starting to analyze causal relationships for {len(candidate_pairs)} event pairs...")
+            # 4. 分析因果关系
+            print(f"开始分析 {len(candidate_pairs)} 对事件的因果关系...")
             edges = self._analyze_candidate_pairs(candidate_pairs, events)
             
-            # [CN] 计算优化效果
-            # [EN] Calculate optimization effect
+            # 计算优化效果
             original_pairs = len(events) * (len(events) - 1) // 2
-            print(f"# [CN] 优化前可能的事件对数量：{original_pairs}")
-            print(f"# [EN] Possible event pairs before optimization: {original_pairs}")
-            print(f"# [CN] 优化后实际分析的事件对数量：{len(candidate_pairs)}，节省了 {original_pairs - len(candidate_pairs)} 对（{(original_pairs - len(candidate_pairs)) / original_pairs * 100:.2f}%）")
-            print(f"# [EN] Actual analyzed event pairs after optimization: {len(candidate_pairs)}, saved {original_pairs - len(candidate_pairs)} pairs ({(original_pairs - len(candidate_pairs)) / original_pairs * 100:.2f}%)")
+            print(f"优化前可能的事件对数量：{original_pairs}")
+            print(f"优化后实际分析的事件对数量：{len(candidate_pairs)}，节省了 {original_pairs - len(candidate_pairs)} 对（{(original_pairs - len(candidate_pairs)) / original_pairs * 100:.2f}%）")
         else:
-            # [CN] 使用原始版全配对策略
-            # [EN] Use original full pairing strategy
-            # [CN] 创建事件对组合
-            # [EN] Create event pair combinations
+            # 使用原始版全配对策略
+            # 创建事件对组合
             event_pairs = list(itertools.combinations(events, 2))
-            print(f"# [CN] 分析 {len(event_pairs)} 对事件的因果关系...")
-            print(f"# [EN] Analyzing causal relationships for {len(event_pairs)} event pairs...")
+            print(f"分析 {len(event_pairs)} 对事件的因果关系...")
             
             edges = []
             
-            # [CN] 使用线程池并行处理事件对
-            # [EN] Use thread pool to process event pairs in parallel
+            # 使用线程池并行处理事件对
             with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
                 futures = []
                 
@@ -237,58 +177,46 @@ class UnifiedCausalLinker(BaseLinker):
                     future = executor.submit(self.analyze_causal_relation, event1, event2)
                     futures.append(future)
                 
-                # [CN] 收集所有结果
-                # [EN] Collect all results
+                # 收集所有结果
                 for future in futures:
                     edge = future.result()
                     if edge:
                         edges.append(edge)
         
         elapsed = time.time() - start_time
-        print(f"# [CN] 发现 {len(edges)} 个因果关系")
-        print(f"# [EN] Found {len(edges)} causal relationships")
-        print(f"# [CN] 总耗时: {elapsed:.2f} 秒")
-        print(f"# [EN] Total time: {elapsed:.2f} seconds")
+        print(f"发现 {len(edges)} 个因果关系")
+        print(f"总耗时: {elapsed:.2f} 秒")
         
         return edges
     
     def _generate_same_chapter_pairs(self, events: List[EventItem]) -> List[Tuple[str, str]]:
         """
-        # [CN] 生成同章节事件配对
-        # [EN] Generate same chapter event pairs
+        生成同章节事件配对
         
         Args:
-            # [CN] events: 事件列表
-            # [EN] events: List of events
+            events: 事件列表
             
         Returns:
-            # [CN] 事件ID对列表 [(event_id1, event_id2), ...]
-            # [EN] List of event ID pairs [(event_id1, event_id2), ...]
+            事件ID对列表 [(event_id1, event_id2), ...]
         """
-        # [CN] 按章节分组事件
-        # [EN] Group events by chapter
+        # 按章节分组事件
         chapter_events: Dict[str, List[EventItem]] = defaultdict(list)
         for event in events:
             if event.chapter_id:
                 chapter_events[event.chapter_id].append(event)
         
-        # [CN] 生成同章节事件对
-        # [EN] Generate same chapter event pairs
+        # 生成同章节事件对
         pairs = []
         for chapter_id, chapter_event_list in chapter_events.items():
-            # [CN] 限制每章处理的事件数
-            # [EN] Limit the number of events processed per chapter
+            # 限制每章处理的事件数
             if len(chapter_event_list) > self.max_events_per_chapter:
-                print(f"# [CN] 警告: 章节 {chapter_id} 的事件数量 {len(chapter_event_list)} 超过限制 {self.max_events_per_chapter}，将被截断")
-                print(f"# [EN] Warning: Chapter {chapter_id} has {len(chapter_event_list)} events exceeding limit {self.max_events_per_chapter}, will be truncated")
+                print(f"警告: 章节 {chapter_id} 的事件数量 {len(chapter_event_list)} 超过限制 {self.max_events_per_chapter}，将被截断")
                 chapter_event_list = chapter_event_list[:self.max_events_per_chapter]
             
-            # [CN] 生成章节内两两组合，并规范化方向（保持索引顺序）
-            # [EN] Generate pairwise combinations within chapter, and normalize direction (maintain index order)
+            # 生成章节内两两组合，并规范化方向（保持索引顺序）
             chapter_pairs = []
             for event1, event2 in itertools.combinations(chapter_event_list, 2):
-                # [CN] 确保事件对按ID排序，避免重复
-                # [EN] Ensure event pairs are sorted by ID to avoid duplicates
+                # 确保事件对按ID排序，避免重复
                 if event1.event_id < event2.event_id:
                     chapter_pairs.append((event1.event_id, event2.event_id))
                 else:
@@ -296,23 +224,19 @@ class UnifiedCausalLinker(BaseLinker):
             
             pairs.extend(chapter_pairs)
         
-        return list(set(pairs))  # [CN] 去重 # [EN] Deduplicate
+        return list(set(pairs))  # 去重
     
     def _generate_entity_co_occurrence_pairs(self, events: List[EventItem]) -> List[Tuple[str, str]]:
         """
-        # [CN] 生成基于实体共现的跨章节事件配对
-        # [EN] Generate cross-chapter event pairs based on entity co-occurrence
+        生成基于实体共现的跨章节事件配对
         
         Args:
-            # [CN] events: 事件列表
-            # [EN] events: List of events
+            events: 事件列表
             
         Returns:
-            # [CN] 事件ID对列表 [(event_id1, event_id2), ...]
-            # [EN] List of event ID pairs [(event_id1, event_id2), ...]
+            事件ID对列表 [(event_id1, event_id2), ...]
         """
-        # [CN] 创建实体到事件的倒排索引
-        # [EN] Create inverted index from entities to events
+        # 创建实体到事件的倒排索引
         character_to_events: DefaultDict[str, List[EventItem]] = defaultdict(list)
         treasure_to_events: DefaultDict[str, List[EventItem]] = defaultdict(list)
         
@@ -361,24 +285,19 @@ class UnifiedCausalLinker(BaseLinker):
                     else:
                         pairs.append((event2.event_id, event1.event_id))
             
-            return list(set(pairs))  # [CN] 去重后返回 # [EN] Return after deduplication
+            return list(set(pairs))  # 去重后返回
         else:
-            # [CN] 计算实体的反向权重：频率越高，权重越低
-            # [EN] Calculate inverse weights for entities: higher frequency means lower weight
-            # [CN] 使用 weight = 1 / log(frequency + 1.1) 公式
-            # [EN] Use weight = 1 / log(frequency + 1.1) formula
+            # 计算实体的反向权重：频率越高，权重越低
+            # 使用 weight = 1 / log(frequency + 1.1) 公式
             entity_weights = {
-                entity: 1.0 / math.log(freq + 1.1)  # [CN] 避免 log(1) = 0 # [EN] Avoid log(1) = 0
+                entity: 1.0 / math.log(freq + 1.1)  # 避免 log(1) = 0
                 for entity, freq in entity_freq.items()
             }
             
-            print(f"# [CN] 实体频率示例: {dict(list(entity_freq.items())[:5])}")
-            print(f"# [EN] Entity frequency examples: {dict(list(entity_freq.items())[:5])}")
-            print(f"# [CN] 实体权重示例: {dict(list(entity_weights.items())[:5])}")
-            print(f"# [EN] Entity weight examples: {dict(list(entity_weights.items())[:5])}")
+            print(f"实体频率示例: {dict(list(entity_freq.items())[:5])}")
+            print(f"实体权重示例: {dict(list(entity_weights.items())[:5])}")
             
-            # [CN] 使用权重，生成带权重的配对并排序
-            # [EN] Use weights to generate weighted pairs and sort
+            # 使用权重，生成带权重的配对并排序
             weighted_pairs = []
             for entity, entity_events in candidate_entities.items():
                 # 根据事件的chapter_id排序以便应用章节跨度限制
@@ -440,23 +359,19 @@ class UnifiedCausalLinker(BaseLinker):
         # 首先将所有同章节对放入结果列表
         result_pairs = list(chapter_pairs)
         
-        # [CN] 然后添加实体共现对，但避免重复
-        # [EN] Then add entity co-occurrence pairs, but avoid duplicates
+        # 然后添加实体共现对，但避免重复
         chapter_pairs_set = set(chapter_pairs)
         
         for pair in entity_pairs:
             if pair not in chapter_pairs_set:
                 result_pairs.append(pair)
             
-            # [CN] 如果候选对数量已经达到上限，停止添加
-            # [EN] If candidate pairs count has reached the limit, stop adding
+            # 如果候选对数量已经达到上限，停止添加
             if len(result_pairs) >= self.max_candidate_pairs:
-                print(f"# [CN] 达到候选对上限 {self.max_candidate_pairs}，停止添加更多候选")
-                print(f"# [EN] Reached candidate pairs limit {self.max_candidate_pairs}, stop adding more candidates")
+                print(f"达到候选对上限 {self.max_candidate_pairs}，停止添加更多候选")
                 break
         
-        print(f"# [CN] 合并后总共 {len(result_pairs)} 对候选，其中同章节 {len(chapter_pairs)} 对，实体共现 {len(result_pairs) - len(chapter_pairs)} 对")
-        print(f"# [EN] Total {len(result_pairs)} candidate pairs after merging, including {len(chapter_pairs)} same-chapter pairs, {len(result_pairs) - len(chapter_pairs)} entity co-occurrence pairs")
+        print(f"合并后总共 {len(result_pairs)} 对候选，其中同章节 {len(chapter_pairs)} 对，实体共现 {len(result_pairs) - len(chapter_pairs)} 对")
         return result_pairs
     
     def _analyze_candidate_pairs(

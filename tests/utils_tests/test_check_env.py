@@ -49,10 +49,10 @@ def check_python_version():
     
     if int(major) >= 3 and int(minor) >= 8:
         print_success(f"Python版本 {version} 满足要求（3.8+）")
-        return True
+        assert True
     else:
         print_error(f"Python版本 {version} 不满足要求（需要3.8+）")
-        return False
+        assert False, "Test failed"
 
 
 def check_dependencies():
@@ -78,9 +78,9 @@ def check_dependencies():
     if missing_packages:
         print_warning(f"缺少依赖：{', '.join(missing_packages)}")
         print_info("请运行：pip install -r requirements.txt 安装依赖")
-        return False
+        assert False, "Test failed"
     
-    return True
+    assert True
 
 
 def check_api_key():
@@ -136,10 +136,10 @@ def check_api_key():
             
     # 如果任一API有效，则返回成功
     if openai_status or deepseek_status:
-        return True
+        assert True
     else:
         print_error("所有API密钥都无效或未设置")
-        return False
+        assert False, "Test failed"
 
 
 def check_project_structure():
@@ -169,9 +169,9 @@ def check_project_structure():
     
     if missing_dirs:
         print_warning(f"项目结构不完整，缺少目录：{', '.join(missing_dirs)}")
-        return False
+        assert False, "Test failed"
     
-    return True
+    assert True
 
 
 def check_system_config():
@@ -230,7 +230,7 @@ def check_system_config():
         return config_ok
     except Exception as e:
         print_error(f"系统配置检查失败: {str(e)}")
-        return False
+        assert False, "Test failed"
 
 
 def main():

@@ -413,9 +413,32 @@ def test_event_extraction(chapter_file):
     from text_ingestion.chapter_loader import ChapterLoader
     from event_extraction.di.provider import provide_extractor
     
-    # 加载章节
-    loader = ChapterLoader(segment_size=800)
-    chapter = loader.load_from_json(chapter_file)
+    # 判断文件类型并加载章节
+    if chapter_file.endswith('.json'):
+        # 使用JsonLoader加载JSON文件
+        from common.utils.json_loader import JsonLoader
+        try:
+            # 尝试作为章节JSON加载
+            chapter = JsonLoader.load_chapter_json(chapter_file)
+        except:
+            # 如果失败，尝试加载为普通JSON然后构造Chapter对象
+            data = JsonLoader.load_json(chapter_file)
+            from common.models.chapter import Chapter
+            
+            chapter_id = data.get("chapter_id", "未知章节")
+            title = data.get("title", "")
+            content = data.get("content", "")
+            
+            chapter = Chapter(
+                chapter_id=chapter_id,
+                title=title,
+                content=content,
+                segments=[]
+            )
+    else:
+        # 使用ChapterLoader加载文本文件
+        loader = ChapterLoader(segment_size=800)
+        chapter = loader.load_from_txt(chapter_file)
     
     if not chapter:
         raise ValueError("加载章节失败")

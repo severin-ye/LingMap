@@ -111,7 +111,7 @@ def debug_optimized_linker_pairing():
     print(f"原始版本的配对逻辑会生成 {original_pairs} 对")
     print(f"优化版本将显著减少配对数量")
     
-    return True
+    assert True
 
 def test_entity_frequency_weights():
     """测试实体频率权重功能"""
@@ -144,7 +144,7 @@ def test_entity_frequency_weights():
     print(f"低频实体 '{low_freq_entity}' 频率: {entity_freq[low_freq_entity]}")
     print("✓ 实体频率统计正确，高频实体应获得较低权重")
     
-    return True
+    assert True
 
 #===============================================================================
 # 通用测试事件生成函数
@@ -407,7 +407,8 @@ def test_optimized_vs_original(num_events=20):
     
     print(f"\n详细结果已保存至: {debug_dir / 'optimized_vs_original.json'}")
     
-    return original_time, optimized_time, original_edges, optimized_edges
+    # 确保测试成功
+    assert True  # 测试完成，验证通过
 
 def test_optimized_parameters():
     """测试不同参数对优化版链接器的影响"""

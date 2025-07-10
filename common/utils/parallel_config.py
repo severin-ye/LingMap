@@ -50,7 +50,7 @@ class ParallelConfig:
     }
     
     @classmethod
-    def initialize(cls, options: Dict[str, Any] = None) -> None:
+    def initialize(cls, options: Optional[Dict[str, Any]] = None) -> None:
         """
         初始化并行处理配置
         
@@ -186,6 +186,10 @@ class ParallelConfig:
             return 1
             
         max_workers = cls._config["max_workers"]
+        
+        # 确保 max_workers 不为 None
+        if max_workers is None:
+            max_workers = 4  # 默认值
         
         # 针对特定任务类型的调整
         if cls._config["adaptive"]:

@@ -10,7 +10,7 @@
 """
 
 import re
-from typing import Dict, List, Tuple, Any, Set
+from typing import Dict, List, Tuple, Any, Set, Optional
 from common.models.event import EventItem
 from common.models.causal_edge import CausalEdge
 
@@ -270,7 +270,7 @@ class UnifiedIdProcessor:
         return unique_events, updated_edges
 
     @staticmethod
-    def fix_duplicate_event_ids(input_path: str, output_path: str = None) -> None:
+    def fix_duplicate_event_ids(input_path: str, output_path: Optional[str] = None) -> None:
         """
         修复文件中的重复事件ID
         
