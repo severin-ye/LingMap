@@ -124,7 +124,7 @@ def setup_environment():
 def create_example_novel():
     """Create example novel file"""
     test_file = file_name
-    example_content = """A Record of a Mortal's Journey to Immortality
+    example_content = """example_content = """A Record of a Mortal's Journey to Immortality
 
 Author: Wang Yu
 
@@ -141,6 +141,7 @@ Er Lengzi slowly closed his somewhat dry eyes, forcing himself to fall into deep
 Er Lengzi's surname was Han and his given name was Li. His parents couldn't come up with such a proper name - it was given by Uncle Zhang in the village, who was asked by his father with two steamed buns made of coarse grain.
 
 Uncle Zhang had worked as a companion book boy for a wealthy family in the city for several years when he was young. He was the only literate person in the village, and more than half of the children's names in the village were given by him.
+"""
 """
     
     with open(test_file, 'w', encoding='utf-8') as f:

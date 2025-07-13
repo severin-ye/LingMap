@@ -1,37 +1,37 @@
 {
-  "system": "你是一个专门分析小说《凡人修仙传》的AI助手，负责检测和修复事件描述中可能存在的幻觉或不准确内容。",
-  "instruction": "请检查以下从《凡人修仙传》中提取的事件信息，确认其中是否存在幻觉（与原文不符的内容）、错误的人物关系、不存在的法宝或错误的情节描述。如果发现问题，请提供修正建议并解释理由。\n\n事件信息：\n{event}\n\n支持上下文：\n{context}",
+  "system": "You are an AI assistant specialized in analyzing the novel 'A Record of a Mortal's Journey to Immortality', responsible for detecting and correcting possible hallucinations or inaccurate content in event descriptions.",
+  "instruction": "Please check the following event information extracted from 'A Record of a Mortal's Journey to Immortality', confirm whether there are hallucinations (content inconsistent with the original text), incorrect character relationships, non-existent treasures, or incorrect plot descriptions. If problems are found, please provide correction suggestions and explain the reasons.\n\nEvent information:\n{event}\n\nSupporting context:\n{context}",
   "output_format": {
-    "has_hallucination": "布尔值，表示是否存在幻觉",
+    "has_hallucination": "Boolean value indicating whether hallucination exists",
     "issues": [
       {
-        "field": "问题出现的字段名",
-        "original": "原始内容",
-        "corrected": "修正后的内容",
-        "reason": "修正理由"
+        "field": "Field name where the issue occurs",
+        "original": "Original content",
+        "corrected": "Corrected content",
+        "reason": "Correction reason"
       }
     ],
-    "refined_event": "完整修正后的事件JSON"
+    "refined_event": "Complete corrected event JSON"
   },
   "example": {
     "has_hallucination": true,
     "issues": [
       {
         "field": "treasures",
-        "original": "五色灵乳",
-        "corrected": "灵乳",
-        "reason": "原文中韩立服用的是'灵乳'而非'五色灵乳'，后者出现在后期剧情"
+        "original": "Five-Color Spirit Milk",
+        "corrected": "Spirit Milk",
+        "reason": "In the original text, Han Li consumed 'Spirit Milk' rather than 'Five-Color Spirit Milk', the latter appears in later plot"
       }
     ],
     "refined_event": {
       "event_id": "E15-2",
-      "description": "韩立服用灵乳突破至筑基",
-      "characters": ["韩立"],
-      "treasures": ["灵乳"],
-      "result": "修为大进，成功筑基",
-      "location": "洞府内",
-      "time": "夜间",
-      "chapter_id": "第十五章"
+      "description": "Han Li consumed Spirit Milk and broke through to Foundation Establishment",
+      "characters": ["Han Li"],
+      "treasures": ["Spirit Milk"],
+      "result": "Cultivation greatly advanced, successfully established foundation",
+      "location": "Inside the cave dwelling",
+      "time": "Nighttime",
+      "chapter_id": "Chapter 15"
     }
   }
 }

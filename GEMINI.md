@@ -1,18 +1,18 @@
-# Gemini 配置
+# Gemini Configuration
 
-请使用中文进行所有的交互和回复。
+Please use English for all interactions and responses.
 
-## 语言设置
-- 界面语言：中文
-- 回复语言：中文
-- 提示信息：中文
+## Language Settings
+- Interface Language: English
+- Response Language: English
+- Prompts: English
 
-## 指令
-请始终用中文回复，包括：
-- 所有的提示信息
-- 错误信息
-- 帮助文档
-- 状态信息
+## Instructions
+Please always reply in English, including:
+- All prompts
+- Error messages
+- Help documents
+- Status information
 
-## 工作目录
-当前工作在数字人文课程的期末作业项目中。
+## Working Directory
+Currently working on the final project for the Digital Humanities course.
