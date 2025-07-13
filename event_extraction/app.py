@@ -2,31 +2,31 @@ import argparse
 import os
 import sys
 
-# TODO: Translate - Add project root directory to path
+# Add project root directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from event_extraction.controller.extractor_controller import extract_events_from_chapter
 
 
 def main():
-    """EVENT_EXTRACTION 模块的主入口"""
-    parser = argparse.ArgumentParser(description="从章节中抽取事件")
-    parser.add_argument("--input", "-i", required=True, help="输入章节JSON文件或目录")
-    parser.add_argument("--output", "-o", required=True, help="输出事件JSON文件或目录")
-    parser.add_argument("--batch", "-b", action="store_true", help="批处理模式")
+    """Main entry point for EVENT_EXTRACTION module"""
+    parser = argparse.ArgumentParser(description="Extract events from chapters")
+    parser.add_argument("--input", "-i", required=True, help="Input chapter JSON file or directory")
+    parser.add_argument("--output", "-o", required=True, help="Output event JSON file or directory")
+    parser.add_argument("--batch", "-b", action="store_true", help="Batch processing mode")
     
     args = parser.parse_args()
     
     if args.batch:
-        # TODO: Translate - 批Process模式
+        # Batch processing mode
         if not os.path.isdir(args.input):
-            print(f"错误: 输入路径 {args.input} 不是一个目录")
+            print(f"Error: Input path {args.input} is not a directory")
             return
         
         if not os.path.exists(args.output):
             os.makedirs(args.output)
         
-        # TODO: Translate - Get所有JSON文件
+        # Get all JSON files
         import glob
         chapter_files = glob.glob(os.path.join(args.input, "*.json"))
         

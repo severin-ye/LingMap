@@ -12,64 +12,64 @@ from event_extraction.di.provider import provide_extractor
 
 def extract_events_from_chapter(chapter_path: str, output_path: str) -> List[EventItem]:
     """
-    从章节JSON文件中抽取事件并保存结果
+    Extract events from chapter JSON file and save results
     
     Args:
-        chapter_path: 章节JSON文件路径
-        output_path: 输出JSON文件路径
+        chapter_path: Chapter JSON file path
+        output_path: Output JSON file path
         
     Returns:
-        抽取的事件列表
+        List of extracted events
     """
-    # Loadchapter
+    # Load chapter
     chapter = JsonLoader.load_chapter_json(chapter_path)
     
-    # TODO: Translate - GetExtract器
+    # Get extractor
     extractor = provide_extractor()
     
-    # Extractevent
-    print(f"从章节 {chapter.chapter_id} 抽取事件...")
+    # Extract events
+    print(f"Extracting events from chapter {chapter.chapter_id}...")
     events = extractor.extract(chapter)
-    print(f"成功抽取 {len(events)} 个事件")
+    print(f"Successfully extracted {len(events)} events")
     
-    # TODO: Translate - 注意：eventID唯一性已在Extract服务中Process，这里不再重复Process
-    # TODO: Translate - CheckeventID是否唯一（仅作Verify）
+    # Note: Event ID uniqueness is already processed in extraction service, no need to reprocess here
+    # Check if event IDs are unique (for verification only)
     event_ids = [e.event_id for e in events]
     unique_ids = set(event_ids)
     if len(event_ids) != len(unique_ids):
-        print(f"警告：抽取的事件中存在重复ID，原有 {len(events)} 个事件，唯一ID仅有 {len(unique_ids)} 个")
+        print(f"Warning: Duplicate IDs found in extracted events, original {len(events)} events, only {len(unique_ids)} unique IDs")
     
-    # TODO: Translate - Save结果
+    # Save results
     output_dir = os.path.dirname(output_path)
     if output_dir and not os.path.exists(output_dir):
         os.makedirs(output_dir)
         
     events_dict = [event.to_dict() for event in events]
     JsonLoader.save_json(events_dict, output_path)
-    print(f"事件已保存到: {output_path}")
+    print(f"Events saved to: {output_path}")
     
     return events
 
 
 def main():
-    """EVENT_EXTRACTION 模块执行入口"""
-    parser = argparse.ArgumentParser(description="从章节中抽取事件")
-    parser.add_argument("--input", "-i", required=True, help="输入章节JSON文件或目录")
-    parser.add_argument("--output", "-o", required=True, help="输出事件JSON文件或目录")
-    parser.add_argument("--batch", "-b", action="store_true", help="批处理模式")
+    """EVENT_EXTRACTION module execution entry point"""
+    parser = argparse.ArgumentParser(description="Extract events from chapters")
+    parser.add_argument("--input", "-i", required=True, help="Input chapter JSON file or directory")
+    parser.add_argument("--output", "-o", required=True, help="Output event JSON file or directory")
+    parser.add_argument("--batch", "-b", action="store_true", help="Batch processing mode")
     
     args = parser.parse_args()
     
     if args.batch:
-        # TODO: Translate - 批Process模式
+        # Batch processing mode
         if not os.path.isdir(args.input):
-            print(f"错误: 输入路径 {args.input} 不是一个目录")
+            print(f"Error: Input path {args.input} is not a directory")
             return
         
         if not os.path.exists(args.output):
             os.makedirs(args.output)
         
-        # TODO: Translate - Get所有JSON文件
+        # Get all JSON files
         import glob
         chapter_files = glob.glob(os.path.join(args.input, "*.json"))
         
@@ -80,26 +80,26 @@ def main():
             events = extract_events_from_chapter(chapter_file, output_file)
             total_events.extend(events)
         
-        # TODO: Translate - Check跨chaptereventID是否唯一（仅作Verify）
+        # Check if cross-chapter event IDs are unique (for verification only)
         event_ids = [e.event_id for e in total_events]
         unique_ids = set(event_ids)
         if len(event_ids) != len(unique_ids):
-            print(f"警告：跨章节合并后存在重复ID，原有 {len(total_events)} 个事件，唯一ID仅有 {len(unique_ids)} 个")
+            print(f"Warning: Duplicate IDs found after cross-chapter merge, original {len(total_events)} events, only {len(unique_ids)} unique IDs")
             
-        # TODO: Translate - 在合并Output之前，确保eventID的唯一性（这是多chapter合并Process，较为特殊）
-        # TODO: Translate - 仅在这个跨chapter合并场景才需要额外Process
+        # Before merged output, ensure event ID uniqueness (this is multi-chapter merge processing, quite special)
+        # Only needed in this cross-chapter merge scenario for additional processing
         original_count = len(total_events)
         total_events = UnifiedIdProcessor.ensure_unique_event_ids(total_events)
         if len(total_events) != original_count:
-            print(f"合并去重处理：从 {original_count} 个事件减少到 {len(total_events)} 个唯一事件")
+            print(f"Merge deduplication processing: reduced from {original_count} events to {len(total_events)} unique events")
         else:
-            print(f"所有跨章节事件ID均唯一，共 {len(total_events)} 个事件")
+            print(f"All cross-chapter event IDs are unique, total {len(total_events)} events")
         
-        # TODO: Translate - Save所有event到一个合并的文件
+        # Save all events to a merged file
         all_events_path = os.path.join(args.output, "all_events.json")
         all_events_dict = [event.to_dict() for event in total_events]
         JsonLoader.save_json(all_events_dict, all_events_path)
-        print(f"所有事件已合并保存到: {all_events_path}")
+        print(f"All events merged and saved to: {all_events_path}")
     else:
         # Single file mode
         extract_events_from_chapter(args.input, args.output)

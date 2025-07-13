@@ -6,18 +6,18 @@ from common.models.chapter import Chapter
 
 
 class JsonLoader:
-    """JSON 配置和数据加载工具"""
+    """JSON configuration and data loading utility"""
     
     @staticmethod
     def load_json(file_path: str) -> Dict[str, Any]:
         """
-        加载 JSON 文件
+        Load JSON file
         
         Args:
-            file_path: JSON 文件路径
+            file_path: JSON file path
             
         Returns:
-            加载的 JSON 数据字典
+            Loaded JSON data dictionary
         """
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"File does not exist: {file_path}")
@@ -28,11 +28,11 @@ class JsonLoader:
     @staticmethod
     def save_json(data: Union[Dict, List], file_path: str) -> None:
         """
-        保存数据为 JSON 文件
+        Save data as JSON file
         
         Args:
-            data: 要保存的数据
-            file_path: 保存路径
+            data: Data to save
+            file_path: Save path
         """
         directory = os.path.dirname(file_path)
         if directory and not os.path.exists(directory):
@@ -44,13 +44,13 @@ class JsonLoader:
     @staticmethod
     def load_chapter_json(file_path: str) -> Chapter:
         """
-        加载章节 JSON 文件并转换为 Chapter 对象
+        Load chapter JSON file and convert to Chapter object
         
         Args:
-            file_path: JSON 文件路径
+            file_path: JSON file path
             
         Returns:
-            章节对象
+            Chapter object
         """
         data = JsonLoader.load_json(file_path)
         return Chapter.from_dict(data)

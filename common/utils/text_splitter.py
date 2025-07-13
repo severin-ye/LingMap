@@ -30,7 +30,7 @@ class TextSplitter:
         Returns:
             List of sentences
         """
-        # Chinese sentence splitting regex
+        # Sentence splitting regex for Chinese punctuation
         pattern = r'([^。！？]+[。！？])'
         sentences = re.findall(pattern, text)
         # Process sentences that may not end with punctuation

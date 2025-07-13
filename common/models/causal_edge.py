@@ -4,15 +4,15 @@ from typing import Optional
 
 @dataclass
 class CausalEdge:
-    """事件因果边数据结构，描述两个事件之间的因果关系"""
+    """Data structure for event causal edge, describing causal relationship between two events"""
     
     from_id: str  # Source event ID
     to_id: str  # Target event ID
     strength: str  # Causal strength, such as "high", "medium", "low"
-    reason: Optional[str] = None  # TODO: Translate - causal关系解释
+    reason: Optional[str] = None  # Causal relationship explanation
     
     def to_dict(self):
-        """转换为字典表示"""
+        """Convert to dictionary representation"""
         return {
             "from": self.from_id,
             "to": self.to_id,
@@ -22,7 +22,7 @@ class CausalEdge:
     
     @classmethod
     def from_dict(cls, data: dict):
-        """从字典创建实例"""
+        """Create instance from dictionary"""
         return cls(
             from_id=data.get("from", ""),
             to_id=data.get("to", ""),

@@ -13,122 +13,122 @@ from common.utils.parallel_config import ParallelConfig
 
 
 class MermaidRenderer(BaseRenderer):
-    """Mermaid图谱渲染器实现类"""
+    """Mermaid graph renderer implementation class"""
     
     def __init__(self, default_options: Dict[str, Any] = {}):
         """
-        初始化Mermaid渲染器
+        Initialize Mermaid renderer
         
         Args:
             default_options: Default rendering options
         """
         super().__init__(default_options)
         
-        # TODO: Translate - Use模块特定Configure决定thread数（确保与模块特定Configure一致）
+        # Use module-specific configuration to determine thread count (ensure consistency with module-specific configuration)
         if ParallelConfig.is_enabled():
             module_specific_workers = ParallelConfig._config["default_workers"]["graph_builder"]
             self.max_workers = module_specific_workers
         else:
             self.max_workers = 1
             
-        # TODO: Translate - 记录Use的thread数
-        logging.info(f"图形构建模块使用工作线程数: {self.max_workers}")
+        # Record the number of threads used
+        logging.info(f"Graph builder module using worker threads: {self.max_workers}")
         
-        # TODO: Translate - Usethread监控工具记录
+        # Use thread monitoring tool to record
         from common.utils.thread_monitor import log_thread_usage
         log_thread_usage("graph_builder", self.max_workers, "cpu_bound")
         
     def render(self, events: List[EventItem], edges: List[CausalEdge], format_options: Dict[str, Any] = {}) -> str:
         """
-        将事件图谱渲染为Mermaid格式
+        Render event graph as Mermaid format
         
         Args:
-            events: 事件列表
-            edges: 事件因果边列表
-            format_options: 格式选项，如颜色、样式等
-                - connect_isolated_nodes: 是否自动连接孤立节点，默认为True
+            events: Event list
+            edges: Event causal edge list
+            format_options: Format options such as colors, styles, etc.
+                - connect_isolated_nodes: Whether to automatically connect isolated nodes, default True
             
         Returns:
-            Mermaid格式的图谱字符串
+            Mermaid format graph string
         """
-        # TODO: Translate - 合并选项
+        # Merge options
         options = {**self.default_options, **(format_options or {})}
         
-        # TODO: Translate - Process重复节点ID：检测并重命名重复的节点ID
+        # Process duplicate node IDs: detect and rename duplicate node IDs
         events, edges = self._handle_duplicate_ids(events, edges)
         
-        # TODO: Translate - CreateeventID到event的映射
+        # Create mapping from event ID to event
         event_map = {event.event_id: event for event in events}
         
-        # TODO: Translate - 检测并连接孤立节点
-        if options.get("connect_isolated_nodes", True):  # TODO: Translate - 默认启用此功能
+        # Detect and connect isolated nodes
+        if options.get("connect_isolated_nodes", True):  # Default enable this feature
             edges = self._connect_isolated_nodes(events, edges)
             
-        # TODO: Translate - GenerateMermaid图定义头部
+        # Generate Mermaid graph definition header
         mermaid = ["```mermaid", "graph TD"]
         
-        # TODO: Translate - parallelGenerate节点定义
+        # Generate node definitions in parallel
         node_definitions = []
         
         def process_node(event):
-            # TODO: Translate - Get节点颜色
+            # Get node color
             colors = ColorMap.get_node_color(
                 event.description,
                 event.treasures,
                 event.characters
             )
             
-            # TODO: Translate - 节点定义
+            # Node definition
             node_def = f'    {event.event_id}["{self._escape_text(event.description)}"]'
             
-            # TODO: Translate - 节点样式
+            # Node style
             style = f'    style {event.event_id} fill:{colors["fill"]},stroke:{colors["stroke"]}'
             
             return (node_def, style)
         
-        # TODO: Translate - 从模块特定ConfigureGetthread数
+        # Get thread count from module-specific configuration
         module_workers = ParallelConfig._config["default_workers"]["graph_builder"]
         actual_workers = module_workers if ParallelConfig.is_enabled() else 1
-        logging.info(f"图形渲染节点处理使用线程数: {actual_workers} (模块配置: {module_workers})")
+        logging.info(f"Graph rendering node processing using threads: {actual_workers} (module config: {module_workers})")
         
-        # TODO: Translate - 更新实例变量，确保一致性
+        # Update instance variable for consistency
         self.max_workers = actual_workers
         
-        # TODO: Translate - Usethread池parallelProcess节点
+        # Use thread pool to process nodes in parallel
         with ThreadPoolExecutor(max_workers=actual_workers) as executor:
-            # TODO: Translate - 提交所有任务
+            # Submit all tasks
             future_to_event = {executor.submit(process_node, event): event for event in events}
             
-            # TODO: Translate - 收集结果
+            # Collect results
             for future in as_completed(future_to_event):
                 try:
                     node_def, style = future.result()
                     mermaid.append(node_def)
                     mermaid.append(style)
                 except Exception as e:
-                    print(f"处理节点时出错: {e}")
+                    print(f"Error processing node: {e}")
         
-        # TODO: Translate - Generate边定义
+        # Generate edge definitions
         link_style_index = 0
         for edge in edges:
-            # TODO: Translate - Get边样式
+            # Get edge style
             edge_style = ColorMap.get_edge_style(edge.strength)
             
-            # TODO: Translate - Create基本边
+            # Create basic edge
             edge_def = f'    {edge.from_id} --> {edge.to_id}'
             
-            # TODO: Translate - 如果有边标签（强度或原因）
+            # If there are edge labels (strength or reason)
             if options.get("show_edge_labels", True) and edge.reason:
-                # TODO: Translate - Use简短理由作为标签
+                # Use short reason as label
                 short_reason = self._truncate_text(edge.reason, 20)
                 edge_def = f'    {edge.from_id} -->|"{short_reason}"| {edge.to_id}'
             
-            # TODO: Translate - 添加边定义
+            # Add edge definition
             mermaid.append(edge_def)
             
-            # TODO: Translate - 如果需要自定义边样式
+            # If custom edge style is needed
             if options.get("custom_edge_style", True):
-                # TODO: Translate - 为边分配唯一ID
+                # Assign unique ID to edge
                 linkStyle = f'    linkStyle {link_style_index} stroke:{edge_style["stroke"]},stroke-width:{edge_style["stroke_width"]}'
                 
                 if edge_style["style"] == "dashed":
@@ -137,56 +137,56 @@ class MermaidRenderer(BaseRenderer):
                 mermaid.append(linkStyle)
                 link_style_index += 1
         
-        # TODO: Translate - 添加图例
+        # Add legend
         if options.get("show_legend", False):
             mermaid.extend(self._generate_legend())
         
-        # TODO: Translate - EndMermaid定义
+        # End Mermaid definition
         mermaid.append("```")
         
         return "\n".join(mermaid)
     
     def _generate_legend(self) -> List[str]:
-        """生成图例"""
+        """Generate legend"""
         legend = [
-            "    subgraph 图例",
-            "    legend_character[人物事件]",
-            "    legend_treasure[宝物事件]",
-            "    legend_conflict[冲突事件]",
-            "    legend_cultivation[修炼事件]",
+            "    subgraph Legend",
+            "    legend_character[Character Events]",
+            "    legend_treasure[Treasure Events]",
+            "    legend_conflict[Conflict Events]",
+            "    legend_cultivation[Cultivation Events]",
             "    end",
-            f'    style legend_character fill:{ColorMap.DEFAULT_COLORS["character"]},stroke:{ColorMap.get_node_color("", [], ["角色"])["stroke"]}',
-            f'    style legend_treasure fill:{ColorMap.DEFAULT_COLORS["treasure"]},stroke:{ColorMap.get_node_color("", ["宝物"], [])["stroke"]}',
-            f'    style legend_conflict fill:{ColorMap.DEFAULT_COLORS["conflict"]},stroke:{ColorMap.get_node_color("战斗", [], [])["stroke"]}',
-            f'    style legend_cultivation fill:{ColorMap.DEFAULT_COLORS["cultivation"]},stroke:{ColorMap.get_node_color("修炼", [], [])["stroke"]}'
+            f'    style legend_character fill:{ColorMap.DEFAULT_COLORS["character"]},stroke:{ColorMap.get_node_color("", [], ["character"])["stroke"]}',
+            f'    style legend_treasure fill:{ColorMap.DEFAULT_COLORS["treasure"]},stroke:{ColorMap.get_node_color("", ["treasure"], [])["stroke"]}',
+            f'    style legend_conflict fill:{ColorMap.DEFAULT_COLORS["conflict"]},stroke:{ColorMap.get_node_color("battle", [], [])["stroke"]}',
+            f'    style legend_cultivation fill:{ColorMap.DEFAULT_COLORS["cultivation"]},stroke:{ColorMap.get_node_color("cultivate", [], [])["stroke"]}'
         ]
         
         return legend
     
     def _escape_text(self, text: str) -> str:
         """
-        转义Mermaid文本中的特殊字符
+        Escape special characters in Mermaid text
         
         Args:
-            text: 原始文本
+            text: Original text
             
         Returns:
-            转义后的文本
+            Escaped text
         """
-        # TODO: Translate - 转义常见特殊字符
+        # Escape common special characters
         escaped = text.replace('"', '\\"')
         return escaped
     
     def _truncate_text(self, text: str, max_length: int = 20) -> str:
         """
-        截断文本到指定长度
+        Truncate text to specified length
         
         Args:
-            text: 原始文本
-            max_length: 最大长度
+            text: Original text
+            max_length: Maximum length
             
         Returns:
-            截断后的文本
+            Truncated text
         """
         if len(text) <= max_length:
             return text
@@ -194,94 +194,94 @@ class MermaidRenderer(BaseRenderer):
         
     def _connect_isolated_nodes(self, events: List[EventItem], edges: List[CausalEdge]) -> List[CausalEdge]:
         """
-        检测孤立节点并按时间顺序连接它们
+        Detect isolated nodes and connect them in chronological order
         
         Args:
-            events: 事件列表
-            edges: 现有边列表
+            events: Event list
+            edges: Existing edge list
             
         Returns:
-            更新后的边列表，包括连接孤立节点的新边
+            Updated edge list including new edges connecting isolated nodes
         """
-        # TODO: Translate - Build节点连接图 (找出已连接节点)
+        # Build node connection graph (find connected nodes)
         connected_nodes = set()
         for edge in edges:
             connected_nodes.add(edge.from_id)
             connected_nodes.add(edge.to_id)
             
-        # TODO: Translate - Get所有节点ID
+        # Get all node IDs
         all_node_ids = {event.event_id for event in events}
         
-        # TODO: Translate - 找出孤立节点
+        # Find isolated nodes
         isolated_nodes = all_node_ids - connected_nodes
         
         if isolated_nodes:
-            logging.info(f"检测到 {len(isolated_nodes)} 个孤立节点，准备按时间顺序连接")
+            logging.info(f"Detected {len(isolated_nodes)} isolated nodes, preparing to connect in chronological order")
             
-            # TODO: Translate - Get所有孤立event
+            # Get all isolated events
             isolated_events = [e for e in events if e.event_id in isolated_nodes]
             
-            # TODO: Translate - 根据eventID排序，假设格式为"Echapter-序号"
-            # TODO: Translate - 首先按chapter号排序，然后按序号排序
+            # Sort by event ID, assuming format "Echapter-sequence"
+            # First sort by chapter number, then by sequence number
             def extract_chapter_and_sequence(event_id):
-                # TODO: Translate - 假设格式为 Echapter号-序号 或 Echapter号-序号_子序号
+                # Assume format: Echapter_number-sequence or Echapter_number-sequence_sub_sequence
                 parts = event_id.strip('E').split('-')
                 if len(parts) >= 2:
                     chapter = int(parts[0]) if parts[0].isdigit() else 0
-                    # TODO: Translate - Process可能包含下划线的序号部分
+                    # Process sequence part that may contain underscores
                     seq_parts = parts[1].split('_')
                     sequence = int(seq_parts[0]) if seq_parts[0].isdigit() else 0
                     return (chapter, sequence)
-                return (0, 0)  # TODO: Translate - 默认值
+                return (0, 0)  # Default value
                 
-            # TODO: Translate - 按Extract的chapter和序号排序
+            # Sort by extracted chapter and sequence numbers
             isolated_events.sort(key=lambda e: extract_chapter_and_sequence(e.event_id))
             
-            # TODO: Translate - 对所有event也进行相同的排序
+            # Apply same sorting to all events
             all_events_sorted = sorted(events, key=lambda e: extract_chapter_and_sequence(e.event_id))
             
-            # TODO: Translate - 连接孤立节点
+            # Connect isolated nodes
             new_edges = []
             
-            # TODO: Translate - 为每个孤立节点Create到下一个节点的边
+            # Create edges from each isolated node to the next node
             for event in isolated_events:
-                # TODO: Translate - 找出当前event在排序后列表中的位置
+                # Find the position of current event in the sorted list
                 current_index = next((idx for idx, e in enumerate(all_events_sorted) if e.event_id == event.event_id), -1)
                 
-                # TODO: Translate - 如果找到当前event且不是最后一个event
+                # If current event is found and not the last event
                 if current_index != -1 and current_index < len(all_events_sorted) - 1:
-                    # TODO: Translate - Get下一个event
+                    # Get next event
                     next_event = all_events_sorted[current_index + 1]
                     
-                    # TODO: Translate - Create新边
+                    # Create new edge
                     new_edge = CausalEdge(
                         from_id=event.event_id,
                         to_id=next_event.event_id,
-                        strength="时序",  # TODO: Translate - Use特殊的"时序"强度，表示这是时间顺序而非causal关系
-                        reason="时间顺序连接"
+                        strength="temporal",  # Use special "temporal" strength, indicating time sequence rather than causal relationship
+                        reason="Chronological connection"
                     )
                     
                     new_edges.append(new_edge)
-                    logging.info(f"创建时间顺序连接: {event.event_id} -> {next_event.event_id}")
+                    logging.info(f"Created chronological connection: {event.event_id} -> {next_event.event_id}")
             
-            # TODO: Translate - 添加新边到现有边列表
+            # Add new edges to existing edge list
             edges.extend(new_edges)
-            logging.info(f"添加了 {len(new_edges)} 条新边连接孤立节点")
+            logging.info(f"Added {len(new_edges)} new edges to connect isolated nodes")
                 
         return edges
     
     def _handle_duplicate_ids(self, events: List[EventItem], edges: List[CausalEdge]) -> tuple[List[EventItem], List[CausalEdge]]:
         """
-        处理重复的节点ID
+        Process duplicate node IDs
         
         Args:
-            events: 事件列表
-            edges: 事件因果边列表
+            events: Event list
+            edges: Causal edge list
             
         Returns:
-            处理后的事件列表和边列表
+            Processed event list and edge list
         """
-        # TODO: Translate - Check是否有重复ID
+        # Check if there are duplicate IDs
         event_id_count = {}
         for event in events:
             if event.event_id in event_id_count:
@@ -289,26 +289,26 @@ class MermaidRenderer(BaseRenderer):
             else:
                 event_id_count[event.event_id] = 1
         
-        # TODO: Translate - 如果没有重复ID，直接Return原始数据
+        # If no duplicate IDs, return original data directly
         if all(count == 1 for count in event_id_count.values()):
             return events, edges
         
-        # TODO: Translate - Process重复ID
-        id_map = {}  # TODO: Translate - 原始ID到新ID的映射
+        # Process duplicate IDs
+        id_map = {}  # Mapping from original ID to new ID
         updated_events = []
         
         for event in events:
             original_id = event.event_id
             if event_id_count[original_id] > 1:
-                # TODO: Translate - 为重复IDCreate新ID (例如 E1 -> E1_1, E1_2, E1_3)
+                # Create new ID for duplicate ID (e.g. E1 -> E1_1, E1_2, E1_3)
                 if original_id not in id_map:
                     id_map[original_id] = []
                 
-                # TODO: Translate - 为当前event分配新ID
+                # Assign new ID to current event
                 new_id = f"{original_id}_{len(id_map[original_id]) + 1}"
                 id_map[original_id].append(new_id)
                 
-                # TODO: Translate - Create更新后的event
+                # Create updated event
                 updated_event = EventItem(
                     event_id=new_id,
                     description=event.description,
@@ -321,20 +321,20 @@ class MermaidRenderer(BaseRenderer):
                 )
                 updated_events.append(updated_event)
             else:
-                # TODO: Translate - 非重复ID，保持不变
+                # Non-duplicate ID, keep unchanged
                 updated_events.append(event)
-                # TODO: Translate - 添加到映射表，便于后续Process边
+                # Add to mapping table for later edge processing
                 if original_id not in id_map:
                     id_map[original_id] = [original_id]
         
-        # TODO: Translate - 更新边的引用
+        # Update edge references
         updated_edges = []
         for edge in edges:
             original_from_id = edge.from_id
             original_to_id = edge.to_id
             
-            # TODO: Translate - 如果边引用了重复ID，需要Process多个可能的边
-            # TODO: Translate - 这里采用简单策略：为每个可能的源节点到每个可能的目标节点Create边
+            # If edge references duplicate ID, need to process multiple possible edges
+            # Use simple strategy here: create edges for each possible source node to each possible target node
             for from_id in id_map.get(original_from_id, [original_from_id]):
                 for to_id in id_map.get(original_to_id, [original_to_id]):
                     updated_edge = CausalEdge(

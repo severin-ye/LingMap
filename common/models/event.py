@@ -5,19 +5,19 @@ from datetime import datetime
 
 @dataclass
 class EventItem:
-    """事件数据模型，表示从文本中提取的一个事件"""
+    """Event data model representing an event extracted from text"""
     
-    event_id: str  # TODO: Translate - event唯一标识符，如 E15-2（第15章第2个event）
-    description: str  # TODO: Translate - event描述
-    characters: List[str] = field(default_factory=list)  # TODO: Translate - 涉及的角色
-    treasures: List[str] = field(default_factory=list)  # TODO: Translate - 涉及的天材地宝
-    result: Optional[str] = None  # TODO: Translate - event结果
-    location: Optional[str] = None  # TODO: Translate - event发生地点
-    time: Optional[str] = None  # TODO: Translate - event发生时间
-    chapter_id: Optional[str] = None  # TODO: Translate - 关联的chapterID
+    event_id: str  # Event unique identifier, such as E15-2 (2nd event in Chapter 15)
+    description: str  # Event description
+    characters: List[str] = field(default_factory=list)  # Characters involved
+    treasures: List[str] = field(default_factory=list)  # Treasures/materials involved
+    result: Optional[str] = None  # Event result
+    location: Optional[str] = None  # Event location
+    time: Optional[str] = None  # Event time
+    chapter_id: Optional[str] = None  # Associated chapter ID
     
     def to_dict(self):
-        """转换为字典表示"""
+        """Convert to dictionary representation"""
         return {
             "event_id": self.event_id,
             "description": self.description,
@@ -31,7 +31,7 @@ class EventItem:
     
     @classmethod
     def from_dict(cls, data: dict):
-        """从字典创建实例"""
+        """Create instance from dictionary"""
         return cls(
             event_id=data.get("event_id", ""),
             description=data.get("description", ""),

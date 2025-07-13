@@ -6,17 +6,17 @@ from common.models.event import EventItem
 
 
 class AbstractExtractor(ABC):
-    """抽取器接口，定义事件抽取的方法"""
+    """Extractor interface that defines methods for event extraction"""
     
     @abstractmethod
     def extract(self, chapter: Chapter) -> List[EventItem]:
         """
-        从章节中抽取事件列表
+        Extract event list from chapter
         
         Args:
-            chapter: 章节数据
+            chapter: Chapter data
             
         Returns:
-            抽取的事件列表
+            List of extracted events
         """
         pass

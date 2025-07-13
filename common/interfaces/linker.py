@@ -6,31 +6,31 @@ from common.models.event import EventItem
 
 
 class AbstractLinker(ABC):
-    """链接器接口，定义事件因果关系识别和链接的方法"""
+    """Linker interface that defines methods for causal relationship identification and linking between events"""
     
     @abstractmethod
     def link_events(self, events: List[EventItem]) -> List[CausalEdge]:
         """
-        识别事件之间的因果关系
+        Identify causal relationships between events
         
         Args:
-            events: 事件列表
+            events: List of events
             
         Returns:
-            事件因果边列表
+            List of causal edges between events
         """
         pass
     
     @abstractmethod
     def build_dag(self, events: List[EventItem], edges: List[CausalEdge]) -> Tuple[List[EventItem], List[CausalEdge]]:
         """
-        构建有向无环图（DAG）
+        Build Directed Acyclic Graph (DAG)
         
         Args:
-            events: 事件列表
-            edges: 因果边列表
+            events: List of events
+            edges: List of causal edges
             
         Returns:
-            处理后的事件列表和因果边列表
+            Processed list of events and causal edges
         """
         pass

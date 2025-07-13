@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-完整流程测试脚本
+Complete workflow test script
 
-用于测试整个系统的工作流程，包括事件抽取、幻觉消除、因果链接和图谱生成
+Used to test the entire system workflow, including event extraction, hallucination refinement, causal linking and graph generation
 """
 
 import os
@@ -12,12 +12,12 @@ import time
 from pathlib import Path
 from datetime import datetime
 
-# TODO: Translate - Add project root directory to系统路径
+# Add project root directory to system path
 current_dir = Path(os.path.dirname(os.path.abspath(__file__)))
 project_root = current_dir.parent
 sys.path.insert(0, str(project_root))
 
-# Loadenvironment variables
+# Load environment variables
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -31,16 +31,16 @@ from hallucination_refine.di.provider import provide_refiner
 from causal_linking.di.provider import provide_linker
 from graph_builder.service.mermaid_renderer import MermaidRenderer
 
-# TODO: Translate - Create日志记录器
+# Create logger
 logger = EnhancedLogger("complete_test", log_level="DEBUG")
 
 def main():
-    """运行完整流程测试"""
+    """Run complete workflow test"""
     print("="*80)
-    print("《凡人修仙传》因果事件图谱生成系统 - 完整流程测试")
+    print("A Record of a Mortal's Journey to Immortality - Causal Event Graph Generation System - Complete Workflow Test")
     print("="*80)
     
-    # TODO: Translate - CreateOutput目录
+    # Create output directory
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_dir = get_output_path(f"test_{timestamp}")
     os.makedirs(output_dir, exist_ok=True)
@@ -48,82 +48,82 @@ def main():
     temp_dir = os.path.join(output_dir, "temp")
     os.makedirs(temp_dir, exist_ok=True)
     
-    print(f"输出目录: {output_dir}")
+    print(f"Output directory: {output_dir}")
     
-    # Loadchapter
+    # Load chapter
     chapter_path = get_novel_path("test.txt")
     if not os.path.exists(chapter_path):
-        print(f"错误: 未找到章节文件: {chapter_path}")
+        print(f"Error: Chapter file not found: {chapter_path}")
         return
     
-    print("\n1. 加载章节数据...")
+    print("\n1. Loading chapter data...")
     loader = ChapterLoader()
     with open(chapter_path, 'r', encoding='utf-8') as f:
         content = f.read()
-    chapter = Chapter(chapter_id="第一章", title="第一章", content=content)
-    print(f"  ✓ 成功加载章节: {chapter.title}, {len(chapter.content)} 字符")
+    chapter = Chapter(chapter_id="Chapter 1", title="Chapter 1", content=content)
+    print(f"  ✓ Successfully loaded chapter: {chapter.title}, {len(chapter.content)} characters")
     
-    # eventExtract
-    print("\n2. 提取事件...")
+    # Event extraction
+    print("\n2. Extracting events...")
     extractor = provide_extractor()
     events = extractor.extract(chapter)
     
     if not events:
-        print("  ❌ 事件抽取失败，未能提取任何事件")
+        print("  ❌ Event extraction failed, no events extracted")
         return
     
-    print(f"  ✓ 成功抽取 {len(events)} 个事件")
+    print(f"  ✓ Successfully extracted {len(events)} events")
     
-    # TODO: Translate - Save原始event
+    # Save original events
     events_path = os.path.join(temp_dir, f"{chapter.chapter_id}_events.json")
     with open(events_path, 'w', encoding='utf-8') as f:
         json.dump([event.to_dict() for event in events], f, ensure_ascii=False, indent=2)
     
-    print(f"  原始事件已保存到: {events_path}")
+    print(f"  Original events saved to: {events_path}")
     
-    # TODO: Translate - hallucination消除
-    print("\n3. 幻觉消除...")
+    # Hallucination refinement
+    print("\n3. Hallucination refinement...")
     refiner = provide_refiner()
     refined_events = refiner.refine(events, chapter.content)
     
-    # TODO: Translate - Save精炼后的event
+    # Save refined events
     refined_events_path = os.path.join(temp_dir, f"{chapter.chapter_id}_refined_events.json")
     with open(refined_events_path, 'w', encoding='utf-8') as f:
         json.dump([event.to_dict() for event in refined_events], f, ensure_ascii=False, indent=2)
     
-    print(f"  ✓ 幻觉消除完成，剩余 {len(refined_events)} 个事件")
-    print(f"  精炼后的事件已保存到: {refined_events_path}")
+    print(f"  ✓ Hallucination refinement completed, {len(refined_events)} events remaining")
+    print(f"  Refined events saved to: {refined_events_path}")
     
-    # causallinking
-    print("\n4. 生成因果链接...")
+    # Causal linking
+    print("\n4. Generating causal links...")
     linker = provide_linker()
     causal_links = linker.link_events(refined_events)
     
-    # Savecausallinking
+    # Save causal links
     causal_path = os.path.join(temp_dir, f"{chapter.chapter_id}_causal.json")
     with open(causal_path, 'w', encoding='utf-8') as f:
         json.dump([link.to_dict() for link in causal_links], f, ensure_ascii=False, indent=2)
     
-    print(f"  ✓ 成功生成 {len(causal_links)} 个因果链接")
-    print(f"  因果链接已保存到: {causal_path}")
+    print(f"  ✓ Successfully generated {len(causal_links)} causal links")
+    print(f"  Causal links saved to: {causal_path}")
     
-    # TODO: Translate - Generate图谱
-    print("\n5. 生成图谱...")
+    # Generate graph
+    print("\n5. Generating graph...")
     renderer = MermaidRenderer()
     graph = renderer.render(refined_events, causal_links)
     
-    # TODO: Translate - Save图谱
+    # Save graph
     graph_path = os.path.join(output_dir, f"{chapter.chapter_id}_graph.mmd")
     with open(graph_path, 'w', encoding='utf-8') as f:
         f.write("```mermaid\n")
         f.write(graph)
         f.write("\n```")
     
-    print(f"  ✓ 图谱已生成")
-    print(f"  图谱已保存到: {graph_path}")
+    print(f"  ✓ Graph generated")
+    print(f"  Graph saved to: {graph_path}")
     
-    print("\n完整流程测试完成！")
-    print(f"所有输出文件位于: {output_dir}")
+    print("\nComplete workflow test finished!")
+    print(f"All output files located at: {output_dir}")
 
 if __name__ == "__main__":
     main()
