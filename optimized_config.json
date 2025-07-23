@@ -1,0 +1,10 @@
+{
+  "batch_size": 20,
+  "cache_size": 5000,
+  "max_workers": 6,
+  "api_timeout": 60,
+  "api_retries": 5,
+  "enable_cache": true,
+  "enable_performance_tracking": true,
+  "cache_ttl": 3600
+}

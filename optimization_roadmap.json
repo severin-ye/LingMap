@@ -1,0 +1,74 @@
+{
+  "immediate_optimizations": {
+    "priority": "High",
+    "timeframe": "1-2 weeks",
+    "items": [
+      {
+        "name": "集成批处理",
+        "description": "将批处理集成到现有的事件提取和因果链接模块",
+        "expected_improvement": "20-30%",
+        "files_to_modify": [
+          "causal_linking/service/unified_linker_service.py",
+          "event_extraction/service/event_extractor.py"
+        ]
+      },
+      {
+        "name": "添加智能缓存",
+        "description": "在关键计算点添加缓存机制",
+        "expected_improvement": "30-50%",
+        "files_to_modify": [
+          "causal_linking/service/pair_analyzer.py",
+          "common/utils/cache_manager.py"
+        ]
+      }
+    ]
+  },
+  "medium_term_optimizations": {
+    "priority": "Medium",
+    "timeframe": "2-4 weeks",
+    "items": [
+      {
+        "name": "API连接优化",
+        "description": "实现连接池和批量API调用",
+        "expected_improvement": "15-25%",
+        "files_to_modify": [
+          "common/utils/api_client.py",
+          "api_gateway/main.py"
+        ]
+      },
+      {
+        "name": "并行处理",
+        "description": "利用多线程处理独立任务",
+        "expected_improvement": "40-60%",
+        "files_to_modify": [
+          "common/utils/parallel_processor.py",
+          "scripts/unified_parallel_tool.py"
+        ]
+      }
+    ]
+  },
+  "long_term_optimizations": {
+    "priority": "Low",
+    "timeframe": "1-2 months",
+    "items": [
+      {
+        "name": "数据库优化",
+        "description": "优化数据存储和检索",
+        "expected_improvement": "10-20%",
+        "files_to_modify": [
+          "common/utils/database_optimizer.py",
+          "graph_builder/service/graph_service.py"
+        ]
+      },
+      {
+        "name": "架构重构",
+        "description": "微服务架构优化",
+        "expected_improvement": "20-40%",
+        "files_to_modify": [
+          "api_gateway/",
+          "common/interfaces/"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "timestamp": "2025-07-23 12:03:18",
+  "type": "mock_simulation",
+  "performance_stats": {
+    "total_pairs_analyzed": 14,
+    "cache_hits": 7,
+    "successful_analyses": 14,
+    "failed_analyses": 0,
+    "total_time": 0.14189434051513672,
+    "cache_hit_rate_percent": 50.0,
+    "average_time_per_pair": 0.01013531003679548,
+    "success_rate_percent": 100.0,
+    "cache_size": 7
+  }
+}
