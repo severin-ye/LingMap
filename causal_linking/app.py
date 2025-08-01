@@ -2,8 +2,7 @@ import argparse
 import os
 import sys
 
-# [CN] 将项目根目录添加到路径中
-# [EN] Add the project root directory to the path
+# Add project root directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from causal_linking.controller.linker_controller import link_events

@@ -13,53 +13,53 @@ from graph_builder.service.mermaid_renderer import MermaidRenderer
 
 def render_graph(input_path: str, output_path: str, options: Dict[str, Any] = {}) -> str:
     """
-    将因果关系渲染为Mermaid图谱
+    Render causal relationships as Mermaid graph
     
     Args:
-        input_path: 因果关系JSON文件路径
-        output_path: 输出Mermaid文件路径
-        options: 渲染选项
+        input_path: Causal relationship JSON file path
+        output_path: Output Mermaid file path
+        options: Rendering options
         
     Returns:
-        Mermaid格式的图谱字符串
+        Mermaid format graph string
     """
-    # 创建日志记录器
+    # Create logger
     logger = EnhancedLogger("graph_controller", log_level="INFO")
     
-    # 加载数据
+    # Load data
     with open(input_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
     
-    # 解析数据
+    # Parse data
     events = [EventItem.from_dict(node_data) for node_data in data.get("nodes", [])]
     edges = [CausalEdge.from_dict(edge_data) for edge_data in data.get("edges", [])]
     
-    print(f"加载了 {len(events)} 个事件和 {len(edges)} 条因果边")
+    print(f"Loaded {len(events)} events and {len(edges)} causal edges")
     
-    # 检查是否有重复ID
+    # Check for duplicate IDs
     duplicate_ids = _check_duplicate_ids(events)
     if duplicate_ids:
-        logger.error(f"严重错误：检测到重复的事件ID: {len(duplicate_ids)}个。上游的ID处理器未正确工作。")
+        logger.error(f"Critical error: Detected duplicate event IDs: {len(duplicate_ids)} duplicates. Upstream ID processor not working correctly.")
         for dup_id in duplicate_ids:
             count = sum(1 for e in events if e.event_id == dup_id)
-            logger.error(f"重复ID '{dup_id}' 出现了 {count} 次")
+            logger.error(f"Duplicate ID '{dup_id}' appears {count} times")
         
-        # 由于上游应该已经处理ID唯一性，这里发现重复很可能是流程错误
-        # 但为了保证图谱能正常生成，仍进行一次应急处理
-        logger.warning("执行应急ID处理以保证图谱生成，但这不应成为常规流程")
+        # Since upstream should have already processed ID uniqueness, finding duplicates here is likely a process error
+        # But to ensure the graph can be generated normally, still perform emergency processing
+        logger.warning("Performing emergency ID processing to ensure graph generation, but this should not be a regular process")
         unique_events, updated_edges = UnifiedIdProcessor.ensure_unique_node_ids(events, edges)
-        logger.info(f"应急处理后：{len(unique_events)} 个唯一事件和 {len(updated_edges)} 条更新边")
+        logger.info(f"After emergency processing: {len(unique_events)} unique events and {len(updated_edges)} updated edges")
     else:
-        logger.info("ID检查通过：所有事件ID均唯一，上游ID处理器工作正常")
+        logger.info("ID check passed: All event IDs are unique, upstream ID processor working correctly")
         unique_events, updated_edges = events, edges
     
-    # 创建渲染器
+    # Create renderer
     renderer = MermaidRenderer()
     
-    # 渲染图谱
+    # Render graph
     mermaid_text = renderer.render(unique_events, updated_edges, options)
     
-    # 保存结果
+    # Save results
     output_dir = os.path.dirname(output_path)
     if output_dir and not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -67,19 +67,19 @@ def render_graph(input_path: str, output_path: str, options: Dict[str, Any] = {}
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(mermaid_text)
     
-    print(f"Mermaid图谱已保存到: {output_path}")
+    print(f"Mermaid graph saved to: {output_path}")
     return mermaid_text
 
 
 def _check_duplicate_ids(events: List[EventItem]) -> Set[str]:
     """
-    检查事件列表中是否存在重复ID
+    Check if there are duplicate IDs in the event list
     
     Args:
-        events: 事件列表
+        events: Event list
     
     Returns:
-        重复ID的集合
+        Set of duplicate IDs
     """
     id_set = set()
     duplicate_ids = set()
@@ -94,16 +94,16 @@ def _check_duplicate_ids(events: List[EventItem]) -> Set[str]:
 
 
 def main():
-    """GRAPH_BUILDER 模块执行入口"""
-    parser = argparse.ArgumentParser(description="生成因果图谱")
-    parser.add_argument("--input", "-i", required=True, help="输入因果关系JSON文件")
-    parser.add_argument("--output", "-o", required=True, help="输出Mermaid文件路径")
-    parser.add_argument("--show-legend", action="store_true", help="显示图例")
-    parser.add_argument("--show-labels", action="store_true", help="在边上显示标签")
+    """GRAPH_BUILDER module execution entry point"""
+    parser = argparse.ArgumentParser(description="Generate causal graph")
+    parser.add_argument("--input", "-i", required=True, help="Input causal relationship JSON file")
+    parser.add_argument("--output", "-o", required=True, help="Output Mermaid file path")
+    parser.add_argument("--show-legend", action="store_true", help="Show legend")
+    parser.add_argument("--show-labels", action="store_true", help="Show labels on edges")
     
     args = parser.parse_args()
     
-    # 渲染选项
+    # Rendering options
     options = {
         "show_legend": args.show_legend,
         "show_edge_labels": args.show_labels,

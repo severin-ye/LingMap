@@ -7,12 +7,12 @@ import random
 import logging
 from tenacity import retry, stop_after_attempt, wait_exponential, before_sleep_log
 
-# 创建一个专用日志记录器
+# Create a dedicated logger
 logger = logging.getLogger("llm_client")
 
 
 class LLMClient:
-    """LLM API 客户端，封装 OpenAI/DeepSeek API 调用"""
+    """LLM API client, wraps OpenAI/DeepSeek API calls"""
     
     def __init__(
         self,
@@ -21,31 +21,31 @@ class LLMClient:
         temperature: float = 0.0,
         base_url: Optional[str] = None,
         max_tokens: int = 4000,
-        timeout: int = 120,  # 增加超时时间为120秒
+        timeout: int = 120,  # Increase timeout to 120 seconds
         provider: Union[Literal["openai", "deepseek"], str] = "openai"
     ):
         """
-        初始化 LLM 客户端
+        Initialize LLM client
         
         Args:
-            api_key: API 密钥
-            model: 使用的模型，默认 gpt-4o
-            temperature: 温度参数，控制随机性，默认 0.0（确定性输出）
-            base_url: 自定义 API 基础 URL，用于代理或兼容 API
-            max_tokens: 最大输出 token 数
-            timeout: API 调用超时时间（秒）
-            provider: API提供商，"openai" 或 "deepseek"
+            api_key: API key
+            model: Model to use, default gpt-4o
+            temperature: Temperature parameter, controls randomness, default 0.0 (deterministic output)
+            base_url: Custom API base URL, for proxy or API compatibility
+            max_tokens: Maximum output token count
+            timeout: API call timeout (seconds)
+            provider: API provider, "openai" or "deepseek"
         """
         self.provider = provider
         
-        # 如果未提供API密钥，尝试从环境变量获取
+        # If API key is not provided, try to get it from environment variables
         if api_key is None:
             if provider == "openai":
                 api_key = os.environ.get("OPENAI_API_KEY")
             elif provider == "deepseek":
                 api_key = os.environ.get("DEEPSEEK_API_KEY")
                 
-            # 如果环境变量中没有，尝试从.env文件读取
+            # If not in environment variables, try to read from .env file
             if api_key is None:
                 try:
                     from dotenv import load_dotenv
@@ -58,7 +58,7 @@ class LLMClient:
                     pass
         
         if api_key is None:
-            raise ValueError(f"未提供 {provider} API 密钥")
+            raise ValueError(f"No {provider} API key provided")
             
         self.api_key = api_key
         self.model = model
@@ -67,10 +67,10 @@ class LLMClient:
         self.max_tokens = max_tokens
         self.timeout = timeout
         
-        # 初始化客户端
+        # Initialize client
         openai_kwargs = {"api_key": self.api_key, "timeout": self.timeout}
         
-        # 根据提供商设置基础URL
+        # Set base URL according to provider
         if provider == "deepseek" and not base_url:
             openai_kwargs["base_url"] = "https://api.deepseek.com/v1"
         elif base_url:
@@ -79,22 +79,22 @@ class LLMClient:
         self.client = openai.OpenAI(**openai_kwargs)
         
     @retry(
-        stop=stop_after_attempt(8),  # 最多重试8次
-        wait=wait_exponential(min=1, max=15),  # 指数级增长的等待时间
-        before_sleep=before_sleep_log(logger, logging.WARNING),  # 睡眠前记录日志
-        reraise=True  # 最后一次重试失败时抛出原始异常
+        stop=stop_after_attempt(8),  # Retry up to 8 times
+        wait=wait_exponential(min=1, max=15),  # Exponential backoff wait time
+        before_sleep=before_sleep_log(logger, logging.WARNING),  # Log before sleeping
+        reraise=True  # Raise the original exception on the last retry
     )
     def call_llm(self, system: str, user: str, response_format: Optional[Dict] = None) -> Dict[str, Any]:
         """
-        调用 LLM API
+        Call LLM API
         
         Args:
-            system: 系统提示词
-            user: 用户提示词
-            response_format: 响应格式，如 {"type": "json_object"}
+            system: System prompt
+            user: User prompt
+            response_format: Response format, e.g. {"type": "json_object"}
             
         Returns:
-            LLM 响应内容
+            LLM response content
         """
         messages = [
             {"role": "system", "content": system},
@@ -112,12 +112,12 @@ class LLMClient:
             kwargs["response_format"] = response_format
         
         try:
-            # 在API调用前添加小延迟，避免过多并发请求
-            if random.random() < 0.3:  # 30%概率添加随机延迟
+            # Add a small delay before API call to avoid too many concurrent requests
+            if random.random() < 0.3:  # 30% chance to add random delay
                 delay = random.uniform(0.1, 1.5)
                 time.sleep(delay)
                 
-            # 发送API请求    
+            # Send API request    
             response = self.client.chat.completions.create(**kwargs)
             return {
                 "content": response.choices[0].message.content,
@@ -126,13 +126,13 @@ class LLMClient:
             }
         except Exception as e:
             error_msg = str(e)
-            # 添加随机延迟以防止并发请求同时失败后立即重试
+            # Add random delay to prevent immediate retry after concurrent request failure
             if "timeout" in error_msg.lower():
                 delay = random.uniform(1, 3)
-                time.sleep(delay)  # 超时情况下增加随机延迟
-                logger.warning(f"API超时，添加了{delay:.1f}秒随机延迟")
+                time.sleep(delay)  # Add random delay in case of timeout
+                logger.warning(f"API timeout, added {delay:.1f} seconds random delay")
                 
-            logger.error(f"API 调用失败: {error_msg}")
+            logger.error(f"API call failed: {error_msg}")
             return {
                 "content": None,
                 "success": False,
@@ -141,31 +141,31 @@ class LLMClient:
         
     def call_with_json_response(self, system: str, user: str) -> Dict[str, Any]:
         """
-        调用 LLM API 并要求返回 JSON 格式
+        Call LLM API and require JSON format
         
         Args:
-            system: 系统提示词
-            user: 用户提示词
+            system: System prompt
+            user: User prompt
             
         Returns:
-            解析后的 JSON 响应
+            Parsed JSON response
         """
-        # 确保提示中包含json关键词，这对DeepSeek API是必要的
+        # Ensure the prompt contains the json keyword, which is necessary for DeepSeek API
         if self.provider == "deepseek" and "json" not in system.lower() and "json" not in user.lower():
-            # 在系统提示中添加json关键词
-            system = system + "\n请以JSON格式回复。"
+            # Add json keyword to system prompt
+            system = system + "\nPlease reply in JSON format."
             
         response = self.call_llm(system, user, response_format={"type": "json_object"})
         
         if response["success"] and response["content"]:
             try:
-                # 解析 JSON 响应
+                # Parse JSON response
                 json_content = json.loads(response["content"])
                 response["json_content"] = json_content
                 return response
             except json.JSONDecodeError as e:
-                print(f"JSON 解析失败: {str(e)}")
+                print(f"JSON parsing failed: {str(e)}")
                 response["success"] = False
-                response["error"] = f"JSON 解析错误: {str(e)}"
+                response["error"] = f"JSON parsing error: {str(e)}"
                 
         return response

@@ -4,15 +4,15 @@ from typing import List, Optional
 
 @dataclass
 class Chapter:
-    """章节数据模型，表示一个章节的信息"""
+    """Chapter data model representing information of a chapter"""
     
-    chapter_id: str  # 章节ID，如 "第十五章"
-    title: str  # 章节标题，如 "聚灵丹"
-    content: str  # 章节完整内容
-    segments: List[dict] = field(default_factory=list)  # 章节分段，按段落/事件切分
+    chapter_id: str  # Chapter ID, such as "Chapter 15"
+    title: str  # Chapter title, such as "Spirit Gathering Pill"
+    content: str  # Complete chapter content
+    segments: List[dict] = field(default_factory=list)  # Chapter segment text, split by paragraphs/events
     
     def to_dict(self):
-        """转换为字典表示"""
+        """Convert to dictionary representation"""
         return {
             "chapter_id": self.chapter_id,
             "title": self.title,
@@ -22,7 +22,7 @@ class Chapter:
     
     @classmethod
     def from_dict(cls, data: dict):
-        """从字典创建实例"""
+        """Create instance from dictionary"""
         return cls(
             chapter_id=data.get("chapter_id", ""),
             title=data.get("title", ""),

@@ -1,179 +1,181 @@
-# 《凡人修仙传》因果事件图谱生成系统
+# "Mortal's Journey to Immortality" Causal Event Knowledge Graph Generation System
 
-## WEB:https://fanrenxiuxianzhuan-fm16b8k.gamma.site/
+## WEB: https://fanrenxiuxianzhuan-fm16b8k.gamma.site/
+### demo: [deme_graph](https://www.mermaidchart.com/play?utm_source=mermaid_live_editor&utm_medium=toggle#pako:eNrVXG1z2zYS_iuY9IPTGdtjvuklH24mtZ1rb5p7meSm10s6HoiERNQUoRKkFfV6__12AZCiBEgGrfTqtB-qWhL3wWL32WcXsP_zIhUZe_HqxaKiq5y8v_lYEvjn9iq4CO6C8MPHF9_SknzPyZwVNZEprVhGaJkRuYIXzYqsc14wkhZ8OePlgtQ5I7IQK_bxxU_6UbLewAfaB5I5L4pXX31zc5u8mZzLuhL37NVX4fUkvJ5uTcd3Y7D875zCE__SlMogPrmg5f2GSFZyUZGMy5Sv4NkKGl2tKpazUvIHpt5qpGwB3bBVU2_IO5bW5C2VNasc6MCmH7jgbgLgbkRaA4i3grASHoheAXjVgpFKiOU52bqtIFQWjK1I1jBSw-c_5bSRNRel00cTXxdFgOJ9zquM_LNMC3y0uO_MVmKplv4Az6ILZfcde2AlebvB9XMmlTucfoj8EETb4MgqRpewBzUp-SKviZiTlZCS6S1YMVYV8JosaVVzCv6oaumw3Np9c_Nm9E3Y2b0OpvHVVWs3MXbBrXoryY_gVlqWoilTpsOkZrImFZNN4bCTXHiuL7yL9zxcsDnkAC8ewCqGJC_hu01ao1lBAEHFZW62wLE-eKDPCmELwO53JbyZwcMhTvDpuK6cS4i5jbKdNlUFkQdw6oaqD4HTfbfYc4OVA8wWr6mEyE05LpbORFPruG9TDN6AxBTOmI7uYl-PJ2Dwh4b8CDZnLKVLph5-NuMLMqsEvK7O0BlLARucAvNA4JWwDRoCrSoOse70fOKDIO7HtGKVmmNmGwMzupwJQeYCQqs-J2ImWfUAb-_xkTSciJ8C91hwYr8ATC6CLRiMs8Wi0IGmyBbYpHO-ivcZbMmccvMZSMg0124p-HwOP1oRDCS-ZI6MCHwARRdYDv4O28AU9f1AVW5XUpSQjRuit0tAltAMfi4UNcPnEIQrMDGAKgpJC3FFl7ykTkoEq77Bs928M0lKRCMqvuDlOVlwND_bkL8VbS7r4rLPk87YiXzrQhA4qElUmSoPe44DR0HcZCQXJsi7cF7noreRKyqlu5YGvlmM2-baAPBSmzME__ugQx18UioKR1S8BPfRGjYqxWDGl7Bt_ECehz78FunAdnFZTetGtqZTUc4LDnEyY_WaMZ2D7-gDwv1BFHPyZ_Qjft-L9qIuyt9c38C_W3TjOIqjfiCFivdByEB-U8AF1NNgWZsLkZ0ri_2qULG6qUqTmjnUwDWv2ypA6BzjAJ415yUUB_gUo05WUHZ9I328ZQZaKDJUOqOLZnBtyYCy4WdIC-DXGS_4r2A950vJwHdcc4F2P-w3Lxt4t5Vxl054vvqox6GiKMTaVOUFeHGFTrqm_F-cgnRqyppieoJyW1HFZkf5ohN8sAKWHhJQvsk6tRQmLVWF2dpZsppsdZ6pApr-L3tvpLmQrNtweJB-7HsO7pWwQWnOlhstUMHRKSwHPwSWZhcLihZx5V31uHRm-9Q3NCbWsqCevgULVQM6jT_wzGwHEgsa7pVRlBlroTdKKtFB71krPpawVSSHkHLGxsSvgvTqK1DKA0OSU-miPd9hmW221HRAunax4llGvFg87Eev2iUu-8l-Tt4AA25ws887zoSU_wd48q-8Ie_FWju9bQoQ4HXelBDw4OvvytLe3tAvZpOLcFeN5azAHgxcRa2WCHxGZYr1xexepwIc1T_0LSQjAPCaLBolfyzPtPW_K8GqtKEz1qKBuptiVCoRSwAMcxaQkS-UHgNKuiZGM-agPGgB2ifbaC5jtgMUoiXNAJpiPrZc1Y2AsrOAZTWViXfM6BkD8rp04vRuFXsK-uVtRb5n5eJX_rVhPI1ON4cQRFoKQP4B7QBTMlqBqkLsJfsE7Ec36k2qOQpK5xzE6RpKks4g9GsqlisKkVC6JYO37k9MAexyMEO4KP1VielHO7A3T-_1LEBCmlbQ33VpTAthJOqabnTlhDqo1GIvefbqgdPhiW9XPDoqmk0wAMwNdOtQN--B81vBATS9gu59BbE8Z6xAcjS9OssunZ3yyBdVskU10wVR7GgI9EwBiogZHYGbiQFS1rKnKXrfcMJJfPd3YvbXPU9hn1YF7ANSc75pUytVOaxozdDx65kURQO9B_nWXRUi31kGiNmrvcZrBV7SQwPHgClvFn2Nc06aks4066W0hr4H51LoMFWvlZyds7XpSXQYKvGDLFo1ZYnPhY7WXXmDK99F9DhJERHSSGPGIdAUPaAZ3FjM8wJBoDbLFA1gFMocXhJe9wqiO43HvlHXKxgbYBPc0bZownIlSAGg5qrInMEU-nXMgd0TFvuCz2qe9YjwnBwf43QyDzYJQsHRSAe-nohbQuuaLKjOECyrmj_QWldRhZLRpubzpiCyKSXwMBh_nJ5i_wFHj54gyUqT7guBIatUlrGiWj8gVoLRMWOVkj24eRhAkh-YYYYdIz0yYQqs6WFvlmXwYUwCijVEKmyPmM-7oSZdVMyMgffHY86A9W6gR9vxD-Zmm9Q_C3CIuyXQI1Vd-xrQs9jTCnCriht5DoVLrniNG6uSHCd36GasacAo3I135CcVMb06OYjyWQ3stg5EjQbAgFdr7CJLtsqBhUw-VGzRFBQkL5QX4INKuoRh6Ou4baafY8iiWVAHkGiqAP8ssEHdnJshPtVbVwiUcZCOonjQYYgcgWNsXRKXwK-6P9cdrh4rNSW6s1Mcpki5qdO3n7UpBOSRUHpDbRZKBZAVpkx3tLLHHq588PVfspcNEoQDk2aw2wnatiLXWJHbNka1SIdaVg6h2Jfl8Eynp7wrd7TbA6TgAgB51knLM_LyHV-CLaiOXyOrmcFWBbmA5SZXhyMFvze-LYFjcFTmLN_eg_KpU3TlamziYH8VUyK9RxXIqJPHpn7VJ9zt1va7SLaA93bm1LtA2mp4eKAQX3gfWU12t4aXPzeV0lCP6RdnRfGUTr160s2jVXdfCSBpqYZp2isYexcYrU5V4alkk901LkWvfirSgQ682JzJrpwgCx8YMjlQeKfBdLf9s1aojyj35_Ki9HR_5Bt_Abm4-NNvB8-jcMP3VAyOkW4fcNoZENOa6P8NLy-BRX_TMactQAty_06BuiIdgngcvI4MoIs1z-r8Vbj6tENmBpSD0BBQKz_wMA4cA9vXjracFKYOFx4HrQ4O92EH_rDxcMyG3cpmx6Eb10P03VO3pwINB_i32_LeiLPN7EMzToX8yWPOw0uxAiXyXUhiLYTywvj0yOGRdeyU8QpAQkN_AGNyYTk79sX4O-WXA1LyRe4_-Gd_ISP_hUQdUZjnolhOKz5jcuc81Qx_eHtcZs06lT7Th0P2bB9PA01YmW3pha8FfzyE50YGvukYsEtAS09pFLx4I7qb7OOd-IdyuBs30BNon-52umpEZoZP3eHzo_XCiudphyuJp9Pr8S6u4DLpexJvfOxg083S7mm__hlWVzWd75O072WTY56NrdJxNWQJQbeEHrBdGaJcq0MZp7w-Gw6l1IIV-MP6XBT70gD9-jChWXUgCIe47_9YfF1bHQ3BGvX0zechKU_RYOOOh8RC6Mqxp53h-ESErcWSYQm1i_fMNVAwwwE1QOjmB9bY4FGwatpowR35w426RHPSjnY1FF-GrQqePUALin6mGR7vY_TwsrtuILejY-uywYEFRI78G_vDD_d5wuvgsY3l_uHiIYChA-BkiH_bYNgb09A0ZateUwFRMkMB0c8olXw4MDScgSF_2JF22E6Hhe3nbX4c85sjYtymiHBYFXNRBGw2npvqo8KamujFY0tRUbxAk6ZiuRSZvgQ4Yzja-DzNhd0lDSh-J2p316UQDz1sQw6H1ZbRPutpFbREQ1oI7QqMdjbpV0IsORFGw6J7si8oCiUoDl0w7sPCC7l8drhRU7dMLHzxMPdNeqX56OEioh5wunjMqWMLdHJC0nVjRNkjCUR7jCYcWeWnLwOrAwpHXwR4h8AIx8NieWpj316c0tynblapfmN726o2N-6PkfZT0E-GCeY20o_ftWp1_KOXrZ7Yf4aDquOBKq4PW1qonqctT_NydPWM8TrGKVEwLKaDQ0VP3QJGyE-5Bvw0V4d_fAPtUERR9MfDcgyAo3hY-lvdERAolXjMC30EdMtSy7H9azs78Pg9O1aOXc5LTkTJkTlp-ii2iumTbLq-X9MqK5mUjlHeYz4dPZe-PhwyQR8_w8bIld_PsYFzUej0BEHzR07XHV19PHAouTehNg3dqbdajlGG1WHEwTDKSPYhQ3fZ-n_Y72EdEzKWZo_D5wdzZIGMnvf2u_waP2_Ito-TYUVjvHesomnKwG_vgpuD__074Pdqce5b4ENUeDx6Hph9tI_t8PFJ4LvDKv0bWzYoVbbN2vy6HGsKEU--0BLinKnE0y92NY69Sa5-n2OFjKVcmt997p0rtPeWHz1UcIySk-B5Qg1t0ZQMbN7i7vzjlwZ_yQx_CaOj3yPHmUnvvsj49e3oas_O6lP7g4zi_fSKbl4lJNm59e5n2uKdJD7ZdHDlZ9uesiXJ6cZDH-OWhExGJ1oOu5b4uGG7e0zGJ5se-Zm2ZEgyOdn02M-0VZyT6cmmpz6mLboZXZ1oOPLb6cg-PB0FJ5sO_UxbQTYKTzTtRWWOA-PRqVQW-0W348BhFJ9seuJj2qLv0ak0lviYtah7dAqHyWam_9bQ92zBysw8W72-S-HDNAV18uG6faWr5U87H6tBIUvQlh_emxeuD7Xn-R-u278j4PpQU6gbzLDaD9fb1zsf7UDq-8H7UB-_KLzzvRb747-ns2uuXcSjf8Jg92u9Nelv3iRvktuo-2ZwO4nj6Yv__g-Bztka)
 
-## 📚 项目文档
+## 📚 Project Documentation
 
-### 设计文档
-- [代码结构设计](docs/代码结构设计.md) - 项目架构与模块划分详细设计
-- [项目逻辑设计](docs/项目逻辑设计.md) - 系统工作流程与业务逻辑详解
-- [开发方案](docs/开发方案.md) - 项目开发计划与实施方案
-- [理论支持](docs/理论支持.md) - 项目相关理论基础与研究背景
-- [文件树](docs/note/文件树) - 完整项目目录结构说明
+### Design Documents
+- [Code Structure Design](docs/Code_Structure_Design.md) - Detailed design of project architecture and module division
+- [Project Logic Design](docs/Project_Logic_Design.md) - System workflow and business logic explanation
+- [Development Plan](docs/Development_Plan.md) - Project development plan and implementation scheme
+- [Theoretical Support](docs/Theoretical_Support.md) - Project-related theoretical foundation and research background
+- [File Tree](docs/note/File_Tree) - Complete project directory structure description
+- [References](https://arxiv.org/html/2503.15655v1)
 
-🚀 **项目状态**: 生产就绪 | **测试覆盖**: 125个测试用例全部通过 ✅
+🚀 **Project Status**: Production Ready | **Test Coverage**: All 125 test cases passed ✅
 
-本项目是一个基于AI的自动化工具，专门用于分析《凡人修仙传》小说文本，提取关键事件，识别因果关系，并生成可视化的因果事件图谱。系统采用先进的微服务架构，集成多个大语言模型，实现了智能事件抽取、幻觉修复、因果链接和图谱可视化等功能。
+This project is an AI-based automation tool specially designed to analyze the novel "Mortal's Journey to Immortality", extract key events, identify causal relationships, and generate visualized causal event knowledge graphs. The system adopts an advanced microservice architecture, integrates multiple large language models, and implements intelligent event extraction, hallucination repair, causal linking, and graph visualization functions.
 
-## ✨ 核心特性
+## ✨ Core Features
 
-- 🧠 **AI驱动**: 基于GPT-4o和DeepSeek的智能文本分析
-- 🔍 **精确提取**: 自动识别小说中的事件、人物、宝物关系
-- 🔗 **因果分析**: 智能识别事件间的因果关系并量化强度
-- 📊 **可视化**: 生成直观的Mermaid流程图
-- 🛠️ **易用性**: 友好的CLI界面，支持批量处理
-- 🏗️ **企业级**: 完整测试覆盖，生产就绪的代码质量
+- 🧠 **AI-driven**: Intelligent text analysis based on GPT-4o and DeepSeek
+- 🔍 **Precise Extraction**: Automatically identifies events, characters, and treasure relationships in the novel
+- 🔗 **Causal Analysis**: Intelligently identifies causal relationships between events and quantifies intensity
+- 📊 **Visualization**: Generates intuitive Mermaid flowcharts
+- 🛠️ **Ease of Use**: Friendly CLI interface, supporting batch processing
+- 🏗️ **Enterprise Grade**: Complete test coverage, production-ready code quality
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
-### 1. 环境准备
+### 1. Environment Preparation
 ```bash
-# 克隆项目
+# Clone the project
 git clone <repository-url>
 cd Fianl_HW
 
-# 安装Python依赖
+# Install Python dependencies
 pip install -r requirements.txt
 
-# 配置API密钥 (选择其一)
+# Configure API key (choose one)
 export OPENAI_API_KEY="your-openai-api-key"
-# 或
+# or
 export DEEPSEEK_API_KEY="your-deepseek-api-key"
 ```
 
-### 2. 运行演示
+### 2. Run Demo
 ```bash
-# 体验系统功能
+# Experience system functionality
 python main.py --demo
 ```
 
-### 3. 处理自定义文件
+### 3. Process Custom Files
 ```bash
-# 单文件处理
+# Single file processing
 python main.py --input your_novel.txt
 
-# 批量处理目录
+# Batch processing directory
 python main.py --batch input_directory/
 
-# 环境检查
+# Environment check
 python main.py --check-env
 ```
 
-### 4. 交互式模式
+### 4. Interactive Mode
 ```bash
-# 启动交互式界面
+# Start interactive interface
 python main.py
 ```
 
-## 🏗️ 系统架构
+## 🏗️ System Architecture
 
-系统采用微服务架构，包含6个核心模块：
+The system adopts a microservice architecture, including 6 core modules:
 
-### 核心模块
-1. **📚 文本摄入 (Text Ingestion)** - 文本文件读取与章节分割
-2. **🔍 事件提取 (Event Extraction)** - 基于LLM的智能事件识别
-3. **🛠️ 幻觉修正 (HAR)** - 事件信息验证与修正
-4. **🔗 因果链接 (CPC)** - 因果关系识别与DAG构建
-5. **📊 图谱构建 (Graph Building)** - Mermaid图谱生成
-6. **🌐 API网关 (API Gateway)** - 统一服务调用接口
+### Core Modules
+1. **📚 Text Ingestion** - Text file reading and chapter segmentation
+2. **🔍 Event Extraction** - LLM-based intelligent event identification
+3. **🛠️ Hallucination Adjustment and Refinement (HAR)** - Event information verification and correction
+4. **🔗 Causal Pattern Connection (CPC)** - Causal relationship identification and DAG construction
+5. **📊 Graph Building** - Mermaid graph generation
+6. **🌐 API Gateway** - Unified service call interface
 
-### 数据流程
+### Data Flow
 ```
-原始文本 → 章节解析 → 事件提取 → 幻觉修正 → 因果链接 → 图谱渲染 → 可视化输出
+Raw Text → Chapter Parsing → Event Extraction → Hallucination Correction → Causal Linking → Graph Rendering → Visual Output
 ```
 
-## ⚙️ 安装与配置
+## ⚙️ Installation and Configuration
 
-### 系统要求
-- **Python**: 3.10+ (推荐 3.10.12)
-- **操作系统**: Linux / macOS / Windows
-- **内存**: 最低4GB，推荐8GB+
-- **存储**: 至少1GB可用空间
+### System Requirements
+- **Python**: 3.10+ (3.10.12 recommended)
+- **Operating System**: Linux / macOS / Windows
+- **Memory**: Minimum 4GB, 8GB+ recommended
+- **Storage**: At least 1GB available space
 
-### API提供商支持
-- **OpenAI GPT-4o** (推荐)
-- **DeepSeek Chat** (经济型选择)
+### API Provider Support
+- **OpenAI GPT-4o** (recommended)
+- **DeepSeek Chat** (economical choice)
 
-### 详细安装步骤
+### Detailed Installation Steps
 
-1. **Python环境准备**
+1. **Python Environment Preparation**
 ```bash
-# 检查Python版本
-python --version  # 需要3.10+
+# Check Python version
+python --version  # requires 3.10+
 
-# 创建虚拟环境 (推荐)
+# Create virtual environment (recommended)
 python -m venv .venv
 source .venv/bin/activate  # Linux/macOS
-# 或
+# or
 .venv\Scripts\activate     # Windows
 ```
 
-2. **安装项目依赖**
+2. **Install Project Dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-3. **配置API密钥**
+3. **Configure API Keys**
 ```bash
-# 方式1: 环境变量 (推荐)
+# Method 1: Environment variables (recommended)
 export OPENAI_API_KEY="sk-your-openai-api-key"
 export DEEPSEEK_API_KEY="your-deepseek-api-key"
 
-# 方式2: 配置文件
+# Method 2: Configuration file
 cp .env.example .env
-# 编辑 .env 文件填入密钥
+# Edit the .env file and fill in the keys
 ```
 
-## 📖 使用指南
+## 📖 Usage Guide
 
-### 命令行参数说明
+### Command Line Parameter Description
 
-| 参数 | 描述 | 示例 |
+| Parameter | Description | Example |
 |------|------|------|
-| `--demo` | 运行演示模式 | `python main.py --demo` |
-| `--input <file>` | 处理单个文件 | `python main.py --input novel.txt` |
-| `--batch <dir>` | 批量处理目录 | `python main.py --batch novels/` |
-| `--test` | 运行系统测试 | `python main.py --test` |
-| `--benchmark` | 运行性能基准测试 | `python main.py --benchmark` |
-| `--check-env` | 检查环境配置 | `python main.py --check-env` |
-| `--verbose` | 显示详细日志 | `python main.py --input file.txt --verbose` |
+| `--demo` | Run demo mode | `python main.py --demo` |
+| `--input <file>` | Process a single file | `python main.py --input novel.txt` |
+| `--batch <dir>` | Batch process directory | `python main.py --batch novels/` |
+| `--test` | Run system tests | `python main.py --test` |
+| `--benchmark` | Run performance benchmark | `python main.py --benchmark` |
+| `--check-env` | Check environment configuration | `python main.py --check-env` |
+| `--verbose` | Display detailed logs | `python main.py --input file.txt --verbose` |
 
-### 输出文件说明
+### Output File Description
 
-系统会在`output/`目录下创建时间戳文件夹，包含：
+The system creates timestamped folders in the `output/` directory, containing:
 
-- **`events.json`** - 提取的结构化事件数据
-- **`refined_events.json`** - 修正后的事件数据  
-- **`causal_edges.json`** - 识别的因果关系数据
-- **`causal_graph.mmd`** - Mermaid格式的因果图谱
-- **`processing_log.txt`** - 详细的处理日志
+- **`events.json`** - Extracted structured event data
+- **`refined_events.json`** - Corrected event data
+- **`causal_edges.json`** - Identified causal relationship data
+- **`causal_graph.mmd`** - Causal graph in Mermaid format
+- **`processing_log.txt`** - Detailed processing log
 
-### 示例输出
+### Output Examples
 
-#### 事件数据示例 (events.json)
+#### Event Data Example (events.json)
 ```json
 {
   "events": [
     {
       "id": "E1-1",
-      "description": "韩立服用聚灵丹突破练气期",
-      "characters": ["韩立"],
-      "treasures": ["聚灵丹"],
-      "location": "青牛镇",
-      "timestamp": "修仙初期",
+      "description": "Han Li consumes Gathering Spirit Pill to break through Qi Condensation Stage",
+      "characters": ["Han Li"],
+      "treasures": ["Gathering Spirit Pill"],
+      "location": "Green Bull Town",
+      "timestamp": "Early cultivation period",
       "event_type": "cultivation"
     }
   ]
 }
 ```
 
-#### Mermaid图谱示例
+#### Mermaid Graph Example
 ```mermaid
 graph TD
-    E1["韩立服用聚灵丹<br/>突破练气期"]
-    E2["获得神秘瓶子<br/>发现绿液功效"]
+    E1["Han Li consumes<br/>Gathering Spirit Pill<br/>to break through Qi Condensation Stage"]
+    E2["Obtains mysterious bottle<br/>discovers green liquid effect"]
     
-    E1 -->|导致| E2
+    E1 -->|leads to| E2
     
     classDef cultivation fill:#e1f5fe
     classDef treasure fill:#fff3e0
@@ -181,125 +183,120 @@ graph TD
     class E2 treasure
 ```
 
-## 🧪 测试与质量保证
+## 🧪 Testing and Quality Assurance
 
-### 运行测试
+### Running Tests
 
 ```bash
-# 运行所有测试 (125个测试用例)
+# Run all tests (125 test cases)
 python tests/run_all_tests.py
 
-# 运行特定阶段测试
-python tests/stage_1/run_tests.py  # 基础模型测试
-python tests/stage_2/run_tests.py  # 文本摄入测试  
-python tests/stage_3/run_tests.py  # 幻觉修正测试
-python tests/stage_4/run_tests.py  # 因果链接测试
-python tests/stage_5/run_tests.py  # 图谱构建测试
-python tests/stage_6/run_tests.py  # 集成测试
+# Run specific stage tests
+python tests/stage_1/run_tests.py  # Basic model tests
+python tests/stage_2/run_tests.py  # Text ingestion tests
+python tests/stage_3/run_tests.py  # Hallucination correction tests
+python tests/stage_4/run_tests.py  # Causal linking tests
+python tests/stage_5/run_tests.py  # Graph building tests
+python tests/stage_6/run_tests.py  # Integration tests
 ```
 
-### 测试覆盖率
-- **总测试用例**: 125个
-- **通过率**: 100% ✅
-- **代码覆盖率**: 95%+
-- **模块覆盖**: 所有核心模块全覆盖
+### Test Coverage
+- **Total Test Cases**: 125
+- **Pass Rate**: 100% ✅
+- **Code Coverage**: 95%+
+- **Module Coverage**: All core modules fully covered
 
+## 🔧 Technical Architecture Details
 
-
-
-## 🔧 技术架构详解
-
-### 依赖注入系统
-系统使用轻量级DI容器管理依赖：
+### Dependency Injection System
+The system uses a lightweight DI container to manage dependencies:
 
 ```python
 from common.models.dependency_provider import DependencyProvider
 
-# 获取服务实例
+# Get service instance
 extractor = DependencyProvider.get_event_extractor()
 linker = DependencyProvider.get_causal_linker()
 ```
 
-### LLM集成
-支持多个LLM提供商的无缝切换：
+### LLM Integration
+Seamless switching between multiple LLM providers:
 
 ```python
 from event_extraction.repository.llm_client import LLMClient
 
-# 自动选择可用的API提供商
+# Automatically select available API provider
 client = LLMClient()
 response = client.call_llm(system_prompt, user_prompt)
 ```
 
-## 📊 性能指标
+## 📊 Performance Metrics
 
-### 处理能力
-- **小文件** (<10KB): 处理时间 <30秒
-- **中等文件** (10-100KB): 处理时间 <2分钟  
-- **大文件** (>100KB): 处理时间随文件大小线性增长
+### Processing Capacity
+- **Small Files** (<10KB): Processing time <30 seconds
+- **Medium Files** (10-100KB): Processing time <2 minutes
+- **Large Files** (>100KB): Processing time increases linearly with file size
 
-### 资源使用
-- **内存占用**: 峰值 <500MB
-- **并发处理**: 支持2-4个并发事件提取任务
-- **API调用**: 智能频率控制，避免超限
+### Resource Usage
+- **Memory Usage**: Peak <500MB
+- **Concurrent Processing**: Supports 2-4 concurrent event extraction tasks
+- **API Calls**: Smart frequency control, avoiding rate limits
 
-### 扩展性
-- **事件数量**: 支持1000+事件
-- **关系数量**: 支持5000+因果关系
-- **批量处理**: 支持100+文件
+### Scalability
+- **Event Count**: Supports 1000+ events
+- **Relationship Count**: Supports 5000+ causal relationships
+- **Batch Processing**: Supports 100+ files
 
-## 🚨 常见问题
+## 🚨 Common Issues
 
-### Q: API调用失败怎么办？
-**A**: 检查API密钥配置，确认配额充足，可使用`--check-env`检查环境。
+### Q: What if API calls fail?
+**A**: Check API key configuration, confirm sufficient quota, use `--check-env` to check environment.
 
-### Q: 处理速度慢怎么优化？
-**A**: 可以调整并发数量，使用更快的API提供商，或对大文件进行分段处理。
+### Q: How to optimize slow processing?
+**A**: Adjust concurrency count, use faster API providers, or segment large files for processing.
 
-### Q: 输出的图谱不够准确？
-**A**: 可以调整相关参数，或使用更强的模型如GPT-4o。系统会持续优化算法。
+### Q: What if the output graph is not accurate enough?
+**A**: Parameters can be adjusted, or use stronger models like GPT-4o. The system continuously optimizes algorithms.
 
-### Q: 如何处理其他类型的小说？
-**A**: 当前专门针对《凡人修仙传》优化，处理其他小说可能需要调整提示词。
+### Q: How to process other types of novels?
+**A**: Currently optimized specifically for "Mortal's Journey to Immortality", processing other novels may require prompt adjustments.
 
-## 🤝 贡献指南
+## 🤝 Contribution Guidelines
 
-我们欢迎社区贡献！请遵循以下步骤：
+Community contributions are welcome! Please follow these steps:
 
-1. Fork本项目
-2. 创建特性分支 (`git checkout -b feature/amazing-feature`)
-3. 提交更改 (`git commit -m 'Add amazing feature'`)
-4. 推送到分支 (`git push origin feature/amazing-feature`)
-5. 开启Pull Request
+1. Fork this project
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-### 开发环境设置
+### Development Environment Setup
 ```bash
-# 安装开发依赖
+# Install development dependencies
 pip install -r requirements-dev.txt
 
-# 运行代码格式化
+# Run code formatting
 black .
 
-# 运行类型检查
+# Run type checking
 mypy .
 
-# 运行完整测试套件
+# Run complete test suite
 python tests/run_all_tests.py
 ```
 
-## 📄 许可证
+## 📄 License
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 致谢
+## 🙏 Acknowledgements
 
-- **《凡人修仙传》** - 忘语著，为本项目提供了丰富的分析素材
-- **OpenAI & DeepSeek** - 提供强大的语言模型支持
-- **Mermaid** - 优秀的图表渲染工具
-- **Python社区** - 丰富的开源生态系统
+- **"Mortal's Journey to Immortality"** - Written by Wang Yu, providing rich analysis material for this project
+- **OpenAI & DeepSeek** - Providing powerful language model support
+- **Mermaid** - Excellent chart rendering tool
+- **Python Community** - Rich open-source ecosystem
 
 ---
 
-> 🌟 如果这个项目对您有帮助，请给我们一个Star！
-
-
+> 🌟 If this project is helpful to you, please give us a Star!

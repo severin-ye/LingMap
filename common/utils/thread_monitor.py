@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-线程使用情况监控工具
+Thread usage monitoring tool
 
-用于在系统运行时记录和监控各个模块使用的线程数。
+Used to record and monitor the number of threads used by various modules during system runtime.
 """
 
 import os
@@ -17,9 +17,9 @@ from common.utils.parallel_config import ParallelConfig
 
 class ThreadUsageMonitor:
     """
-    线程使用情况监控类
+    Thread usage monitoring class
     
-    负责记录和监控系统中各模块使用的线程数，以及系统整体线程使用情况。
+    Responsible for recording and monitoring the number of threads used by various modules in the system, as well as overall system thread usage.
     """
     
     _logger: Optional[logging.Logger] = None
@@ -27,24 +27,24 @@ class ThreadUsageMonitor:
     
     @classmethod
     def get_instance(cls):
-        """单例模式获取实例"""
+        """Get instance using singleton pattern"""
         if cls._instance is None:
             cls._instance = ThreadUsageMonitor()
         return cls._instance
     
     def __init__(self):
-        """初始化监控器"""
+        """Initialize monitor"""
         self._setup_logging()
         self.thread_usage = {}
     
     def _setup_logging(self):
-        """设置日志记录"""
+        """Setup logging"""
         if ThreadUsageMonitor._logger is None:
             ThreadUsageMonitor._logger = logging.getLogger("thread_monitor")
-            # 日志级别
+            # Log level
             ThreadUsageMonitor._logger.setLevel(logging.INFO)
             
-            # 文件处理器
+            # File handler
             log_dir = Path("logs")
             log_dir.mkdir(exist_ok=True)
             
@@ -55,7 +55,7 @@ class ThreadUsageMonitor:
             ))
             ThreadUsageMonitor._logger.addHandler(file_handler)
             
-            # 控制台处理器
+            # Console handler
             console_handler = logging.StreamHandler(sys.stdout)
             console_handler.setFormatter(logging.Formatter(
                 '%(asctime)s - %(levelname)s - %(message)s'
@@ -64,63 +64,59 @@ class ThreadUsageMonitor:
     
     def log_module_thread_usage(self, module_name: str, thread_count: int, task_type: str = "default"):
         """
-        记录模块线程使用情况
+        Record module thread usage
         
         Args:
-            module_name: 模块名称
-            thread_count: 使用的线程数
-            task_type: 任务类型 (io_bound, cpu_bound, default)
+            module_name: Module name
+            thread_count: Number of threads used
+            task_type: Task type (io_bound, cpu_bound, default)
         """
         self.thread_usage[module_name] = {
             "thread_count": thread_count,
             "task_type": task_type
         }
         
-        # 记录到日志
-        if ThreadUsageMonitor._logger:
-            ThreadUsageMonitor._logger.info(
-                f"模块 '{module_name}' 使用 {thread_count} 个线程执行 {task_type} 类型任务"
-            )
+        # Record to log
+        ThreadUsageMonitor._logger.info(
+            f"Module '{module_name}' uses {thread_count} threads for {task_type} type tasks"
+        )
     
     def log_system_thread_usage(self):
-        """记录系统整体线程使用情况"""
-        if not ThreadUsageMonitor._logger:
-            return
-            
-        # 获取配置
+        """Record overall system thread usage"""
+        # Get configuration
         enabled = ParallelConfig.is_enabled()
         max_workers = ParallelConfig._config["max_workers"]
         module_config = ParallelConfig._config["default_workers"]
         
         ThreadUsageMonitor._logger.info(
-            f"系统并行配置: 启用状态={enabled}, 全局线程数={max_workers}"
+            f"System parallel configuration: enabled={enabled}, global threads={max_workers}"
         )
         
-        # 记录各模块配置
-        ThreadUsageMonitor._logger.info("模块线程配置:")
+        # Record module configuration
+        ThreadUsageMonitor._logger.info("Module thread configuration:")
         for module, workers in module_config.items():
             ThreadUsageMonitor._logger.info(f"  - {module}: {workers}")
         
-        # 记录实际使用情况
-        ThreadUsageMonitor._logger.info("模块实际线程使用情况:")
+        # Record actual usage
+        ThreadUsageMonitor._logger.info("Actual module thread usage:")
         for module, info in self.thread_usage.items():
             ThreadUsageMonitor._logger.info(
-                f"  - {module}: {info['thread_count']} 线程 ({info['task_type']} 任务)"
+                f"  - {module}: {info['thread_count']} threads ({info['task_type']} tasks)"
             )
 
 
-# 导入datetime，避免在类内部使用时报错
+# Import datetime to avoid errors when used inside the class
 from datetime import datetime
 
 
 def log_thread_usage(module_name: str, thread_count: int, task_type: str = "default"):
     """
-    记录模块线程使用情况的便捷函数
+    Convenience function for recording module thread usage
     
     Args:
-        module_name: 模块名称
-        thread_count: 使用的线程数
-        task_type: 任务类型
+        module_name: Module name
+        thread_count: Number of threads used
+        task_type: Task type
     """
     monitor = ThreadUsageMonitor.get_instance()
     monitor.log_module_thread_usage(module_name, thread_count, task_type)

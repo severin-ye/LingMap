@@ -5,18 +5,18 @@ from common.models.event import EventItem
 
 
 class AbstractRefiner(ABC):
-    """精修器接口，定义对抽取事件进行精修（修复幻觉）的方法"""
+    """Refiner interface that defines methods for refining extracted events (fixing hallucinations)"""
     
     @abstractmethod
     def refine(self, events: List[EventItem], context: str = "") -> List[EventItem]:
         """
-        对抽取的事件进行幻觉检测和修复
+        Perform hallucination detection and correction on extracted events
         
         Args:
-            events: 待精修的事件列表
-            context: 支持精修的上下文信息
+            events: List of events to be refined
+            context: Context information supporting refinement
             
         Returns:
-            精修后的事件列表
+            List of refined events
         """
         pass

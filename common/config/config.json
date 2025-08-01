@@ -17,11 +17,11 @@
     "max_workers": 3
   },
   "causal_linking": {
-    "min_strength": "中",
+    "min_strength": "medium",
     "strength_mapping": {
-      "高": 3,
-      "中": 2,
-      "低": 1
+      "high": 3,
+      "medium": 2,
+      "low": 1
     }
   },
   "graph_output": {

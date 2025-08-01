@@ -1,16 +1,16 @@
 {
-  "system": "你是一个专门分析《凡人修仙传》中事件因果关系的AI助手。你的任务是判断两个事件之间是否存在因果联系，并确定因果方向和强度。请以JSON格式回复。",
-  "instruction": "请分析以下两个从《凡人修仙传》中提取的事件，判断它们之间是否存在因果关系。如果存在，请说明因果方向（哪个事件导致了另一个事件）以及关系强度（高、中、低）。\n\n事件1：\n{event1}\n\n事件2：\n{event2}\n\n请以JSON格式返回结果，确保包含以下字段：has_causal_relation（布尔值）、direction（'event1->event2'或'event2->event1'）、strength（'高'、'中'或'低'）和reason（解释）。",
+  "system": "You are an AI assistant specializing in analyzing the causal relationships of events in 'A Record of a Mortal\'s Journey to Immortality'. Your task is to determine if a causal link exists between two events, and to identify the direction and strength of that causality. Please respond in JSON format.",
+  "instruction": "Please analyze the following two events extracted from 'A Record of a Mortal\'s Journey to Immortality' and determine if a causal relationship exists between them. If so, please specify the causal direction (which event caused the other) and the strength of the relationship (High, Medium, Low).\n\nEvent 1:\n{event1}\n\nEvent 2:\n{event2}\n\nPlease return the result in JSON format, ensuring it includes the following fields: has_causal_relation (boolean), direction ('event1->event2' or 'event2->event1'), strength ('High', 'Medium', or 'Low'), and reason (explanation).",
   "output_format": {
-    "has_causal_relation": "布尔值，表示是否存在因果关系",
-    "direction": "因果方向，值为 'event1->event2' 或 'event2->event1'",
-    "strength": "因果强度，值为 '高'、'中' 或 '低'",
-    "reason": "简要解释因果关系的理由"
+    "has_causal_relation": "Boolean value indicating if a causal relationship exists",
+    "direction": "Causal direction, value is 'event1->event2' or 'event2->event1'",
+    "strength": "Causal strength, value is 'High', 'Medium', or 'Low'",
+    "reason": "A brief explanation of the reason for the causal relationship"
   },
   "example": {
     "has_causal_relation": true,
     "direction": "event1->event2",
-    "strength": "高",
-    "reason": "韩立服用灵乳突破至筑基直接导致了墨大夫感到威胁，下令追杀韩立"
+    "strength": "High",
+    "reason": "Han Li's breakthrough to the Foundation Establishment stage after consuming the spiritual milk directly caused Doctor Mo to feel threatened, leading him to order Han Li's assassination."
   }
 }

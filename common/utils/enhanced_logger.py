@@ -1,7 +1,7 @@
 """
-增强日志模块
+Enhanced logging module
 
-提供更丰富的日志记录功能，帮助调试系统问题
+Provides richer logging functionality to help debug system issues
 """
 
 import os
@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional, Union
 
-# 获取项目根目录
+# Get project root directory
 try:
     from common.utils.path_utils import get_project_root
     PROJECT_ROOT = get_project_root()
@@ -22,7 +22,7 @@ except ImportError:
 
 
 class EnhancedLogger:
-    """增强日志记录器，提供更丰富的日志记录功能"""
+    """Enhanced logger that provides richer logging functionality"""
     
     LOG_LEVELS = {
         "DEBUG": logging.DEBUG,
@@ -40,33 +40,33 @@ class EnhancedLogger:
         console_output: bool = True
     ):
         """
-        初始化日志记录器
+        Initialize logger
         
         Args:
-            name: 日志记录器名称
-            log_level: 日志级别，可选值："DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"
-            log_file: 日志文件路径，如果为None则自动生成
-            console_output: 是否输出到控制台
+            name: Logger name
+            log_level: Log level, options: "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"
+            log_file: Log file path, automatically generated if None
+            console_output: Whether to output to console
         """
         self.logger = logging.getLogger(name)
         self.logger.setLevel(self.LOG_LEVELS.get(log_level.upper(), logging.INFO))
         
-        # 避免重复添加处理器
+        # Avoid adding duplicate handlers
         if self.logger.handlers:
             self.logger.handlers.clear()
             
-        # 创建日志格式
+        # Create log format
         formatter = logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         )
         
-        # 添加控制台输出
+        # Add console output
         if console_output:
             console_handler = logging.StreamHandler(sys.stdout)
             console_handler.setFormatter(formatter)
             self.logger.addHandler(console_handler)
         
-        # 添加文件输出
+        # Add file output
         if log_file:
             log_path = log_file
         else:
@@ -82,37 +82,37 @@ class EnhancedLogger:
         self.log_path = log_path
     
     def debug(self, message: str, **kwargs):
-        """记录调试级别日志"""
+        """Log debug level message"""
         if kwargs:
             message = f"{message} | {self._format_kwargs(kwargs)}"
         self.logger.debug(message)
     
     def info(self, message: str, **kwargs):
-        """记录信息级别日志"""
+        """Log info level message"""
         if kwargs:
             message = f"{message} | {self._format_kwargs(kwargs)}"
         self.logger.info(message)
     
     def warning(self, message: str, **kwargs):
-        """记录警告级别日志"""
+        """Log warning level message"""
         if kwargs:
             message = f"{message} | {self._format_kwargs(kwargs)}"
         self.logger.warning(message)
     
     def error(self, message: str, **kwargs):
-        """记录错误级别日志"""
+        """Log error level message"""
         if kwargs:
             message = f"{message} | {self._format_kwargs(kwargs)}"
         self.logger.error(message)
     
     def critical(self, message: str, **kwargs):
-        """记录严重错误级别日志"""
+        """Log critical level message"""
         if kwargs:
             message = f"{message} | {self._format_kwargs(kwargs)}"
         self.logger.critical(message)
     
     def _format_kwargs(self, kwargs: Dict[str, Any]) -> str:
-        """格式化关键字参数为字符串"""
+        """Format keyword arguments to string"""
         formatted = {}
         for key, value in kwargs.items():
             if isinstance(value, (dict, list)):
@@ -134,13 +134,13 @@ class EnhancedLogger:
         response: Optional[Dict[str, Any]] = None,
         error: Optional[str] = None
     ):
-        """记录API请求日志"""
-        # 隐藏敏感信息
+        """Log API request"""
+        # Hide sensitive information
         safe_payload = self._mask_sensitive_info(payload)
         
         if success:
             self.debug(
-                f"API请求成功",
+                f"API request successful",
                 provider=provider,
                 endpoint=endpoint,
                 payload=safe_payload,
@@ -148,7 +148,7 @@ class EnhancedLogger:
             )
         else:
             self.error(
-                f"API请求失败",
+                f"API request failed",
                 provider=provider,
                 endpoint=endpoint,
                 payload=safe_payload,
@@ -156,7 +156,7 @@ class EnhancedLogger:
             )
     
     def _mask_sensitive_info(self, data: Dict[str, Any]) -> Dict[str, Any]:
-        """遮盖敏感信息，如API密钥等"""
+        """Mask sensitive information such as API keys"""
         if not isinstance(data, dict):
             return data
             
@@ -174,9 +174,9 @@ class EnhancedLogger:
         return masked_data
     
     def _get_response_preview(self, response: Optional[Dict[str, Any]]) -> str:
-        """生成响应预览（截断过长内容）"""
+        """Generate response preview (truncate overly long content)"""
         if not response:
-            return "无响应"
+            return "No response"
             
         try:
             response_str = json.dumps(response, ensure_ascii=False)
@@ -187,10 +187,10 @@ class EnhancedLogger:
             return str(response)[:200]
 
 
-# 默认日志记录器实例
+# Default logger instance
 default_logger = EnhancedLogger("fanren_system")
 
-# 导出便捷函数
+# Export convenience functions
 debug = default_logger.debug
 info = default_logger.info
 warning = default_logger.warning

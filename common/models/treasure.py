@@ -4,16 +4,16 @@ from typing import List, Optional
 
 @dataclass
 class Treasure:
-    """天材地宝数据结构，描述小说中的法宝、丹药等物品"""
+    """Treasure data structure describing magical treasures, pills and other items in the novel"""
     
-    name: str  # 宝物名称
-    description: Optional[str] = None  # 宝物描述
-    effects: List[str] = field(default_factory=list)  # 宝物效用
-    origin: Optional[str] = None  # 宝物来源
-    first_appearance: Optional[str] = None  # 首次出现的章节ID
+    name: str  # Treasure name
+    description: Optional[str] = None  # Treasure description
+    effects: List[str] = field(default_factory=list)  # Treasure effects
+    origin: Optional[str] = None  # Treasure origin
+    first_appearance: Optional[str] = None  # Chapter ID where it first appears
     
     def to_dict(self):
-        """转换为字典表示"""
+        """Convert to dictionary representation"""
         return {
             "name": self.name,
             "description": self.description,
@@ -24,7 +24,7 @@ class Treasure:
     
     @classmethod
     def from_dict(cls, data: dict):
-        """从字典创建实例"""
+        """Create instance from dictionary"""
         return cls(
             name=data.get("name", ""),
             description=data.get("description"),

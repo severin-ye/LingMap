@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-事件对因果关系分析器
-负责分析事件对之间的因果关系，包括：
-1. 生成问题提示
-2. 调用LLM分析因果关系
-3. 解析LLM响应
+Event pair causal relationship analyzer
+Responsible for analyzing causal relationships between event pairs, including:
+1. Generate question prompts
+2. Call LLM to analyze causal relationships
+3. Parse LLM responses
 """
 
 import os
@@ -19,8 +19,8 @@ from event_extraction.repository.llm_client import LLMClient
 
 class PairAnalyzer:
     """
-    事件对因果关系分析器
-    负责分析事件对之间的因果关系
+    Event pair causal relationship analyzer
+    Responsible for analyzing causal relationships between event pairs
     """
     
     def __init__(
@@ -33,41 +33,41 @@ class PairAnalyzer:
         provider: str = "openai"
     ):
         """
-        初始化事件对分析器
+        Initialize event pair analyzer
         
         Args:
-            model: 使用的LLM模型
-            prompt_path: 提示词模板路径
-            api_key: API密钥
-            base_url: 自定义API基础URL
-            max_workers: 并行处理的最大工作线程数
-            provider: API提供商，如"openai"或"deepseek"
+            model: LLM model to use
+            prompt_path: Prompt template path
+            api_key: API key
+            base_url: Custom API base URL
+            max_workers: Maximum number of worker threads for parallel processing
+            provider: API provider, such as "openai" or "deepseek"
         """
-        # 如果未提供API密钥，尝试从环境变量获取
+        # If no API key provided, try to get from environment variables
         if not api_key:
             if provider == "openai":
                 self.api_key = os.environ.get("OPENAI_API_KEY")
                 if not self.api_key:
-                    raise ValueError("请提供 OpenAI API 密钥")
+                    raise ValueError("Please provide OpenAI API key")
             elif provider == "deepseek":
                 self.api_key = os.environ.get("DEEPSEEK_API_KEY")
                 if not self.api_key:
-                    raise ValueError("请提供 DeepSeek API 密钥")
+                    raise ValueError("Please provide DeepSeek API key")
             else:
-                raise ValueError(f"不支持的 API 提供商: {provider}")
+                raise ValueError(f"Unsupported API provider: {provider}")
         else:
             self.api_key = api_key
-            
+        
         self.model = model
         self.base_url = base_url
         self.max_workers = max_workers
         self.provider = provider
         self.prompt_path = prompt_path
         
-        # 加载提示模板
+        # Load prompt template
         self.prompt_template = self._load_prompt_template(prompt_path)
         
-        # 初始化LLM客户端
+        # Initialize LLM client
         self.llm_client = LLMClient(
             api_key=self.api_key,
             model=self.model,
@@ -77,13 +77,13 @@ class PairAnalyzer:
     
     def _load_prompt_template(self, prompt_path: str) -> Dict[str, str]:
         """
-        加载提示模板
+        Load prompt template
         
         Args:
-            prompt_path: 提示模板文件路径
+            prompt_path: Prompt template file path
             
         Returns:
-            提示模板字典
+            Prompt template dictionary
         """
         import json
         
@@ -91,25 +91,25 @@ class PairAnalyzer:
             with open(prompt_path, "r", encoding="utf-8") as f:
                 return json.load(f)
         except (json.JSONDecodeError, FileNotFoundError) as e:
-            print(f"加载提示模板失败: {e}")
+            print(f"Failed to load prompt template: {e}")
             return {
-                "system": "你是一个因果关系分析助手，你需要分析两个事件之间是否存在因果关系。",
-                "instruction": "请分析以下两个事件之间是否存在因果关系:\n\n事件1: {event1}\n\n事件2: {event2}\n\n请以JSON格式回答，包含以下字段:\n- has_causal_relation: 布尔值，表示是否存在因果关系\n- direction: 如果存在因果关系，请指明方向(事件1→事件2 或 事件2→事件1)\n- strength: 因果关系强度(高/中/低)\n- reason: 关系存在的理由或不存在的解释"
+                "system": "You are a causal relationship analysis assistant. You need to analyze whether there is a causal relationship between two events.",
+                "instruction": "Please analyze whether there is a causal relationship between the following two events:\n\nEvent 1: {event1}\n\nEvent 2: {event2}\n\nPlease answer in JSON format with the following fields:\n- has_causal_relation: Boolean value indicating whether a causal relationship exists\n- direction: If a causal relationship exists, please specify the direction (Event 1→Event 2 or Event 2→Event 1)\n- strength: Causal relationship strength (High/Medium/Low)\n- reason: Reason for the relationship's existence or explanation for its absence"
             }
     
     def analyze_batch(self, event_pairs: List[Tuple[EventItem, EventItem]]) -> List[CausalEdge]:
         """
-        批量分析事件对因果关系
+        Batch analyze causal relationships of event pairs
         
         Args:
-            event_pairs: 事件对列表
+            event_pairs: List of event pairs
             
         Returns:
-            因果边列表
+            List of causal edges
         """
         edges = []
         
-        # 使用线程池并行处理事件对
+        # Use thread pool to process event pairs in parallel
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             futures = []
             
@@ -117,7 +117,7 @@ class PairAnalyzer:
                 future = executor.submit(self.analyze_pair, event1, event2)
                 futures.append(future)
             
-            # 收集所有结果
+            # Collect all results
             for future in futures:
                 edge = future.result()
                 if edge:
@@ -127,67 +127,67 @@ class PairAnalyzer:
     
     def analyze_pair(self, event1: EventItem, event2: EventItem) -> Optional[CausalEdge]:
         """
-        分析一对事件的因果关系
+        Analyze causal relationship of one event pair
         
         Args:
-            event1: 第一个事件
-            event2: 第二个事件
+            event1: First event
+            event2: Second event
             
         Returns:
-            因果边对象，如果不存在因果关系则返回None
+            Causal edge object, returns None if no causal relationship exists
         """
-        # 格式化提示
+        # Format prompt
         prompt = self.format_prompt(event1, event2)
         
-        # 调用LLM
+        # Call LLM
         response = self.llm_client.call_with_json_response(prompt['system'], prompt['instruction'])
         
         if not response["success"] or "json_content" not in response:
-            print(f"事件 {event1.event_id} 和 {event2.event_id} 的因果分析失败: {response.get('error', '未知错误')}")
+            print(f"Causal analysis failed for events {event1.event_id} and {event2.event_id}: {response.get('error', 'Unknown error')}")
             return None
             
-        # 解析响应
+        # Parse response
         edge = self.parse_response(response["json_content"], event1.event_id, event2.event_id)
         
         if edge:
-            print(f"发现因果关系: {edge.from_id} -> {edge.to_id}, 强度: {edge.strength}")
+            print(f"Found causal relationship: {edge.from_id} -> {edge.to_id}, strength: {edge.strength}")
             
         return edge
     
     def format_prompt(self, event1: EventItem, event2: EventItem) -> Dict[str, str]:
         """
-        格式化提示词
+        Format prompt
         
         Args:
-            event1: 第一个事件
-            event2: 第二个事件
+            event1: First event
+            event2: Second event
             
         Returns:
-            格式化后的提示词字典，包含system和instruction
+            Formatted prompt dictionary, containing system and instruction
         """
-        # 格式化事件1描述
+        # Format event1 description
         event1_desc = f"""
-事件ID: {event1.event_id}
-描述: {event1.description}
-相关角色: {', '.join(event1.characters) if event1.characters else '无'}
-相关宝物: {', '.join(event1.treasures) if event1.treasures else '无'}
-发生地点: {event1.location or '未知'}
-章节: {event1.chapter_id or '未知'}
-结果: {event1.result or '未知'}
+Event ID: {event1.event_id}
+Description: {event1.description}
+Related Characters: {', '.join(event1.characters) if event1.characters else 'None'}
+Related Treasures: {', '.join(event1.treasures) if event1.treasures else 'None'}
+Location: {event1.location or 'Unknown'}
+Chapter: {event1.chapter_id or 'Unknown'}
+Result: {event1.result or 'Unknown'}
         """.strip()
         
-        # 格式化事件2描述
+        # Format event2 description
         event2_desc = f"""
-事件ID: {event2.event_id}
-描述: {event2.description}
-相关角色: {', '.join(event2.characters) if event2.characters else '无'}
-相关宝物: {', '.join(event2.treasures) if event2.treasures else '无'}
-发生地点: {event2.location or '未知'}
-章节: {event2.chapter_id or '未知'}
-结果: {event2.result or '未知'}
+Event ID: {event2.event_id}
+Description: {event2.description}
+Related Characters: {', '.join(event2.characters) if event2.characters else 'None'}
+Related Treasures: {', '.join(event2.treasures) if event2.treasures else 'None'}
+Location: {event2.location or 'Unknown'}
+Chapter: {event2.chapter_id or 'Unknown'}
+Result: {event2.result or 'Unknown'}
         """.strip()
         
-        # 从模板中获取系统提示和指令
+        # Get system prompt and instruction from template
         system_prompt = self.prompt_template.get("system", "")
         instruction = self.prompt_template.get("instruction", "").format(
             event1=event1_desc,
@@ -201,22 +201,22 @@ class PairAnalyzer:
     
     def parse_response(self, response: Dict[str, Any], event1_id: str, event2_id: str) -> Optional[CausalEdge]:
         """
-        解析LLM响应，提取因果关系
+        Parse LLM response to extract causal relationships
         
         Args:
-            response: LLM响应
-            event1_id: 第一个事件ID
-            event2_id: 第二个事件ID
+            response: LLM response
+            event1_id: First event ID
+            event2_id: Second event ID
             
         Returns:
-            因果边对象，如果不存在因果关系则返回None
+            Causal edge object, returns None if no causal relationship exists
         """
-        # 检查是否存在因果关系
+        # Check if causal relationship exists
         has_causal = response.get("has_causal_relation", False)
         if not has_causal:
             return None
         
-        # 获取因果方向
+        # Get causal direction
         direction = response.get("direction", "")
         
         if direction == "event1->event2":
@@ -226,11 +226,11 @@ class PairAnalyzer:
             from_id = event2_id
             to_id = event1_id
         else:
-            print(f"无法解析因果方向: {direction}")
+            print(f"Unable to parse causal direction: {direction}")
             return None
         
-        # 获取因果强度和理由
-        strength = response.get("strength", "中")
+        # Get causal strength and reason
+        strength = response.get("strength", "medium")
         reason = response.get("reason", "")
         
         return CausalEdge(

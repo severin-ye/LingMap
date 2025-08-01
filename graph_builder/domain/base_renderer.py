@@ -7,13 +7,13 @@ from common.models.event import EventItem
 
 
 class BaseRenderer(AbstractGraphRenderer, ABC):
-    """图谱渲染器基类"""
+    """Graph renderer base class"""
     
     def __init__(self, default_options: Dict[str, Any] = {}):
         """
-        初始化渲染器
+        Initialize renderer
         
         Args:
-            default_options: 默认渲染选项
+            default_options: Default rendering options
         """
         self.default_options = default_options or {}

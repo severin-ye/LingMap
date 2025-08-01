@@ -1,7 +1,7 @@
 """
-增强型事件抽取服务
+Enhanced event extraction service
 
-添加详细日志记录和错误处理，用于调试事件抽取问题
+Adds detailed logging and error handling for debugging event extraction issues
 """
 
 from typing import List, Dict, Any, Optional, Union
@@ -24,7 +24,7 @@ from event_extraction.repository.llm_client import LLMClient
 
 
 class EnhancedEventExtractor(BaseExtractor):
-    """增强型事件抽取器，添加详细日志记录和错误处理"""
+    """Enhanced event extractor with detailed logging and error handling"""
     
     def __init__(
         self, 
@@ -32,63 +32,63 @@ class EnhancedEventExtractor(BaseExtractor):
         prompt_path: str = "", 
         api_key: str = "",
         base_url: str = "",
-        max_workers: int = 20, # 这个参数控制并行处理的最大工作线程数
+        max_workers: int = 20, # This parameter controls the maximum number of worker threads for parallel processing
         provider: str = "openai",
         debug_mode: bool = False
     ):
         """
-        初始化增强型事件抽取器
+        Initialize enhanced event extractor
         
         Args:
-            model: 使用的LLM模型
-            prompt_path: 提示词模板路径
-            api_key: API密钥
-            base_url: 自定义API基础URL
-            max_workers: 并行处理的最大工作线程数
-            provider: API提供商，"openai"或"deepseek"
-            debug_mode: 是否启用调试模式
+            model: LLM model to use
+            prompt_path: Prompt template path
+            api_key: API key
+            base_url: Custom API base URL
+            max_workers: Maximum number of worker threads for parallel processing
+            provider: API provider, "openai" or "deepseek"
+            debug_mode: Whether to enable debug mode
         """
-        # 创建专用的日志记录器
+        # Create dedicated logger
         self.logger = EnhancedLogger("event_extractor", log_level="DEBUG" if debug_mode else "INFO")
         self.debug_mode = debug_mode
         
-        # 记录初始化信息
-        self.logger.info("初始化增强型事件抽取器", 
+        # Record initialization information
+        self.logger.info("Initializing enhanced event extractor", 
                         model=model, 
                         provider=provider,
                         max_workers=max_workers,
                         debug_mode=debug_mode)
         
         if not prompt_path:
-            # 导入path_utils获取配置文件路径
+            # Import path_utils to get config file path
             from common.utils.path_utils import get_config_path
             prompt_path = get_config_path("prompt_event_extraction.json")
-            self.logger.debug(f"使用默认提示词模板路径: {prompt_path}")
+            self.logger.debug(f"Using default prompt template path: {prompt_path}")
             
         super().__init__(prompt_path)
         
         self.provider = provider
         self.model = model
         
-        # 如果未提供API密钥，尝试从环境变量获取
+        # If no API key provided, try to get from environment variables
         if not api_key:
             if provider == "openai":
                 self.api_key = os.environ.get("OPENAI_API_KEY")
                 if not self.api_key:
-                    self.logger.error("未提供OpenAI API密钥")
-                    raise ValueError("请提供OpenAI API密钥")
+                    self.logger.error("OpenAI API key not provided")
+                    raise ValueError("Please provide OpenAI API key")
             else:  # deepseek
                 self.api_key = os.environ.get("DEEPSEEK_API_KEY")
                 if not self.api_key:
-                    self.logger.error("未提供DeepSeek API密钥")
-                    raise ValueError("请提供DeepSeek API密钥")
+                    self.logger.error("DeepSeek API key not provided")
+                    raise ValueError("Please provide DeepSeek API key")
         else:
             self.api_key = api_key
             
         self.base_url = base_url
         self.max_workers = max_workers
         
-        # 初始化LLM客户端
+        # Initialize LLM client
         self.llm_client = LLMClient(
             api_key=self.api_key,
             model=self.model,
@@ -96,40 +96,40 @@ class EnhancedEventExtractor(BaseExtractor):
             provider=self.provider
         )
         
-        # 创建调试目录
+        # Create debug directory
         if debug_mode:
             from pathlib import Path
             from common.utils.path_utils import get_project_root
             
             self.debug_dir = Path(get_project_root()) / "debug" / "event_extraction"
             self.debug_dir.mkdir(parents=True, exist_ok=True)
-            self.logger.info(f"调试信息将保存到: {self.debug_dir}")
+            self.logger.info(f"Debug information will be saved to: {self.debug_dir}")
         
     def extract(self, chapter: Chapter) -> List[EventItem]:
         """
-        从章节中抽取事件
+        Extract events from chapter
         
         Args:
-            chapter: 章节数据
+            chapter: Chapter data
             
         Returns:
-            抽取的事件列表
+            List of extracted events
         """
-        self.logger.info(f"开始从章节中抽取事件", chapter_id=chapter.chapter_id, title=chapter.title)
+        self.logger.info(f"Starting event extraction from chapter", chapter_id=chapter.chapter_id, title=chapter.title)
         
         if not chapter.segments:
-            # 如果章节没有预定义的分段，创建分段
+            # If chapter has no predefined segment text, create segment text
             from common.utils.text_splitter import TextSplitter
-            self.logger.debug("章节没有预定义分段，正在创建分段")
+            self.logger.debug("Chapter has no predefined segments, creating segments")
             chapter.segments = TextSplitter.split_chapter(chapter.content)
-            self.logger.info(f"创建了 {len(chapter.segments)} 个文本分段")
+            self.logger.info(f"Created {len(chapter.segments)} text segments")
         
-        # 根据系统资源和设置调整实际使用的工作线程数
+        # Adjust actual worker thread count based on system resources and settings
         import multiprocessing
         cpu_count = multiprocessing.cpu_count()
-        # 确保线程数适合CPU超线程能力, 最低6个线程
+        # Ensure thread count suits CPU hyperthreading capability, minimum 6 threads
         effective_workers = max(6, min(self.max_workers, len(chapter.segments), cpu_count * 5))
-        self.logger.info(f"使用 {effective_workers} 个并行线程处理 {len(chapter.segments)} 个段落 (CPU核心数: {cpu_count})")
+        self.logger.info(f"Using {effective_workers} parallel threads to process {len(chapter.segments)} segments (CPU cores: {cpu_count})")
             
         all_events = []
         failed_segments = []
@@ -137,50 +137,50 @@ class EnhancedEventExtractor(BaseExtractor):
         api_failures = 0
         
         try:
-            # 导入tqdm提供进度条（如果存在）
+            # Import tqdm for progress bar (if available)
             try:
                 from tqdm import tqdm
                 has_tqdm = True
             except ImportError:
                 has_tqdm = False
                 
-            # 考虑是否使用批处理
+            # Consider whether to use batch processing
             should_batch = self._should_batch_segments(segments=chapter.segments)
             if should_batch:
-                self.logger.info("启用批处理模式，将多个短段落合并处理")
-                # 实现批处理逻辑 - 每2-3个段落为一组
-                batch_size = 3  # 每批处理的段落数
+                self.logger.info("Enabling batch processing mode, merging multiple short segments for processing")
+                # Implement batch processing logic - group every 2-3 segments
+                batch_size = 3  # Number of segments to process per batch
                 batch_segments = []
                 batched_futures = {}
                 
-                # 使用线程池并行处理批次
+                # Use thread pool to process batches in parallel
                 with ThreadPoolExecutor(max_workers=effective_workers) as executor:
-                    # 按批次提交任务
+                    # Submit tasks by batch
                     for i, segment in enumerate(chapter.segments):
                         batch_segments.append(segment)
                         
-                        # 当达到批次大小或是最后一个段落时提交任务
+                        # When reaching batch size or last segment, submit task
                         if len(batch_segments) >= batch_size or i == len(chapter.segments) - 1:
-                            # 生成批次ID
+                            # Generate batch ID
                             first_id = batch_segments[0]["seg_id"]
                             last_id = batch_segments[-1]["seg_id"]
                             batch_id = f"{first_id}~{last_id}"
                             
-                            # 提交批处理任务
+                            # Submit batch processing task
                             future = executor.submit(
                                 self._process_segments_in_batch,
                                 batch_segments.copy(),
                                 chapter.chapter_id
                             )
                             batched_futures[future] = (batch_id, batch_segments.copy())
-                            batch_segments = []  # 清空当前批次
+                            batch_segments = []  # Clear current batch
                     
-                    # 设置进度条
+                    # Set progress bar
                     total = len(batched_futures)
                     if has_tqdm:
-                        pbar = tqdm(total=total, desc="提取事件(批处理)", unit="批次")
+                        pbar = tqdm(total=total, desc="Extracting events (batch)", unit="batch")
                     
-                    # 实时处理已完成的批次
+                    # Process completed batches in real time
                     import concurrent.futures
                     for future in concurrent.futures.as_completed(batched_futures):
                         batch_id, segments = batched_futures[future]
@@ -189,33 +189,33 @@ class EnhancedEventExtractor(BaseExtractor):
                         try:
                             events = future.result()
                             if events:
-                                self.logger.info(f"从批次 {batch_id} 提取到 {len(events)} 个事件")
+                                self.logger.info(f"Extracted {len(events)} events from batch {batch_id}")
                                 all_events.extend(events)
                             else:
-                                self.logger.warning(f"从批次 {batch_id} 未提取到任何事件")
+                                self.logger.warning(f"No events extracted from batch {batch_id}")
                                 api_failures += 1
                                 for segment in segments:
                                     failed_segments.append(segment["seg_id"])
                         except Exception as e:
-                            self.logger.error(f"处理批次 {batch_id} 时出错: {str(e)}")
+                            self.logger.error(f"Error processing batch {batch_id}: {str(e)}")
                             api_failures += 1
                             for segment in segments:
                                 failed_segments.append(segment["seg_id"])
                         
-                        # 更新进度
+                        # Update progress
                         if has_tqdm:
                             pbar.update(1)
                         else:
                             percent = (len(all_events) / total) * 100
-                            self.logger.info(f"事件抽取进度: {len(all_events)}/{total} ({percent:.1f}%)")
+                            self.logger.info(f"Event extraction progress: {len(all_events)}/{total} ({percent:.1f}%)")
                     
-                    # 关闭进度条
+                    # Close progress bar
                     if has_tqdm:
                         pbar.close()
             else:
-                # 传统的逐段落并行处理
+                # Traditional paragraph-by-paragraph parallel processing
                 with ThreadPoolExecutor(max_workers=effective_workers) as executor:
-                    # 提交所有任务
+                    # Submit all tasks
                     future_to_segment = {
                         executor.submit(
                             self.extract_from_segment,
@@ -226,14 +226,14 @@ class EnhancedEventExtractor(BaseExtractor):
                         for i, segment in enumerate(chapter.segments)
                     }
                     
-                    # 设置进度条
+                    # Set progress bar
                     total = len(future_to_segment)
                     completed = 0
                     
                     if has_tqdm:
-                        pbar = tqdm(total=total, desc="提取事件", unit="段落")
+                        pbar = tqdm(total=total, desc="Extracting events", unit="segment")
                     
-                    # 实时处理已完成的任务，使用as_completed获取最先完成的任务结果
+                    # Process completed tasks in real time, use as_completed to get the first completed task results
                     import concurrent.futures
                     for future in concurrent.futures.as_completed(future_to_segment):
                         seg_id, idx = future_to_segment[future]
@@ -242,90 +242,90 @@ class EnhancedEventExtractor(BaseExtractor):
                         try:
                             events = future.result()
                             if events:
-                                self.logger.info(f"从段落 {seg_id} 提取到 {len(events)} 个事件")
+                                self.logger.info(f"Extracted {len(events)} events from segment {seg_id}")
                                 all_events.extend(events)
                             else:
-                                self.logger.warning(f"从段落 {seg_id} 未提取到任何事件")
+                                self.logger.warning(f"No events extracted from segment {seg_id}")
                                 failed_segments.append(seg_id)
                                 api_failures += 1
                                 
-                                # 如果API失败率过高，中途切换到批处理模式
+                                # If API failure rate is too high, switch to batch processing mode midway
                                 failure_rate = api_failures / processed_count
                                 if not should_batch and processed_count > 5 and self._should_batch_segments(failure_rate=failure_rate):
-                                    self.logger.warning(f"API失败率较高({failure_rate:.2%})，考虑后续使用批处理")
-                                    # 在下次运行时会启用批处理
+                                    self.logger.warning(f"High API failure rate ({failure_rate:.2%}), consider using batch processing for subsequent runs")
+                                    # Will enable batch processing on next run
                                 
                         except Exception as e:
-                            self.logger.error(f"处理段落 {seg_id} 时出错: {str(e)}")
+                            self.logger.error(f"Error processing segment {seg_id}: {str(e)}")
                             failed_segments.append(seg_id)
                             api_failures += 1
                         
-                        # 更新进度
+                        # Update progress
                         completed += 1
                         if has_tqdm:
                             pbar.update(1)
                         else:
                             percent = (completed / total) * 100
-                            self.logger.info(f"事件抽取进度: {completed}/{total} ({percent:.1f}%)")
+                            self.logger.info(f"Event extraction progress: {completed}/{total} ({percent:.1f}%)")
                     
-                    # 关闭进度条
+                    # Close progress bar
                     if has_tqdm:
                         pbar.close()
         
         except Exception as e:
-            self.logger.error(f"事件抽取过程中发生错误: {str(e)}")
+            self.logger.error(f"Error occurred during event extraction: {str(e)}")
             import traceback
             self.logger.error(traceback.format_exc())
             
-        # 处理完全失败的情况 - 尝试使用备用方法
+        # Handle complete failure case - try using backup method
         if len(all_events) == 0 and len(failed_segments) > 0:
-            self.logger.warning(f"所有段落处理失败，尝试使用备用方法...")
+            self.logger.warning(f"All segments failed processing, trying backup method...")
             try:
-                # 尝试将整个章节作为一个大段落处理
+                # Try processing the entire chapter as one large segment
                 if len(chapter.content) > 0:
-                    self.logger.info("尝试将整个章节作为一个段落处理")
+                    self.logger.info("Trying to process entire chapter as one segment")
                     events = self.extract_from_segment(
                         chapter.content, 
                         chapter.chapter_id, 
                         f"{chapter.chapter_id}-full"
                     )
                     if events:
-                        self.logger.info(f"从整个章节中提取到 {len(events)} 个事件")
+                        self.logger.info(f"Extracted {len(events)} events from entire chapter")
                         all_events.extend(events)
             except Exception as e:
-                self.logger.error(f"备用处理方法失败: {str(e)}")
-                 # 在抽取服务中进行唯一ID处理（这是上游最早处理点，确保所有后续处理均使用唯一ID）
+                self.logger.error(f"Backup processing method failed: {str(e)}")
+                 # Perform unique ID processing in extraction service (this is the earliest upstream processing point, ensuring all subsequent processing uses unique IDs)
         if all_events:
-            # 进行强制ID唯一性处理
+            # Perform forced ID uniqueness processing
             original_count = len(all_events)
             event_ids = [e.event_id for e in all_events]
             unique_id_count = len(set(event_ids))
             
             if len(event_ids) != unique_id_count:
-                self.logger.warning(f"检测到重复ID：总事件 {original_count} 个，唯一ID仅有 {unique_id_count} 个")
+                self.logger.warning(f"Duplicate IDs detected: total {original_count} events, only {unique_id_count} unique IDs")
                 
-                # 记录重复ID详情，帮助调试
+                # Record duplicate ID details to help debugging
                 id_counts = {}
                 for e_id in event_ids:
                     id_counts[e_id] = id_counts.get(e_id, 0) + 1
                 duplicate_ids = [id for id, count in id_counts.items() if count > 1]
-                for dup_id in duplicate_ids[:5]:  # 只记录前5个，避免日志过长
-                    self.logger.warning(f"重复ID '{dup_id}' 出现 {id_counts[dup_id]} 次")
+                for dup_id in duplicate_ids[:5]:  # Only record first 5 to avoid long logs
+                    self.logger.warning(f"Duplicate ID '{dup_id}' appears {id_counts[dup_id]} times")
                 if len(duplicate_ids) > 5:
-                    self.logger.warning(f"... 另有 {len(duplicate_ids) - 5} 个重复ID未显示")
+                    self.logger.warning(f"... {len(duplicate_ids) - 5} more duplicate IDs not shown")
             
             all_events = UnifiedIdProcessor.ensure_unique_event_ids(all_events)
             final_count = len(all_events)
             
             if final_count != original_count:
-                self.logger.warning(f"ID处理后合并了一些重复事件: {original_count} -> {final_count}")
+                self.logger.warning(f"ID processing merged some duplicate events: {original_count} -> {final_count}")
             
-            self.logger.info(f"ID唯一性处理完成，最终事件数: {final_count}，所有下游处理将使用唯一ID")
+            self.logger.info(f"ID uniqueness processing completed, final event count: {final_count}, all downstream processing will use unique IDs")
         
-        # 汇报处理结果
+        # Report processing results
         failure_rate = len(failed_segments) / len(chapter.segments) if chapter.segments else 0
         self.logger.info(
-            f"章节事件抽取完成", 
+            f"Chapter event extraction completed", 
             chapter_id=chapter.chapter_id,
             total_events=len(all_events),
             successful_segments=len(chapter.segments) - len(failed_segments),
@@ -337,77 +337,77 @@ class EnhancedEventExtractor(BaseExtractor):
     
     def extract_from_segment(self, text: str, chapter_id: str, segment_id: str) -> List[EventItem]:
         """
-        从单个文本段落中提取事件
+        Extract events from a single text segment
         
         Args:
-            text: 文本段落
-            chapter_id: 章节ID
-            segment_id: 段落ID
+            text: Text segment
+            chapter_id: Chapter ID
+            segment_id: Segment ID
             
         Returns:
-            提取的事件列表
+            List of extracted events
         """
-        self.logger.debug(f"开始处理段落 {segment_id}", text_length=len(text))
+        self.logger.debug(f"Starting to process segment {segment_id}", text_length=len(text))
         
-        # 过滤太短的文本
+        # Filter text that is too short
         if len(text.strip()) < 10:
-            self.logger.warning(f"段落 {segment_id} 内容过短，跳过处理")
+            self.logger.warning(f"Segment {segment_id} content too short, skipping processing")
             return []
         
         try:
-            # 格式化提示词
+            # Format prompt
             prompt = self.format_prompt(text)
             
-            # 添加更详细的格式说明和提取指导
+            # Add more detailed format description and extraction guidance
             if isinstance(prompt, dict) and "instruction" in prompt and "output_format" in self.prompt_template:
-                # 添加明确的格式指导
+                # Add clear format guidance
                 format_guidance = (
-                    f"\n\n输出格式: {self.prompt_template['output_format']}\n"
-                    f"重要提示：请确保返回的是有效的JSON格式。"
-                    f"如果段落中没有明显的事件，请尝试提取任何可能的情节发展或状态变化。"
-                    f"请确保每个事件至少包含'event_id'、'description'、'result'、'characters'字段。"
+                    f"\n\nOutput format: {self.prompt_template['output_format']}\n"
+                    f"Important note: Please ensure the returned content is valid JSON format."
+                    f"If there are no obvious events in the paragraph, please try to extract any possible plot developments or state changes."
+                    f"Please ensure each event contains at least 'event_id', 'description', 'result', 'characters' fields."
                 )
                 prompt["instruction"] += format_guidance
             
-            # 保存调试信息
+            # Save debugging information
             if self.debug_mode:
                 debug_file = self.debug_dir / f"{segment_id}_prompt.json"
                 with open(debug_file, 'w', encoding='utf-8') as f:
                     json.dump(prompt, f, ensure_ascii=False, indent=2)
             
-            # 调用LLM API (添加重试机制)
+            # Call LLM API (with retry mechanism)
             max_retries = 3
             retry_count = 0
             last_error = None
             
             while retry_count < max_retries:
-                self.logger.debug(f"发送段落 {segment_id} 的LLM请求 (尝试 {retry_count+1}/{max_retries})")
+                self.logger.debug(f"Sending LLM request for segment {segment_id} (attempt {retry_count+1}/{max_retries})")
                 response = self.llm_client.call_with_json_response(prompt['system'], prompt['instruction'])
                 
                 if response["success"] and "json_content" in response:
-                    break  # 成功获取响应
+                    break  # Successfully got response
                 
-                error_msg = response.get('error', '未知错误')
-                self.logger.warning(f"段落 {segment_id} API调用第{retry_count+1}次尝试失败: {error_msg}")
+                error_msg = response.get('error', 'Unknown error')
+                self.logger.warning(f"Segment {segment_id} API call attempt {retry_count+1} failed: {error_msg}")
                 last_error = error_msg
                 retry_count += 1
                 
-                # 添加随机延迟
+                # Add random delay
                 delay = random.uniform(1, 3)
                 time.sleep(delay)
             
-            # 保存API响应
+            # Save API response
             if self.debug_mode and "json_content" in response:
                 debug_file = self.debug_dir / f"{segment_id}_response.json"
                 with open(debug_file, 'w', encoding='utf-8') as f:
                     json.dump(response, f, ensure_ascii=False, indent=2)
             
             if response["success"] and "json_content" in response:
-                # 解析响应
+                # Parse response
                 events = self.parse_response(response["json_content"], chapter_id, segment_id)
-                self.logger.debug(f"段落 {segment_id} 抽取到 {len(events)} 个事件")
+                self.logger.debug(f"Segment {segment_id} extracted {len(events)} events")
                 
-                # 保存解析后的事件
+                # Save parsed events
                 if self.debug_mode:
                     debug_file = self.debug_dir / f"{segment_id}_events.json"
                     with open(debug_file, 'w', encoding='utf-8') as f:
@@ -415,75 +415,75 @@ class EnhancedEventExtractor(BaseExtractor):
                 
                 return events
             else:
-                error_msg = last_error or response.get('error', '未知错误')
-                self.logger.error(f"段落 {segment_id} 的API调用失败: {error_msg}")
+                error_msg = last_error or response.get('error', 'Unknown error')
+                self.logger.error(f"API call failed for segment {segment_id}: {error_msg}")
                 return []
                 
         except Exception as e:
-            self.logger.error(f"处理段落 {segment_id} 时出现异常", error=str(e), traceback=traceback.format_exc())
+            self.logger.error(f"Exception occurred while processing segment {segment_id}", error=str(e), traceback=traceback.format_exc())
             return []
             
     def _should_batch_segments(self, segments=None, failure_rate=None) -> bool:
         """
-        判断是否应该批量处理段落
+        Determine whether segments should be processed in batches
         
         Args:
-            segments: 要处理的段落列表
-            failure_rate: 当前API调用失败率
+            segments: List of segments to process
+            failure_rate: Current API call failure rate
             
         Returns:
-            是否应该批量处理
+            Whether batch processing should be enabled
         """
-        # 优先处理启用条件
-        # 1. 如果段落数量多，文本长度适中，启用批处理可以提高效率
+        # Priority batch processing conditions
+        # 1. If there are many segments with moderate text length, batch processing can improve efficiency
         if segments and len(segments) > 3:
-            # 计算平均段落长度
+            # Calculate average segment length
             avg_length = sum(len(s.get('text', '')) for s in segments) / len(segments)
-            # 如果平均长度适中(小于600字符)，启用批处理
+            # If average length is moderate (less than 600 characters), enable batch processing
             if avg_length < 600:
-                self.logger.debug(f"启用批处理: 段落平均长度({avg_length:.1f}字符)适合批处理，总段落数{len(segments)}")
+                self.logger.debug(f"Enabling batch processing: average segment length ({avg_length:.1f} chars) suitable for batching, total segments: {len(segments)}")
                 return True
                 
-        # 2. 如果API失败率较高，尝试批处理减少API调用次数
+        # 2. If API failure rate is high, try batch processing to reduce API call frequency
         if failure_rate is not None and failure_rate > 0.2:
-            self.logger.debug(f"启用批处理: API失败率({failure_rate:.2%})较高")
+            self.logger.debug(f"Enabling batch processing: API failure rate ({failure_rate:.2%}) is high")
             return True
             
-        # 3. 段落总数超过30，自动启用批处理以降低API负载
+        # 3. If total segments exceed 30, automatically enable batch processing to reduce API load
         if segments and len(segments) > 30:
-            self.logger.debug(f"启用批处理: 段落数量过多({len(segments)}个)")
+            self.logger.debug(f"Enabling batch processing: too many segments ({len(segments)} segments)")
             return True
         
-        # 获取环境变量配置，如果用户明确设置了启用批处理
+        # Get environment variable configuration, if user explicitly set to enable batch processing
         import os
         if os.environ.get("ENABLE_BATCH_PROCESSING", "").lower() in ["true", "1", "yes"]:
-            self.logger.debug("启用批处理: 环境变量ENABLE_BATCH_PROCESSING设置为启用")
+            self.logger.debug("Enabling batch processing: environment variable ENABLE_BATCH_PROCESSING set to enable")
             return True
             
-        return False  # 默认不启用批处理
+        return False  # Default to not enable batch processing
 
     def _process_segments_in_batch(self, segments: List[Dict], chapter_id: str) -> List[EventItem]:
         """
-        批量处理多个段落
-        将多个小段落合并为一个请求，减少API调用次数
+        Process multiple segments in batches
+        Combine multiple small segments into one request to reduce API call frequency
         
         Args:
-            segments: 要处理的段落列表
-            chapter_id: 章节ID
+            segments: List of segments to process
+            chapter_id: Chapter ID
             
         Returns
-            提取的事件列表
+            List of extracted events
         """
-        # 为提高处理效率，确保批次大小合适
-        # 如果段落过多，可能会导致提示过长，拆分为更小的批次
-        MAX_BATCH_SIZE = 5  # 最大批次大小
-        MAX_CHARS = 4000    # 每批次最大字符数
+        # To improve processing efficiency, ensure appropriate batch size
+        # If there are too many segments, prompts may become too long, split into smaller batches
+        MAX_BATCH_SIZE = 5  # Maximum batch size
+        MAX_CHARS = 4000    # Maximum characters per batch
         
         if len(segments) > MAX_BATCH_SIZE:
-            # 将segments分成多个小批次处理
-            self.logger.info(f"段落数量({len(segments)})超过批处理上限({MAX_BATCH_SIZE})，拆分为多个小批次")
+            # Split segments into multiple small batches for processing
+            self.logger.info(f"Number of segments ({len(segments)}) exceeds batch limit ({MAX_BATCH_SIZE}), splitting into multiple small batches")
             result_events = []
-            # 按MAX_BATCH_SIZE大小拆分segment
+            # Split segments by MAX_BATCH_SIZE
             for i in range(0, len(segments), MAX_BATCH_SIZE):
                 batch = segments[i:i+MAX_BATCH_SIZE]
                 batch_events = self._process_segments_in_batch(batch, chapter_id)
@@ -491,53 +491,53 @@ class EnhancedEventExtractor(BaseExtractor):
                     result_events.extend(batch_events)
             return result_events
             
-        # 检查批次文本总长度
+        # Check total character count of batch
         total_chars = sum(len(s.get('text', '')) for s in segments)
         if total_chars > MAX_CHARS:
-            self.logger.info(f"批次总字符数({total_chars})超过上限({MAX_CHARS})，拆分为更小批次")
-            # 找到一个合适的分割点，使两部分字符数尽量接近
+            self.logger.info(f"Total batch characters ({total_chars}) exceed limit ({MAX_CHARS}), splitting into smaller batches")
+            # Find an appropriate split point to make both parts have similar character counts
             mid = len(segments) // 2
             batch1 = segments[:mid]
             batch2 = segments[mid:]
             
-            # 递归处理两个批次
+            # Recursively process two batches
             events1 = self._process_segments_in_batch(batch1, chapter_id)
             events2 = self._process_segments_in_batch(batch2, chapter_id)
             
-            # 合并结果
+            # Merge results
             return events1 + events2
         
-        # 合并文本，使用分隔符清晰区分不同段落
+        # Merge text using separators to clearly distinguish different segments
         segment_texts = []
         for i, segment in enumerate(segments):
-            # 添加段落编号和分隔符，帮助模型识别不同段落
-            segment_texts.append(f"[段落 {i+1}]\n{segment['text']}\n")
+            # Add segment numbers and separators to help the model identify different segments
+            segment_texts.append(f"[Segment {i+1}]\n{segment['text']}\n")
         
         combined_text = "\n---\n".join(segment_texts)
         segment_ids = [s["seg_id"] for s in segments]
         combined_id = f"{segment_ids[0]}~{segment_ids[-1]}"
         
-        self.logger.debug(f"批量处理段落 {combined_id}，共 {len(segments)} 个段落，总字符数: {len(combined_text)}")
+        self.logger.debug(f"Batch processing segments {combined_id}, total {len(segments)} segments, total characters: {len(combined_text)}")
         
-        # 提取事件
+        # Extract events
         all_batch_events = self.extract_from_segment(combined_text, chapter_id, combined_id)
         
-        # 没有提取到事件，直接返回空列表
+        # No events extracted, return empty list directly
         if not all_batch_events:
             return []
             
-        # 智能分配事件到原始段落
+        # Intelligently assign events to original segments
         result_events = []
         
-        # 根据事件描述中的关键词，尝试将事件映射到对应段落
+        # Based on keywords in event descriptions, try to map events to corresponding segments
         for event in all_batch_events:
-            # 查找事件描述中是否包含段落编号指示符，如"[段落1]"、"段落2"等
+            # Look for segment number indicators in event description, such as "[Segment 1]", "Segment 2", etc.
             segment_idx = None
             desc = event.description.lower()
             
-            # 检查是否有明确的段落标记
+            # Check if there are explicit segment markers
             for i in range(len(segments)):
-                markers = [f"[段落{i+1}]", f"段落{i+1}", f"段落 {i+1}"]
+                markers = [f"[segment{i+1}]", f"segment{i+1}", f"segment {i+1}"]
                 for marker in markers:
                     if marker.lower() in desc:
                         segment_idx = i
@@ -545,16 +545,16 @@ class EnhancedEventExtractor(BaseExtractor):
                 if segment_idx is not None:
                     break
             
-            # 如果没找到明确标记，尝试基于内容匹配
+            # If no explicit markers found, try content-based matching
             if segment_idx is None:
-                # 在各段落中寻找与事件描述最匹配的段落
+                # Find the segment that best matches the event description among all segments
                 max_overlap = 0
                 best_idx = 0
                 
                 for i, segment in enumerate(segments):
-                    # 计算事件描述与段落内容的重叠度
+                    # Calculate overlap between event description and segment content
                     text = segment["text"].lower()
-                    # 简单计算重叠的单词数量
+                    # Simple calculation of overlapping word count
                     words = set(desc.split()) & set(text.split())
                     overlap = len(words)
                     
@@ -564,7 +564,7 @@ class EnhancedEventExtractor(BaseExtractor):
                 
                 segment_idx = best_idx
             
-            # 更新事件ID以反映正确的段落
+            # Update event ID to reflect the correct segment
             if segment_idx is not None:
                 segment = segments[segment_idx]
                 event_id_parts = event.event_id.split('-')
@@ -578,56 +578,56 @@ class EnhancedEventExtractor(BaseExtractor):
             
     def parse_response(self, response: Dict[str, Any], chapter_id: str, segment_id: str) -> List[EventItem]:
         """
-        解析LLM响应，提取事件
+        Parse LLM response and extract events
         
         Args:
-            response: LLM响应
-            chapter_id: 章节ID
-            segment_id: 段落ID
+            response: LLM response
+            chapter_id: Chapter ID
+            segment_id: Segment ID
             
         Returns:
-            提取的事件列表
+            List of extracted events
         """
-        self.logger.debug(f"解析段落 {segment_id} 的响应")
+        self.logger.debug(f"Parsing response for segment {segment_id}")
         events = []
         
         try:
-            # 尝试处理各种可能的响应格式
+            # Try to process various possible response formats
             event_list = []
             
-            # 处理响应中可能的多种格式
+            # Process various possible formats in the response
             if isinstance(response, list):
-                # 如果响应直接是事件列表
+                # If response is directly an event list
                 event_list = response
-                self.logger.debug("响应是事件列表格式")
+                self.logger.debug("Response is in event list format")
             elif isinstance(response, dict):
                 if "events" in response:
-                    # 如果响应包含events字段
+                    # If response contains an events field
                     event_list = response["events"]
-                    self.logger.debug("响应是包含events字段的字典格式")
+                    self.logger.debug("Response is in dictionary format containing events field")
                 elif any(key in response for key in ["description", "event_id", "characters"]):
-                    # 如果响应本身看起来就是一个事件
+                    # If response itself looks like an event
                     event_list = [response]
-                    self.logger.debug("响应本身是单个事件格式")
+                    self.logger.debug("Response itself is in single event format")
                 else:
-                    # 处理其他可能的字典格式，查找可能的事件列表
+                    # Process other possible dictionary formats, look for possible event lists
                     for key, value in response.items():
                         if isinstance(value, list) and len(value) > 0:
-                            # 检查列表的第一个元素是否像事件对象
+                            # Check if the first element of the list looks like an event object
                             first_item = value[0]
                             if isinstance(first_item, dict) and any(k in first_item for k in ["description", "event_id"]):
                                 event_list = value
-                                self.logger.debug(f"从响应的'{key}'字段找到事件列表")
+                                self.logger.debug(f"Found event list from '{key}' field in response")
                                 break
             
-            # 如果没有找到任何事件列表，尝试创建默认事件
+            # If no event list found, try to create default event
             if not event_list:
-                self.logger.warning(f"段落 {segment_id} 未找到有效的事件列表格式，尝试构建默认事件")
+                self.logger.warning(f"No valid event list format found for segment {segment_id}, trying to build default event")
                 
-                # 尝试从响应中提取文本内容作为事件描述
+                # Try to extract text content from response as event description
                 description = ""
                 if isinstance(response, dict):
-                    # 寻找可能包含描述的字段
+                    # Look for fields that might contain descriptions
                     for field in ["content", "text", "summary", "description"]:
                         if field in response and isinstance(response[field], str) and len(response[field]) > 10:
                             description = response[field]
@@ -636,62 +636,64 @@ class EnhancedEventExtractor(BaseExtractor):
                     description = response
                 
                 if description:
-                    # 创建默认事件
+                    # Create default event
                     default_event = {
                         "event_id": f"{segment_id}-1",
-                        "description": description[:200],  # 限制长度
+                        "description": description[:200],  # Limit length
                         "characters": [],
-                        "result": "未明确",
+                        "result": "Unclear",
                         "chapter_id": chapter_id
                     }
                     event_list = [default_event]
-                    self.logger.debug("构建了默认事件")                # 处理每个事件
+                    self.logger.debug("Built default event")
+                    
+            # Process each event
             for i, event_data in enumerate(event_list):
-                # 检查是否为有效事件数据
+                # Check if it's valid event data
                 if not isinstance(event_data, dict):
-                    self.logger.warning(f"跳过非字典格式的事件数据: {event_data}")
+                    self.logger.warning(f"Skipping non-dictionary format event data: {event_data}")
                     continue
                     
-                # 确保事件包含描述
+                # Ensure event contains description
                 if not event_data.get("description"):
-                    self.logger.warning(f"跳过缺少描述的事件数据: {event_data}")
+                    self.logger.warning(f"Skipping event data missing description: {event_data}")
                     continue
                     
-                # 生成事件ID，如果没有提供的话
+                # Generate event ID if not provided
                 if not event_data.get("event_id"):
-                    # 从segment_id提取章节部分，如"第一章-1"提取"第一章"
+                    # Extract chapter part from segment_id, e.g. extract "第一章" from "第一章-1"
                     chapter_match = re.search(r'(第[^-~]+章)', segment_id)
                     chapter_part = chapter_match.group(1) if chapter_match else segment_id.split('-')[0]
                     
-                    # 使用UnifiedIdProcessor对ID进行标准化
+                    # Use UnifiedIdProcessor to standardize ID
                     event_id = f"{chapter_part}-{i+1}"
                     normalized_id = UnifiedIdProcessor.normalize_event_id(event_id, chapter_id, i+1)
                     
                     event_data["event_id"] = normalized_id
-                    self.logger.debug(f"为事件生成标准化ID: {event_data['event_id']}")
+                    self.logger.debug(f"Generated standardized ID for event: {event_data['event_id']}")
                     
-                # 确保必要字段存在
+                # Ensure necessary fields exist
                 required_fields = {
                     "chapter_id": chapter_id,
                     "characters": [],
-                    "result": "未知",
-                    "location": "未指定",
-                    "time": "未指定"
+                    "result": "Unknown",
+                    "location": "Unspecified",
+                    "time": "Unspecified"
                 }
                 
                 for field, default_value in required_fields.items():
                     if field not in event_data or not event_data[field]:
                         event_data[field] = default_value
                 
-                # 创建EventItem对象
+                # Create EventItem object
                 try:
                     event = EventItem.from_dict(event_data)
                     events.append(event)
                     short_desc = (event.description[:30] + "...") if len(event.description) > 30 else event.description
-                    self.logger.debug(f"成功创建事件: {event.event_id} - {short_desc}")
+                    self.logger.debug(f"Successfully created event: {event.event_id} - {short_desc}")
                 except Exception as e:
-                    self.logger.error(f"创建事件对象失败", error=str(e), event_data=event_data)
+                    self.logger.error(f"Failed to create event object", error=str(e), event_data=event_data)
         except Exception as e:
-            self.logger.error(f"解析响应时出现异常", error=str(e), traceback=traceback.format_exc())
+            self.logger.error(f"Exception occurred while parsing response", error=str(e), traceback=traceback.format_exc())
             
         return events
