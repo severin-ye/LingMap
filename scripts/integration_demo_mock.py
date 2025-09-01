@@ -18,6 +18,7 @@ sys.path.insert(0, str(project_root))
 
 from common.models.event import EventItem
 from common.models.causal_edge import CausalEdge
+from common.utils.log_manager import get_log_manager, LogType
 
 class MockOptimizedAnalyzer:
     """模拟的优化分析器，用于演示"""
@@ -106,19 +107,19 @@ class MockOptimizedAnalyzer:
     
     def save_performance_report(self) -> str:
         """保存性能报告"""
-        timestamp = time.strftime("%Y%m%d_%H%M%S")
-        filename = f"mock_analyzer_performance_{timestamp}.json"
+        log_manager = get_log_manager()
         
-        report = {
-            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+        report_data = {
             "type": "mock_simulation",
             "performance_stats": self.get_performance_stats()
         }
         
-        with open(filename, 'w', encoding='utf-8') as f:
-            json.dump(report, f, indent=2, ensure_ascii=False)
+        filepath = log_manager.save_performance_report(
+            report_data, 
+            custom_filename="mock_analyzer_performance"
+        )
         
-        return filename
+        return str(filepath)
 
 def create_sample_events() -> List[EventItem]:
     """创建示例事件数据"""
@@ -425,13 +426,13 @@ class UnifiedLinkerService:
     print("集成代码示例已保存到: optimized_integration_example.py")
     
     # 保存完整实施方案
-    timestamp = time.strftime("%Y%m%d_%H%M%S")
-    plan_filename = f"implementation_plan_{timestamp}.json"
+    log_manager = get_log_manager()
+    plan_filepath = log_manager.save_implementation_plan(
+        plan,
+        custom_filename="implementation_plan"
+    )
     
-    with open(plan_filename, 'w', encoding='utf-8') as f:
-        json.dump(plan, f, indent=2, ensure_ascii=False)
-    
-    print(f"完整实施方案已保存到: {plan_filename}")
+    print(f"完整实施方案已保存到: {plan_filepath}")
     
     return plan
 
@@ -509,8 +510,8 @@ if __name__ == "__main__":
         print(f"  - 缓存命中率: {results['stats']['cache_hit_rate_percent']:.1f}%")
         
         print(f"\n📁 生成文件:")
-        print(f"  - 性能报告: mock_analyzer_performance_*.json")
-        print(f"  - 实施方案: implementation_plan_*.json") 
+        print(f"  - 性能报告: logs/mock_analyzer_performance_*.json")
+        print(f"  - 实施方案: logs/implementation_plan_*.json") 
         print(f"  - 集成示例: optimized_integration_example.py")
         print(f"  - 优化配置: optimized_config.json")
         

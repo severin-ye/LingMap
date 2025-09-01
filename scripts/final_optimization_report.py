@@ -6,8 +6,15 @@ Complete Project Optimization Summary Report
 """
 
 import json
+import sys
 from datetime import datetime
 from pathlib import Path
+
+# 添加项目根目录到路径
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
+from common.utils.log_manager import get_log_manager
 
 def generate_final_optimization_report():
     """生成最终优化总结报告"""
@@ -297,50 +304,17 @@ def generate_final_optimization_report():
 
 def save_final_report():
     """保存最终报告"""
+    log_manager = get_log_manager()
     report = generate_final_optimization_report()
     
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"final_optimization_report_{timestamp}.json"
+    # 使用日志管理器保存优化报告
+    json_filepath, txt_filepath = log_manager.save_optimization_report(
+        report,
+        include_summary=True,
+        custom_filename="final_optimization_report"
+    )
     
-    with open(filename, 'w', encoding='utf-8') as f:
-        json.dump(report, f, indent=2, ensure_ascii=False)
-    
-    # 生成可读的文本版本
-    txt_filename = f"final_optimization_summary_{timestamp}.txt"
-    
-    with open(txt_filename, 'w', encoding='utf-8') as f:
-        f.write("凡人修仙传 - 项目优化总结报告\n")
-        f.write("=" * 60 + "\n\n")
-        
-        f.write(f"优化完成时间: {report['project_info']['optimization_date']}\n")
-        f.write(f"项目版本: {report['project_info']['version']}\n\n")
-        
-        f.write("🎯 主要成果:\n")
-        for key, value in report['optimization_achievements']['performance_improvements'].items():
-            f.write(f"  - {key}: {value}\n")
-        
-        f.write("\n🛠️ 创建的优化工具:\n")
-        for tool in report['created_optimization_tools']['核心优化工具']:
-            f.write(f"  - {tool['name']}: {tool['description']}\n")
-            f.write(f"    功能: {', '.join(tool['features'])}\n")
-            f.write(f"    提升: {tool['improvement']}\n")
-        
-        f.write("\n📊 演示结果:\n")
-        demo = report['demonstration_results']['optimization_demo']
-        f.write(f"  原始方法: {demo['原始方法']['处理时间']}\n")
-        f.write(f"  优化方法: {demo['优化方法']['处理时间']}\n")
-        f.write(f"  性能提升: {report['demonstration_results']['benchmark_results']['性能提升']}\n")
-        f.write(f"  速度倍数: {report['demonstration_results']['benchmark_results']['速度倍数']}\n")
-        
-        f.write("\n🚀 实施建议:\n")
-        for action in report['next_actions']['立即行动']:
-            f.write(f"  ✅ {action}\n")
-        
-        f.write(f"\n📁 关键文件:\n")
-        for file_path in report['file_inventory']['优化工具文件']:
-            f.write(f"  - {file_path}\n")
-    
-    return filename, txt_filename
+    return json_filepath, txt_filepath
 
 if __name__ == "__main__":
     print("生成最终优化报告...")
